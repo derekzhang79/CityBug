@@ -20,6 +20,12 @@
 		CEEE606215FDEDFB00324883 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604315FDEDFB00324883 /* Foundation.framework */; };
 		CEEE606A15FDEDFB00324883 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEEE606815FDEDFB00324883 /* InfoPlist.strings */; };
 		CEEE606D15FDEDFB00324883 /* OpendreamBugTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE606C15FDEDFB00324883 /* OpendreamBugTests.m */; };
+		CEEE608015FDF1F400324883 /* ODMEntryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE607F15FDF1F400324883 /* ODMEntryTest.m */; };
+		CEEE608715FDF35100324883 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE608615FDF35100324883 /* CoreData.framework */; };
+		CEEE608A15FDF39E00324883 /* ODMModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CEEE608815FDF39E00324883 /* ODMModel.xcdatamodeld */; };
+		CEEE609D15FDF54700324883 /* ODMEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE609C15FDF54700324883 /* ODMEntry.m */; };
+		CEEE60A015FDF54700324883 /* ODMCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE609F15FDF54700324883 /* ODMCategory.m */; };
+		CEEE60A115FDF55D00324883 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE608615FDF35100324883 /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +58,15 @@
 		CEEE606915FDEDFB00324883 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CEEE606B15FDEDFB00324883 /* OpendreamBugTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpendreamBugTests.h; sourceTree = "<group>"; };
 		CEEE606C15FDEDFB00324883 /* OpendreamBugTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpendreamBugTests.m; sourceTree = "<group>"; };
+		CEEE607E15FDF1F400324883 /* ODMEntryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMEntryTest.h; path = Model/ODMEntryTest.h; sourceTree = "<group>"; };
+		CEEE607F15FDF1F400324883 /* ODMEntryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMEntryTest.m; path = Model/ODMEntryTest.m; sourceTree = "<group>"; };
+		CEEE608615FDF35100324883 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		CEEE608915FDF39E00324883 /* ODMModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ODMModel.xcdatamodel; sourceTree = "<group>"; };
+		CEEE609B15FDF54700324883 /* ODMEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMEntry.h; path = Model/ODMEntry.h; sourceTree = "<group>"; };
+		CEEE609C15FDF54700324883 /* ODMEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMEntry.m; path = Model/ODMEntry.m; sourceTree = "<group>"; };
+		CEEE609E15FDF54700324883 /* ODMCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMCategory.h; path = Model/ODMCategory.h; sourceTree = "<group>"; };
+		CEEE609F15FDF54700324883 /* ODMCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMCategory.m; path = Model/ODMCategory.m; sourceTree = "<group>"; };
+		CEEE60A215FDF64B00324883 /* ODMHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMHelper.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEEE60A115FDF55D00324883 /* CoreData.framework in Frameworks */,
 				CEEE604215FDEDFB00324883 /* UIKit.framework in Frameworks */,
 				CEEE604415FDEDFB00324883 /* Foundation.framework in Frameworks */,
 				CEEE604615FDEDFB00324883 /* CoreGraphics.framework in Frameworks */,
@@ -69,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEEE608715FDF35100324883 /* CoreData.framework in Frameworks */,
 				CEEE606015FDEDFB00324883 /* SenTestingKit.framework in Frameworks */,
 				CEEE606115FDEDFB00324883 /* UIKit.framework in Frameworks */,
 				CEEE606215FDEDFB00324883 /* Foundation.framework in Frameworks */,
@@ -100,6 +117,7 @@
 		CEEE604015FDEDFB00324883 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEEE608615FDF35100324883 /* CoreData.framework */,
 				CEEE604115FDEDFB00324883 /* UIKit.framework */,
 				CEEE604315FDEDFB00324883 /* Foundation.framework */,
 				CEEE604515FDEDFB00324883 /* CoreGraphics.framework */,
@@ -111,12 +129,14 @@
 		CEEE604715FDEDFB00324883 /* OpendreamBug */ = {
 			isa = PBXGroup;
 			children = (
+				CEEE60A215FDF64B00324883 /* ODMHelper.h */,
 				CEEE605015FDEDFB00324883 /* ODMAppDelegate.h */,
 				CEEE605115FDEDFB00324883 /* ODMAppDelegate.m */,
 				CEEE605315FDEDFB00324883 /* MainStoryboard.storyboard */,
 				CEEE605615FDEDFB00324883 /* ODMViewController.h */,
 				CEEE605715FDEDFB00324883 /* ODMViewController.m */,
 				CEEE604815FDEDFB00324883 /* Supporting Files */,
+				CEEE608B15FDF40B00324883 /* Model */,
 			);
 			path = OpendreamBug;
 			sourceTree = "<group>";
@@ -137,6 +157,8 @@
 			children = (
 				CEEE606B15FDEDFB00324883 /* OpendreamBugTests.h */,
 				CEEE606C15FDEDFB00324883 /* OpendreamBugTests.m */,
+				CEEE607E15FDF1F400324883 /* ODMEntryTest.h */,
+				CEEE607F15FDF1F400324883 /* ODMEntryTest.m */,
 				CEEE606615FDEDFB00324883 /* Supporting Files */,
 			);
 			path = OpendreamBugTests;
@@ -149,6 +171,18 @@
 				CEEE606815FDEDFB00324883 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CEEE608B15FDF40B00324883 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CEEE608815FDF39E00324883 /* ODMModel.xcdatamodeld */,
+				CEEE609E15FDF54700324883 /* ODMCategory.h */,
+				CEEE609F15FDF54700324883 /* ODMCategory.m */,
+				CEEE609B15FDF54700324883 /* ODMEntry.h */,
+				CEEE609C15FDF54700324883 /* ODMEntry.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,6 +296,9 @@
 				CEEE604E15FDEDFB00324883 /* main.m in Sources */,
 				CEEE605215FDEDFB00324883 /* ODMAppDelegate.m in Sources */,
 				CEEE605815FDEDFB00324883 /* ODMViewController.m in Sources */,
+				CEEE608A15FDF39E00324883 /* ODMModel.xcdatamodeld in Sources */,
+				CEEE609D15FDF54700324883 /* ODMEntry.m in Sources */,
+				CEEE60A015FDF54700324883 /* ODMCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEEE606D15FDEDFB00324883 /* OpendreamBugTests.m in Sources */,
+				CEEE608015FDF1F400324883 /* ODMEntryTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +473,7 @@
 				CEEE607215FDEDFB00324883 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEEE607315FDEDFB00324883 /* Build configuration list for PBXNativeTarget "OpendreamBugTests" */ = {
 			isa = XCConfigurationList;
@@ -443,8 +482,23 @@
 				CEEE607515FDEDFB00324883 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		CEEE608815FDF39E00324883 /* ODMModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CEEE608915FDF39E00324883 /* ODMModel.xcdatamodel */,
+			);
+			currentVersion = CEEE608915FDF39E00324883 /* ODMModel.xcdatamodel */;
+			name = ODMModel.xcdatamodeld;
+			path = Model/ODMModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = CEEE603415FDEDFB00324883 /* Project object */;
 }
