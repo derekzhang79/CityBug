@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSNumber * latitude;
 @property (nonatomic, retain) NSNumber * longitude;
 @property (nonatomic, retain) NSString * note;
+@property (nonatomic, retain) NSDate * lastUpdated;
 @property (nonatomic, retain) ODMCategory *category;
 
 @end

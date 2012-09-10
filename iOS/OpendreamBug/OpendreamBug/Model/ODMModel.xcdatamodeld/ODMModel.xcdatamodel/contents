@@ -6,6 +6,7 @@
     </entity>
     <entity name="ODMEntry" representedClassName="ODMEntry" syncable="YES">
         <attribute name="fullImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="note" optional="YES" attributeType="String" syncable="YES"/>
@@ -14,7 +15,7 @@
         <relationship name="category" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ODMCategory" inverseName="entries" inverseEntity="ODMCategory" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ODMEntry" positionX="-36" positionY="171" width="128" height="148"/>
+        <element name="ODMEntry" positionX="-36" positionY="171" width="128" height="163"/>
         <element name="ODMCategory" positionX="205" positionY="161" width="128" height="73"/>
     </elements>
 </model>
