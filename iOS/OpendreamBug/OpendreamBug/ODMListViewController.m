@@ -10,6 +10,7 @@
 
 #define kSceenSize self.parentViewController.view.frame.size
 #define kToolBarSize toolBar.frame.size
+#define CAMERA_SCALAR 1.32
 
 @interface ODMListViewController ()
 
@@ -17,6 +18,7 @@
 
 @implementation ODMListViewController
 @synthesize toolBar;
+@synthesize imagePickerToolBar;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -38,11 +40,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 }
 
 - (void)viewDidUnload
 {
     [self setToolBar:nil];
+    [self setImagePickerToolBar:nil];
     [super viewDidUnload];
 }
 
@@ -111,5 +115,47 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
 }
+
+- (IBAction)addButtonTapped:(id)sender
+{
+    NSLog(@"addButtonTapped");
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Source"
+                                                      delegate:self
+                                             cancelButtonTitle:@"Cancel"
+                                        destructiveButtonTitle:nil
+                                             otherButtonTitles:@"Camera", @"Existing Photo", nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    [actionSheet showInView:self.view];
+
+
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"clickedButtonAtIndex");
+     UIImagePickerController *picker =  [[UIImagePickerController alloc] init];
+    if (buttonIndex == 0 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.wantsFullScreenLayout = YES;
+        picker.cameraViewTransform = CGAffineTransformScale(picker.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);
+        [self presentModalViewController:picker animated:YES];
+    } else if (buttonIndex == 1 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
+        
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        picker.allowsEditing = YES;
+        [self presentModalViewController:picker animated:YES];
+
+    }
+}
+
+
+
+
+
+
+
+
 
 @end

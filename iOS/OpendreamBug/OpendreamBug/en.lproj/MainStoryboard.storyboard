@@ -52,6 +52,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="yRl-mM-wfn"/>
                     <connections>
+                        <outlet property="imagePickerToolBar" destination="DJa-qn-5ci" id="p0x-aU-Z2K"/>
                         <outlet property="toolBar" destination="VFM-0w-6tH" id="qPr-l1-nLn"/>
                     </connections>
                 </tableViewController>
@@ -59,11 +60,22 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <items>
-                        <barButtonItem title="Item" id="6iB-Wj-Duz"/>
+                        <barButtonItem systemItem="add" id="6iB-Wj-Duz">
+                            <connections>
+                                <action selector="addButtonTapped:" destination="tWb-Y8-6bh" id="0zk-LX-1dE"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="DJa-qn-5ci">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem title="Item" id="au7-nd-XpQ"/>
                     </items>
                 </toolbar>
             </objects>
-            <point key="canvasLocation" x="-3191" y="-241"/>
+            <point key="canvasLocation" x="-3317" y="-241"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Jll-QP-zBR">
@@ -91,6 +103,8 @@
         <class className="ODMListViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMListViewController.h"/>
             <relationships>
+                <relationship kind="action" name="addButtonTapped:"/>
+                <relationship kind="outlet" name="imagePickerToolBar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="toolBar" candidateClass="UIToolbar"/>
             </relationships>
         </class>

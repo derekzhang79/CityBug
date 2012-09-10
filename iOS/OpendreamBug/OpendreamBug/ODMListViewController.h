@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ODMListViewController : UITableViewController
+@interface ODMListViewController : UITableViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (strong, nonatomic) IBOutlet UIToolbar *imagePickerToolBar;
+
+- (IBAction)addButtonTapped:(id)sender;
 
 @end
