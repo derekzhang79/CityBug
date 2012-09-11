@@ -14,6 +14,7 @@
 @interface ODMCategory : NSManagedObject
 
 @property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSDate * lastModified;
 @property (nonatomic, retain) NSSet *entries;
 @end
 

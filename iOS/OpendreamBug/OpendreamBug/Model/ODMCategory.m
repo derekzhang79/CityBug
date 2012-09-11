@@ -12,6 +12,7 @@
 @implementation ODMCategory
 
 @dynamic title;
+@dynamic lastModified;
 @dynamic entries;
 
 /*
