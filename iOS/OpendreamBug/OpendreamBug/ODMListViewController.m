@@ -9,9 +9,12 @@
 #import "ODMListViewController.h"
 #import "ODMDescriptionFormViewController.h"
 
+
 #define kSceenSize self.parentViewController.view.frame.size
 #define kToolBarSize toolBar.frame.size
 #define CAMERA_SCALAR 1.32
+
+static NSString *segueIdent = @"presentFormSegue";
 
 @interface ODMListViewController ()
 
@@ -19,6 +22,7 @@
 
 @implementation ODMListViewController {
     UIImage *imageToSave;
+    UIImagePickerController *picker;
 }
 @synthesize toolBar;
 @synthesize bugImageView;
@@ -110,24 +114,24 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"clickedButtonAtIndex");
-     UIImagePickerController *picker =  [[UIImagePickerController alloc] init];
+    picker =  [[UIImagePickerController alloc] init];
     if (buttonIndex == 0 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         picker.delegate = self;
         picker.allowsEditing = NO;
         picker.wantsFullScreenLayout = YES;
         picker.cameraViewTransform = CGAffineTransformScale(picker.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);
+        
         [self presentModalViewController:picker animated:YES];
     } else if (buttonIndex == 1 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
         
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         picker.allowsEditing = NO;
+        
         [self presentModalViewController:picker animated:YES];
 
     }
 }
-
-//static NSString *segueIdent = @"presentFormSegue";
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {      
@@ -137,8 +141,11 @@
 
     [self dismissModalViewControllerAnimated: YES];
     
-    [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:@"presentFormSegue" afterDelay:1.f];
+    [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:segueIdent afterDelay:1.f];
     
+    
+    // Handle a still image picked from a photo album
+
     
 }
 

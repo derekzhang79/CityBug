@@ -14,6 +14,8 @@
 
 @implementation ODMDescriptionFormViewController
 @synthesize bugImageView;
+@synthesize descTextView;
+@synthesize locationLabel;
 @synthesize bugImage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -34,6 +36,8 @@
 - (void)viewDidUnload
 {
     [self setBugImageView:nil];
+    [self setDescTextView:nil];
+    [self setLocationLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -43,4 +47,8 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (IBAction)doneButtonTapped:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

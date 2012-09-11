@@ -13,6 +13,10 @@
 @end
 
 @implementation ODMDescriptionViewController
+@synthesize bugImageView;
+@synthesize locationLabel;
+@synthesize catergoryLabel;
+@synthesize descTextView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,13 +30,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
 }
 
 - (void)viewDidUnload
 {
+    [self setBugImageView:nil];
+    [self setLocationLabel:nil];
+    [self setCatergoryLabel:nil];
+    [self setDescTextView:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -41,6 +47,10 @@
 }
 
 - (IBAction)doneButtonTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
+- (IBAction)addCommentButtonTapped:(id)sender
+{
 }
 @end

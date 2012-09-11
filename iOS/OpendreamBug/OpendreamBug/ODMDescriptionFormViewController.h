@@ -9,7 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface ODMDescriptionFormViewController : UIViewController
+
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;
+@property (weak, nonatomic) IBOutlet UITextView *descTextView;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+
 @property (weak, nonatomic) UIImage *bugImage;
+
+- (IBAction)doneButtonTapped:(id)sender;
 
 @end
