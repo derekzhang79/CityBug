@@ -7,6 +7,7 @@
 //
 
 #import "ODMListViewController.h"
+#import "ODMDescriptionFormViewController.h"
 
 #define kSceenSize self.parentViewController.view.frame.size
 #define kToolBarSize toolBar.frame.size
@@ -16,9 +17,11 @@
 
 @end
 
-@implementation ODMListViewController
+@implementation ODMListViewController {
+    UIImage *imageToSave;
+}
 @synthesize toolBar;
-@synthesize imagePickerToolBar;
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -43,10 +46,15 @@
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [toolBar removeFromSuperview];
+    [super viewWillDisappear:animated];
+}
+
 - (void)viewDidUnload
 {
     [self setToolBar:nil];
-    [self setImagePickerToolBar:nil];
     [super viewDidUnload];
 }
 
@@ -77,44 +85,7 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-}
+#pragma mark -
 
 - (IBAction)addButtonTapped:(id)sender
 {
@@ -130,32 +101,50 @@
 
 }
 
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"clickedButtonAtIndex");
      UIImagePickerController *picker =  [[UIImagePickerController alloc] init];
     if (buttonIndex == 0 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         picker.delegate = self;
-        picker.allowsEditing = YES;
+        picker.allowsEditing = NO;
         picker.wantsFullScreenLayout = YES;
         picker.cameraViewTransform = CGAffineTransformScale(picker.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);
         [self presentModalViewController:picker animated:YES];
     } else if (buttonIndex == 1 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
         
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        picker.allowsEditing = YES;
+        picker.allowsEditing = NO;
         [self presentModalViewController:picker animated:YES];
 
     }
 }
 
+//static NSString *segueIdent = @"presentFormSegue";
 
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{      
+    // Save the new image (original or edited) to the Camera Roll.
+    imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
 
+    [self dismissModalViewControllerAnimated: YES];
+    
+    [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:@"presentFormSegue" afterDelay:1.f];
+    
+    
+}
 
+#pragma mark - segue
 
-
-
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"presentFormSegue"]) {
+        ODMDescriptionFormViewController *formViewController = (ODMDescriptionFormViewController *) segue.destinationViewController;
+        formViewController.bugImage = imageToSave;
+    }
+}
 
 
 @end

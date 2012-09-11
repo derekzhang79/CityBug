@@ -11,7 +11,7 @@
 @interface ODMListViewController : UITableViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
-@property (strong, nonatomic) IBOutlet UIToolbar *imagePickerToolBar;
+//@property (strong, nonatomic) IBOutlet UIToolbar *imagePickerToolBar;
 
 - (IBAction)addButtonTapped:(id)sender;
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		980ACE5515FEFFD800413153 /* ODMDescriptionFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 980ACE5415FEFFD800413153 /* ODMDescriptionFormViewController.m */; };
+		980ACE5D15FF333200413153 /* ODMDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 980ACE5C15FF333200413153 /* ODMDescriptionViewController.m */; };
 		98675A0615FDFCDE00B34785 /* ODMListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98675A0515FDFCDE00B34785 /* ODMListViewController.m */; };
 		98675A0C15FDFEF100B34785 /* bugs.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 98675A0B15FDFEF100B34785 /* bugs.jpeg */; };
 		CEEE604215FDEDFB00324883 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604115FDEDFB00324883 /* UIKit.framework */; };
@@ -40,6 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		980ACE5315FEFFD800413153 /* ODMDescriptionFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMDescriptionFormViewController.h; sourceTree = "<group>"; };
+		980ACE5415FEFFD800413153 /* ODMDescriptionFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMDescriptionFormViewController.m; sourceTree = "<group>"; };
+		980ACE5B15FF333200413153 /* ODMDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMDescriptionViewController.h; sourceTree = "<group>"; };
+		980ACE5C15FF333200413153 /* ODMDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMDescriptionViewController.m; sourceTree = "<group>"; };
 		98675A0415FDFCDE00B34785 /* ODMListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMListViewController.h; sourceTree = "<group>"; };
 		98675A0515FDFCDE00B34785 /* ODMListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMListViewController.m; sourceTree = "<group>"; };
 		98675A0B15FDFEF100B34785 /* bugs.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bugs.jpeg; path = images/Prototype/bugs.jpeg; sourceTree = "<group>"; };
@@ -153,8 +159,12 @@
 				CEEE605315FDEDFB00324883 /* MainStoryboard.storyboard */,
 				98675A0415FDFCDE00B34785 /* ODMListViewController.h */,
 				98675A0515FDFCDE00B34785 /* ODMListViewController.m */,
+				980ACE5315FEFFD800413153 /* ODMDescriptionFormViewController.h */,
+				980ACE5415FEFFD800413153 /* ODMDescriptionFormViewController.m */,
 				CEEE604815FDEDFB00324883 /* Supporting Files */,
 				CEEE608B15FDF40B00324883 /* Model */,
+				980ACE5B15FF333200413153 /* ODMDescriptionViewController.h */,
+				980ACE5C15FF333200413153 /* ODMDescriptionViewController.m */,
 			);
 			path = OpendreamBug;
 			sourceTree = "<group>";
@@ -319,6 +329,8 @@
 				CEEE60A015FDF54700324883 /* ODMCategory.m in Sources */,
 				98675A0615FDFCDE00B34785 /* ODMListViewController.m in Sources */,
 				CEEE60A815FDFA9A00324883 /* ODMEntry.m in Sources */,
+				980ACE5515FEFFD800413153 /* ODMDescriptionFormViewController.m in Sources */,
+				980ACE5D15FF333200413153 /* ODMDescriptionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,10 +433,14 @@
 		CEEE607115FDEDFB00324883 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Pirapa Sirawuttinanon (E7WPHXU5Q8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Pirapa Sirawuttinanon (E7WPHXU5Q8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpendreamBug/OpendreamBug-Prefix.pch";
 				INFOPLIST_FILE = "OpendreamBug/OpendreamBug-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -432,10 +448,12 @@
 		CEEE607215FDEDFB00324883 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Pirapa Sirawuttinanon (E7WPHXU5Q8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpendreamBug/OpendreamBug-Prefix.pch";
 				INFOPLIST_FILE = "OpendreamBug/OpendreamBug-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
