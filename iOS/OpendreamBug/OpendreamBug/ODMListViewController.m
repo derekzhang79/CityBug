@@ -21,6 +21,9 @@
     UIImage *imageToSave;
 }
 @synthesize toolBar;
+@synthesize bugImageView;
+@synthesize descLabel;
+@synthesize amountLikeLable;
 
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -55,6 +58,9 @@
 - (void)viewDidUnload
 {
     [self setToolBar:nil];
+    [self setBugImageView:nil];
+    [self setDescLabel:nil];
+    [self setAmountLikeLable:nil];
     [super viewDidUnload];
 }
 

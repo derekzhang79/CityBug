@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ODMDescriptionViewController : UIViewController
+- (IBAction)doneButtonTapped:(id)sender;
 
 @end

@@ -55,6 +55,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="yRl-mM-wfn"/>
                     <connections>
+                        <outlet property="amountLikeLable" destination="NJr-GU-wfm" id="6Yf-rw-fGI"/>
+                        <outlet property="bugImageView" destination="OF3-TL-gAN" id="cjz-0F-NXK"/>
+                        <outlet property="descLabel" destination="5vF-UT-S5a" id="ThU-LB-efX"/>
                         <outlet property="toolBar" destination="VFM-0w-6tH" id="qPr-l1-nLn"/>
                         <segue destination="7Ag-ch-N7w" kind="push" identifier="presentFormSegue" id="d5M-Ux-IuW"/>
                     </connections>
@@ -234,7 +237,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="jZJ-wr-sdr">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="yhR-zM-M1K"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="yhR-zM-M1K">
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="hVw-3B-e3E" id="UUK-c1-Qn2"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                 </viewController>
@@ -254,11 +261,17 @@
         </class>
         <class className="ODMDescriptionViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMDescriptionViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButtonTapped:"/>
+            </relationships>
         </class>
         <class className="ODMListViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMListViewController.h"/>
             <relationships>
                 <relationship kind="action" name="addButtonTapped:"/>
+                <relationship kind="outlet" name="amountLikeLable" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="bugImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="descLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="toolBar" candidateClass="UIToolbar"/>
             </relationships>
         </class>
