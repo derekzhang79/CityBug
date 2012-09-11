@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		98675A0615FDFCDE00B34785 /* ODMListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98675A0515FDFCDE00B34785 /* ODMListViewController.m */; };
+		98675A0C15FDFEF100B34785 /* bugs.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 98675A0B15FDFEF100B34785 /* bugs.jpeg */; };
 		CEEE604215FDEDFB00324883 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604115FDEDFB00324883 /* UIKit.framework */; };
 		CEEE604415FDEDFB00324883 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604315FDEDFB00324883 /* Foundation.framework */; };
 		CEEE604615FDEDFB00324883 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604515FDEDFB00324883 /* CoreGraphics.framework */; };
@@ -14,7 +16,6 @@
 		CEEE604E15FDEDFB00324883 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE604D15FDEDFB00324883 /* main.m */; };
 		CEEE605215FDEDFB00324883 /* ODMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE605115FDEDFB00324883 /* ODMAppDelegate.m */; };
 		CEEE605515FDEDFB00324883 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEEE605315FDEDFB00324883 /* MainStoryboard.storyboard */; };
-		CEEE605815FDEDFB00324883 /* ODMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE605715FDEDFB00324883 /* ODMViewController.m */; };
 		CEEE606015FDEDFB00324883 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE605F15FDEDFB00324883 /* SenTestingKit.framework */; };
 		CEEE606115FDEDFB00324883 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604115FDEDFB00324883 /* UIKit.framework */; };
 		CEEE606215FDEDFB00324883 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604315FDEDFB00324883 /* Foundation.framework */; };
@@ -39,6 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		98675A0415FDFCDE00B34785 /* ODMListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMListViewController.h; sourceTree = "<group>"; };
+		98675A0515FDFCDE00B34785 /* ODMListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMListViewController.m; sourceTree = "<group>"; };
+		98675A0B15FDFEF100B34785 /* bugs.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bugs.jpeg; path = images/Prototype/bugs.jpeg; sourceTree = "<group>"; };
 		CEEE603D15FDEDFB00324883 /* OpendreamBug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpendreamBug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEEE604115FDEDFB00324883 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CEEE604315FDEDFB00324883 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -50,8 +54,6 @@
 		CEEE605015FDEDFB00324883 /* ODMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ODMAppDelegate.h; sourceTree = "<group>"; };
 		CEEE605115FDEDFB00324883 /* ODMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ODMAppDelegate.m; sourceTree = "<group>"; };
 		CEEE605415FDEDFB00324883 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		CEEE605615FDEDFB00324883 /* ODMViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ODMViewController.h; sourceTree = "<group>"; };
-		CEEE605715FDEDFB00324883 /* ODMViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ODMViewController.m; sourceTree = "<group>"; };
 		CEEE605E15FDEDFB00324883 /* OpendreamBugTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpendreamBugTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEEE605F15FDEDFB00324883 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		CEEE606715FDEDFB00324883 /* OpendreamBugTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpendreamBugTests-Info.plist"; sourceTree = "<group>"; };
@@ -95,6 +97,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		98675A0715FDFD9200B34785 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				98675A0815FDFD9900B34785 /* prototype */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		98675A0815FDFD9900B34785 /* prototype */ = {
+			isa = PBXGroup;
+			children = (
+				98675A0B15FDFEF100B34785 /* bugs.jpeg */,
+			);
+			name = prototype;
+			sourceTree = "<group>";
+		};
 		CEEE603215FDEDFB00324883 = {
 			isa = PBXGroup;
 			children = (
@@ -133,8 +151,8 @@
 				CEEE605015FDEDFB00324883 /* ODMAppDelegate.h */,
 				CEEE605115FDEDFB00324883 /* ODMAppDelegate.m */,
 				CEEE605315FDEDFB00324883 /* MainStoryboard.storyboard */,
-				CEEE605615FDEDFB00324883 /* ODMViewController.h */,
-				CEEE605715FDEDFB00324883 /* ODMViewController.m */,
+				98675A0415FDFCDE00B34785 /* ODMListViewController.h */,
+				98675A0515FDFCDE00B34785 /* ODMListViewController.m */,
 				CEEE604815FDEDFB00324883 /* Supporting Files */,
 				CEEE608B15FDF40B00324883 /* Model */,
 			);
@@ -144,6 +162,7 @@
 		CEEE604815FDEDFB00324883 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				98675A0715FDFD9200B34785 /* images */,
 				CEEE604915FDEDFB00324883 /* OpendreamBug-Info.plist */,
 				CEEE604A15FDEDFB00324883 /* InfoPlist.strings */,
 				CEEE604D15FDEDFB00324883 /* main.m */,
@@ -259,6 +278,7 @@
 			files = (
 				CEEE604C15FDEDFB00324883 /* InfoPlist.strings in Resources */,
 				CEEE605515FDEDFB00324883 /* MainStoryboard.storyboard in Resources */,
+				98675A0C15FDFEF100B34785 /* bugs.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,10 +315,10 @@
 			files = (
 				CEEE604E15FDEDFB00324883 /* main.m in Sources */,
 				CEEE605215FDEDFB00324883 /* ODMAppDelegate.m in Sources */,
-				CEEE605815FDEDFB00324883 /* ODMViewController.m in Sources */,
 				CEEE608A15FDF39E00324883 /* ODMModel.xcdatamodeld in Sources */,
 				CEEE609D15FDF54700324883 /* ODMEntry.m in Sources */,
 				CEEE60A015FDF54700324883 /* ODMCategory.m in Sources */,
+				98675A0615FDFCDE00B34785 /* ODMListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
