@@ -26,7 +26,7 @@ exports.index_post = function(req, res){
     entry.latitude = req.body.latitude;
     entry.longitude = req.body.longitude;
     entry.note = req.body.note;
-    // entry.categories = req.body.categories;
+    entry.categories = req.body.categories;
     
     entry.save(function (err) {
         messages = [];
