@@ -17,7 +17,7 @@
 @dynamic latitude;
 @dynamic longitude;
 @dynamic note;
-@dynamic lastUpdated;
+@dynamic lastModified;
 @dynamic category;
 
 
