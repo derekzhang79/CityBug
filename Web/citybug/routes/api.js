@@ -1,8 +1,9 @@
 var mongoose    = require('mongoose'),
     entryModel = require('../models/entry');
 
+// GET /api/entries >> get list of entries
 exports.entries = function(req, res){
-    console.log('API page');
+    console.log('get list');
     res.contentType('application/json'); 
  
     entryModel.find({},function(err, docs){
@@ -11,11 +12,13 @@ exports.entries = function(req, res){
 
 };
 
+// POST /api/entries >> add new entry from client
 exports.entries_post = function(req, res){
 	var jsonString = JSON.stringify(req.body);
 	var obj = JSON.parse(jsonString);
 	console.log('post : ' + obj.title + ' <<');
 
+	// Create new object
 	entry = new entryModel();
     entry.title = obj.title;
     entry.thumbnail_image = obj.thumbnail_image;
@@ -44,6 +47,7 @@ exports.entries_post = function(req, res){
     });
 };
 
+// GET /api/entries/{id} >> get one entry from id
 exports.entry = function(req, res){
     var url = req.url;
     var currentID = url.match( /[^\/]+\/?$/ );
