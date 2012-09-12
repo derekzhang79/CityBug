@@ -1,10 +1,13 @@
 
 var express = require('express'),
     routes = require('./routes'),
-    api = require('./routes/api');
-
+    api = require('./routes/api'),
+	connect = require('express/node_modules/connect'),
+	parseCookie = connect.utils.parseCookie,
+    MemoryStore = connect.middleware.session.MemoryStore,
+    store;
 var app = module.exports = express.createServer();
-var io = require('socket.io').listen(app);
+var sio = require('socket.io');
 
 // Configuration
 require('./configuration')(app, express);
@@ -20,9 +23,10 @@ app.get('/api/entries/*', api.entry);
 app.listen(3003);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
+var io = sio.listen(app);
+
 io.sockets.on('connection', function (socket) {
-   socket.emit('news', { hello: 'world' });
-   socket.on('my other event', function (data) {
-     console.log(data);
-   });
- });
+  socket.on('ferret', function (name, fn) {
+    fn('woot');
+  });
+});

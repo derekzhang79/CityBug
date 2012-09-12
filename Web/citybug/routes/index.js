@@ -14,7 +14,6 @@ mongoose.connect('mongodb://localhost/entry');
 // Home page => registration form
 exports.index = function(req, res){
     entryModel.find({},function(err, docs){
-        console.log(docs._id);
         res.render('index.jade', { title: 'City bug', entry: docs });
     });
 };
@@ -24,7 +23,7 @@ exports.index_post = function(req, res){
 
     // create directory
     var path = require('path');
-     
+    // functon create directory
     fs.mkdirParent = function(dirPath, mode, callback) {
       //Call the standard fs.mkdir
       fs.mkdir(dirPath, mode, function(error) {
@@ -60,14 +59,13 @@ exports.index_post = function(req, res){
         }
     });
 
-    console.log("entry id" + entry._id);
-
+    // make directory
     fs.mkdirParent("./public/images/" + entry._id + "/");
 
     //save picture to /public/images/:id/pictureName
 
     if (req.files.thumbnail_image.name) {
-        // get the temporary location of the file
+        // get the temporary location of the file : ./uploads
         var tmp_path = req.files.thumbnail_image.path;
         // set where the file should actually exists - in this case it is in the "images" directory
         var thumbnail_image_path = './public/images/' + entry._id + "/" + req.files.thumbnail_image.name;
@@ -77,27 +75,26 @@ exports.index_post = function(req, res){
             // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
             fs.unlink(tmp_path, function() {
                 if (err) throw err;
-                console.log('File uploaded to: ' + thumbnail_image_path + ' - ' + req.files.thumbnail_image.size + ' bytes');
+                    console.log('File uploaded to: ' + thumbnail_image_path + ' - ' + req.files.thumbnail_image.size + ' bytes');
             });
         });        
     } else {
+        // delete temporary file : ./upload
         var tmp_path = req.files.thumbnail_image.path;
         fs.unlink(tmp_path, function() {
             console.log('Delete temporary file');
         });
     }
 
+    // do the same thing
     if (req.files.full_image.name) {
         var tmp_path = req.files.full_image.path;
-        // set where the file should actually exists - in this case it is in the "images" directory
         var full_image_path = './public/images/' + entry._id + "/" + req.files.full_image.name;
-        // move the file from the temporary location to the intended location
         fs.rename(tmp_path, full_image_path, function(err) {
             if (err) throw err;
-            // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
             fs.unlink(tmp_path, function() {
                 if (err) throw err;
-                console.log('File uploaded to: ' + full_image_path + ' - ' + req.files.full_image.size + ' bytes');
+                    console.log('File uploaded to: ' + full_image_path + ' - ' + req.files.full_image.size + ' bytes');
             });
         });
     } else {

@@ -3,6 +3,14 @@
         header.page-header
             h1 City Bug
                 small.subtitle bug around the world
+        script
+            // socket.io specific code
+            var socket = io.connect(); // TIP: .connect with no args does auto-discovery
+            socket.on('connect', function () { // TIP: you can avoid listening on `connect` and listen on events directly too!
+                socket.emit('ferret', 'tobi', function (data) {
+                    console.log(data); // data will be 'woot'
+                });
+            });
         article.row
             .span14
                 h2 Entry list
@@ -58,4 +66,4 @@
                     input(type='text', id='categories', name='categories')
             fieldset
                 .actions
-                    input(type='submit', value="Save")
+                    input(type='submit', value="Save", onclick="send-message")
