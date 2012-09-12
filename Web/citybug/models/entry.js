@@ -3,11 +3,12 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId;
 
 var CategorySchema = new Schema({
-	  title				: String
+	  id				: ObjectId
+	, title				: String
 });
 
 var EntrySchema = new Schema({
-	  id			: ObjectId
+	  id				: ObjectId
 	, title				: String
 	, thumbnail_image	: String
 	, full_image		: String
