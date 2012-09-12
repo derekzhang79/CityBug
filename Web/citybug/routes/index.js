@@ -18,6 +18,7 @@ exports.index = function(req, res){
     });
 };
 
+// POST /api/entries >> add new entry from client
 exports.index_post = function(req, res){
     var fs = require('fs');
 
@@ -52,10 +53,16 @@ exports.index_post = function(req, res){
     entry.save(function (err) {
         if (!err){
             console.log('Success!');
+            res.statusCode = 200;
+            //res.json(['OK']);
+            res.redirect('/');
         }
         else {
             console.log('Error !');
             console.log(err);
+            res.statusCode = 500;
+            //res.json(['NOT OK']);
+            res.redirect('/');
         }
     });
 
@@ -104,7 +111,7 @@ exports.index_post = function(req, res){
         });
     }
 
-    entryModel.find({},function(err, docs){
-        res.render('index.jade', { title: 'City bug', entry: docs });
-    });
+    // entryModel.find({},function(err, docs){
+    //     res.render('index.jade', { title: 'City bug', entry: docs });
+    // });
 };

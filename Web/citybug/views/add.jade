@@ -1,0 +1,33 @@
+.container
+    .content
+        header.page-header
+            h1 City Bug
+                small.subtitle bug around the world
+            h2
+                <a href="/">Back</a>    
+        form(action='/api/entries', method='post', enctype="multipart/form-data")
+            fieldset
+                label(for="title") Title
+                .input
+                    input(type='text', id='title', name='title')
+                label(for="thumbnail_image") Thumbnail image
+                .input
+                    input(type='file', id='thumbnail_image', name='thumbnail_image')
+                label(for="full_image") Full image
+                .input
+                    input(type='file', id='full_image', name='full_image')
+                label(for="latitude") Latitude
+                .input
+                    input(type='text', id='latitude', name='latitude')
+                label(for="longitude") Longitude
+                .input
+                    input(type='text', id='longitude', name='longitude')
+                label(for="note") Note
+                .input
+                    input(type='text', id='note', name='note')
+                label(for="categories") Categories
+                .input
+                    input(type='text', id='categories', name='categories')
+            fieldset
+                .actions
+                    input(type='submit', value="Save")
