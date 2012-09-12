@@ -19,10 +19,14 @@
                                 th Categories
                         tbody
                         - entry.forEach(function(entry){
+                            - var thumbnail_image_path = "./images/" + entry.thumbnail_image;
+                            - var full_image_path = "./images/" + entry.full_image;
                             tr
                                 td= entry['title']
-                                td= entry['thumbnail_image']
-                                td= entry['full_image']
+                                td
+                                    img(src="#{thumbnail_image_path}")
+                                td
+                                    img(src="#{full_image_path}")
                                 td= entry['latitude']
                                 td= entry['longitude']
                                 td= entry['note']
@@ -38,10 +42,10 @@
                     input(type='text', id='title', name='title')
                 label(for="thumbnail_image") Thumbnail image
                 .input
-                    input(type='text', id='thumbnail_image', name='thumbnail_image')
+                    input(type='file', id='thumbnail_image', name='thumbnail_image')
                 label(for="full_image") Full image
                 .input
-                    input(type='text', id='full_image', name='full_image')
+                    input(type='file', id='full_image', name='full_image')
                 label(for="latitude") Latitude
                 .input
                     input(type='text', id='latitude', name='latitude')
