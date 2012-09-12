@@ -16,6 +16,7 @@
                                 th Latitude
                                 th Longitude
                                 th Note
+                                th Categories
                         tbody
                         - entry.forEach(function(entry){
                             tr
@@ -25,6 +26,7 @@
                                 td= entry['latitude']
                                 td= entry['longitude']
                                 td= entry['note']
+                                td= entry['categories']
                         - })
                 - else
                     p No registered members yet.
@@ -33,7 +35,7 @@
             fieldset
                 label(for="title") Title
                 .input
-                    input#title.xlarge(type='text', id='title', name='title')
+                    input(type='text', id='title', name='title')
                 label(for="thumbnail_image") Thumbnail image
                 .input
                     input(type='text', id='thumbnail_image', name='thumbnail_image')

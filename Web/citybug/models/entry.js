@@ -15,6 +15,7 @@ var EntrySchema = new Schema({
 	, latitude			: String
 	, longitude			: String
 	, note				: String
+	, categories		: String
 	// , categories		: [CategorySchema]
 
 });
