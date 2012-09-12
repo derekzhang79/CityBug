@@ -7,7 +7,7 @@ var CategorySchema = new Schema({
 });
 
 var EntrySchema = new Schema({
-	  id			: ObjectId
+	  id				: ObjectId
 	, title				: String
 	, thumbnail_image	: String
 	, full_image		: String

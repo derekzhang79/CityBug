@@ -19,14 +19,12 @@
                                 th Categories
                         tbody
                         - entry.forEach(function(entry){
-                            - var thumbnail_image_path = "./images/" + entry.thumbnail_image;
-                            - var full_image_path = "./images/" + entry.full_image;
                             tr
                                 td= entry['title']
                                 td
-                                    img(src="#{thumbnail_image_path}")
+                                    img(src="#{entry.thumbnail_image}", width = "40", heigth = "40")
                                 td
-                                    img(src="#{full_image_path}")
+                                    img(src="#{entry.full_image}", width = "40", heigth = "40")
                                 td= entry['latitude']
                                 td= entry['longitude']
                                 td= entry['note']
