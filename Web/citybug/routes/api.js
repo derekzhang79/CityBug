@@ -1,6 +1,12 @@
 var mongoose    = require('mongoose'),
     entryModel = require('../models/entry');
 
+exports.add = function(req, res){
+    entryModel.find({},function(err, docs){
+        res.render('add.jade', { title: 'City bug', entry: docs });
+    });
+};
+
 // GET /api/entries >> get list of entries
 exports.entries = function(req, res){
     console.log('get list');
@@ -12,6 +18,7 @@ exports.entries = function(req, res){
 
 };
 
+/*
 // POST /api/entries >> add new entry from client
 exports.entries_post = function(req, res){
 	var jsonString = JSON.stringify(req.body);
@@ -46,6 +53,7 @@ exports.entries_post = function(req, res){
         }
     });
 };
+*/
 
 // GET /api/entries/{id} >> get one entry from id
 exports.entry = function(req, res){

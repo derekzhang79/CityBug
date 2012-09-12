@@ -13,8 +13,11 @@ require('./configuration')(app, express);
 app.get('/', routes.index);
 app.post('/', routes.index_post);
 
+app.get('/add', api.add);
+
 app.get('/api/entries', api.entries);
-app.post('/api/entries', api.entries_post);
+app.post('/api/entries', routes.index_post);
+//app.post('/api/entries', api.entries_post);
 
 app.get('/api/entries/*', api.entry);
 
