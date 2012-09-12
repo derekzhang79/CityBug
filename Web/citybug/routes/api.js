@@ -6,7 +6,7 @@ exports.entries = function(req, res){
     res.contentType('application/json'); 
  
     entryModel.find({},function(err, docs){
-        res.send(JSON.stringify(docs));
+        res.send('"entries" : ' + JSON.stringify(docs));
     });
 
 };
