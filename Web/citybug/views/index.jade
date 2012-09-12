@@ -7,10 +7,13 @@
             // socket.io specific code
             var socket = io.connect(); // TIP: .connect with no args does auto-discovery
             socket.on('connect', function () { // TIP: you can avoid listening on `connect` and listen on events directly too!
-                socket.emit('ferret', 'tobi', function (data) {
-                    console.log(data); // data will be 'woot'
+                socket.emit('message', function (data) {
+                    socket.send('qqq');
                 });
             });
+            function addEntry(event) {
+                socket.send('hellooooo');
+            }            
         h2
             <a href="/add">Click here to test POST api</a>
         article.row
@@ -68,4 +71,4 @@
                     input(type='text', id='categories', name='categories')
             fieldset
                 .actions
-                    input(type='submit', value="Save", onclick="send-message")
+                    input(type='submit', value="Save", onclick='addEntry();')
