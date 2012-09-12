@@ -14,6 +14,7 @@ app.get('/', routes.index);
 app.post('/', routes.index_post);
 
 app.get('/api/entries', api.entries);
+app.get('/api/entries/*', api.entry);
 
 // Open App socket
 app.listen(3003);
