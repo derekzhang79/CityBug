@@ -5,6 +5,14 @@
                 small.subtitle bug around the world
             h2
                 <a href="/">Back</a>    
+        script
+
+            var socket = io.connect();
+            socket.on('connect', function () {
+            });
+            function sendMessage() {
+                socket.emit('user message');
+            }
         form(action='/api/entries', method='post', enctype="multipart/form-data")
             fieldset
                 label(for="title") Title
@@ -30,4 +38,4 @@
                     input(type='text', id='categories', name='categories')
             fieldset
                 .actions
-                    input(type='submit', value="Save")
+                    input(type='submit', value="Save", onclick='sendMessage()')
