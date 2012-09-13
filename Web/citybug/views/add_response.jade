@@ -1,0 +1,12 @@
+.container
+	.content
+		header.page-header
+			h1
+				<a href="/">Back</a>
+		script
+
+			var socket = io.connect();
+			socket.on('connect', function () {
+				var data = !{JSON.stringify(entry)};
+				socket.emit('user message',data);
+			});

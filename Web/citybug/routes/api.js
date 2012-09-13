@@ -119,6 +119,6 @@ exports.entry_post = function(req, res){
     }
 
     entryModel.findOne({_id:entry._id }, function(err,docs) {       
-        res.render('add_responce', {title: 'City bug',entry: docs});
+        res.render('add_response', {title: 'City bug',entry: docs});
     });
 };
