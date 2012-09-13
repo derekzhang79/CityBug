@@ -30,9 +30,8 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 
 var io = sio.listen(app);
 
-io.on('connection', function (socket) {
- 	socket.on('message', function (msg) {
-  		socket.broadcast.emit('message', msg);
-  		console.log('messageeeeeeee' + msg);
-	});
+io.sockets.on('connection', function (socket) {
+	socket.on('user message', function () {
+    	socket.broadcast.emit('user message');
+  	});
 });
