@@ -57,19 +57,4 @@
 }
 
 
-- (id)initWithDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        self.title = [dict objectForKey:@"title"];
-//        self.thumbnailImage = [dict objectForKey:@"thumbnailImage"];
-//        self.fullImage = [dict objectForKey:@"fullImage"];
-//        self.latitude = [dict objectForKey:@"latitude"];
-//        self.longitude = [dict objectForKey:@"longitude"];
-//        self.note = [dict objectForKey:@"note"];
-//        self.entryID = [dict objectForKey:@"entryID"];
-//        self.longitude = [dict objectForKey:@"longitude"];
-
-    }
-    return self;
-}
 @end

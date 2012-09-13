@@ -79,8 +79,9 @@ static ODMDataManager *sharedDataManager = nil;
 - (NSArray *)getEntryList
 {
         NSError *error;
+        NSString *url = [BASE_URL stringByAppendingString:API_LIST];
         NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:API_LIST_ENTRIES]];
-        
+
         if (error) {
             ODMLog(@"error when get api %@ with error %@", API_LIST_ENTRIES, error);
                 return nil;
@@ -88,6 +89,7 @@ static ODMDataManager *sharedDataManager = nil;
         return [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error] objectForKey:@"entries"];
     
 }
+
 
 
 - (id)insertEntry:(NSDictionary *)entry withError:(NSError **)error withManagedObjectContext:(NSManagedObjectContext *)context

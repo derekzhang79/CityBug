@@ -30,6 +30,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"entry %@", self.entry);
+    
 }
 
 - (void)viewDidUnload
@@ -52,5 +54,6 @@
 
 - (IBAction)addCommentButtonTapped:(id)sender
 {
+    NSLog(@"aa");
 }
 @end

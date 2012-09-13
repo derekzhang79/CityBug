@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ODMEntry.h"
 
 @interface ODMDescriptionViewController : UIViewController
 
@@ -14,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *catergoryLabel;
 @property (weak, nonatomic) IBOutlet UITextView *descTextView;
+@property (weak, nonatomic) NSDictionary *entry;
+
 
 
 - (IBAction)doneButtonTapped:(id)sender;

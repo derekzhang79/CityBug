@@ -8,6 +8,7 @@
 
 #import "ODMListViewController.h"
 #import "ODMDescriptionFormViewController.h"
+#import "ODMDescriptionViewController.h"
 #import "ODMDataManager.h"
 #import "ODMEntry.h"
 
@@ -15,7 +16,8 @@
 #define kToolBarSize toolBar.frame.size
 #define CAMERA_SCALAR 1.32
 
-static NSString *segueIdent = @"presentFormSegue";
+static NSString *gotoFormSegue = @"presentFormSegue";
+static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 @interface ODMListViewController ()
 
@@ -140,10 +142,9 @@ static NSString *segueIdent = @"presentFormSegue";
     imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerOriginalImage];
     UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
 
-    [self dismissModalViewControllerAnimated: YES];
     
-    [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:segueIdent afterDelay:1.f];
-
+    [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:gotoFormSegue afterDelay:1.f];
+    [self dismissModalViewControllerAnimated: YES];
     
 }
 
@@ -151,9 +152,14 @@ static NSString *segueIdent = @"presentFormSegue";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"presentFormSegue"]) {
+    if ([segue.identifier isEqualToString:gotoFormSegue]) {
         ODMDescriptionFormViewController *formViewController = (ODMDescriptionFormViewController *) segue.destinationViewController;
         formViewController.bugImage = imageToSave;
+    }
+    else if ([segue.identifier isEqualToString:gotoViewSegue]) {
+        ODMDescriptionViewController *DetailViewController = (ODMDescriptionViewController *) segue.destinationViewController;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
+        DetailViewController.entry = [entries objectAtIndex:indexPath.row];
     }
 }
 
