@@ -3,6 +3,19 @@
         header.page-header
             h1 City Bug
                 small.subtitle bug around the world
+        script
+
+            var socket = io.connect();
+            socket.on('connect', function () {
+            });
+            socket.on('user message', function() {
+                window.location = "./";
+            });
+            function sendMessage() {
+                socket.emit('user message');
+            }
+        h2
+            <a href="/add">Click here to test POST api</a>
         article.row
             .span14
                 h2 Entry list
@@ -21,8 +34,10 @@
                         - entry.forEach(function(entry){
                             tr
                                 td= entry['title']
-                                td= entry['thumbnail_image']
-                                td= entry['full_image']
+                                td
+                                    img(src="#{entry.thumbnail_image}", width = "40", heigth = "40")
+                                td
+                                    img(src="#{entry.full_image}", width = "40", heigth = "40")
                                 td= entry['latitude']
                                 td= entry['longitude']
                                 td= entry['note']
@@ -31,17 +46,17 @@
                 - else
                     p No registered members yet.
     
-        form(action='/', method='post')
+        form(action='/', method='post', enctype="multipart/form-data")
             fieldset
                 label(for="title") Title
                 .input
                     input(type='text', id='title', name='title')
                 label(for="thumbnail_image") Thumbnail image
                 .input
-                    input(type='text', id='thumbnail_image', name='thumbnail_image')
+                    input(type='file', id='thumbnail_image', name='thumbnail_image')
                 label(for="full_image") Full image
                 .input
-                    input(type='text', id='full_image', name='full_image')
+                    input(type='file', id='full_image', name='full_image')
                 label(for="latitude") Latitude
                 .input
                     input(type='text', id='latitude', name='latitude')
@@ -56,6 +71,4 @@
                     input(type='text', id='categories', name='categories')
             fieldset
                 .actions
-                    input(type='submit', value="Save")
-    footer
-        p &copy; <a href="http://jtlebi.fr/">Jean-Tiare LE BIGOT</a> 2011 - GPL 2.0
+                    input(type='submit', value="Save", onclick='sendMessage()')
