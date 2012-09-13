@@ -55,14 +55,12 @@ exports.index_post = function(req, res){
             console.log('Success!');
             res.statusCode = 200;
             //res.json(['OK']);
-            res.redirect('/');
         }
         else {
             console.log('Error !');
             console.log(err);
             res.statusCode = 500;
             //res.json(['NOT OK']);
-            res.redirect('/');
         }
     });
 

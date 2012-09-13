@@ -19,7 +19,8 @@ app.post('/', routes.index_post);
 app.get('/add', api.add);
 
 app.get('/api/entries', api.entries);
-app.post('/api/entries', routes.index_post);
+// app.post('/api/entries', routes.index_post);
+app.post('/api/entries', api.entry_post);
 //app.post('/api/entries', api.entries_post);
 
 app.get('/api/entries/*', api.entry);
@@ -31,7 +32,8 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 var io = sio.listen(app);
 
 io.sockets.on('connection', function (socket) {
-	socket.on('user message', function () {
-    	socket.broadcast.emit('user message');
+	socket.on('user message', function (msg) {
+		console.log('entry' + msg);
+    	socket.broadcast.emit('user message', msg);
   	});
 });
