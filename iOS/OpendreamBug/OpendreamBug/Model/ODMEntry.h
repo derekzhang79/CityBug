@@ -24,4 +24,5 @@
 @property (nonatomic, retain) NSDate * lastModified;
 @property (nonatomic, retain) ODMCategory *category;
 
+- (id)initWithDictionary:(NSDictionary *)dict;
 @end

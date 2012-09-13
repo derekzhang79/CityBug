@@ -8,7 +8,8 @@
 
 #import "ODMListViewController.h"
 #import "ODMDescriptionFormViewController.h"
-
+#import "ODMDataManager.h"
+#import "ODMEntry.h"
 
 #define kSceenSize self.parentViewController.view.frame.size
 #define kToolBarSize toolBar.frame.size
@@ -23,11 +24,10 @@ static NSString *segueIdent = @"presentFormSegue";
 @implementation ODMListViewController {
     UIImage *imageToSave;
     UIImagePickerController *picker;
+    NSArray *entries;
+
 }
 @synthesize toolBar;
-@synthesize bugImageView;
-@synthesize descLabel;
-@synthesize amountLikeLable;
 
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -47,10 +47,12 @@ static NSString *segueIdent = @"presentFormSegue";
     [self.parentViewController.view addSubview:toolBar];
     toolBar.frame = CGRectMake(0, kSceenSize.height - kToolBarSize.height, kToolBarSize.width, kToolBarSize.height);
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
+    entries = [dataManager getEntryList];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -62,9 +64,6 @@ static NSString *segueIdent = @"presentFormSegue";
 - (void)viewDidUnload
 {
     [self setToolBar:nil];
-    [self setBugImageView:nil];
-    [self setDescLabel:nil];
-    [self setAmountLikeLable:nil];
     [super viewDidUnload];
 }
 
@@ -72,6 +71,7 @@ static NSString *segueIdent = @"presentFormSegue";
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
 
 #pragma mark - Table view data source
 
@@ -82,16 +82,17 @@ static NSString *segueIdent = @"presentFormSegue";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    NSLog(@"%i", entries.count);
+    return [entries count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"BugCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    // Configure the cell...
-    
+
+        [self configureCell:cell withEntry:[entries objectAtIndex:indexPath.row]];
+
     return cell;
 }
 
@@ -115,9 +116,9 @@ static NSString *segueIdent = @"presentFormSegue";
 {
     NSLog(@"clickedButtonAtIndex");
     picker =  [[UIImagePickerController alloc] init];
+    picker.delegate = self;
     if (buttonIndex == 0 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        picker.delegate = self;
         picker.allowsEditing = NO;
         picker.wantsFullScreenLayout = YES;
         picker.cameraViewTransform = CGAffineTransformScale(picker.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);
@@ -142,9 +143,6 @@ static NSString *segueIdent = @"presentFormSegue";
     [self dismissModalViewControllerAnimated: YES];
     
     [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:segueIdent afterDelay:1.f];
-    
-    
-    // Handle a still image picked from a photo album
 
     
 }
@@ -157,6 +155,43 @@ static NSString *segueIdent = @"presentFormSegue";
         ODMDescriptionFormViewController *formViewController = (ODMDescriptionFormViewController *) segue.destinationViewController;
         formViewController.bugImage = imageToSave;
     }
+}
+
+
+#pragma mark - Helper Function
+
+- (void)configureCell:(UITableViewCell *)cell withEntry:(NSDictionary *)aEntry
+{
+    __block NSString *imagePath = [aEntry objectForKey:@"thumbnail_image"];
+    __block NSData *imageData;
+   
+
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,  0ul);
+    dispatch_async(queue, ^{
+        
+        NSArray *documentDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentPath = [documentDir lastObject];
+        
+        NSString *imageName = [[NSURL URLWithString:imagePath] lastPathComponent];
+        NSString *imagePathInCache = [documentPath stringByAppendingPathComponent:imageName];
+        
+        if ( [[NSFileManager defaultManager] fileExistsAtPath:imagePathInCache]) // if มีอยู่ใน cache
+        {
+            imageData = [NSData dataWithContentsOfFile:imagePathInCache];
+        }
+        
+        UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:1];
+        NSURLRequest *requestImage = [NSURLRequest requestWithURL:[NSURL URLWithString:imagePath]];
+        
+        imageData = [NSURLConnection  sendSynchronousRequest:requestImage returningResponse:nil error:NULL];
+        thumbnailImageView.image = [UIImage imageWithData:imageData];
+    });
+    
+    UILabel *descLabel = (UILabel *)[cell viewWithTag:2];
+    descLabel.text = [aEntry objectForKey:@"title"];
+
+ 
 }
 
 

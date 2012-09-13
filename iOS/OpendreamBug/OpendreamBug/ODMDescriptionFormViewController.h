@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ODMDescriptionFormViewController : UIViewController
+@interface ODMDescriptionFormViewController : UIViewController<UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;
 @property (weak, nonatomic) IBOutlet UITextView *descTextView;

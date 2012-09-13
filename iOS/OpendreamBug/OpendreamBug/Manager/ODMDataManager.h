@@ -22,4 +22,9 @@
  */
 - (BOOL)insertEntriesToPersistentStore:(NSArray *)entries withManagedObjectContext:(NSManagedObjectContext *)context;
 
+/*
+ * Get all entries
+ */
+- (NSArray *)getEntryList;
+
 @end
