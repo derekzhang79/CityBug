@@ -12,6 +12,9 @@
 
 static ODMDataManager *sharedDataManager = nil;
 
+
+
+
 @implementation ODMDataManager
 
 #pragma mark - Application's Documents directory
@@ -71,6 +74,21 @@ static ODMDataManager *sharedDataManager = nil;
     
     return nil;
 }
+
+
+- (NSArray *)getEntryList
+{
+        NSError *error;
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:API_LIST_ENTRIES]];
+        
+        if (error) {
+            ODMLog(@"error when get api %@ with error %@", API_LIST_ENTRIES, error);
+                return nil;
+        }
+        return [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error] objectForKey:@"entries"];
+    
+}
+
 
 - (id)insertEntry:(NSDictionary *)entry withError:(NSError **)error withManagedObjectContext:(NSManagedObjectContext *)context
 {
