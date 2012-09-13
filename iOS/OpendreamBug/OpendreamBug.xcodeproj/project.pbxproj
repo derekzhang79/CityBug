@@ -19,6 +19,9 @@
 		985CB98716007743001C4AD6 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 985CB97616007743001C4AD6 /* AFPropertyListRequestOperation.m */; };
 		985CB98816007743001C4AD6 /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 985CB97916007743001C4AD6 /* AFJSONRequestOperation.m */; };
 		985CB98916007743001C4AD6 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 985CB97A16007743001C4AD6 /* AFNetworkActivityIndicatorManager.m */; };
+		9862F4981601C1E900ED2972 /* ODMCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9862F4931601C1E900ED2972 /* ODMCategory.m */; };
+		9862F4991601C1E900ED2972 /* ODMEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 9862F4951601C1E900ED2972 /* ODMEntry.m */; };
+		9862F49A1601C1E900ED2972 /* ODMModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9862F4961601C1E900ED2972 /* ODMModel.xcdatamodeld */; };
 		98675A0615FDFCDE00B34785 /* ODMListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98675A0515FDFCDE00B34785 /* ODMListViewController.m */; };
 		98675A0C15FDFEF100B34785 /* bugs.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 98675A0B15FDFEF100B34785 /* bugs.jpeg */; };
 		CEB022A215FF13FD00038C24 /* ODMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB022A115FF13FD00038C24 /* ODMDataManager.m */; };
@@ -37,10 +40,7 @@
 		CEEE606D15FDEDFB00324883 /* OpendreamBugTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE606C15FDEDFB00324883 /* OpendreamBugTests.m */; };
 		CEEE608015FDF1F400324883 /* ODMEntryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE607F15FDF1F400324883 /* ODMEntryTest.m */; };
 		CEEE608715FDF35100324883 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE608615FDF35100324883 /* CoreData.framework */; };
-		CEEE608A15FDF39E00324883 /* ODMModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CEEE608815FDF39E00324883 /* ODMModel.xcdatamodeld */; };
-		CEEE60A015FDF54700324883 /* ODMCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE609F15FDF54700324883 /* ODMCategory.m */; };
 		CEEE60A115FDF55D00324883 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE608615FDF35100324883 /* CoreData.framework */; };
-		CEEE60A815FDFA9A00324883 /* ODMEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE60A715FDFA9A00324883 /* ODMEntry.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +79,11 @@
 		985CB97D16007743001C4AD6 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
 		985CB97E16007743001C4AD6 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
 		985CB97F16007743001C4AD6 /* AFJSONUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFJSONUtilities.h; sourceTree = "<group>"; };
+		9862F4921601C1E900ED2972 /* ODMCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMCategory.h; sourceTree = "<group>"; };
+		9862F4931601C1E900ED2972 /* ODMCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMCategory.m; sourceTree = "<group>"; };
+		9862F4941601C1E900ED2972 /* ODMEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMEntry.h; sourceTree = "<group>"; };
+		9862F4951601C1E900ED2972 /* ODMEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMEntry.m; sourceTree = "<group>"; };
+		9862F4971601C1E900ED2972 /* ODMModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ODMModel.xcdatamodel; sourceTree = "<group>"; };
 		98675A0415FDFCDE00B34785 /* ODMListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMListViewController.h; sourceTree = "<group>"; };
 		98675A0515FDFCDE00B34785 /* ODMListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMListViewController.m; sourceTree = "<group>"; };
 		98675A0B15FDFEF100B34785 /* bugs.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bugs.jpeg; path = images/Prototype/bugs.jpeg; sourceTree = "<group>"; };
@@ -106,12 +111,7 @@
 		CEEE607E15FDF1F400324883 /* ODMEntryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMEntryTest.h; path = Model/ODMEntryTest.h; sourceTree = "<group>"; };
 		CEEE607F15FDF1F400324883 /* ODMEntryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMEntryTest.m; path = Model/ODMEntryTest.m; sourceTree = "<group>"; };
 		CEEE608615FDF35100324883 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		CEEE608915FDF39E00324883 /* ODMModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ODMModel.xcdatamodel; sourceTree = "<group>"; };
-		CEEE609E15FDF54700324883 /* ODMCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMCategory.h; path = Model/ODMCategory.h; sourceTree = "<group>"; };
-		CEEE609F15FDF54700324883 /* ODMCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMCategory.m; path = Model/ODMCategory.m; sourceTree = "<group>"; };
 		CEEE60A215FDF64B00324883 /* ODMHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMHelper.h; sourceTree = "<group>"; };
-		CEEE60A615FDFA9A00324883 /* ODMEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMEntry.h; path = Model/ODMEntry.h; sourceTree = "<group>"; };
-		CEEE60A715FDFA9A00324883 /* ODMEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMEntry.m; path = Model/ODMEntry.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +176,18 @@
 			name = AFNetworking;
 			sourceTree = "<group>";
 		};
+		9862F4911601C1E800ED2972 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9862F4921601C1E900ED2972 /* ODMCategory.h */,
+				9862F4931601C1E900ED2972 /* ODMCategory.m */,
+				9862F4941601C1E900ED2972 /* ODMEntry.h */,
+				9862F4951601C1E900ED2972 /* ODMEntry.m */,
+				9862F4961601C1E900ED2972 /* ODMModel.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		98675A0715FDFD9200B34785 /* images */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,9 +247,9 @@
 		CEEE604715FDEDFB00324883 /* OpendreamBug */ = {
 			isa = PBXGroup;
 			children = (
+				9862F4911601C1E800ED2972 /* Model */,
 				985CB96916007701001C4AD6 /* ExternalSources */,
 				CEB022A415FF140000038C24 /* Manager */,
-				CEEE608B15FDF40B00324883 /* Model */,
 				CEEE60A215FDF64B00324883 /* ODMHelper.h */,
 				CEEE605015FDEDFB00324883 /* ODMAppDelegate.h */,
 				CEEE605115FDEDFB00324883 /* ODMAppDelegate.m */,
@@ -247,7 +259,6 @@
 				980ACE5315FEFFD800413153 /* ODMDescriptionFormViewController.h */,
 				980ACE5415FEFFD800413153 /* ODMDescriptionFormViewController.m */,
 				CEEE604815FDEDFB00324883 /* Supporting Files */,
-				CEEE608B15FDF40B00324883 /* Model */,
 				980ACE5B15FF333200413153 /* ODMDescriptionViewController.h */,
 				980ACE5C15FF333200413153 /* ODMDescriptionViewController.m */,
 			);
@@ -287,18 +298,6 @@
 				CEEE606815FDEDFB00324883 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		CEEE608B15FDF40B00324883 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				CEEE608815FDF39E00324883 /* ODMModel.xcdatamodeld */,
-				CEEE60A615FDFA9A00324883 /* ODMEntry.h */,
-				CEEE60A715FDFA9A00324883 /* ODMEntry.m */,
-				CEEE609E15FDF54700324883 /* ODMCategory.h */,
-				CEEE609F15FDF54700324883 /* ODMCategory.m */,
-			);
-			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -412,13 +411,13 @@
 			files = (
 				CEEE604E15FDEDFB00324883 /* main.m in Sources */,
 				CEEE605215FDEDFB00324883 /* ODMAppDelegate.m in Sources */,
-				CEEE608A15FDF39E00324883 /* ODMModel.xcdatamodeld in Sources */,
-				CEEE60A015FDF54700324883 /* ODMCategory.m in Sources */,
 				98675A0615FDFCDE00B34785 /* ODMListViewController.m in Sources */,
-				CEEE60A815FDFA9A00324883 /* ODMEntry.m in Sources */,
 				980ACE5515FEFFD800413153 /* ODMDescriptionFormViewController.m in Sources */,
 				980ACE5D15FF333200413153 /* ODMDescriptionViewController.m in Sources */,
 				CEB022A215FF13FD00038C24 /* ODMDataManager.m in Sources */,
+				9862F4981601C1E900ED2972 /* ODMCategory.m in Sources */,
+				9862F4991601C1E900ED2972 /* ODMEntry.m in Sources */,
+				9862F49A1601C1E900ED2972 /* ODMModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,14 +623,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		CEEE608815FDF39E00324883 /* ODMModel.xcdatamodeld */ = {
+		9862F4961601C1E900ED2972 /* ODMModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				CEEE608915FDF39E00324883 /* ODMModel.xcdatamodel */,
+				9862F4971601C1E900ED2972 /* ODMModel.xcdatamodel */,
 			);
-			currentVersion = CEEE608915FDF39E00324883 /* ODMModel.xcdatamodel */;
-			name = ODMModel.xcdatamodeld;
-			path = Model/ODMModel.xcdatamodeld;
+			currentVersion = 9862F4971601C1E900ED2972 /* ODMModel.xcdatamodel */;
+			path = ODMModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
