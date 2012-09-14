@@ -17,8 +17,6 @@
     NSMutableDictionary *entryDict;
 }
 
-@synthesize bugImageView;
-@synthesize descTextView;
 @synthesize locationTextField;
 @synthesize bugImage;
 
@@ -30,10 +28,10 @@
     self.descTextView.layer.cornerRadius = 5;
     self.descTextView.delegate = self;
     
-    // self.descTextFieleld.delegate = self;
+
     self.locationTextField.delegate = self;
     self.bugImageView.image = self.bugImage;
-	
+
 }
 
 - (void)viewDidUnload
@@ -49,7 +47,9 @@
 {
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     
-    [dataManager postNewEntry:self.bugImage];
+    [dataManager postNewEntry:self.bugImage
+                        title:self.titleLabel.text
+                         note:self.descTextLabel.text];
     
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -95,7 +95,7 @@ static ODMDataManager *sharedDataManager = nil;
     
 }
 
-- (void)postNewEntry:(UIImage *)aImage
+- (void)postNewEntry:(UIImage *)aImage title:(NSString *)aTitle note:(NSString *)aNote
 {
     
     NSURL *url = [NSURL URLWithString:BASE_URL];
@@ -108,7 +108,8 @@ static ODMDataManager *sharedDataManager = nil;
                                 fileName:@"avatar.jpg" mimeType:@"image/jpeg"];
         [formData appendPartWithFileData:thumbnailImageData name:@"thumbnail_image"
                                 fileName:@"avatar.jpg" mimeType:@"image/jpeg"];
-        [formData appendPartWithFormData:[@"myTitle" dataUsingEncoding:NSUTF8StringEncoding] name:@"title"];
+        [formData appendPartWithFormData:[aTitle dataUsingEncoding:NSUTF8StringEncoding] name:@"title"];
+        [formData appendPartWithFormData:[aNote dataUsingEncoding:NSUTF8StringEncoding] name:@"note"];
     }];
     
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
