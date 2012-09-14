@@ -10,7 +10,8 @@
 
 
 //#define BASE_URL @"http://localhost:3003"
-#define BASE_URL @"http://10.0.1.74:3003"
+//#define BASE_URL @"http://10.0.1.74:3003"
+#define BASE_URL @"http://54.251.32.49:3003"
 #define API_LIST @"/api/entries"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
