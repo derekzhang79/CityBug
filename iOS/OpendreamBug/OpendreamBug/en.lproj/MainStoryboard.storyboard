@@ -341,6 +341,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="formTextField" destination="EML-5y-eBy" id="znW-gd-l3d"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="-2185" y="356"/>
