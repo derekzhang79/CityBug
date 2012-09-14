@@ -7,6 +7,8 @@
 //
 
 #import "ODMDescriptionFormViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "ODMDataManager.h"
 
 @interface ODMDescriptionFormViewController ()
 
@@ -30,6 +32,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.descTextView.layer.borderWidth = 5.0f;
+    self.descTextView.layer.borderColor = [[UIColor grayColor] CGColor];
+    self.descTextView.layer.cornerRadius = 5;
     self.descTextView.delegate = self;
     self.bugImageView.image = self.bugImage;
 	
@@ -51,6 +56,10 @@
 
 - (IBAction)doneButtonTapped:(id)sender
 {
+    
+    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
+    [dataManager postNewEntry:self.bugImage];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

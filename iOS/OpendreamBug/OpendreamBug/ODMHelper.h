@@ -8,8 +8,11 @@
 
 #define API_LIST_ENTRIES @"https://dl.dropbox.com/u/20163799/%5BDev%5DCityBug/entries.json"
 
-#define BASE_URL @"http://localhost"
+
+//#define BASE_URL @"http://localhost:3003"
+#define BASE_URL @"http://172.20.10.8:3003"
 #define API_LIST @"/api/entries"
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 #define DATE_FORMAT @"yyyy-MM-dd HH:mm:ss"
 ////////////////////////////////////////////////////////////////////////////////////////////////

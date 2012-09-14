@@ -7,6 +7,7 @@
 //
 
 #import "ODMDescriptionViewController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ODMDescriptionViewController ()
 
@@ -32,6 +33,14 @@
     [super viewDidLoad];
     NSLog(@"entry %@", self.entry);
     
+    NSString *location = [NSString stringWithFormat:@"%@, %@",[self.entry objectForKey:@"latitude"], [self.entry objectForKey:@"longitude"]];
+    
+    NSString *imagePath = [BASE_URL stringByAppendingString:[self.entry objectForKey:@"full_image"]];
+    [self.bugImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
+    
+    self.descTextView.text = [self.entry objectForKey:@"title"];
+    self.locationLabel.text = location;
+    self.catergoryLabel.text = [self.entry objectForKey:@"categories"];
 }
 
 - (void)viewDidUnload
@@ -52,8 +61,5 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)addCommentButtonTapped:(id)sender
-{
-    NSLog(@"aa");
-}
+
 @end
