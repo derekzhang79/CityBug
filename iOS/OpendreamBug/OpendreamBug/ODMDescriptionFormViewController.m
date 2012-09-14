@@ -18,9 +18,7 @@
     NSMutableDictionary *entryDict;
 }
 
-@synthesize bugImageView;
-@synthesize descTextView;
-@synthesize descTextFieleld;
+
 @synthesize locationTextField;
 
 @synthesize bugImage;
@@ -42,7 +40,6 @@
     self.descTextView.layer.cornerRadius = 5;
     self.descTextView.delegate = self;
     
-    self.descTextFieleld.delegate = self;
     self.locationTextField.delegate = self;
     self.bugImageView.image = self.bugImage;
 
@@ -53,7 +50,6 @@
 {
     [self setBugImageView:nil];
     [self setDescTextView:nil];
-    [self setDescTextFieleld:nil];
     [self setLocationTextField:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -64,15 +60,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if ([textField isEqual:self.locationTextField]) {
-        [entryDict setObject:textField.text forKey:@"location"];
-    } else if ([textField isEqual:self.descTextFieleld]) {
-        [entryDict setObject:textField.text forKey:@"title"];
-    }
-    
-}
 
 
 
