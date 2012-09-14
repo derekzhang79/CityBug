@@ -14,10 +14,15 @@
 
 @end
 
-@implementation ODMDescriptionFormViewController
+@implementation ODMDescriptionFormViewController {
+    NSMutableDictionary *entryDict;
+}
+
 @synthesize bugImageView;
 @synthesize descTextView;
-@synthesize locationLabel;
+@synthesize descTextFieleld;
+@synthesize locationTextField;
+
 @synthesize bugImage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -36,7 +41,11 @@
     self.descTextView.layer.borderColor = [[UIColor grayColor] CGColor];
     self.descTextView.layer.cornerRadius = 5;
     self.descTextView.delegate = self;
+    
+    self.descTextFieleld.delegate = self;
+    self.locationTextField.delegate = self;
     self.bugImageView.image = self.bugImage;
+
 	
 }
 
@@ -44,7 +53,8 @@
 {
     [self setBugImageView:nil];
     [self setDescTextView:nil];
-    [self setLocationLabel:nil];
+    [self setDescTextFieleld:nil];
+    [self setLocationTextField:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -54,15 +64,33 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if ([textField isEqual:self.locationTextField]) {
+        [entryDict setObject:textField.text forKey:@"location"];
+    } else if ([textField isEqual:self.descTextFieleld]) {
+        [entryDict setObject:textField.text forKey:@"title"];
+    }
+    
+}
+
+
+
 - (IBAction)doneButtonTapped:(id)sender
 {
     
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
+    
     [dataManager postNewEntry:self.bugImage];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     

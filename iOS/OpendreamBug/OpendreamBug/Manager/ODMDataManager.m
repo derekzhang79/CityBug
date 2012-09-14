@@ -110,8 +110,9 @@ static ODMDataManager *sharedDataManager = nil;
                                 fileName:@"avatar.jpg" mimeType:@"image/jpeg"];
         [formData appendPartWithFileData:thumbnailImageData name:@"thumbnail_image"
                                 fileName:@"avatar.jpg" mimeType:@"image/jpeg"];
-        [formData appendPartWithFormData:[timeStamp dataUsingEncoding:NSUTF8StringEncoding] name:@"title"];
-        
+        [formData appendPartWithFormData:[@"myTitle" dataUsingEncoding:NSUTF8StringEncoding] name:@"title"];
+        [formData appendPartWithFormData:[@"AreyaMandarina" dataUsingEncoding:NSUTF8StringEncoding] name:@"latitude"];
+        [formData appendPartWithFormData:[@"Bangkok" dataUsingEncoding:NSUTF8StringEncoding] name:@"latitude"];
     }];
     
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];

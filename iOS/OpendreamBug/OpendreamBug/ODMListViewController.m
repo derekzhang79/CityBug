@@ -58,7 +58,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self setTitle:@"CityBug"];
 
     
 }
@@ -190,6 +190,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
         imagePath = [BASE_URL stringByAppendingString:imagePath];
         UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:1];
         
+        NSLog(@"image %@", imagePath);
         [thumbnailImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
 
 
