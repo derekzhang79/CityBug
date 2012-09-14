@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ODMDescriptionFormViewController : UIViewController<UITextViewDelegate, UITextFieldDelegate>
+@interface ODMDescriptionFormViewController : UITableViewController <UITextViewDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;
 @property (weak, nonatomic) IBOutlet UITextView *descTextView;
-@property (weak, nonatomic) IBOutlet UITextField *descTextFieleld;
+//@property (weak, nonatomic) IBOutlet UITextField *descTextFieleld;
 @property (weak, nonatomic) IBOutlet UITextField *locationTextField;
 
+@property (weak, nonatomic) IBOutlet UILabel *descTextLabel, *categoryLabel, *titleLabel;
 
 @property (weak, nonatomic) UIImage *bugImage;
 
