@@ -198,8 +198,11 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
     });
     
-    UILabel *descLabel = (UILabel *)[cell viewWithTag:2];
-    descLabel.text = [aEntry objectForKey:@"title"];
+    UILabel *titleLabel = (UILabel *)[cell viewWithTag:3];
+    titleLabel.text = [aEntry objectForKey:@"title"];
+    
+    UILabel *noteLabel = (UILabel *)[cell viewWithTag:2];
+    noteLabel.text = [aEntry objectForKey:@"note"];
 
  
 }
