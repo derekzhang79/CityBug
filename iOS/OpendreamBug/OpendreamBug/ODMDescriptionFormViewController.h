@@ -13,7 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;
 @property (weak, nonatomic) IBOutlet UITextView *descTextView;
-//@property (weak, nonatomic) IBOutlet UITextField *descTextFieleld;
+
 @property (weak, nonatomic) IBOutlet UITextField *locationTextField;
 
 @property (weak, nonatomic) IBOutlet UILabel *descTextLabel, *categoryLabel, *titleLabel;
