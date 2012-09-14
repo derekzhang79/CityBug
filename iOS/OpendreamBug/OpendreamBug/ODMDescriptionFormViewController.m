@@ -21,7 +21,6 @@
 
 
 @synthesize locationTextField;
-
 @synthesize bugImage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -45,7 +44,7 @@
     self.locationTextField.delegate = self;
     self.bugImageView.image = self.bugImage;
 
-	
+
 }
 
 - (void)viewDidUnload
@@ -68,7 +67,9 @@
 {
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     
-    [dataManager postNewEntry:self.bugImage];
+    [dataManager postNewEntry:self.bugImage
+                        title:self.titleLabel.text
+                         note:self.descTextLabel.text];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
