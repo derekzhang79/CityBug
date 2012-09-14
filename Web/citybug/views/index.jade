@@ -30,6 +30,7 @@
                 var cellLongitude = document.createElement("TD");
                 var cellNote = document.createElement("TD");
                 var cellCategories = document.createElement("TD");
+                var cellDate = document.createElement("TD");
 
                 var textnodeTitle=document.createTextNode(entry['title']);
                 var thumbnailImage=document.createElement('img');
@@ -44,6 +45,7 @@
                 var textnodeLongitude=document.createTextNode(entry['longitude']);
                 var textnodeNote=document.createTextNode(entry['note']);
                 var textnodeCategories=document.createTextNode(entry['categories']);
+                var textnodeDate=document.createTextNode(entry['last_modified']);
 
                 cellTitle.appendChild(textnodeTitle);
                 cellThumbnailImage.appendChild(thumbnailImage);
@@ -52,6 +54,7 @@
                 cellLongitude.appendChild(textnodeLongitude);
                 cellNote.appendChild(textnodeNote);
                 cellCategories.appendChild(textnodeCategories);
+                cellDate.appendChild(textnodeDate);
 
                 row.appendChild(cellTitle);
                 row.appendChild(cellThumbnailImage);
@@ -60,6 +63,7 @@
                 row.appendChild(cellLongitude);
                 row.appendChild(cellNote);
                 row.appendChild(cellCategories);
+                row.appendChild(cellDate);
                 tabBody.appendChild(row);
             }
         h2
@@ -77,6 +81,7 @@
                             th Longitude
                             th Note
                             th Categories
+                            th last modified
                     tbody#entrytable
                         - entry.forEach(function(entry){
                             tr.xx
@@ -89,4 +94,5 @@
                                 td= entry['longitude']
                                 td= entry['note']
                                 td= entry['categories']
+                                td= entry['last_modified']
                         - })
