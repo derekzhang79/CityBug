@@ -52,7 +52,11 @@ exports.index_post = function(req, res){
 
     entry.save(function (err) {
         if (!err){
+
             console.log('Success!');
+            console.log("--------")
+            console.log(entry)
+            console.log("--------")            
             res.statusCode = 200;
             //res.json(['OK']);
         }

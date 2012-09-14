@@ -33,8 +33,7 @@
     [super viewDidLoad];
     NSLog(@"entry %@", self.entry);
     
-    NSString *location = [NSString stringWithFormat:@"%@, %@",[self.entry objectForKey:@"latitude"], [self.entry objectForKey:@"longitude"]];
-    
+    NSString *location = [NSString stringWithFormat:@"%@", [self.entry objectForKey:@"latitude"]];
     NSString *imagePath = [BASE_URL stringByAppendingString:[self.entry objectForKey:@"full_image"]];
     [self.bugImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
     
