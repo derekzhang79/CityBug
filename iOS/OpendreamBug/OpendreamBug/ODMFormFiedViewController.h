@@ -8,9 +8,13 @@
 
 @protocol ODMFormFieldDelegate;
 
-@interface ODMFormFiedViewController : UIViewController
+@interface ODMFormFiedViewController : UIViewController {
+    __unsafe_unretained id <ODMFormFieldDelegate> delegate;
+}
 
 @property (nonatomic, weak) IBOutlet UITextField *formTextField;
+
+@property (unsafe_unretained) id <ODMFormFieldDelegate> delegate;
 
 - (BOOL)becomeFirstResponder;
 

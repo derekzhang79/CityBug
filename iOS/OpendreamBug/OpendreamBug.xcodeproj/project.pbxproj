@@ -48,6 +48,8 @@
 		98675A0615FDFCDE00B34785 /* ODMListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98675A0515FDFCDE00B34785 /* ODMListViewController.m */; };
 		98675A0C15FDFEF100B34785 /* bugs.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 98675A0B15FDFEF100B34785 /* bugs.jpeg */; };
 		CE9F856116031C62003AAB4E /* ODMFormFiedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9F856016031C62003AAB4E /* ODMFormFiedViewController.m */; };
+		CE9F8565160320A6003AAB4E /* ODMEditFormFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9F8564160320A5003AAB4E /* ODMEditFormFieldViewController.m */; };
+		CE9F8568160320BD003AAB4E /* ODMNoteFormFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9F8567160320BD003AAB4E /* ODMNoteFormFieldViewController.m */; };
 		CEB022A215FF13FD00038C24 /* ODMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB022A115FF13FD00038C24 /* ODMDataManager.m */; };
 		CEB022AB15FF144B00038C24 /* ODMDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB022AA15FF144B00038C24 /* ODMDataManagerTest.m */; };
 		CEEE604215FDEDFB00324883 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604115FDEDFB00324883 /* UIKit.framework */; };
@@ -115,6 +117,10 @@
 		98675A0B15FDFEF100B34785 /* bugs.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bugs.jpeg; path = images/Prototype/bugs.jpeg; sourceTree = "<group>"; };
 		CE9F855F16031C62003AAB4E /* ODMFormFiedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMFormFiedViewController.h; sourceTree = "<group>"; };
 		CE9F856016031C62003AAB4E /* ODMFormFiedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMFormFiedViewController.m; sourceTree = "<group>"; };
+		CE9F8563160320A5003AAB4E /* ODMEditFormFieldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMEditFormFieldViewController.h; sourceTree = "<group>"; };
+		CE9F8564160320A5003AAB4E /* ODMEditFormFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMEditFormFieldViewController.m; sourceTree = "<group>"; };
+		CE9F8566160320BD003AAB4E /* ODMNoteFormFieldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMNoteFormFieldViewController.h; sourceTree = "<group>"; };
+		CE9F8567160320BD003AAB4E /* ODMNoteFormFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMNoteFormFieldViewController.m; sourceTree = "<group>"; };
 		CEB022A015FF13FD00038C24 /* ODMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMDataManager.h; path = Manager/ODMDataManager.h; sourceTree = "<group>"; };
 		CEB022A115FF13FD00038C24 /* ODMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMDataManager.m; path = Manager/ODMDataManager.m; sourceTree = "<group>"; };
 		CEB022A915FF144B00038C24 /* ODMDataManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMDataManagerTest.h; path = Manager/ODMDataManagerTest.h; sourceTree = "<group>"; };
@@ -284,6 +290,10 @@
 				980ACE5415FEFFD800413153 /* ODMDescriptionFormViewController.m */,
 				CE9F855F16031C62003AAB4E /* ODMFormFiedViewController.h */,
 				CE9F856016031C62003AAB4E /* ODMFormFiedViewController.m */,
+				CE9F8563160320A5003AAB4E /* ODMEditFormFieldViewController.h */,
+				CE9F8564160320A5003AAB4E /* ODMEditFormFieldViewController.m */,
+				CE9F8566160320BD003AAB4E /* ODMNoteFormFieldViewController.h */,
+				CE9F8567160320BD003AAB4E /* ODMNoteFormFieldViewController.m */,
 				CEEE604815FDEDFB00324883 /* Supporting Files */,
 			);
 			path = OpendreamBug;
@@ -466,6 +476,8 @@
 				9862F4991601C1E900ED2972 /* ODMEntry.m in Sources */,
 				9862F49A1601C1E900ED2972 /* ODMModel.xcdatamodeld in Sources */,
 				CE9F856116031C62003AAB4E /* ODMFormFiedViewController.m in Sources */,
+				CE9F8565160320A6003AAB4E /* ODMEditFormFieldViewController.m in Sources */,
+				CE9F8568160320BD003AAB4E /* ODMNoteFormFieldViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

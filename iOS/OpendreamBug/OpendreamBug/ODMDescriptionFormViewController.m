@@ -10,9 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ODMDataManager.h"
 
-@interface ODMDescriptionFormViewController ()
-
-@end
+#import "ODMEditFormFieldViewController.h"
+#import "ODMNoteFormFieldViewController.h"
 
 @implementation ODMDescriptionFormViewController {
     NSMutableDictionary *entryDict;
@@ -20,19 +19,8 @@
 
 @synthesize bugImageView;
 @synthesize descTextView;
-
 @synthesize locationTextField;
-
 @synthesize bugImage;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -45,7 +33,6 @@
     // self.descTextFieleld.delegate = self;
     self.locationTextField.delegate = self;
     self.bugImageView.image = self.bugImage;
-
 	
 }
 
@@ -58,24 +45,6 @@
     // Release any retained subviews of the main view.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if ([textField isEqual:self.locationTextField]) {
-        [entryDict setObject:textField.text forKey:@"location"];
-    }
-//    else if ([textField isEqual:self.descTextFieleld]) {
-//        [entryDict setObject:textField.text forKey:@"title"];
-//    }
-    
-}
-
-
-
 - (IBAction)doneButtonTapped:(id)sender
 {
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
@@ -85,19 +54,30 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    [textField resignFirstResponder];
-    return YES;
+    if ([segue.identifier isEqualToString:@"editNoteFormIdentifier"]) {
+        ODMFormFiedViewController *formVC = segue.destinationViewController;
+        formVC.delegate = self;
+    } else if ([segue.identifier isEqualToString:@"editTitleFormIdentifier"]) {
+        ODMFormFiedViewController *formVC = segue.destinationViewController;
+        formVC.delegate = self;
+    }
 }
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+#pragma mark - FormField Delegate
+
+- (void)updateFormField:(ODMFormFiedViewController *)viewController withTextField:(UITextField *)textField
+{
+    ODMLog(@"formfield %@", textField.text);
     
-    if([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        return NO;
+    if ([viewController isKindOfClass:[ODMEditFormFieldViewController class]]) {
+        self.descTextLabel.text = textField.text;
+    } else if ([viewController isKindOfClass:[ODMNoteFormFieldViewController class]]) {
+        self.titleLabel.text = textField.text;
     }
     
-    return YES;
+    [self.tableView reloadData];
 }
+
 @end

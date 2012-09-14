@@ -27,6 +27,12 @@
 - (IBAction)save:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    
+    ODMLog(@"formTextField %@", self.formTextField);
+    
+    if ([self.delegate respondsToSelector:@selector(updateFormField:withTextField:)]) {
+        [self.delegate updateFormField:self withTextField:self.formTextField];
+    }
 }
 
 @end

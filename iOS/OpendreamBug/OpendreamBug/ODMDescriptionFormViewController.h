@@ -6,10 +6,9 @@
 //  Copyright (c) 2012 opendream. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "ODMFormFiedViewController.h"
 
-
-@interface ODMDescriptionFormViewController : UITableViewController <UITextViewDelegate, UITextFieldDelegate>
+@interface ODMDescriptionFormViewController : UITableViewController <UITextViewDelegate, UITextFieldDelegate, ODMFormFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;
 @property (weak, nonatomic) IBOutlet UITextView *descTextView;
