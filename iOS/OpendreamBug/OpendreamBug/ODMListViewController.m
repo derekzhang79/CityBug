@@ -59,8 +59,6 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 {
     [super viewDidLoad];
     [self setTitle:@"CityBug"];
-
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -122,7 +120,9 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 - (IBAction)refreshButtonTapped:(id)sender {
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
-    [dataManager getEntryList];
+    entries = [dataManager getEntryList];
+    [self.tableView reloadData];
+
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -149,9 +149,13 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {      
-    // Save the new image (original or edited) to the Camera Roll.
+    
     imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerOriginalImage];
-    UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        // Save the new image (original or edited) to the Camera Roll.
+        UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
+    }
     
     [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:gotoFormSegue afterDelay:1.f];
     [self dismissModalViewControllerAnimated: YES];
