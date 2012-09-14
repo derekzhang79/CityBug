@@ -19,6 +19,7 @@
 }
 
 
+
 @synthesize locationTextField;
 
 @synthesize bugImage;
@@ -40,6 +41,7 @@
     self.descTextView.layer.cornerRadius = 5;
     self.descTextView.delegate = self;
     
+
     self.locationTextField.delegate = self;
     self.bugImageView.image = self.bugImage;
 
@@ -62,10 +64,8 @@
 
 
 
-
 - (IBAction)doneButtonTapped:(id)sender
 {
-    
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     
     [dataManager postNewEntry:self.bugImage];
