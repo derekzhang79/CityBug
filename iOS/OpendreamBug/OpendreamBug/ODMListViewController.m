@@ -120,7 +120,9 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 - (IBAction)refreshButtonTapped:(id)sender {
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
-    [dataManager getEntryList];
+    entries = [dataManager getEntryList];
+    [self.tableView reloadData];
+
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
