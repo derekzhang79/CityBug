@@ -10,27 +10,15 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ODMDataManager.h"
 
-@interface ODMDescriptionFormViewController ()
-
-@end
+#import "ODMEditFormFieldViewController.h"
+#import "ODMNoteFormFieldViewController.h"
 
 @implementation ODMDescriptionFormViewController {
     NSMutableDictionary *entryDict;
 }
 
-
-
 @synthesize locationTextField;
 @synthesize bugImage;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -44,7 +32,6 @@
     self.locationTextField.delegate = self;
     self.bugImageView.image = self.bugImage;
 
-
 }
 
 - (void)viewDidUnload
@@ -55,13 +42,6 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-
 
 - (IBAction)doneButtonTapped:(id)sender
 {
@@ -74,19 +54,30 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    [textField resignFirstResponder];
-    return YES;
+    if ([segue.identifier isEqualToString:@"editNoteFormIdentifier"]) {
+        ODMFormFiedViewController *formVC = segue.destinationViewController;
+        formVC.delegate = self;
+    } else if ([segue.identifier isEqualToString:@"editTitleFormIdentifier"]) {
+        ODMFormFiedViewController *formVC = segue.destinationViewController;
+        formVC.delegate = self;
+    }
 }
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+#pragma mark - FormField Delegate
+
+- (void)updateFormField:(ODMFormFiedViewController *)viewController withTextField:(UITextField *)textField
+{
+    ODMLog(@"formfield %@", textField.text);
     
-    if([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        return NO;
+    if ([viewController isKindOfClass:[ODMEditFormFieldViewController class]]) {
+        self.descTextLabel.text = textField.text;
+    } else if ([viewController isKindOfClass:[ODMNoteFormFieldViewController class]]) {
+        self.titleLabel.text = textField.text;
     }
     
-    return YES;
+    [self.tableView reloadData];
 }
+
 @end

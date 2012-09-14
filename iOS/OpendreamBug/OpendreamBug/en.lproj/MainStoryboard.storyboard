@@ -73,11 +73,11 @@
             </objects>
             <point key="canvasLocation" x="-3317" y="-241"/>
         </scene>
-        <!--Form Fied View Controller - Edit note-->
+        <!--Edit Form Field View Controller - Edit note-->
         <scene sceneID="sLk-TH-hvq">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YwC-o3-IHy" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="Xt7-0I-1YV" customClass="ODMFormFiedViewController" sceneMemberID="viewController">
+                <viewController id="Xt7-0I-1YV" customClass="ODMEditFormFieldViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9KO-Kz-9Fe">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -299,7 +299,13 @@
                             <outlet property="delegate" destination="fLN-el-UYt" id="tqm-Ld-bXC"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Create Bug Report" id="sbk-gI-yD4"/>
+                    <navigationItem key="navigationItem" title="Create Bug Report" id="sbk-gI-yD4">
+                        <barButtonItem key="rightBarButtonItem" title="Post" id="icP-cY-9Lw">
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="fLN-el-UYt" id="Nzb-5d-4MA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="bugImageView" destination="Vdz-5G-2fY" id="Qgm-xe-0Ec"/>
                         <outlet property="categoryLabel" destination="ncV-P6-wuW" id="7xF-ih-W4q"/>
@@ -310,11 +316,11 @@
             </objects>
             <point key="canvasLocation" x="-2725" y="-241"/>
         </scene>
-        <!--Form Fied View Controller - Edit title-->
+        <!--Note Form Field View Controller - Edit title-->
         <scene sceneID="wZ6-qd-JkT">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="prw-6y-Fbi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="37S-sf-cfv" customClass="ODMFormFiedViewController" sceneMemberID="viewController">
+                <viewController id="37S-sf-cfv" customClass="ODMNoteFormFieldViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gff-9H-bMG">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -460,6 +466,9 @@
                 <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
+        <class className="ODMEditFormFieldViewController" superclassName="ODMFormFiedViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMEditFormFieldViewController.h"/>
+        </class>
         <class className="ODMFormFiedViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMFormFiedViewController.h"/>
             <relationships>
@@ -474,6 +483,9 @@
                 <relationship kind="action" name="refreshButtonTapped:"/>
                 <relationship kind="outlet" name="toolBar" candidateClass="UIToolbar"/>
             </relationships>
+        </class>
+        <class className="ODMNoteFormFieldViewController" superclassName="ODMFormFiedViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMNoteFormFieldViewController.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
