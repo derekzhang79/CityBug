@@ -26,5 +26,6 @@
  * Get all entries
  */
 - (NSArray *)getEntryList;
+- (void)postNewEntry:(UIImage *)aImage;
 
 @end

@@ -11,6 +11,7 @@
 #import "ODMDescriptionViewController.h"
 #import "ODMDataManager.h"
 #import "ODMEntry.h"
+#import "UIImageView+AFNetworking.h"
 
 #define kSceenSize self.parentViewController.view.frame.size
 #define kToolBarSize toolBar.frame.size
@@ -48,13 +49,18 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     [super viewWillAppear:animated];
     [self.parentViewController.view addSubview:toolBar];
     toolBar.frame = CGRectMake(0, kSceenSize.height - kToolBarSize.height, kToolBarSize.width, kToolBarSize.height);
+    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
+    entries = [dataManager getEntryList];
+    [self.tableView reloadData];
+    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
-    entries = [dataManager getEntryList];
+    
+
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -114,6 +120,11 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 }
 
+- (IBAction)refreshButtonTapped:(id)sender {
+    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
+    [dataManager getEntryList];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"clickedButtonAtIndex");
@@ -141,7 +152,6 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     // Save the new image (original or edited) to the Camera Roll.
     imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerOriginalImage];
     UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
-
     
     [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:gotoFormSegue afterDelay:1.f];
     [self dismissModalViewControllerAnimated: YES];
@@ -169,29 +179,18 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 - (void)configureCell:(UITableViewCell *)cell withEntry:(NSDictionary *)aEntry
 {
     __block NSString *imagePath = [aEntry objectForKey:@"thumbnail_image"];
-    __block NSData *imageData;
    
 
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,  0ul);
     dispatch_async(queue, ^{
         
-        NSArray *documentDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentPath = [documentDir lastObject];
-        
-        NSString *imageName = [[NSURL URLWithString:imagePath] lastPathComponent];
-        NSString *imagePathInCache = [documentPath stringByAppendingPathComponent:imageName];
-        
-        if ( [[NSFileManager defaultManager] fileExistsAtPath:imagePathInCache]) // if มีอยู่ใน cache
-        {
-            imageData = [NSData dataWithContentsOfFile:imagePathInCache];
-        }
-        
+        imagePath = [BASE_URL stringByAppendingString:imagePath];
         UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:1];
-        NSURLRequest *requestImage = [NSURLRequest requestWithURL:[NSURL URLWithString:imagePath]];
         
-        imageData = [NSURLConnection  sendSynchronousRequest:requestImage returningResponse:nil error:NULL];
-        thumbnailImageView.image = [UIImage imageWithData:imageData];
+        [thumbnailImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
+
+
     });
     
     UILabel *descLabel = (UILabel *)[cell viewWithTag:2];

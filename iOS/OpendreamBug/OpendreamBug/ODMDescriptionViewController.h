@@ -20,7 +20,5 @@
 
 
 - (IBAction)doneButtonTapped:(id)sender;
-- (IBAction)addCommentButtonTapped:(id)sender;
-
 
 @end

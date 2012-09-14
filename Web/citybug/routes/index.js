@@ -43,8 +43,8 @@ exports.index_post = function(req, res){
     // save data to db
     entry = new entryModel();
     entry.title = req.body.title;
-    entry.thumbnail_image = "./images/" + entry._id + "/" + req.files.thumbnail_image.name;
-    entry.full_image = "./images/"+ entry._id + "/" + req.files.full_image.name;
+    entry.thumbnail_image = "/images/" + entry._id + "/" + req.files.thumbnail_image.name;
+    entry.full_image = "/images/"+ entry._id + "/" + req.files.full_image.name;
     entry.latitude = req.body.latitude;
     entry.longitude = req.body.longitude;
     entry.note = req.body.note;

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface ODMListViewController : UITableViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
@@ -15,5 +16,6 @@
 
 
 - (IBAction)addButtonTapped:(id)sender;
+- (IBAction)refreshButtonTapped:(id)sender;
 
 @end

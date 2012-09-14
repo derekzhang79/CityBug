@@ -10,6 +10,9 @@
 #import <CoreData/CoreData.h>
 #import "ODMEntry.h"
 
+#import "AFJSONRequestOperation.h"
+#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperation.h"
 static ODMDataManager *sharedDataManager = nil;
 
 
@@ -54,6 +57,7 @@ static ODMDataManager *sharedDataManager = nil;
         }
     }
     return sharedDataManager;
+
 }
 
 /*
@@ -80,7 +84,8 @@ static ODMDataManager *sharedDataManager = nil;
 {
         NSError *error;
         NSString *url = [BASE_URL stringByAppendingString:API_LIST];
-        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:API_LIST_ENTRIES]];
+          NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+//        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:API_LIST_ENTRIES]];
 
         if (error) {
             ODMLog(@"error when get api %@ with error %@", API_LIST_ENTRIES, error);
@@ -90,7 +95,29 @@ static ODMDataManager *sharedDataManager = nil;
     
 }
 
-
+- (void)postNewEntry:(UIImage *)aImage
+{
+    
+    NSURL *url = [NSURL URLWithString:BASE_URL];
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+    NSData *fullImageData = UIImageJPEGRepresentation(aImage, 1);
+    NSData *thumbnailImageData = UIImageJPEGRepresentation(aImage, 0.3);
+    NSString *timeStamp = [NSString stringWithFormat:@"%@", [NSDate date]];
+//    NSDateFormatter *formatter = [NSDateFormatter ]
+    
+    NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:@"/api/entries" parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+        [formData appendPartWithFileData:fullImageData name:@"full_image"
+                                fileName:@"avatar.jpg" mimeType:@"image/jpeg"];
+        [formData appendPartWithFileData:thumbnailImageData name:@"thumbnail_image"
+                                fileName:@"avatar.jpg" mimeType:@"image/jpeg"];
+        [formData appendPartWithFormData:[timeStamp dataUsingEncoding:NSUTF8StringEncoding] name:@"title"];
+        
+    }];
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation start];
+            
+}
 
 - (id)insertEntry:(NSDictionary *)entry withError:(NSError **)error withManagedObjectContext:(NSManagedObjectContext *)context
 {
