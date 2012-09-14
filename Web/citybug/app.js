@@ -14,7 +14,6 @@ require('./configuration')(app, express);
 
 // Routes
 app.get('/', routes.index);
-app.post('/', routes.index_post);
 
 app.get('/add', api.add);
 

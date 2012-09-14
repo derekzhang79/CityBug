@@ -102,8 +102,6 @@ static ODMDataManager *sharedDataManager = nil;
     AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
     NSData *fullImageData = UIImageJPEGRepresentation(aImage, 1);
     NSData *thumbnailImageData = UIImageJPEGRepresentation(aImage, 0.3);
-    NSString *timeStamp = [NSString stringWithFormat:@"%@", [NSDate date]];
-//    NSDateFormatter *formatter = [NSDateFormatter ]
     
     NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:@"/api/entries" parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
         [formData appendPartWithFileData:fullImageData name:@"full_image"
@@ -111,8 +109,6 @@ static ODMDataManager *sharedDataManager = nil;
         [formData appendPartWithFileData:thumbnailImageData name:@"thumbnail_image"
                                 fileName:@"avatar.jpg" mimeType:@"image/jpeg"];
         [formData appendPartWithFormData:[@"myTitle" dataUsingEncoding:NSUTF8StringEncoding] name:@"title"];
-        [formData appendPartWithFormData:[@"AreyaMandarina" dataUsingEncoding:NSUTF8StringEncoding] name:@"latitude"];
-        [formData appendPartWithFormData:[@"Bangkok" dataUsingEncoding:NSUTF8StringEncoding] name:@"latitude"];
     }];
     
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];

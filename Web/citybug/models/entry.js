@@ -12,10 +12,11 @@ var EntrySchema = new Schema({
 	, title				: String
 	, thumbnail_image	: String
 	, full_image		: String
-	, latitude			: String
-	, longitude			: String
+	, latitude			: Number
+	, longitude			: Number
 	, note				: String
 	, categories		: String
+	, last_modified		: Date
 	// , categories		: [CategorySchema]
 
 });

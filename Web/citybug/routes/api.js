@@ -60,6 +60,7 @@ exports.entry_post = function(req, res){
     entry.longitude = req.body.longitude;
     entry.note = req.body.note;
     entry.categories = req.body.categories;
+    entry.last_modified = new Date();
 
     entry.save(function (err) {
         if (!err){
