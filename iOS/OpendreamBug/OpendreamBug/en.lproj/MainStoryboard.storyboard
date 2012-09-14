@@ -53,7 +53,13 @@
                             <outlet property="delegate" destination="tWb-Y8-6bh" id="xjb-s8-Qek"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="CityBug" id="yRl-mM-wfn"/>
+                    <navigationItem key="navigationItem" title="CityBug" id="yRl-mM-wfn">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="6Gy-p9-SBs">
+                            <connections>
+                                <action selector="refreshButtonTapped:" destination="tWb-Y8-6bh" id="kdL-hw-1Q0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="toolBar" destination="VFM-0w-6tH" id="qPr-l1-nLn"/>
                         <segue destination="fLN-el-UYt" kind="push" identifier="presentFormSegue" id="5zV-xu-ZUg"/>
@@ -370,7 +376,7 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="-3684" y="-241"/>
+            <point key="canvasLocation" x="-3802" y="-241"/>
         </scene>
         <!--Description View Controller - View-->
         <scene sceneID="7mA-T6-M8I">
