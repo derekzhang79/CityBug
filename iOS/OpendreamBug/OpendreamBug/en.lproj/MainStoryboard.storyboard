@@ -33,7 +33,7 @@
                                             <color key="textColor" red="0.27450981740000002" green="0.27450981740000002" blue="0.27450981740000002" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="teR-Wk-LP3">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="teR-Wk-LP3">
                                             <rect key="frame" x="88" y="7" width="192" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -458,57 +458,6 @@
     <resources>
         <image name="bugs.jpeg" width="196" height="257"/>
     </resources>
-    <classes>
-        <class className="ODMCategoryListViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMCategoryListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="save:"/>
-            </relationships>
-        </class>
-        <class className="ODMDescriptionFormViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMDescriptionFormViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneButtonTapped:"/>
-                <relationship kind="outlet" name="bugImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="categoryLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="descTextLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="descTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="locationTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ODMDescriptionViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMDescriptionViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneButtonTapped:"/>
-                <relationship kind="outlet" name="bugImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="catergoryLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="descTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ODMEditFormFieldViewController" superclassName="ODMFormFiedViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMEditFormFieldViewController.h"/>
-        </class>
-        <class className="ODMFormFiedViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMFormFiedViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="save:"/>
-                <relationship kind="outlet" name="formTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="ODMListViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addButtonTapped:"/>
-                <relationship kind="action" name="refreshButtonTapped:"/>
-                <relationship kind="outlet" name="toolBar" candidateClass="UIToolbar"/>
-            </relationships>
-        </class>
-        <class className="ODMNoteFormFieldViewController" superclassName="ODMFormFiedViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMNoteFormFieldViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
