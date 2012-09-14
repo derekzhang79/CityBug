@@ -7,8 +7,9 @@
 //
 
 #import "ODMFormFiedViewController.h"
+#import "ODMCategoryListViewController.h"
 
-@interface ODMDescriptionFormViewController : UITableViewController <UITextViewDelegate, UITextFieldDelegate, ODMFormFieldDelegate>
+@interface ODMDescriptionFormViewController : UITableViewController <UITextViewDelegate, UITextFieldDelegate, ODMFormFieldDelegate, ODMCategoryListDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;
 @property (weak, nonatomic) IBOutlet UITextView *descTextView;

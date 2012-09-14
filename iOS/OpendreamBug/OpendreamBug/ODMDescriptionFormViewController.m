@@ -62,6 +62,9 @@
     } else if ([segue.identifier isEqualToString:@"editTitleFormIdentifier"]) {
         ODMFormFiedViewController *formVC = segue.destinationViewController;
         formVC.delegate = self;
+    } else if ([segue.identifier isEqualToString:@"categorySegueIdentifier"]) {
+        ODMCategoryListViewController *formVC = segue.destinationViewController;
+        formVC.delegate = self;
     }
 }
 
@@ -76,6 +79,15 @@
     } else if ([viewController isKindOfClass:[ODMNoteFormFieldViewController class]]) {
         self.titleLabel.text = textField.text;
     }
+    
+    [self.tableView reloadData];
+}
+
+- (void)updateCategoryList:(ODMCategoryListViewController *)delegate withCategory:(id)category
+{
+    ODMLog(@"category : %@", category);
+    
+    self.categoryLabel.text = (NSString *)category;
     
     [self.tableView reloadData];
 }

@@ -105,11 +105,11 @@
             </objects>
             <point key="canvasLocation" x="-2185" y="-241"/>
         </scene>
-        <!--Table View Controller - Choose Category-->
+        <!--Category List View Controller - Choose Category-->
         <scene sceneID="HJI-4P-vLE">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OGW-Lc-hiF" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tableViewController id="LR7-d9-1re" sceneMemberID="viewController">
+                <tableViewController id="LR7-d9-1re" customClass="ODMCategoryListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2dh-5L-TWo">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -179,7 +179,13 @@
                             <outlet property="delegate" destination="LR7-d9-1re" id="byk-wg-Ych"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Choose Category" id="BKY-cT-xcB"/>
+                    <navigationItem key="navigationItem" title="Choose Category" id="BKY-cT-xcB">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="xQ9-7n-CAR">
+                            <connections>
+                                <action selector="save:" destination="LR7-d9-1re" id="MkE-SR-pV2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="-2185" y="-879"/>
@@ -447,6 +453,12 @@
         <image name="bugs.jpeg" width="196" height="257"/>
     </resources>
     <classes>
+        <class className="ODMCategoryListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMCategoryListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="save:"/>
+            </relationships>
+        </class>
         <class className="ODMDescriptionFormViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMDescriptionFormViewController.h"/>
             <relationships>

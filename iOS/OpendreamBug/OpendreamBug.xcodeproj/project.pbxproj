@@ -50,6 +50,7 @@
 		CE9F856116031C62003AAB4E /* ODMFormFiedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9F856016031C62003AAB4E /* ODMFormFiedViewController.m */; };
 		CE9F8565160320A6003AAB4E /* ODMEditFormFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9F8564160320A5003AAB4E /* ODMEditFormFieldViewController.m */; };
 		CE9F8568160320BD003AAB4E /* ODMNoteFormFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9F8567160320BD003AAB4E /* ODMNoteFormFieldViewController.m */; };
+		CE9F856F16032505003AAB4E /* ODMCategoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9F856E16032505003AAB4E /* ODMCategoryListViewController.m */; };
 		CEB022A215FF13FD00038C24 /* ODMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB022A115FF13FD00038C24 /* ODMDataManager.m */; };
 		CEB022AB15FF144B00038C24 /* ODMDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB022AA15FF144B00038C24 /* ODMDataManagerTest.m */; };
 		CEEE604215FDEDFB00324883 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604115FDEDFB00324883 /* UIKit.framework */; };
@@ -121,6 +122,8 @@
 		CE9F8564160320A5003AAB4E /* ODMEditFormFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMEditFormFieldViewController.m; sourceTree = "<group>"; };
 		CE9F8566160320BD003AAB4E /* ODMNoteFormFieldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMNoteFormFieldViewController.h; sourceTree = "<group>"; };
 		CE9F8567160320BD003AAB4E /* ODMNoteFormFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMNoteFormFieldViewController.m; sourceTree = "<group>"; };
+		CE9F856D16032504003AAB4E /* ODMCategoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMCategoryListViewController.h; sourceTree = "<group>"; };
+		CE9F856E16032505003AAB4E /* ODMCategoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMCategoryListViewController.m; sourceTree = "<group>"; };
 		CEB022A015FF13FD00038C24 /* ODMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMDataManager.h; path = Manager/ODMDataManager.h; sourceTree = "<group>"; };
 		CEB022A115FF13FD00038C24 /* ODMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMDataManager.m; path = Manager/ODMDataManager.m; sourceTree = "<group>"; };
 		CEB022A915FF144B00038C24 /* ODMDataManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMDataManagerTest.h; path = Manager/ODMDataManagerTest.h; sourceTree = "<group>"; };
@@ -282,6 +285,8 @@
 				CEEE605015FDEDFB00324883 /* ODMAppDelegate.h */,
 				CEEE605115FDEDFB00324883 /* ODMAppDelegate.m */,
 				CEEE605315FDEDFB00324883 /* MainStoryboard.storyboard */,
+				CE9F856D16032504003AAB4E /* ODMCategoryListViewController.h */,
+				CE9F856E16032505003AAB4E /* ODMCategoryListViewController.m */,
 				980ACE5B15FF333200413153 /* ODMDescriptionViewController.h */,
 				980ACE5C15FF333200413153 /* ODMDescriptionViewController.m */,
 				98675A0415FDFCDE00B34785 /* ODMListViewController.h */,
@@ -478,6 +483,7 @@
 				CE9F856116031C62003AAB4E /* ODMFormFiedViewController.m in Sources */,
 				CE9F8565160320A6003AAB4E /* ODMEditFormFieldViewController.m in Sources */,
 				CE9F8568160320BD003AAB4E /* ODMNoteFormFieldViewController.m in Sources */,
+				CE9F856F16032505003AAB4E /* ODMCategoryListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
