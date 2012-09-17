@@ -45,7 +45,9 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     
     entries = [dataManager getEntryList];
-    
+    if (!entries) {
+        entries = [NSArray new];
+    }
     [self.tableView reloadData];
 }
 

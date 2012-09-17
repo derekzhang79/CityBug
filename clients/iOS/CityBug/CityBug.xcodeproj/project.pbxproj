@@ -7,65 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		980ACE5515FEFFD800413153 /* ODMDescriptionFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 980ACE5415FEFFD800413153 /* ODMDescriptionFormViewController.m */; };
-		980ACE5D15FF333200413153 /* ODMDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 980ACE5C15FF333200413153 /* ODMDescriptionViewController.m */; };
-		98101CA21602342800C0A1BC /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C8D1602342800C0A1BC /* AFHTTPClient.m */; };
-		98101CA31602342800C0A1BC /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C8F1602342800C0A1BC /* AFURLConnectionOperation.m */; };
-		98101CA41602342800C0A1BC /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C911602342800C0A1BC /* AFHTTPRequestOperation.m */; };
-		98101CA51602342800C0A1BC /* AFJSONUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C921602342800C0A1BC /* AFJSONUtilities.m */; };
-		98101CA61602342800C0A1BC /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C931602342800C0A1BC /* AFImageRequestOperation.m */; };
-		98101CA71602342800C0A1BC /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C941602342800C0A1BC /* AFXMLRequestOperation.m */; };
-		98101CA81602342800C0A1BC /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C961602342800C0A1BC /* UIImageView+AFNetworking.m */; };
-		98101CA91602342800C0A1BC /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C981602342800C0A1BC /* AFPropertyListRequestOperation.m */; };
-		98101CAA1602342800C0A1BC /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C9B1602342800C0A1BC /* AFJSONRequestOperation.m */; };
-		98101CAB1602342800C0A1BC /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C9C1602342800C0A1BC /* AFNetworkActivityIndicatorManager.m */; };
-		98101CAC1602345800C0A1BC /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C8D1602342800C0A1BC /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CAD1602345800C0A1BC /* AFHTTPClient.h in Sources */ = {isa = PBXBuildFile; fileRef = 98101C8E1602342800C0A1BC /* AFHTTPClient.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CAE1602345800C0A1BC /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C8F1602342800C0A1BC /* AFURLConnectionOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CAF1602345800C0A1BC /* AFURLConnectionOperation.h in Sources */ = {isa = PBXBuildFile; fileRef = 98101C901602342800C0A1BC /* AFURLConnectionOperation.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CB01602345800C0A1BC /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C911602342800C0A1BC /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CB11602345800C0A1BC /* AFJSONUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C921602342800C0A1BC /* AFJSONUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CB21602345800C0A1BC /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C931602342800C0A1BC /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CB31602345800C0A1BC /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C941602342800C0A1BC /* AFXMLRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CB41602345800C0A1BC /* AFHTTPRequestOperation.h in Sources */ = {isa = PBXBuildFile; fileRef = 98101C951602342800C0A1BC /* AFHTTPRequestOperation.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CB51602345800C0A1BC /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C961602342800C0A1BC /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CB61602345800C0A1BC /* AFImageRequestOperation.h in Sources */ = {isa = PBXBuildFile; fileRef = 98101C971602342800C0A1BC /* AFImageRequestOperation.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CB71602345800C0A1BC /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C981602342800C0A1BC /* AFPropertyListRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CB81602345800C0A1BC /* AFXMLRequestOperation.h in Sources */ = {isa = PBXBuildFile; fileRef = 98101C991602342800C0A1BC /* AFXMLRequestOperation.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CB91602345800C0A1BC /* UIImageView+AFNetworking.h in Sources */ = {isa = PBXBuildFile; fileRef = 98101C9A1602342800C0A1BC /* UIImageView+AFNetworking.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CBA1602345800C0A1BC /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C9B1602342800C0A1BC /* AFJSONRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CBB1602345800C0A1BC /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98101C9C1602342800C0A1BC /* AFNetworkActivityIndicatorManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CBC1602345800C0A1BC /* AFJSONRequestOperation.h in Sources */ = {isa = PBXBuildFile; fileRef = 98101C9D1602342800C0A1BC /* AFJSONRequestOperation.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CBD1602345800C0A1BC /* AFPropertyListRequestOperation.h in Sources */ = {isa = PBXBuildFile; fileRef = 98101C9E1602342800C0A1BC /* AFPropertyListRequestOperation.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CBE1602345800C0A1BC /* AFNetworkActivityIndicatorManager.h in Sources */ = {isa = PBXBuildFile; fileRef = 98101C9F1602342800C0A1BC /* AFNetworkActivityIndicatorManager.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CBF1602345800C0A1BC /* AFNetworking.h in Sources */ = {isa = PBXBuildFile; fileRef = 98101CA01602342800C0A1BC /* AFNetworking.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98101CC01602345800C0A1BC /* AFJSONUtilities.h in Sources */ = {isa = PBXBuildFile; fileRef = 98101CA11602342800C0A1BC /* AFJSONUtilities.h */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		98279F3F160244FB0024B5BB /* balloon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 98279F3E160244FB0024B5BB /* balloon.jpeg */; };
-		98279F411602667D0024B5BB /* process.png in Resources */ = {isa = PBXBuildFile; fileRef = 98279F401602667D0024B5BB /* process.png */; };
-		9862F4981601C1E900ED2972 /* ODMCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9862F4931601C1E900ED2972 /* ODMCategory.m */; };
-		9862F4991601C1E900ED2972 /* ODMEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 9862F4951601C1E900ED2972 /* ODMEntry.m */; };
-		9862F49A1601C1E900ED2972 /* ODMModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9862F4961601C1E900ED2972 /* ODMModel.xcdatamodeld */; };
-		98675A0615FDFCDE00B34785 /* ODMListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98675A0515FDFCDE00B34785 /* ODMListViewController.m */; };
-		98675A0C15FDFEF100B34785 /* bugs.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 98675A0B15FDFEF100B34785 /* bugs.jpeg */; };
-		CE9F856116031C62003AAB4E /* ODMFormFiedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9F856016031C62003AAB4E /* ODMFormFiedViewController.m */; };
-		CE9F8565160320A6003AAB4E /* ODMEditFormFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9F8564160320A5003AAB4E /* ODMEditFormFieldViewController.m */; };
-		CE9F8568160320BD003AAB4E /* ODMNoteFormFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9F8567160320BD003AAB4E /* ODMNoteFormFieldViewController.m */; };
-		CE9F856F16032505003AAB4E /* ODMCategoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9F856E16032505003AAB4E /* ODMCategoryListViewController.m */; };
-		CEB022A215FF13FD00038C24 /* ODMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB022A115FF13FD00038C24 /* ODMDataManager.m */; };
-		CEB022AB15FF144B00038C24 /* ODMDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB022AA15FF144B00038C24 /* ODMDataManagerTest.m */; };
+		CEB10E231603748E0041B3B8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E211603748E0041B3B8 /* main.m */; };
+		CEB10E27160374A50041B3B8 /* balloon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E24160374A50041B3B8 /* balloon.jpeg */; };
+		CEB10E28160374A50041B3B8 /* process.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E25160374A50041B3B8 /* process.png */; };
+		CEB10E29160374A50041B3B8 /* bugs.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E26160374A50041B3B8 /* bugs.jpeg */; };
+		CEB10E34160374B90041B3B8 /* ODMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E2C160374B90041B3B8 /* ODMDataManager.m */; };
+		CEB10E35160374B90041B3B8 /* ODMCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E2F160374B90041B3B8 /* ODMCategory.m */; };
+		CEB10E36160374B90041B3B8 /* ODMEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E31160374B90041B3B8 /* ODMEntry.m */; };
+		CEB10E48160374CC0041B3B8 /* ODMListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E39160374CC0041B3B8 /* ODMListViewController.m */; };
+		CEB10E49160374CC0041B3B8 /* ODMDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E3B160374CC0041B3B8 /* ODMDescriptionViewController.m */; };
+		CEB10E4A160374CC0041B3B8 /* ODMDescriptionFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E3C160374CC0041B3B8 /* ODMDescriptionFormViewController.m */; };
+		CEB10E4B160374CC0041B3B8 /* ODMCategoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E3E160374CC0041B3B8 /* ODMCategoryListViewController.m */; };
+		CEB10E4C160374CC0041B3B8 /* ODMEditFormFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E43160374CC0041B3B8 /* ODMEditFormFieldViewController.m */; };
+		CEB10E4D160374CC0041B3B8 /* ODMFormFiedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E44160374CC0041B3B8 /* ODMFormFiedViewController.m */; };
+		CEB10E4E160374CC0041B3B8 /* ODMNoteFormFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E46160374CC0041B3B8 /* ODMNoteFormFieldViewController.m */; };
+		CEB10E4F160374CC0041B3B8 /* ODMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E47160374CC0041B3B8 /* ODMAppDelegate.m */; };
+		CEB10E5E1603752B0041B3B8 /* ODMModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E5C1603752B0041B3B8 /* ODMModel.xcdatamodeld */; };
+		CEB10E6D160375C10041B3B8 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E6B160375C10041B3B8 /* MainStoryboard.storyboard */; };
+		CEB10E891603767D0041B3B8 /* ODMDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E821603767D0041B3B8 /* ODMDataManagerTest.m */; };
+		CEB10E8A1603767D0041B3B8 /* ODMEntryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E851603767D0041B3B8 /* ODMEntryTest.m */; };
+		CEB10E8B1603767D0041B3B8 /* CityBugTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E861603767D0041B3B8 /* CityBugTests-Info.plist */; };
+		CEB10E8C1603767D0041B3B8 /* CityBugTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E881603767D0041B3B8 /* CityBugTests.m */; };
+		CEB10E8F160376910041B3B8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E8D160376910041B3B8 /* InfoPlist.strings */; };
+		CEB10EA7160376FC0041B3B8 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E93160376FC0041B3B8 /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CEB10EA8160376FC0041B3B8 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E95160376FC0041B3B8 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CEB10EA9160376FC0041B3B8 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E97160376FC0041B3B8 /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CEB10EAA160376FC0041B3B8 /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E99160376FC0041B3B8 /* AFJSONRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CEB10EAB160376FC0041B3B8 /* AFJSONUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E9B160376FC0041B3B8 /* AFJSONUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CEB10EAC160376FC0041B3B8 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E9D160376FC0041B3B8 /* AFNetworkActivityIndicatorManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CEB10EAD160376FC0041B3B8 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10EA0160376FC0041B3B8 /* AFPropertyListRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CEB10EAE160376FC0041B3B8 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10EA2160376FC0041B3B8 /* AFURLConnectionOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CEB10EAF160376FC0041B3B8 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10EA4160376FC0041B3B8 /* AFXMLRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CEB10EB0160376FC0041B3B8 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10EA6160376FC0041B3B8 /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CEEE604215FDEDFB00324883 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604115FDEDFB00324883 /* UIKit.framework */; };
 		CEEE604415FDEDFB00324883 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604315FDEDFB00324883 /* Foundation.framework */; };
 		CEEE604615FDEDFB00324883 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604515FDEDFB00324883 /* CoreGraphics.framework */; };
-		CEEE604C15FDEDFB00324883 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEEE604A15FDEDFB00324883 /* InfoPlist.strings */; };
-		CEEE604E15FDEDFB00324883 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE604D15FDEDFB00324883 /* main.m */; };
-		CEEE605215FDEDFB00324883 /* ODMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE605115FDEDFB00324883 /* ODMAppDelegate.m */; };
-		CEEE605515FDEDFB00324883 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEEE605315FDEDFB00324883 /* MainStoryboard.storyboard */; };
 		CEEE606015FDEDFB00324883 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE605F15FDEDFB00324883 /* SenTestingKit.framework */; };
 		CEEE606115FDEDFB00324883 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604115FDEDFB00324883 /* UIKit.framework */; };
 		CEEE606215FDEDFB00324883 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604315FDEDFB00324883 /* Foundation.framework */; };
-		CEEE606A15FDEDFB00324883 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEEE606815FDEDFB00324883 /* InfoPlist.strings */; };
-		CEEE606D15FDEDFB00324883 /* OpendreamBugTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE606C15FDEDFB00324883 /* OpendreamBugTests.m */; };
-		CEEE608015FDF1F400324883 /* ODMEntryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEE607F15FDF1F400324883 /* ODMEntryTest.m */; };
 		CEEE608715FDF35100324883 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE608615FDF35100324883 /* CoreData.framework */; };
 		CEEE60A115FDF55D00324883 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE608615FDF35100324883 /* CoreData.framework */; };
 /* End PBXBuildFile section */
@@ -81,74 +60,73 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		980ACE5315FEFFD800413153 /* ODMDescriptionFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMDescriptionFormViewController.h; sourceTree = "<group>"; };
-		980ACE5415FEFFD800413153 /* ODMDescriptionFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMDescriptionFormViewController.m; sourceTree = "<group>"; };
-		980ACE5B15FF333200413153 /* ODMDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMDescriptionViewController.h; sourceTree = "<group>"; };
-		980ACE5C15FF333200413153 /* ODMDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMDescriptionViewController.m; sourceTree = "<group>"; };
-		98101C8D1602342800C0A1BC /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
-		98101C8E1602342800C0A1BC /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
-		98101C8F1602342800C0A1BC /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
-		98101C901602342800C0A1BC /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
-		98101C911602342800C0A1BC /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
-		98101C921602342800C0A1BC /* AFJSONUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFJSONUtilities.m; sourceTree = "<group>"; };
-		98101C931602342800C0A1BC /* AFImageRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFImageRequestOperation.m; sourceTree = "<group>"; };
-		98101C941602342800C0A1BC /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
-		98101C951602342800C0A1BC /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
-		98101C961602342800C0A1BC /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
-		98101C971602342800C0A1BC /* AFImageRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFImageRequestOperation.h; sourceTree = "<group>"; };
-		98101C981602342800C0A1BC /* AFPropertyListRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFPropertyListRequestOperation.m; sourceTree = "<group>"; };
-		98101C991602342800C0A1BC /* AFXMLRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFXMLRequestOperation.h; sourceTree = "<group>"; };
-		98101C9A1602342800C0A1BC /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
-		98101C9B1602342800C0A1BC /* AFJSONRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFJSONRequestOperation.m; sourceTree = "<group>"; };
-		98101C9C1602342800C0A1BC /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
-		98101C9D1602342800C0A1BC /* AFJSONRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFJSONRequestOperation.h; sourceTree = "<group>"; };
-		98101C9E1602342800C0A1BC /* AFPropertyListRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPropertyListRequestOperation.h; sourceTree = "<group>"; };
-		98101C9F1602342800C0A1BC /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
-		98101CA01602342800C0A1BC /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
-		98101CA11602342800C0A1BC /* AFJSONUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFJSONUtilities.h; sourceTree = "<group>"; };
-		98279F3E160244FB0024B5BB /* balloon.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = balloon.jpeg; sourceTree = "<group>"; };
-		98279F401602667D0024B5BB /* process.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = process.png; sourceTree = "<group>"; };
-		9862F4921601C1E900ED2972 /* ODMCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMCategory.h; sourceTree = "<group>"; };
-		9862F4931601C1E900ED2972 /* ODMCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMCategory.m; sourceTree = "<group>"; };
-		9862F4941601C1E900ED2972 /* ODMEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMEntry.h; sourceTree = "<group>"; };
-		9862F4951601C1E900ED2972 /* ODMEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMEntry.m; sourceTree = "<group>"; };
-		9862F4971601C1E900ED2972 /* ODMModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ODMModel.xcdatamodel; sourceTree = "<group>"; };
-		98675A0415FDFCDE00B34785 /* ODMListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMListViewController.h; sourceTree = "<group>"; };
-		98675A0515FDFCDE00B34785 /* ODMListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMListViewController.m; sourceTree = "<group>"; };
-		98675A0B15FDFEF100B34785 /* bugs.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bugs.jpeg; path = images/Prototype/bugs.jpeg; sourceTree = "<group>"; };
-		CE9F855F16031C62003AAB4E /* ODMFormFiedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMFormFiedViewController.h; sourceTree = "<group>"; };
-		CE9F856016031C62003AAB4E /* ODMFormFiedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMFormFiedViewController.m; sourceTree = "<group>"; };
-		CE9F8563160320A5003AAB4E /* ODMEditFormFieldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMEditFormFieldViewController.h; sourceTree = "<group>"; };
-		CE9F8564160320A5003AAB4E /* ODMEditFormFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMEditFormFieldViewController.m; sourceTree = "<group>"; };
-		CE9F8566160320BD003AAB4E /* ODMNoteFormFieldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMNoteFormFieldViewController.h; sourceTree = "<group>"; };
-		CE9F8567160320BD003AAB4E /* ODMNoteFormFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMNoteFormFieldViewController.m; sourceTree = "<group>"; };
-		CE9F856D16032504003AAB4E /* ODMCategoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMCategoryListViewController.h; sourceTree = "<group>"; };
-		CE9F856E16032505003AAB4E /* ODMCategoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMCategoryListViewController.m; sourceTree = "<group>"; };
-		CEB022A015FF13FD00038C24 /* ODMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMDataManager.h; path = Manager/ODMDataManager.h; sourceTree = "<group>"; };
-		CEB022A115FF13FD00038C24 /* ODMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMDataManager.m; path = Manager/ODMDataManager.m; sourceTree = "<group>"; };
-		CEB022A915FF144B00038C24 /* ODMDataManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMDataManagerTest.h; path = Manager/ODMDataManagerTest.h; sourceTree = "<group>"; };
-		CEB022AA15FF144B00038C24 /* ODMDataManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMDataManagerTest.m; path = Manager/ODMDataManagerTest.m; sourceTree = "<group>"; };
+		CEB10E1F1603748E0041B3B8 /* CityBug-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CityBug-Info.plist"; path = "CityBug/CityBug-Info.plist"; sourceTree = SOURCE_ROOT; };
+		CEB10E201603748E0041B3B8 /* CityBug-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CityBug-Prefix.pch"; path = "CityBug/CityBug-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		CEB10E211603748E0041B3B8 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CityBug/main.m; sourceTree = SOURCE_ROOT; };
+		CEB10E24160374A50041B3B8 /* balloon.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = balloon.jpeg; path = CityBug/images/Prototype/balloon.jpeg; sourceTree = SOURCE_ROOT; };
+		CEB10E25160374A50041B3B8 /* process.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = process.png; path = CityBug/images/Prototype/process.png; sourceTree = SOURCE_ROOT; };
+		CEB10E26160374A50041B3B8 /* bugs.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bugs.jpeg; path = CityBug/images/Prototype/bugs.jpeg; sourceTree = SOURCE_ROOT; };
+		CEB10E2B160374B90041B3B8 /* ODMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMDataManager.h; sourceTree = "<group>"; };
+		CEB10E2C160374B90041B3B8 /* ODMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMDataManager.m; sourceTree = "<group>"; };
+		CEB10E2E160374B90041B3B8 /* ODMCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMCategory.h; sourceTree = "<group>"; };
+		CEB10E2F160374B90041B3B8 /* ODMCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMCategory.m; sourceTree = "<group>"; };
+		CEB10E30160374B90041B3B8 /* ODMEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMEntry.h; sourceTree = "<group>"; };
+		CEB10E31160374B90041B3B8 /* ODMEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMEntry.m; sourceTree = "<group>"; };
+		CEB10E38160374CC0041B3B8 /* ODMHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMHelper.h; path = CityBug/ODMHelper.h; sourceTree = SOURCE_ROOT; };
+		CEB10E39160374CC0041B3B8 /* ODMListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMListViewController.m; path = CityBug/ODMListViewController.m; sourceTree = SOURCE_ROOT; };
+		CEB10E3A160374CC0041B3B8 /* ODMDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMDescriptionViewController.h; path = CityBug/ODMDescriptionViewController.h; sourceTree = SOURCE_ROOT; };
+		CEB10E3B160374CC0041B3B8 /* ODMDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMDescriptionViewController.m; path = CityBug/ODMDescriptionViewController.m; sourceTree = SOURCE_ROOT; };
+		CEB10E3C160374CC0041B3B8 /* ODMDescriptionFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMDescriptionFormViewController.m; path = CityBug/ODMDescriptionFormViewController.m; sourceTree = SOURCE_ROOT; };
+		CEB10E3D160374CC0041B3B8 /* ODMListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMListViewController.h; path = CityBug/ODMListViewController.h; sourceTree = SOURCE_ROOT; };
+		CEB10E3E160374CC0041B3B8 /* ODMCategoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMCategoryListViewController.m; path = CityBug/ODMCategoryListViewController.m; sourceTree = SOURCE_ROOT; };
+		CEB10E3F160374CC0041B3B8 /* ODMDescriptionFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMDescriptionFormViewController.h; path = CityBug/ODMDescriptionFormViewController.h; sourceTree = SOURCE_ROOT; };
+		CEB10E40160374CC0041B3B8 /* ODMCategoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMCategoryListViewController.h; path = CityBug/ODMCategoryListViewController.h; sourceTree = SOURCE_ROOT; };
+		CEB10E41160374CC0041B3B8 /* ODMFormFiedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMFormFiedViewController.h; path = CityBug/ODMFormFiedViewController.h; sourceTree = SOURCE_ROOT; };
+		CEB10E42160374CC0041B3B8 /* ODMEditFormFieldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMEditFormFieldViewController.h; path = CityBug/ODMEditFormFieldViewController.h; sourceTree = SOURCE_ROOT; };
+		CEB10E43160374CC0041B3B8 /* ODMEditFormFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMEditFormFieldViewController.m; path = CityBug/ODMEditFormFieldViewController.m; sourceTree = SOURCE_ROOT; };
+		CEB10E44160374CC0041B3B8 /* ODMFormFiedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMFormFiedViewController.m; path = CityBug/ODMFormFiedViewController.m; sourceTree = SOURCE_ROOT; };
+		CEB10E45160374CC0041B3B8 /* ODMNoteFormFieldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMNoteFormFieldViewController.h; path = CityBug/ODMNoteFormFieldViewController.h; sourceTree = SOURCE_ROOT; };
+		CEB10E46160374CC0041B3B8 /* ODMNoteFormFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMNoteFormFieldViewController.m; path = CityBug/ODMNoteFormFieldViewController.m; sourceTree = SOURCE_ROOT; };
+		CEB10E47160374CC0041B3B8 /* ODMAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMAppDelegate.m; path = CityBug/ODMAppDelegate.m; sourceTree = SOURCE_ROOT; };
+		CEB10E5D1603752B0041B3B8 /* ODMModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ODMModel.xcdatamodel; sourceTree = "<group>"; };
+		CEB10E5F160375420041B3B8 /* ODMAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMAppDelegate.h; path = CityBug/ODMAppDelegate.h; sourceTree = SOURCE_ROOT; };
+		CEB10E6C160375C10041B3B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = CityBug/en.lproj/MainStoryboard.storyboard; sourceTree = SOURCE_ROOT; };
+		CEB10E811603767D0041B3B8 /* ODMDataManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMDataManagerTest.h; sourceTree = "<group>"; };
+		CEB10E821603767D0041B3B8 /* ODMDataManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMDataManagerTest.m; sourceTree = "<group>"; };
+		CEB10E841603767D0041B3B8 /* ODMEntryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMEntryTest.h; sourceTree = "<group>"; };
+		CEB10E851603767D0041B3B8 /* ODMEntryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMEntryTest.m; sourceTree = "<group>"; };
+		CEB10E861603767D0041B3B8 /* CityBugTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CityBugTests-Info.plist"; path = "CityBugTests/CityBugTests-Info.plist"; sourceTree = SOURCE_ROOT; };
+		CEB10E871603767D0041B3B8 /* CityBugTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CityBugTests.h; path = CityBugTests/CityBugTests.h; sourceTree = SOURCE_ROOT; };
+		CEB10E881603767D0041B3B8 /* CityBugTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CityBugTests.m; path = CityBugTests/CityBugTests.m; sourceTree = SOURCE_ROOT; };
+		CEB10E8E160376910041B3B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = CityBugTests/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		CEB10E92160376FC0041B3B8 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
+		CEB10E93160376FC0041B3B8 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
+		CEB10E94160376FC0041B3B8 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
+		CEB10E95160376FC0041B3B8 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
+		CEB10E96160376FC0041B3B8 /* AFImageRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFImageRequestOperation.h; sourceTree = "<group>"; };
+		CEB10E97160376FC0041B3B8 /* AFImageRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFImageRequestOperation.m; sourceTree = "<group>"; };
+		CEB10E98160376FC0041B3B8 /* AFJSONRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFJSONRequestOperation.h; sourceTree = "<group>"; };
+		CEB10E99160376FC0041B3B8 /* AFJSONRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFJSONRequestOperation.m; sourceTree = "<group>"; };
+		CEB10E9A160376FC0041B3B8 /* AFJSONUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFJSONUtilities.h; sourceTree = "<group>"; };
+		CEB10E9B160376FC0041B3B8 /* AFJSONUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFJSONUtilities.m; sourceTree = "<group>"; };
+		CEB10E9C160376FC0041B3B8 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
+		CEB10E9D160376FC0041B3B8 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
+		CEB10E9E160376FC0041B3B8 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
+		CEB10E9F160376FC0041B3B8 /* AFPropertyListRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPropertyListRequestOperation.h; sourceTree = "<group>"; };
+		CEB10EA0160376FC0041B3B8 /* AFPropertyListRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFPropertyListRequestOperation.m; sourceTree = "<group>"; };
+		CEB10EA1160376FC0041B3B8 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
+		CEB10EA2160376FC0041B3B8 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
+		CEB10EA3160376FC0041B3B8 /* AFXMLRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFXMLRequestOperation.h; sourceTree = "<group>"; };
+		CEB10EA4160376FC0041B3B8 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
+		CEB10EA5160376FC0041B3B8 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
+		CEB10EA6160376FC0041B3B8 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		CEEE603D15FDEDFB00324883 /* CityBug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CityBug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEEE604115FDEDFB00324883 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CEEE604315FDEDFB00324883 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEEE604515FDEDFB00324883 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		CEEE604915FDEDFB00324883 /* CityBug-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CityBug-Info.plist"; sourceTree = "<group>"; };
-		CEEE604B15FDEDFB00324883 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CEEE604D15FDEDFB00324883 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		CEEE604F15FDEDFB00324883 /* CityBug-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CityBug-Prefix.pch"; sourceTree = "<group>"; };
-		CEEE605015FDEDFB00324883 /* ODMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ODMAppDelegate.h; sourceTree = "<group>"; };
-		CEEE605115FDEDFB00324883 /* ODMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ODMAppDelegate.m; sourceTree = "<group>"; };
-		CEEE605415FDEDFB00324883 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		CEEE605E15FDEDFB00324883 /* CityBugTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CityBugTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEEE605F15FDEDFB00324883 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		CEEE606715FDEDFB00324883 /* CityBugTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CityBugTests-Info.plist"; sourceTree = "<group>"; };
-		CEEE606915FDEDFB00324883 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CEEE606B15FDEDFB00324883 /* OpendreamBugTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpendreamBugTests.h; sourceTree = "<group>"; };
-		CEEE606C15FDEDFB00324883 /* OpendreamBugTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpendreamBugTests.m; sourceTree = "<group>"; };
-		CEEE607E15FDF1F400324883 /* ODMEntryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMEntryTest.h; path = Model/ODMEntryTest.h; sourceTree = "<group>"; };
-		CEEE607F15FDF1F400324883 /* ODMEntryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMEntryTest.m; path = Model/ODMEntryTest.m; sourceTree = "<group>"; };
 		CEEE608615FDF35100324883 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		CEEE60A215FDF64B00324883 /* ODMHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMHelper.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,46 +155,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		985CB96916007701001C4AD6 /* ExternalSources */ = {
-			isa = PBXGroup;
-			children = (
-				98101C8D1602342800C0A1BC /* AFHTTPClient.m */,
-				98101C8E1602342800C0A1BC /* AFHTTPClient.h */,
-				98101C8F1602342800C0A1BC /* AFURLConnectionOperation.m */,
-				98101C901602342800C0A1BC /* AFURLConnectionOperation.h */,
-				98101C911602342800C0A1BC /* AFHTTPRequestOperation.m */,
-				98101C921602342800C0A1BC /* AFJSONUtilities.m */,
-				98101C931602342800C0A1BC /* AFImageRequestOperation.m */,
-				98101C941602342800C0A1BC /* AFXMLRequestOperation.m */,
-				98101C951602342800C0A1BC /* AFHTTPRequestOperation.h */,
-				98101C961602342800C0A1BC /* UIImageView+AFNetworking.m */,
-				98101C971602342800C0A1BC /* AFImageRequestOperation.h */,
-				98101C981602342800C0A1BC /* AFPropertyListRequestOperation.m */,
-				98101C991602342800C0A1BC /* AFXMLRequestOperation.h */,
-				98101C9A1602342800C0A1BC /* UIImageView+AFNetworking.h */,
-				98101C9B1602342800C0A1BC /* AFJSONRequestOperation.m */,
-				98101C9C1602342800C0A1BC /* AFNetworkActivityIndicatorManager.m */,
-				98101C9D1602342800C0A1BC /* AFJSONRequestOperation.h */,
-				98101C9E1602342800C0A1BC /* AFPropertyListRequestOperation.h */,
-				98101C9F1602342800C0A1BC /* AFNetworkActivityIndicatorManager.h */,
-				98101CA01602342800C0A1BC /* AFNetworking.h */,
-				98101CA11602342800C0A1BC /* AFJSONUtilities.h */,
-			);
-			name = ExternalSources;
-			sourceTree = "<group>";
-		};
-		9862F4911601C1E800ED2972 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				9862F4921601C1E900ED2972 /* ODMCategory.h */,
-				9862F4931601C1E900ED2972 /* ODMCategory.m */,
-				9862F4941601C1E900ED2972 /* ODMEntry.h */,
-				9862F4951601C1E900ED2972 /* ODMEntry.m */,
-				9862F4961601C1E900ED2972 /* ODMModel.xcdatamodeld */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		98675A0715FDFD9200B34785 /* images */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,28 +166,100 @@
 		98675A0815FDFD9900B34785 /* prototype */ = {
 			isa = PBXGroup;
 			children = (
-				98279F3E160244FB0024B5BB /* balloon.jpeg */,
-				98279F401602667D0024B5BB /* process.png */,
-				98675A0B15FDFEF100B34785 /* bugs.jpeg */,
+				CEB10E24160374A50041B3B8 /* balloon.jpeg */,
+				CEB10E25160374A50041B3B8 /* process.png */,
+				CEB10E26160374A50041B3B8 /* bugs.jpeg */,
 			);
 			name = prototype;
 			sourceTree = "<group>";
 		};
-		CEB022A415FF140000038C24 /* Manager */ = {
+		CEB10E2A160374B90041B3B8 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				CEB022A015FF13FD00038C24 /* ODMDataManager.h */,
-				CEB022A115FF13FD00038C24 /* ODMDataManager.m */,
+				CEB10E2B160374B90041B3B8 /* ODMDataManager.h */,
+				CEB10E2C160374B90041B3B8 /* ODMDataManager.m */,
 			);
 			name = Manager;
+			path = CityBug/Manager;
+			sourceTree = SOURCE_ROOT;
+		};
+		CEB10E2D160374B90041B3B8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CEB10E5C1603752B0041B3B8 /* ODMModel.xcdatamodeld */,
+				CEB10E2E160374B90041B3B8 /* ODMCategory.h */,
+				CEB10E2F160374B90041B3B8 /* ODMCategory.m */,
+				CEB10E30160374B90041B3B8 /* ODMEntry.h */,
+				CEB10E31160374B90041B3B8 /* ODMEntry.m */,
+			);
+			name = Model;
+			path = CityBug/Model;
+			sourceTree = SOURCE_ROOT;
+		};
+		CEB10E801603767D0041B3B8 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				CEB10E811603767D0041B3B8 /* ODMDataManagerTest.h */,
+				CEB10E821603767D0041B3B8 /* ODMDataManagerTest.m */,
+			);
+			name = Manager;
+			path = CityBugTests/Manager;
+			sourceTree = SOURCE_ROOT;
+		};
+		CEB10E831603767D0041B3B8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CEB10E841603767D0041B3B8 /* ODMEntryTest.h */,
+				CEB10E851603767D0041B3B8 /* ODMEntryTest.m */,
+			);
+			name = Model;
+			path = CityBugTests/Model;
+			sourceTree = SOURCE_ROOT;
+		};
+		CEB10E90160376F10041B3B8 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				CEB10E91160376FC0041B3B8 /* AFNetworking */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		CEB10E91160376FC0041B3B8 /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				CEB10E92160376FC0041B3B8 /* AFHTTPClient.h */,
+				CEB10E93160376FC0041B3B8 /* AFHTTPClient.m */,
+				CEB10E94160376FC0041B3B8 /* AFHTTPRequestOperation.h */,
+				CEB10E95160376FC0041B3B8 /* AFHTTPRequestOperation.m */,
+				CEB10E96160376FC0041B3B8 /* AFImageRequestOperation.h */,
+				CEB10E97160376FC0041B3B8 /* AFImageRequestOperation.m */,
+				CEB10E98160376FC0041B3B8 /* AFJSONRequestOperation.h */,
+				CEB10E99160376FC0041B3B8 /* AFJSONRequestOperation.m */,
+				CEB10E9A160376FC0041B3B8 /* AFJSONUtilities.h */,
+				CEB10E9B160376FC0041B3B8 /* AFJSONUtilities.m */,
+				CEB10E9C160376FC0041B3B8 /* AFNetworkActivityIndicatorManager.h */,
+				CEB10E9D160376FC0041B3B8 /* AFNetworkActivityIndicatorManager.m */,
+				CEB10E9E160376FC0041B3B8 /* AFNetworking.h */,
+				CEB10E9F160376FC0041B3B8 /* AFPropertyListRequestOperation.h */,
+				CEB10EA0160376FC0041B3B8 /* AFPropertyListRequestOperation.m */,
+				CEB10EA1160376FC0041B3B8 /* AFURLConnectionOperation.h */,
+				CEB10EA2160376FC0041B3B8 /* AFURLConnectionOperation.m */,
+				CEB10EA3160376FC0041B3B8 /* AFXMLRequestOperation.h */,
+				CEB10EA4160376FC0041B3B8 /* AFXMLRequestOperation.m */,
+				CEB10EA5160376FC0041B3B8 /* UIImageView+AFNetworking.h */,
+				CEB10EA6160376FC0041B3B8 /* UIImageView+AFNetworking.m */,
+			);
+			name = AFNetworking;
+			path = Vendor/AFNetworking;
 			sourceTree = "<group>";
 		};
 		CEEE603215FDEDFB00324883 = {
 			isa = PBXGroup;
 			children = (
-				CEEE604715FDEDFB00324883 /* OpendreamBug */,
-				CEEE606515FDEDFB00324883 /* OpendreamBugTests */,
+				CEEE604715FDEDFB00324883 /* CityBug */,
+				CEEE606515FDEDFB00324883 /* CityBugTests */,
 				CEEE604015FDEDFB00324883 /* Frameworks */,
+				CEB10E90160376F10041B3B8 /* Vendor */,
 				CEEE603E15FDEDFB00324883 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -275,66 +285,64 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CEEE604715FDEDFB00324883 /* OpendreamBug */ = {
+		CEEE604715FDEDFB00324883 /* CityBug */ = {
 			isa = PBXGroup;
 			children = (
-				9862F4911601C1E800ED2972 /* Model */,
-				985CB96916007701001C4AD6 /* ExternalSources */,
-				CEB022A415FF140000038C24 /* Manager */,
-				CEEE60A215FDF64B00324883 /* ODMHelper.h */,
-				CEEE605015FDEDFB00324883 /* ODMAppDelegate.h */,
-				CEEE605115FDEDFB00324883 /* ODMAppDelegate.m */,
-				CEEE605315FDEDFB00324883 /* MainStoryboard.storyboard */,
-				CE9F856D16032504003AAB4E /* ODMCategoryListViewController.h */,
-				CE9F856E16032505003AAB4E /* ODMCategoryListViewController.m */,
-				980ACE5B15FF333200413153 /* ODMDescriptionViewController.h */,
-				980ACE5C15FF333200413153 /* ODMDescriptionViewController.m */,
-				98675A0415FDFCDE00B34785 /* ODMListViewController.h */,
-				98675A0515FDFCDE00B34785 /* ODMListViewController.m */,
-				980ACE5315FEFFD800413153 /* ODMDescriptionFormViewController.h */,
-				980ACE5415FEFFD800413153 /* ODMDescriptionFormViewController.m */,
-				CE9F855F16031C62003AAB4E /* ODMFormFiedViewController.h */,
-				CE9F856016031C62003AAB4E /* ODMFormFiedViewController.m */,
-				CE9F8563160320A5003AAB4E /* ODMEditFormFieldViewController.h */,
-				CE9F8564160320A5003AAB4E /* ODMEditFormFieldViewController.m */,
-				CE9F8566160320BD003AAB4E /* ODMNoteFormFieldViewController.h */,
-				CE9F8567160320BD003AAB4E /* ODMNoteFormFieldViewController.m */,
+				CEB10E38160374CC0041B3B8 /* ODMHelper.h */,
+				CEB10E5F160375420041B3B8 /* ODMAppDelegate.h */,
+				CEB10E47160374CC0041B3B8 /* ODMAppDelegate.m */,
+				CEB10E3D160374CC0041B3B8 /* ODMListViewController.h */,
+				CEB10E39160374CC0041B3B8 /* ODMListViewController.m */,
+				CEB10E3A160374CC0041B3B8 /* ODMDescriptionViewController.h */,
+				CEB10E3B160374CC0041B3B8 /* ODMDescriptionViewController.m */,
+				CEB10E3F160374CC0041B3B8 /* ODMDescriptionFormViewController.h */,
+				CEB10E3C160374CC0041B3B8 /* ODMDescriptionFormViewController.m */,
+				CEB10E3E160374CC0041B3B8 /* ODMCategoryListViewController.m */,
+				CEB10E40160374CC0041B3B8 /* ODMCategoryListViewController.h */,
+				CEB10E41160374CC0041B3B8 /* ODMFormFiedViewController.h */,
+				CEB10E44160374CC0041B3B8 /* ODMFormFiedViewController.m */,
+				CEB10E42160374CC0041B3B8 /* ODMEditFormFieldViewController.h */,
+				CEB10E43160374CC0041B3B8 /* ODMEditFormFieldViewController.m */,
+				CEB10E45160374CC0041B3B8 /* ODMNoteFormFieldViewController.h */,
+				CEB10E46160374CC0041B3B8 /* ODMNoteFormFieldViewController.m */,
+				CEB10E2A160374B90041B3B8 /* Manager */,
+				CEB10E2D160374B90041B3B8 /* Model */,
 				CEEE604815FDEDFB00324883 /* Supporting Files */,
 			);
+			name = CityBug;
 			path = OpendreamBug;
 			sourceTree = "<group>";
 		};
 		CEEE604815FDEDFB00324883 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CEB10E6B160375C10041B3B8 /* MainStoryboard.storyboard */,
+				CEB10E1F1603748E0041B3B8 /* CityBug-Info.plist */,
+				CEB10E201603748E0041B3B8 /* CityBug-Prefix.pch */,
+				CEB10E211603748E0041B3B8 /* main.m */,
 				98675A0715FDFD9200B34785 /* images */,
-				CEEE604915FDEDFB00324883 /* CityBug-Info.plist */,
-				CEEE604A15FDEDFB00324883 /* InfoPlist.strings */,
-				CEEE604D15FDEDFB00324883 /* main.m */,
-				CEEE604F15FDEDFB00324883 /* CityBug-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		CEEE606515FDEDFB00324883 /* OpendreamBugTests */ = {
+		CEEE606515FDEDFB00324883 /* CityBugTests */ = {
 			isa = PBXGroup;
 			children = (
-				CEEE606B15FDEDFB00324883 /* OpendreamBugTests.h */,
-				CEEE606C15FDEDFB00324883 /* OpendreamBugTests.m */,
-				CEEE607E15FDF1F400324883 /* ODMEntryTest.h */,
-				CEEE607F15FDF1F400324883 /* ODMEntryTest.m */,
-				CEB022A915FF144B00038C24 /* ODMDataManagerTest.h */,
-				CEB022AA15FF144B00038C24 /* ODMDataManagerTest.m */,
+				CEB10E871603767D0041B3B8 /* CityBugTests.h */,
+				CEB10E881603767D0041B3B8 /* CityBugTests.m */,
+				CEB10E801603767D0041B3B8 /* Manager */,
+				CEB10E831603767D0041B3B8 /* Model */,
 				CEEE606615FDEDFB00324883 /* Supporting Files */,
 			);
+			name = CityBugTests;
 			path = OpendreamBugTests;
 			sourceTree = "<group>";
 		};
 		CEEE606615FDEDFB00324883 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				CEEE606715FDEDFB00324883 /* CityBugTests-Info.plist */,
-				CEEE606815FDEDFB00324883 /* InfoPlist.strings */,
+				CEB10E8D160376910041B3B8 /* InfoPlist.strings */,
+				CEB10E861603767D0041B3B8 /* CityBugTests-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -411,11 +419,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEEE604C15FDEDFB00324883 /* InfoPlist.strings in Resources */,
-				CEEE605515FDEDFB00324883 /* MainStoryboard.storyboard in Resources */,
-				98675A0C15FDFEF100B34785 /* bugs.jpeg in Resources */,
-				98279F3F160244FB0024B5BB /* balloon.jpeg in Resources */,
-				98279F411602667D0024B5BB /* process.png in Resources */,
+				CEB10E27160374A50041B3B8 /* balloon.jpeg in Resources */,
+				CEB10E28160374A50041B3B8 /* process.png in Resources */,
+				CEB10E29160374A50041B3B8 /* bugs.jpeg in Resources */,
+				CEB10E6D160375C10041B3B8 /* MainStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,7 +430,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEEE606A15FDEDFB00324883 /* InfoPlist.strings in Resources */,
+				CEB10E8B1603767D0041B3B8 /* CityBugTests-Info.plist in Resources */,
+				CEB10E8F160376910041B3B8 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,40 +458,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98101CAC1602345800C0A1BC /* AFHTTPClient.m in Sources */,
-				98101CAD1602345800C0A1BC /* AFHTTPClient.h in Sources */,
-				98101CAE1602345800C0A1BC /* AFURLConnectionOperation.m in Sources */,
-				98101CAF1602345800C0A1BC /* AFURLConnectionOperation.h in Sources */,
-				98101CB01602345800C0A1BC /* AFHTTPRequestOperation.m in Sources */,
-				98101CB11602345800C0A1BC /* AFJSONUtilities.m in Sources */,
-				98101CB21602345800C0A1BC /* AFImageRequestOperation.m in Sources */,
-				98101CB31602345800C0A1BC /* AFXMLRequestOperation.m in Sources */,
-				98101CB41602345800C0A1BC /* AFHTTPRequestOperation.h in Sources */,
-				98101CB51602345800C0A1BC /* UIImageView+AFNetworking.m in Sources */,
-				98101CB61602345800C0A1BC /* AFImageRequestOperation.h in Sources */,
-				98101CB71602345800C0A1BC /* AFPropertyListRequestOperation.m in Sources */,
-				98101CB81602345800C0A1BC /* AFXMLRequestOperation.h in Sources */,
-				98101CB91602345800C0A1BC /* UIImageView+AFNetworking.h in Sources */,
-				98101CBA1602345800C0A1BC /* AFJSONRequestOperation.m in Sources */,
-				98101CBB1602345800C0A1BC /* AFNetworkActivityIndicatorManager.m in Sources */,
-				98101CBC1602345800C0A1BC /* AFJSONRequestOperation.h in Sources */,
-				98101CBD1602345800C0A1BC /* AFPropertyListRequestOperation.h in Sources */,
-				98101CBE1602345800C0A1BC /* AFNetworkActivityIndicatorManager.h in Sources */,
-				98101CBF1602345800C0A1BC /* AFNetworking.h in Sources */,
-				98101CC01602345800C0A1BC /* AFJSONUtilities.h in Sources */,
-				CEEE604E15FDEDFB00324883 /* main.m in Sources */,
-				CEEE605215FDEDFB00324883 /* ODMAppDelegate.m in Sources */,
-				98675A0615FDFCDE00B34785 /* ODMListViewController.m in Sources */,
-				980ACE5515FEFFD800413153 /* ODMDescriptionFormViewController.m in Sources */,
-				980ACE5D15FF333200413153 /* ODMDescriptionViewController.m in Sources */,
-				CEB022A215FF13FD00038C24 /* ODMDataManager.m in Sources */,
-				9862F4981601C1E900ED2972 /* ODMCategory.m in Sources */,
-				9862F4991601C1E900ED2972 /* ODMEntry.m in Sources */,
-				9862F49A1601C1E900ED2972 /* ODMModel.xcdatamodeld in Sources */,
-				CE9F856116031C62003AAB4E /* ODMFormFiedViewController.m in Sources */,
-				CE9F8565160320A6003AAB4E /* ODMEditFormFieldViewController.m in Sources */,
-				CE9F8568160320BD003AAB4E /* ODMNoteFormFieldViewController.m in Sources */,
-				CE9F856F16032505003AAB4E /* ODMCategoryListViewController.m in Sources */,
+				CEB10E231603748E0041B3B8 /* main.m in Sources */,
+				CEB10E34160374B90041B3B8 /* ODMDataManager.m in Sources */,
+				CEB10E35160374B90041B3B8 /* ODMCategory.m in Sources */,
+				CEB10E36160374B90041B3B8 /* ODMEntry.m in Sources */,
+				CEB10E48160374CC0041B3B8 /* ODMListViewController.m in Sources */,
+				CEB10E49160374CC0041B3B8 /* ODMDescriptionViewController.m in Sources */,
+				CEB10E4A160374CC0041B3B8 /* ODMDescriptionFormViewController.m in Sources */,
+				CEB10E4B160374CC0041B3B8 /* ODMCategoryListViewController.m in Sources */,
+				CEB10E4C160374CC0041B3B8 /* ODMEditFormFieldViewController.m in Sources */,
+				CEB10E4D160374CC0041B3B8 /* ODMFormFiedViewController.m in Sources */,
+				CEB10E4E160374CC0041B3B8 /* ODMNoteFormFieldViewController.m in Sources */,
+				CEB10E4F160374CC0041B3B8 /* ODMAppDelegate.m in Sources */,
+				CEB10E5E1603752B0041B3B8 /* ODMModel.xcdatamodeld in Sources */,
+				CEB10EA7160376FC0041B3B8 /* AFHTTPClient.m in Sources */,
+				CEB10EA8160376FC0041B3B8 /* AFHTTPRequestOperation.m in Sources */,
+				CEB10EA9160376FC0041B3B8 /* AFImageRequestOperation.m in Sources */,
+				CEB10EAA160376FC0041B3B8 /* AFJSONRequestOperation.m in Sources */,
+				CEB10EAB160376FC0041B3B8 /* AFJSONUtilities.m in Sources */,
+				CEB10EAC160376FC0041B3B8 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				CEB10EAD160376FC0041B3B8 /* AFPropertyListRequestOperation.m in Sources */,
+				CEB10EAE160376FC0041B3B8 /* AFURLConnectionOperation.m in Sources */,
+				CEB10EAF160376FC0041B3B8 /* AFXMLRequestOperation.m in Sources */,
+				CEB10EB0160376FC0041B3B8 /* UIImageView+AFNetworking.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,19 +488,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEEE606D15FDEDFB00324883 /* OpendreamBugTests.m in Sources */,
-				CEEE608015FDF1F400324883 /* ODMEntryTest.m in Sources */,
-				CEB022AB15FF144B00038C24 /* ODMDataManagerTest.m in Sources */,
-				98101CA21602342800C0A1BC /* AFHTTPClient.m in Sources */,
-				98101CA31602342800C0A1BC /* AFURLConnectionOperation.m in Sources */,
-				98101CA41602342800C0A1BC /* AFHTTPRequestOperation.m in Sources */,
-				98101CA51602342800C0A1BC /* AFJSONUtilities.m in Sources */,
-				98101CA61602342800C0A1BC /* AFImageRequestOperation.m in Sources */,
-				98101CA71602342800C0A1BC /* AFXMLRequestOperation.m in Sources */,
-				98101CA81602342800C0A1BC /* UIImageView+AFNetworking.m in Sources */,
-				98101CA91602342800C0A1BC /* AFPropertyListRequestOperation.m in Sources */,
-				98101CAA1602342800C0A1BC /* AFJSONRequestOperation.m in Sources */,
-				98101CAB1602342800C0A1BC /* AFNetworkActivityIndicatorManager.m in Sources */,
+				CEB10E891603767D0041B3B8 /* ODMDataManagerTest.m in Sources */,
+				CEB10E8A1603767D0041B3B8 /* ODMEntryTest.m in Sources */,
+				CEB10E8C1603767D0041B3B8 /* CityBugTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,26 +505,18 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		CEEE604A15FDEDFB00324883 /* InfoPlist.strings */ = {
+		CEB10E6B160375C10041B3B8 /* MainStoryboard.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CEEE604B15FDEDFB00324883 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		CEEE605315FDEDFB00324883 /* MainStoryboard.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CEEE605415FDEDFB00324883 /* en */,
+				CEB10E6C160375C10041B3B8 /* en */,
 			);
 			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
 		};
-		CEEE606815FDEDFB00324883 /* InfoPlist.strings */ = {
+		CEB10E8D160376910041B3B8 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CEEE606915FDEDFB00324883 /* en */,
+				CEB10E8E160376910041B3B8 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -606,8 +585,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Opendream Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Opendream Co., Ltd.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpendreamBug/CityBug-Prefix.pch";
-				INFOPLIST_FILE = "OpendreamBug/CityBug-Info.plist";
+				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
+				INFOPLIST_FILE = "CityBug/CityBug-Info.plist";
 				PRODUCT_NAME = CityBug;
 				PROVISIONING_PROFILE = "E38545D5-F357-410A-926E-854936115F73";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E38545D5-F357-410A-926E-854936115F73";
@@ -620,8 +599,8 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Opendream Co., Ltd.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpendreamBug/CityBug-Prefix.pch";
-				INFOPLIST_FILE = "OpendreamBug/CityBug-Info.plist";
+				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
+				INFOPLIST_FILE = "CityBug/CityBug-Info.plist";
 				PRODUCT_NAME = CityBug;
 				PROVISIONING_PROFILE = "E38545D5-F357-410A-926E-854936115F73";
 				WRAPPER_EXTENSION = app;
@@ -695,12 +674,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		9862F4961601C1E900ED2972 /* ODMModel.xcdatamodeld */ = {
+		CEB10E5C1603752B0041B3B8 /* ODMModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				9862F4971601C1E900ED2972 /* ODMModel.xcdatamodel */,
+				CEB10E5D1603752B0041B3B8 /* ODMModel.xcdatamodel */,
 			);
-			currentVersion = 9862F4971601C1E900ED2972 /* ODMModel.xcdatamodel */;
+			currentVersion = CEB10E5D1603752B0041B3B8 /* ODMModel.xcdatamodel */;
 			path = ODMModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
