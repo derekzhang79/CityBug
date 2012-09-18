@@ -4,7 +4,7 @@ CityBug Project (Beta v.1.0)
 
 ## README
 
-การเข้าถึง API เบื้องต้นให้ใช้วิธี Basic Access Authentication ยกตัวอย่างเช่น 
+การเข้าถึง API เบื้องต้นให้ใช้วิธี Basic Authentication
 
 ## REPORT
 
