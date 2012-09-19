@@ -13,7 +13,7 @@
             function sendMessage() {
                 socket.emit('user message');
             }
-        form(action='/api/entries', method='post', enctype="multipart/form-data")
+        form(action='/api/reports', method='post', enctype="multipart/form-data")
             fieldset
                 label(for="title") Title
                 .input
@@ -26,16 +26,13 @@
                     input(type='file', id='full_image', name='full_image')
                 label(for="latitude") Latitude
                 .input
-                    input(type='text', id='latitude', name='latitude')
+                    input(type='text', id='lat', name='lat')
                 label(for="longitude") Longitude
                 .input
-                    input(type='text', id='longitude', name='longitude')
+                    input(type='text', id='long', name='long')
                 label(for="note") Note
                 .input
                     input(type='text', id='note', name='note')
-                label(for="categories") Categories
-                .input
-                    input(type='text', id='categories', name='categories')
             fieldset
                 .actions
                     input(type='submit', value="Save", onclick='sendMessage()')
