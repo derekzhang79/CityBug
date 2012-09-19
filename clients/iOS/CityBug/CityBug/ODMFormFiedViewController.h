@@ -11,13 +11,12 @@
 @interface ODMFormFiedViewController : UIViewController {
     __unsafe_unretained id <ODMFormFieldDelegate> delegate;
 }
+@property (weak, nonatomic) IBOutlet UITextView *titleTextView;
+@property (weak, nonatomic) IBOutlet UITextView *noteTextView;
 
-@property (nonatomic, weak) IBOutlet UITextField *formTextField;
 
-@property (unsafe_unretained) id <ODMFormFieldDelegate> delegate;
 
-- (BOOL)becomeFirstResponder;
-
+- (IBAction)CategoryButtonTapped:(id)sender;
 - (IBAction)save:(id)sender;
 
 @end
