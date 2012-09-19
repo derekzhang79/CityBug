@@ -1,5 +1,5 @@
-var controller = require('./controller'),
-    api = require('./controller/api');
+var controller = require('./controllers/index'),
+    api = require('./controllers/api');
 module.exports = function(app, express){
 
 	app.get('/', controller.index);

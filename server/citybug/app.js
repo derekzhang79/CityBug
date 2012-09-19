@@ -19,7 +19,6 @@ var io = sio.listen(app);
 
 io.sockets.on('connection', function (socket) {
 	socket.on('user message', function (msg) {
-		console.log('entry' + msg);
     	socket.broadcast.emit('user message', msg);
   	});
 });
