@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'OpendreamBug' target in the 'OpendreamBug' project
+// Prefix header for all source files of the 'CityBug' target in the 'CityBug' project
 //
 
 #import <Availability.h>
