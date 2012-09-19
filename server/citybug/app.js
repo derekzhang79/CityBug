@@ -1,7 +1,5 @@
 
 var express = require('express'),
-    routes = require('./routes'),
-    api = require('./routes/api'),
 	connect = require('express/node_modules/connect'),
 	parseCookie = connect.utils.parseCookie,
     MemoryStore = connect.middleware.session.MemoryStore,
@@ -11,18 +9,7 @@ var sio = require('socket.io');
 
 // Configuration
 require('./configuration')(app, express);
-
-// Routes
-app.get('/', routes.index);
-
-app.get('/add', api.add);
-
-app.get('/api/entries', api.entries);
-// app.post('/api/entries', routes.index_post);
-app.post('/api/entries', api.entry_post);
-//app.post('/api/entries', api.entries_post);
-
-app.get('/api/entries/*', api.entry);
+require('./routes')(app, express);
 
 // Open App socket
 app.listen(3003);
