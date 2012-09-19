@@ -11,9 +11,11 @@
 @interface ODMReport : NSObject {
     NSString *_title;
     NSString *_note;
+    NSData *_thumbnailImage;
 }
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *note;
+@property (nonatomic, strong) NSData *thumbnailImage;
 
 @end

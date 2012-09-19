@@ -32,14 +32,7 @@
     
     dataManager = [ODMDataManager sharedInstance];
     
-    RKObjectManager *shareObjManager = [RKObjectManager sharedManager];
-    shareObjManager.client.baseURL = [RKURL URLWithString:@"http://localhost:3003"];
-    
-    RKObjectMapping *reportMapping = [RKObjectMapping mappingForClass:[ODMReport class]];
-    [reportMapping mapKeyPath:@"title" toAttribute:@"title"];
-    [reportMapping mapKeyPath:@"note" toAttribute:@"note"];
-    
-    [shareObjManager.mappingProvider setMapping:reportMapping forKeyPath:@"entries"];
+    objectManager = [RKObjectManager sharedManager];
 }
 
 - (void)tearDown
@@ -50,15 +43,23 @@
 
 - (void)testInitializeDataManager
 {
-    STAssertNotNil(dataManager, @"DataManager should not nill");
+    STAssertNotNil(dataManager, @"DataManager should not nil");
+    
+    STAssertNotNil(objectManager, @"RestKit Manager shuold not nil");
 }
 
 - (void)testListReport
 {
-    [shareObjManager loadObjectsAtResourcePath:@"/api/entries" delegate:self];
+    [objectManager loadObjectsAtResourcePath:@"/api/reports" delegate:nil];
 }
+
 - (void)testPostNewReport
 {
-    [dataManager postNewReport:nil];
+    ODMReport *report = [ODMReport new];
+    report.title = @"Post from RestKit";
+    report.note = @"Note from RestKit";
+
+    [dataManager postNewReport:report];
 }
+
 @end

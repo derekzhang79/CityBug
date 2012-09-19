@@ -9,20 +9,16 @@
 #import "ODMFormFiedViewController.h"
 
 @implementation ODMFormFiedViewController
-@synthesize titleTextView;
-@synthesize noteTextView;
+
+@synthesize delegate;
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    [self.formTextField becomeFirstResponder];
 }
 
 - (BOOL)becomeFirstResponder
 {
-    [self.formTextField becomeFirstResponder];
-    
     return [super becomeFirstResponder];
 }
 
@@ -33,10 +29,8 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
     
-    ODMLog(@"formTextField %@", self.formTextField);
-    
     if ([self.delegate respondsToSelector:@selector(updateFormField:withTextField:)]) {
-        [self.delegate updateFormField:self withTextField:self.formTextField];
+        [self.delegate updateFormField:self withTextField:nil];
     }
 }
 

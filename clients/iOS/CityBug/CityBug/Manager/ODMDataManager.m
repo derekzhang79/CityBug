@@ -119,10 +119,19 @@ static ODMDataManager *sharedDataManager = nil;
 
 - (void)postNewReport:(ODMReport *)report
 {
-    report = [[ODMReport alloc] init];
-    report.title = @"POST from RestKit";
-    report.note = @"Note from RestKit";
-    [[RKObjectManager sharedManager] postObject:report delegate:self];
+    RKParams *reportParams = [RKParams params];
+    [[RKObjectManager sharedManager] postObject:report usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        
+        [reportParams setValue:[report title] forParam:@"title"];
+        [reportParams setValue:[report note] forParam:@"note"];
+        
+        NSString *mainBundle = [[NSBundle mainBundle] bundlePath];
+        
+        NSData *imageData = [NSData dataWithContentsOfFile:[mainBundle stringByAppendingPathComponent:@"bugs.jpeg"]];
+        [reportParams setData:imageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
+        loader.params = reportParams;
+    }];
 }
 
 - (id)insertEntry:(NSDictionary *)entry withError:(NSError **)error withManagedObjectContext:(NSManagedObjectContext *)context
@@ -182,5 +191,15 @@ static ODMDataManager *sharedDataManager = nil;
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObject:(id)object
 {
     ODMLog(@"objectLoader %@", object);
+    if ([objectLoader wasSentToResourcePath:@"/pet/uploadPhoto"]) {
+        ODMReport *report = (ODMReport*)object;
+        ODMLog(@"******* SEND report title %@", [report title]);
+    }
 }
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
+{
+    RKLogError(@"Loader Error %@", error);
+}
+
 @end
