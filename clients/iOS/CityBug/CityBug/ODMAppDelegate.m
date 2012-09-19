@@ -14,10 +14,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    RKLogConfigureByName("RestKit/Network*", RKLogLevelTrace);
-    
-    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURLString:@"http://localhost:3003"];
-    objectManager.client.baseURL = [RKURL URLWithString:@"http://localhost:3003"];
+    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURLString:@"http://127.0.0.1:3003"];
+    objectManager.client.baseURL = [RKURL URLWithString:@"http://127.0.0.1:3003"];
     
     RKObjectMapping *reportMapping = [RKObjectMapping mappingForClass:[ODMReport class]];
     [reportMapping mapKeyPath:@"title" toAttribute:@"title"];

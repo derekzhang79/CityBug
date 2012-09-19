@@ -9,6 +9,7 @@
 #import "ODMDescriptionFormViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ODMDataManager.h"
+#import "ODMReport.h"
 
 #import "ODMEditFormFieldViewController.h"
 #import "ODMNoteFormFieldViewController.h"
@@ -38,12 +39,13 @@
 
 - (IBAction)doneButtonTapped:(id)sender
 {
-//    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
-//
-//    [dataManager postNewEntry:self.bugImage
-//                        title:self.titleLabel.text
-//                         note:self.descTextLabel.text];
-
+    // POST report to server
+    ODMReport *report = [[ODMReport alloc] init];
+    report.title = @"Post from RestKit";
+    report.note = @"Note from RestKit";
+    
+    [[ODMDataManager sharedInstance] postNewReport:report];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

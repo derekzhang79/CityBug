@@ -60,32 +60,14 @@ static ODMDataManager *sharedDataManager = nil;
 /*
  * Method :GET
  */
-- (NSArray *)get:(NSString *)api
-{
-    if ([api isEqualToString:@"/api/entries"]) {
-        
-        NSError *error;
-        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:API_LIST_ENTRIES]];
-
-        if (error) {
-            ODMLog(@"error when get api %@ with error %@", api, error);
-        }
-        return [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error] objectForKey:@"entries"];
-    }
-    
-    return nil;
-}
-
-
 - (NSArray *)getEntryList
 {
     NSError *error;
     NSString *url = [BASE_URL stringByAppendingString:API_LIST];
       NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-    //        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:API_LIST_ENTRIES]];
 
     if (error) {
-        ODMLog(@"error when get api %@ with error %@", API_LIST_ENTRIES, error);
+        ODMLog(@"error when get api %@ with error %@", [BASE_URL stringByAppendingString:API_LIST], error);
             return nil;
     }
 
@@ -117,9 +99,14 @@ static ODMDataManager *sharedDataManager = nil;
     [operation start];
 }
 
+/*
+ * CREATE REPORT
+ * HTTP POST
+ */
 - (void)postNewReport:(ODMReport *)report
 {
     RKParams *reportParams = [RKParams params];
+    
     [[RKObjectManager sharedManager] postObject:report usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
         
@@ -130,6 +117,8 @@ static ODMDataManager *sharedDataManager = nil;
         
         NSData *imageData = [NSData dataWithContentsOfFile:[mainBundle stringByAppendingPathComponent:@"bugs.jpeg"]];
         [reportParams setData:imageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
+        [reportParams setData:imageData MIMEType:@"image/jpeg" forParam:@"full_image"];
+        
         loader.params = reportParams;
     }];
 }

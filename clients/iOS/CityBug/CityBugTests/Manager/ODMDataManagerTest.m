@@ -50,7 +50,7 @@
 
 - (void)testListReport
 {
-    [objectManager loadObjectsAtResourcePath:@"/api/reports" delegate:nil];
+    [objectManager loadObjectsAtResourcePath:@"/api/reports" delegate:self];
 }
 
 - (void)testPostNewReport
@@ -60,6 +60,16 @@
     report.note = @"Note from RestKit";
 
     [dataManager postNewReport:report];
+}
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
+{
+    ODMLog(@"Loader Failed %@", error);
+}
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects
+{
+    ODMLog(@"Finish load with object %@", objects);
 }
 
 @end

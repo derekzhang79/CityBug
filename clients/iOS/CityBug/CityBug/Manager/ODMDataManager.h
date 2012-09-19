@@ -15,11 +15,6 @@
 + (id)sharedInstance;
 
 /*
- * List all entries
- */
-- (NSArray *)get:(NSString *)api;
-
-/*
  * Insert/Update entries
  */
 - (BOOL)insertEntriesToPersistentStore:(NSArray *)entries withManagedObjectContext:(NSManagedObjectContext *)context;

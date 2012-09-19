@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @interface ODMReport : NSObject {
-    NSString *_title;
-    NSString *_note;
-    NSData *_thumbnailImage;
+    NSString *_title, *_note;
+    NSArray *_categories, *_places;
+    double lat, lng;
+    UIImage *_thumbnailImage, *_fullImage;
 }
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *note;
-@property (nonatomic, strong) NSData *thumbnailImage;
+@property (nonatomic, strong) UIImage *thumbnailImage, *fullImage;
 
 @end
