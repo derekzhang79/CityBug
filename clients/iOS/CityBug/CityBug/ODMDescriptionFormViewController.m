@@ -45,12 +45,12 @@
 
 - (IBAction)doneButtonTapped:(id)sender
 {
-    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
-    
-    [dataManager postNewEntry:self.bugImage
-                        title:self.titleLabel.text
-                         note:self.descTextLabel.text];
-    
+//    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
+//
+//    [dataManager postNewEntry:self.bugImage
+//                        title:self.titleLabel.text
+//                         note:self.descTextLabel.text];
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 

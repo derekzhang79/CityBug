@@ -9,6 +9,7 @@
 #import "ODMDataManager.h"
 #import <CoreData/CoreData.h>
 #import "ODMEntry.h"
+#import "ODMReport.h"
 
 #import "AFJSONRequestOperation.h"
 #import "AFHTTPClient.h"
@@ -114,7 +115,14 @@ static ODMDataManager *sharedDataManager = nil;
     
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation start];
-            
+}
+
+- (void)postNewReport:(ODMReport *)report
+{
+    report = [[ODMReport alloc] init];
+    report.title = @"POST from RestKit";
+    report.note = @"Note from RestKit";
+    [[RKObjectManager sharedManager] postObject:report delegate:self];
 }
 
 - (id)insertEntry:(NSDictionary *)entry withError:(NSError **)error withManagedObjectContext:(NSManagedObjectContext *)context
@@ -169,4 +177,10 @@ static ODMDataManager *sharedDataManager = nil;
     return YES;
 }
 
+#pragma mark - RKObjectLoader Delegate
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObject:(id)object
+{
+    ODMLog(@"objectLoader %@", object);
+}
 @end

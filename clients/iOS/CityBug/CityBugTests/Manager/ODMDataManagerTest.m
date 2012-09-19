@@ -10,10 +10,12 @@
 #import <CoreData/CoreData.h>
 #import "ODMEntry.h"
 #import "ODMDataManager.h"
+#import "ODMReport.h"
 
 @implementation ODMDataManagerTest {
     NSManagedObjectContext *context;
     ODMDataManager *dataManager;
+    RKObjectManager *objectManager;
 }
 
 - (void)setUp
@@ -29,6 +31,15 @@
     context.persistentStoreCoordinator = psc;
     
     dataManager = [ODMDataManager sharedInstance];
+    
+    RKObjectManager *shareObjManager = [RKObjectManager sharedManager];
+    shareObjManager.client.baseURL = [RKURL URLWithString:@"http://localhost:3003"];
+    
+    RKObjectMapping *reportMapping = [RKObjectMapping mappingForClass:[ODMReport class]];
+    [reportMapping mapKeyPath:@"title" toAttribute:@"title"];
+    [reportMapping mapKeyPath:@"note" toAttribute:@"note"];
+    
+    [shareObjManager.mappingProvider setMapping:reportMapping forKeyPath:@"entries"];
 }
 
 - (void)tearDown
@@ -42,29 +53,12 @@
     STAssertNotNil(dataManager, @"DataManager should not nill");
 }
 
-- (void)testGetJSONFromServer
+- (void)testListReport
 {
-    NSArray *entries = [dataManager get:@"/api/entries"];
-    
-    STAssertNotNil(entries, @"Entries should not return nil");
-    
-    STAssertTrue([entries count] > 0, @"DataManager should not empty array");
-    
-    BOOL success = [dataManager insertEntriesToPersistentStore:entries withManagedObjectContext:context];
-    
-    STAssertTrue(success, @"DataManager should not failed when insert entries to persistenstore");
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"ODMEntry" inManagedObjectContext:context]];
-    
-    NSError *error;
-    
-    NSArray *results = [context executeFetchRequest:fetchRequest error:&error];
-    
-    STAssertNil(error, @"DataManager cannot fetch entries from persistentstore with error %@", error);
-    
-    STAssertTrue([results count] > 0, @"FetchedArray should not empty after insert any entries to persistentstore");
+    [shareObjManager loadObjectsAtResourcePath:@"/api/entries" delegate:self];
 }
-
+- (void)testPostNewReport
+{
+    [dataManager postNewReport:nil];
+}
 @end
