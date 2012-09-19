@@ -9,6 +9,7 @@
 #import "ODMDataManager.h"
 #import <CoreData/CoreData.h>
 #import "ODMEntry.h"
+#import "ODMReport.h"
 
 #import "AFJSONRequestOperation.h"
 #import "AFHTTPClient.h"
@@ -59,32 +60,14 @@ static ODMDataManager *sharedDataManager = nil;
 /*
  * Method :GET
  */
-- (NSArray *)get:(NSString *)api
-{
-    if ([api isEqualToString:@"/api/entries"]) {
-        
-        NSError *error;
-        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:API_LIST_ENTRIES]];
-
-        if (error) {
-            ODMLog(@"error when get api %@ with error %@", api, error);
-        }
-        return [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error] objectForKey:@"entries"];
-    }
-    
-    return nil;
-}
-
-
 - (NSArray *)getEntryList
 {
     NSError *error;
     NSString *url = [BASE_URL stringByAppendingString:API_LIST];
       NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-    //        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:API_LIST_ENTRIES]];
 
     if (error) {
-        ODMLog(@"error when get api %@ with error %@", API_LIST_ENTRIES, error);
+        ODMLog(@"error when get api %@ with error %@", [BASE_URL stringByAppendingString:API_LIST], error);
             return nil;
     }
 
@@ -114,7 +97,30 @@ static ODMDataManager *sharedDataManager = nil;
     
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation start];
-            
+}
+
+/*
+ * CREATE REPORT
+ * HTTP POST
+ */
+- (void)postNewReport:(ODMReport *)report
+{
+    RKParams *reportParams = [RKParams params];
+    
+    [[RKObjectManager sharedManager] postObject:report usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        
+        [reportParams setValue:[report title] forParam:@"title"];
+        [reportParams setValue:[report note] forParam:@"note"];
+        
+        NSString *mainBundle = [[NSBundle mainBundle] bundlePath];
+        
+        NSData *imageData = [NSData dataWithContentsOfFile:[mainBundle stringByAppendingPathComponent:@"bugs.jpeg"]];
+        [reportParams setData:imageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
+        [reportParams setData:imageData MIMEType:@"image/jpeg" forParam:@"full_image"];
+        
+        loader.params = reportParams;
+    }];
 }
 
 - (id)insertEntry:(NSDictionary *)entry withError:(NSError **)error withManagedObjectContext:(NSManagedObjectContext *)context
@@ -167,6 +173,22 @@ static ODMDataManager *sharedDataManager = nil;
     };
     
     return YES;
+}
+
+#pragma mark - RKObjectLoader Delegate
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObject:(id)object
+{
+    ODMLog(@"objectLoader %@", object);
+    if ([objectLoader wasSentToResourcePath:@"/pet/uploadPhoto"]) {
+        ODMReport *report = (ODMReport*)object;
+        ODMLog(@"******* SEND report title %@", [report title]);
+    }
+}
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
+{
+    RKLogError(@"Loader Error %@", error);
 }
 
 @end

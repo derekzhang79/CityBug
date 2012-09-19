@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ODMAppDelegate : UIResponder <UIApplicationDelegate>
+@interface ODMAppDelegate : UIResponder <UIApplicationDelegate, RKObjectLoaderDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

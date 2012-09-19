@@ -6,16 +6,13 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-@interface ODMDataManager : NSObject {
+@class ODMReport;
+
+@interface ODMDataManager : NSObject <RKObjectLoaderDelegate> {
     NSManagedObjectContext *defaultContext;
 }
 
 + (id)sharedInstance;
-
-/*
- * List all entries
- */
-- (NSArray *)get:(NSString *)api;
 
 /*
  * Insert/Update entries
@@ -26,6 +23,12 @@
  * Get all entries
  */
 - (NSArray *)getEntryList;
+
 - (void)postNewEntry:(UIImage *)aImage title:(NSString *)aTitle note:(NSString *)aNote;
+
+/*
+ * Post New Report
+ */
+- (void)postNewReport:(ODMReport *)report;
 
 @end

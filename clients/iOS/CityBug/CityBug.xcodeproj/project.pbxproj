@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE7C595D16097FD600F3D496 /* CityBugTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E861603767D0041B3B8 /* CityBugTests-Info.plist */; };
 		CEB10E231603748E0041B3B8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E211603748E0041B3B8 /* main.m */; };
 		CEB10E27160374A50041B3B8 /* balloon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E24160374A50041B3B8 /* balloon.jpeg */; };
 		CEB10E28160374A50041B3B8 /* process.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E25160374A50041B3B8 /* process.png */; };
@@ -26,7 +27,6 @@
 		CEB10E6D160375C10041B3B8 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E6B160375C10041B3B8 /* MainStoryboard.storyboard */; };
 		CEB10E891603767D0041B3B8 /* ODMDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E821603767D0041B3B8 /* ODMDataManagerTest.m */; };
 		CEB10E8A1603767D0041B3B8 /* ODMEntryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E851603767D0041B3B8 /* ODMEntryTest.m */; };
-		CEB10E8B1603767D0041B3B8 /* CityBugTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E861603767D0041B3B8 /* CityBugTests-Info.plist */; };
 		CEB10E8C1603767D0041B3B8 /* CityBugTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E881603767D0041B3B8 /* CityBugTests.m */; };
 		CEB10E8F160376910041B3B8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E8D160376910041B3B8 /* InfoPlist.strings */; };
 		CEB10EA7160376FC0041B3B8 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E93160376FC0041B3B8 /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -47,6 +47,14 @@
 		CEEE606215FDEDFB00324883 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604315FDEDFB00324883 /* Foundation.framework */; };
 		CEEE608715FDF35100324883 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE608615FDF35100324883 /* CoreData.framework */; };
 		CEEE60A115FDF55D00324883 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE608615FDF35100324883 /* CoreData.framework */; };
+		CEF8C1151609701D008871D4 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF8C1141609701C008871D4 /* CFNetwork.framework */; };
+		CEF8C11716097026008871D4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF8C11616097026008871D4 /* Security.framework */; };
+		CEF8C1191609702C008871D4 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF8C1181609702C008871D4 /* MobileCoreServices.framework */; };
+		CEF8C11B16097034008871D4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF8C11A16097034008871D4 /* SystemConfiguration.framework */; };
+		CEF8C11D1609703E008871D4 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF8C11C1609703E008871D4 /* libxml2.dylib */; };
+		CEF8C11F16097043008871D4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF8C11E16097043008871D4 /* QuartzCore.framework */; };
+		CEF8C31F1609778F008871D4 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF8C3071609747D008871D4 /* libRestKit.a */; };
+		CEF8C32216097B79008871D4 /* ODMReport.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF8C32116097B79008871D4 /* ODMReport.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +64,41 @@
 			proxyType = 1;
 			remoteGlobalIDString = CEEE603C15FDEDFB00324883;
 			remoteInfo = OpendreamBug;
+		};
+		CEF8C3061609747D008871D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEF8C2FB1609747D008871D4 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160D1614564E810060A5C5;
+			remoteInfo = RestKit;
+		};
+		CEF8C3081609747D008871D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEF8C2FB1609747D008871D4 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160D2614564E820060A5C5;
+			remoteInfo = RestKitTests;
+		};
+		CEF8C30A1609747D008871D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEF8C2FB1609747D008871D4 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160E62145651060060A5C5;
+			remoteInfo = RestKitFramework;
+		};
+		CEF8C30C1609747D008871D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEF8C2FB1609747D008871D4 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160E78145651060060A5C5;
+			remoteInfo = RestKitFrameworkTests;
+		};
+		CEF8C30E1609747D008871D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEF8C2FB1609747D008871D4 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 259C301615128079003066A2;
+			remoteInfo = RestKitResources;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -127,6 +170,15 @@
 		CEEE605E15FDEDFB00324883 /* CityBugTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CityBugTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEEE605F15FDEDFB00324883 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		CEEE608615FDF35100324883 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		CEF8C1141609701C008871D4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		CEF8C11616097026008871D4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		CEF8C1181609702C008871D4 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		CEF8C11A16097034008871D4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		CEF8C11C1609703E008871D4 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		CEF8C11E16097043008871D4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CEF8C2FB1609747D008871D4 /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = ../../../../RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
+		CEF8C32016097B79008871D4 /* ODMReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMReport.h; path = CityBug/Model/ODMReport.h; sourceTree = SOURCE_ROOT; };
+		CEF8C32116097B79008871D4 /* ODMReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMReport.m; path = CityBug/Model/ODMReport.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +186,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF8C31F1609778F008871D4 /* libRestKit.a in Frameworks */,
+				CEF8C11F16097043008871D4 /* QuartzCore.framework in Frameworks */,
+				CEF8C11D1609703E008871D4 /* libxml2.dylib in Frameworks */,
+				CEF8C11B16097034008871D4 /* SystemConfiguration.framework in Frameworks */,
+				CEF8C1191609702C008871D4 /* MobileCoreServices.framework in Frameworks */,
+				CEF8C11716097026008871D4 /* Security.framework in Frameworks */,
+				CEF8C1151609701D008871D4 /* CFNetwork.framework in Frameworks */,
 				CEEE60A115FDF55D00324883 /* CoreData.framework in Frameworks */,
 				CEEE604215FDEDFB00324883 /* UIKit.framework in Frameworks */,
 				CEEE604415FDEDFB00324883 /* Foundation.framework in Frameworks */,
@@ -187,6 +246,8 @@
 			isa = PBXGroup;
 			children = (
 				CEB10E5C1603752B0041B3B8 /* ODMModel.xcdatamodeld */,
+				CEF8C32016097B79008871D4 /* ODMReport.h */,
+				CEF8C32116097B79008871D4 /* ODMReport.m */,
 				CEB10E2E160374B90041B3B8 /* ODMCategory.h */,
 				CEB10E2F160374B90041B3B8 /* ODMCategory.m */,
 				CEB10E30160374B90041B3B8 /* ODMEntry.h */,
@@ -219,6 +280,7 @@
 		CEB10E90160376F10041B3B8 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				CEF8C2FB1609747D008871D4 /* RestKit.xcodeproj */,
 				CEB10E91160376FC0041B3B8 /* AFNetworking */,
 			);
 			name = Vendor;
@@ -276,6 +338,12 @@
 		CEEE604015FDEDFB00324883 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEF8C11E16097043008871D4 /* QuartzCore.framework */,
+				CEF8C11C1609703E008871D4 /* libxml2.dylib */,
+				CEF8C11A16097034008871D4 /* SystemConfiguration.framework */,
+				CEF8C1181609702C008871D4 /* MobileCoreServices.framework */,
+				CEF8C11616097026008871D4 /* Security.framework */,
+				CEF8C1141609701C008871D4 /* CFNetwork.framework */,
 				CEEE608615FDF35100324883 /* CoreData.framework */,
 				CEEE604115FDEDFB00324883 /* UIKit.framework */,
 				CEEE604315FDEDFB00324883 /* Foundation.framework */,
@@ -347,6 +415,18 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		CEF8C2FC1609747D008871D4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEF8C3071609747D008871D4 /* libRestKit.a */,
+				CEF8C3091609747D008871D4 /* RestKitTests.octest */,
+				CEF8C30B1609747D008871D4 /* RestKit.framework */,
+				CEF8C30D1609747D008871D4 /* RestKitFrameworkTests.octest */,
+				CEF8C30F1609747D008871D4 /* RestKitResources.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -406,6 +486,12 @@
 			mainGroup = CEEE603215FDEDFB00324883;
 			productRefGroup = CEEE603E15FDEDFB00324883 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = CEF8C2FC1609747D008871D4 /* Products */;
+					ProjectRef = CEF8C2FB1609747D008871D4 /* RestKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				CEEE603C15FDEDFB00324883 /* CityBug */,
@@ -413,6 +499,44 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		CEF8C3071609747D008871D4 /* libRestKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRestKit.a;
+			remoteRef = CEF8C3061609747D008871D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEF8C3091609747D008871D4 /* RestKitTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RestKitTests.octest;
+			remoteRef = CEF8C3081609747D008871D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEF8C30B1609747D008871D4 /* RestKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RestKit.framework;
+			remoteRef = CEF8C30A1609747D008871D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEF8C30D1609747D008871D4 /* RestKitFrameworkTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RestKitFrameworkTests.octest;
+			remoteRef = CEF8C30C1609747D008871D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEF8C30F1609747D008871D4 /* RestKitResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RestKitResources.bundle;
+			remoteRef = CEF8C30E1609747D008871D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		CEEE603B15FDEDFB00324883 /* Resources */ = {
@@ -430,7 +554,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEB10E8B1603767D0041B3B8 /* CityBugTests-Info.plist in Resources */,
+				CE7C595D16097FD600F3D496 /* CityBugTests-Info.plist in Resources */,
 				CEB10E8F160376910041B3B8 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -481,6 +605,7 @@
 				CEB10EAE160376FC0041B3B8 /* AFURLConnectionOperation.m in Sources */,
 				CEB10EAF160376FC0041B3B8 /* AFXMLRequestOperation.m in Sources */,
 				CEB10EB0160376FC0041B3B8 /* UIImageView+AFNetworking.m in Sources */,
+				CEF8C32216097B79008871D4 /* ODMReport.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,7 +672,13 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/../../Headers";
+				INFOPLIST_FILE = "CityBugTests/CityBugTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -570,8 +701,14 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/../../Headers";
+				INFOPLIST_FILE = "CityBugTests/CityBugTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -612,14 +749,14 @@
 		CEEE607415FDEDFB00324883 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OpendreamBug.app/OpendreamBug";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CityBug.app/CityBug";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpendreamBug/OpendreamBug-Prefix.pch";
-				INFOPLIST_FILE = "OpendreamBugTests/CityBugTests-Info.plist";
+				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
+				INFOPLIST_FILE = "CityBugTests/CityBugTests-Info.plist";
 				PRODUCT_NAME = CityBugTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -629,14 +766,14 @@
 		CEEE607515FDEDFB00324883 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OpendreamBug.app/OpendreamBug";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CityBug.app/CityBug";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpendreamBug/OpendreamBug-Prefix.pch";
-				INFOPLIST_FILE = "OpendreamBugTests/CityBugTests-Info.plist";
+				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
+				INFOPLIST_FILE = "CityBugTests/CityBugTests-Info.plist";
 				PRODUCT_NAME = CityBugTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
