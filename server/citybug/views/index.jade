@@ -14,9 +14,6 @@
             function sendMessage() {
                 socket.emit('user message');
             }
-            function addMessage() {
-                $('#reporttable').appendChild('qqqqqqqqqqqq');
-            }
             function addRow(report) {
                 if (!document.getElementsByTagName) 
                     return;
@@ -38,7 +35,7 @@
                 thumbnailImage.width = 40;
                 thumbnailImage.heigth = 40;
                 var fullImage=document.createElement('img');
-                fullImage.src = report['full_image'];
+                fullImage.src =  report['full_image'];
                 fullImage.width = 40;
                 fullImage.heigth = 40;
                 var textnodeLatitude=document.createTextNode(report['lat']);

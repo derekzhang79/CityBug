@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2549" systemVersion="11E53" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="tet-i1-BY7">
     <dependencies>
-        <deployment defaultVersion="1296" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1498"/>
     </dependencies>
     <scenes>
@@ -55,11 +54,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="CityBug" id="yRl-mM-wfn">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="6Gy-p9-SBs">
-                            <connections>
-                                <action selector="refreshButtonTapped:" destination="tWb-Y8-6bh" id="kdL-hw-1Q0"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Yxx-9y-5wn"/>
                     </navigationItem>
                     <connections>
                         <outlet property="toolBar" destination="VFM-0w-6tH" id="qPr-l1-nLn"/>
@@ -78,7 +73,7 @@
                     </items>
                 </toolbar>
             </objects>
-            <point key="canvasLocation" x="-3417" y="-232"/>
+            <point key="canvasLocation" x="-3280" y="-1114"/>
         </scene>
         <!--Edit Form Field View Controller - Edit note-->
         <scene sceneID="sLk-TH-hvq">
@@ -111,6 +106,107 @@
                 </viewController>
             </objects>
             <point key="canvasLocation" x="-2185" y="-241"/>
+        </scene>
+        <!--Form Fied View Controller-->
+        <scene sceneID="zyt-Xt-cmd">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rmx-Us-t4j" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="isB-Ul-rwG" customClass="ODMFormFiedViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="skl-5P-Bok">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="JOH-Ay-8QK">
+                                <rect key="frame" x="20" y="153" width="280" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Category">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="CategoryButtonTapped:" destination="isB-Ul-rwG" eventType="touchUpInside" id="By9-Yd-6I8"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" id="oKo-zz-6xy">
+                                <rect key="frame" x="38" y="262" width="103" height="119"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.83418367346938771" green="0.66796127351365298" blue="0.63153810375860253" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="vCZ-IU-USY">
+                                <rect key="frame" x="179" y="271" width="48" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.8341836735" green="0.66796127350000001" blue="0.63153810379999997" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="eaj-IM-b2S">
+                                <rect key="frame" x="235" y="271" width="48" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.8341836735" green="0.66796127350000001" blue="0.63153810379999997" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="YJZ-yu-8O1">
+                                <rect key="frame" x="179" y="326" width="48" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.8341836735" green="0.66796127350000001" blue="0.63153810379999997" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="Sy0-dq-GzE">
+                                <rect key="frame" x="235" y="326" width="48" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.8341836735" green="0.66796127350000001" blue="0.63153810379999997" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="vHI-9B-2oI">
+                                <rect key="frame" x="20" y="20" width="280" height="125"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="bugs.jpeg" id="WNu-xm-d99">
+                                        <rect key="frame" x="5" y="0.0" width="59" height="83"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Note" id="sly-eJ-Bck">
+                                        <rect key="frame" x="111" y="45" width="162" height="71"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Title" id="blf-Ui-ZeD">
+                                        <rect key="frame" x="111" y="12" width="162" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Xel-v7-eX2">
+                                        <rect key="frame" x="72" y="13" width="42" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Note:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="jnO-b7-9MQ">
+                                        <rect key="frame" x="72" y="50" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94778380102040816" green="0.93436353810547756" blue="0.92370074412205849" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="noteTextView" destination="sly-eJ-Bck" id="ne4-b7-8zo"/>
+                        <outlet property="titleTextView" destination="blf-Ui-ZeD" id="m6G-To-7uA"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="-2735" y="-857"/>
         </scene>
         <!--Category List View Controller - Choose Category-->
         <scene sceneID="HJI-4P-vLE">
@@ -377,7 +473,7 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="-3802" y="-241"/>
+            <point key="canvasLocation" x="-3782" y="-1114"/>
         </scene>
         <!--Description View Controller - View-->
         <scene sceneID="7mA-T6-M8I">
@@ -466,6 +562,60 @@
     <resources>
         <image name="bugs.jpeg" width="196" height="257"/>
     </resources>
+    <classes>
+        <class className="ODMCategoryListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMCategoryListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="save:"/>
+            </relationships>
+        </class>
+        <class className="ODMDescriptionFormViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMDescriptionFormViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButtonTapped:"/>
+                <relationship kind="outlet" name="bugImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="categoryLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="descTextLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="descTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="locationTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ODMDescriptionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMDescriptionViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButtonTapped:"/>
+                <relationship kind="outlet" name="bugImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="catergoryLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="descTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ODMEditFormFieldViewController" superclassName="ODMFormFiedViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMEditFormFieldViewController.h"/>
+        </class>
+        <class className="ODMFormFiedViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMFormFiedViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="CategoryButtonTapped:"/>
+                <relationship kind="action" name="save:"/>
+                <relationship kind="outlet" name="formTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="noteTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="titleTextView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="ODMListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addButtonTapped:"/>
+                <relationship kind="action" name="refreshButtonTapped:"/>
+                <relationship kind="outlet" name="toolBar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="ODMNoteFormFieldViewController" superclassName="ODMFormFiedViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMNoteFormFieldViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -21,10 +21,10 @@ module.exports = function (mongoose) {
 		username			: String
 		, password 			: String
 		, email				: String
+		, thumbnail_image	: String
 		, last_modified		: Date
 		, created_at		: Date
 	});
-
 	var CommentSchema = new Schema({
 		text				: String
 		, user 				: [UserSchema]
@@ -43,6 +43,8 @@ module.exports = function (mongoose) {
 		, lat				: Number
 		, long				: Number
 		, note				: String
+		, full_image		: String
+		, thumbnail_image	: String
 		, is_resolved		: Boolean
 		, categories		: [CategorySchema]
 		, user				: [UserSchema]
@@ -53,7 +55,7 @@ module.exports = function (mongoose) {
 		, last_modified		: Date
 		, created_at		: Date
 	});
-
+	
 	var SubscriptionSchema = new Schema({
 		place 				: [PlaceSchema]
 		, user 				: [UserSchema]

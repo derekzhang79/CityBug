@@ -14,7 +14,7 @@ exports.reports = function(req, res){
     res.contentType('application/json'); 
  
     model.Report.find({},function(err, docs){
-        res.send('{ "report":' + JSON.stringify(docs) + ' }');
+        res.send('{ "reports":' + JSON.stringify(docs) + ' }');
     });
 
 };
@@ -23,12 +23,11 @@ exports.reports = function(req, res){
 exports.report = function(req, res){
     var url = req.url;
     var currentID = url.match( /[^\/]+\/?$/ );
-    console.log('current : '+currentID);
 
     res.contentType('application/json');
-    model.Report.findOne({_id:currentID }, function(err,docs) {      
-        res.send('"report" : ' + JSON.stringify(docs));
-    });
+    model.Report.findOne({_id:currentID }, function(err,docs) {   
+        res.send('"reports" : ' + JSON.stringify(docs));
+	});
 };
 
 exports.report_post = function(req, res){
@@ -53,17 +52,22 @@ exports.report_post = function(req, res){
     };
 
     // save data to db
-    report = new model.Report();
+    var report = new model.Report();
     report.title = req.body.title;
-    report.thumbnail_image = "/images/" + report._id + "/" + req.files.thumbnail_image.name;
-    report.full_image = "/images/"+ report._id + "/" + req.files.full_image.name;
+
+    var thumbnail_image_type = req.files.thumbnail_image.name.match( /[^.]+.?$/ );
+    var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_type;
+    var full_image_type = req.files.full_image.name.match( /[^.]+.?$/ );
+    var full_image_short_path = "/images/report/" + report._id + "." + full_image_type;
+
+    report.thumbnail_image = thumbnail_image_short_path;
+    report.full_image = full_image_short_path;
     report.lat = req.body.lat;
     report.long = req.body.long;
     report.note = req.body.note;
     report.categories = req.body.categories;
     report.last_modified = new Date();
     report.created_at = new Date();
-    report.text = 'my worng text';
 
     report.save(function (err) {
         if (!err){
@@ -78,15 +82,15 @@ exports.report_post = function(req, res){
     });
 
     // make directory
-    fs.mkdirParent("./public/images/" + report._id + "/");
+    fs.mkdirParent("./public/images/report/");
 
-    //save picture to /public/images/:id/pictureName
+    //save picture to /public/images/report/:id
 
     if (req.files.thumbnail_image.name) {
         // get the temporary location of the file : ./uploads
         var tmp_path = req.files.thumbnail_image.path;
         // set where the file should actually exists - in this case it is in the "images" directory
-        var thumbnail_image_path = './public/images/' + report._id + "/" + req.files.thumbnail_image.name;
+        var thumbnail_image_path = './public' + thumbnail_image_short_path;
         // move the file from the temporary location to the intended location
         fs.rename(tmp_path, thumbnail_image_path, function(err) {
             if (err) throw err;
@@ -107,7 +111,7 @@ exports.report_post = function(req, res){
     // do the same thing
     if (req.files.full_image.name) {
         var tmp_path = req.files.full_image.path;
-        var full_image_path = './public/images/' + report._id + "/" + req.files.full_image.name;
+        var full_image_path = './public' + full_image_short_path;
         fs.rename(tmp_path, full_image_path, function(err) {
             if (err) throw err;
             fs.unlink(tmp_path, function() {
@@ -122,8 +126,7 @@ exports.report_post = function(req, res){
         });
     }
 
-    model.Report.findOne({_id:report._id }, function(err,docs) {      
-        console.log('report model' + docs); 
-        res.render('add_response', {title: 'City bug',report: docs});
+    model.Report.findOne({_id:report._id }, function(err,docs) {   
+        res.render('add_response', {title: 'City bug', report: docs});
     });
 };

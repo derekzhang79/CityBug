@@ -9,6 +9,8 @@
 #import "ODMFormFiedViewController.h"
 
 @implementation ODMFormFiedViewController
+@synthesize titleTextView;
+@synthesize noteTextView;
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -24,6 +26,9 @@
     return [super becomeFirstResponder];
 }
 
+- (IBAction)CategoryButtonTapped:(id)sender {
+}
+
 - (IBAction)save:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -35,4 +40,9 @@
     }
 }
 
+- (void)viewDidUnload {
+    [self setTitleTextView:nil];
+    [self setNoteTextView:nil];
+    [super viewDidUnload];
+}
 @end
