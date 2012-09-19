@@ -8,19 +8,19 @@
             var socket = io.connect();
             socket.on('connect', function () {
             });
-            socket.on('user message', function(entry) {
-                addRow(entry);
+            socket.on('user message', function(report) {
+                addRow(reportModel);
             });
             function sendMessage() {
                 socket.emit('user message');
             }
             function addMessage() {
-                $('#entrytable').appendChild('qqqqqqqqqqqq');
+                $('#reporttable').appendChild('qqqqqqqqqqqq');
             }
-            function addRow(entry) {
+            function addRow(report) {
                 if (!document.getElementsByTagName) 
                     return;
-                var tabBody=document.getElementById("entrytable");
+                var tabBody=document.getElementById("reporttable");
                 var row=document.createElement("TR");
 
                 var cellTitle = document.createElement("TD");
@@ -32,20 +32,20 @@
                 var cellCategories = document.createElement("TD");
                 var cellDate = document.createElement("TD");
 
-                var textnodeTitle=document.createTextNode(entry['title']);
+                var textnodeTitle=document.createTextNode(report['title']);
                 var thumbnailImage=document.createElement('img');
-                thumbnailImage.src = entry['thumbnail_image'];
+                thumbnailImage.src = report['thumbnail_image'];
                 thumbnailImage.width = 40;
                 thumbnailImage.heigth = 40;
                 var fullImage=document.createElement('img');
-                fullImage.src = entry['full_image'];
+                fullImage.src = report['full_image'];
                 fullImage.width = 40;
                 fullImage.heigth = 40;
-                var textnodeLatitude=document.createTextNode(entry['latitude']);
-                var textnodeLongitude=document.createTextNode(entry['longitude']);
-                var textnodeNote=document.createTextNode(entry['note']);
-                var textnodeCategories=document.createTextNode(entry['categories']);
-                var textnodeDate=document.createTextNode(entry['last_modified']);
+                var textnodeLatitude=document.createTextNode(report['lat']);
+                var textnodeLongitude=document.createTextNode(report['long']);
+                var textnodeNote=document.createTextNode(report['note']);
+                var textnodeCategories=document.createTextNode(report['categories']);
+                var textnodeDate=document.createTextNode(report['last_modified']);
 
                 cellTitle.appendChild(textnodeTitle);
                 cellThumbnailImage.appendChild(thumbnailImage);
@@ -70,7 +70,7 @@
             <a href="/add">Click here to test POST api</a>
         article.row
             .span14
-                h2 Entry list
+                h2 report list
                 table.zebra-striped
                     thead
                         tr
@@ -82,17 +82,17 @@
                             th Note
                             th Categories
                             th last modified
-                    tbody#entrytable
-                        - entry.forEach(function(entry){
+                    tbody#reporttable
+                        - report.forEach(function(report){
                             tr.xx
-                                td= entry['title']
+                                td= report['title']
                                 td
-                                    img(src="#{entry.thumbnail_image}", width = "40", heigth = "40")
+                                    img(src="#{report.thumbnail_image}", width = "40", heigth = "40")
                                 td
-                                    img(src="#{entry.full_image}", width = "40", heigth = "40")
-                                td= entry['latitude']
-                                td= entry['longitude']
-                                td= entry['note']
-                                td= entry['categories']
-                                td= entry['last_modified']
+                                    img(src="#{report.full_image}", width = "40", heigth = "40")
+                                td= report['lat']
+                                td= report['long']
+                                td= report['note']
+                                td= report['categories']
+                                td= report['last_modified']
                         - })

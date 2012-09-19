@@ -6,14 +6,14 @@
 
 // loads model file and engine
 var mongoose    = require('mongoose'),
-    entryModel = require('../models/entry');
+    reportModel = require('../models/model');
 
 // Open DB connection
-mongoose.connect('mongodb://localhost/entry');
+mongoose.connect('mongodb://localhost/model');
 
 // Home page => registration form
 exports.index = function(req, res){
-    entryModel.find({},function(err, docs){
-        res.render('index.jade', { title: 'City bug', entry: docs });
+    reportModel.find({},function(err, docs){
+        res.render('index.jade', { title: 'City bug', report: docs });
     });
 };

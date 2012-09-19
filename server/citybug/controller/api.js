@@ -1,36 +1,36 @@
 var mongoose    = require('mongoose'),
-    entryModel = require('../models/entry');
+    reportModel = require('../models/model');
 
 exports.add = function(req, res){
-    entryModel.find({},function(err, docs){
-        res.render('add.jade', { title: 'City bug', entry: docs });
+    reportModel.find({},function(err, docs){
+        res.render('add.jade', { title: 'City bug', report: docs });
     });
 };
 
-// GET /api/entries >> get list of entries
-exports.entries = function(req, res){
+// GET /api/reports >> get list of entries
+exports.reports = function(req, res){
     console.log('get list');
     res.contentType('application/json'); 
  
-    entryModel.find({},function(err, docs){
-        res.send('{ "entries":' + JSON.stringify(docs) + ' }');
+    reportModel.find({},function(err, docs){
+        res.send('{ "report":' + JSON.stringify(docs) + ' }');
     });
 
 };
 
-// GET /api/entries/{id} >> get one entry from id
-exports.entry = function(req, res){
+// GET /api/report/{id} >> get one report from id
+exports.report = function(req, res){
     var url = req.url;
     var currentID = url.match( /[^\/]+\/?$/ );
     console.log('current : '+currentID);
 
     res.contentType('application/json');
-    entryModel.findOne({_id:currentID }, function(err,docs) {    	
-        res.send('"entry" : ' + JSON.stringify(docs));
+    reportModel.findOne({_id:currentID }, function(err,docs) {    	
+        res.send('"report" : ' + JSON.stringify(docs));
 	});
 };
 
-exports.entry_post = function(req, res){
+exports.report_post = function(req, res){
     var fs = require('fs');
 
     // create directory
@@ -52,17 +52,17 @@ exports.entry_post = function(req, res){
     };
 
     // save data to db
-    entry = new entryModel();
-    entry.title = req.body.title;
-    entry.thumbnail_image = "/images/" + entry._id + "/" + req.files.thumbnail_image.name;
-    entry.full_image = "/images/"+ entry._id + "/" + req.files.full_image.name;
-    entry.latitude = req.body.latitude;
-    entry.longitude = req.body.longitude;
-    entry.note = req.body.note;
-    entry.categories = req.body.categories;
-    entry.last_modified = new Date();
+    report = new reportModel();
+    report.title = req.body.title;
+    report.thumbnail_image = "/images/" + report._id + "/" + req.files.thumbnail_image.name;
+    report.full_image = "/images/"+ report._id + "/" + req.files.full_image.name;
+    report.lat = req.body.lat;
+    report.long = req.body.long;
+    report.note = req.body.note;
+    report.categories = req.body.categories;
+    report.last_modified = new Date();
 
-    entry.save(function (err) {
+    report.save(function (err) {
         if (!err){
             console.log('Success!');
             res.statusCode = 200;
@@ -75,7 +75,7 @@ exports.entry_post = function(req, res){
     });
 
     // make directory
-    fs.mkdirParent("./public/images/" + entry._id + "/");
+    fs.mkdirParent("./public/images/" + report._id + "/");
 
     //save picture to /public/images/:id/pictureName
 
@@ -83,7 +83,7 @@ exports.entry_post = function(req, res){
         // get the temporary location of the file : ./uploads
         var tmp_path = req.files.thumbnail_image.path;
         // set where the file should actually exists - in this case it is in the "images" directory
-        var thumbnail_image_path = './public/images/' + entry._id + "/" + req.files.thumbnail_image.name;
+        var thumbnail_image_path = './public/images/' + report._id + "/" + req.files.thumbnail_image.name;
         // move the file from the temporary location to the intended location
         fs.rename(tmp_path, thumbnail_image_path, function(err) {
             if (err) throw err;
@@ -104,7 +104,7 @@ exports.entry_post = function(req, res){
     // do the same thing
     if (req.files.full_image.name) {
         var tmp_path = req.files.full_image.path;
-        var full_image_path = './public/images/' + entry._id + "/" + req.files.full_image.name;
+        var full_image_path = './public/images/' + report._id + "/" + req.files.full_image.name;
         fs.rename(tmp_path, full_image_path, function(err) {
             if (err) throw err;
             fs.unlink(tmp_path, function() {
@@ -119,7 +119,7 @@ exports.entry_post = function(req, res){
         });
     }
 
-    entryModel.findOne({_id:entry._id }, function(err,docs) {       
-        res.render('add_response', {title: 'City bug',entry: docs});
+    reportModel.findOne({_id:report._id }, function(err,docs) {       
+        res.render('add_response', {title: 'City bug',report: docs});
     });
 };

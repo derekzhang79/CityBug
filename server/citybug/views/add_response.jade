@@ -7,6 +7,6 @@
 
 			var socket = io.connect();
 			socket.on('connect', function () {
-				var data = !{JSON.stringify(entry)};
+				var data = !{JSON.stringify(report)};
 				socket.emit('user message',data);
 			});
