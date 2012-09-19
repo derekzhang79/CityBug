@@ -1,8 +1,9 @@
-var mongoose    = require('mongoose'),
-    reportModel = require('../models/model');
+var environment = require('../environment'),
+    service = require('../service'),
+    model =  service.useModel('model');
 
 exports.add = function(req, res){
-    reportModel.find({},function(err, docs){
+    model.Report.find({},function(err, docs){
         res.render('add.jade', { title: 'City bug', report: docs });
     });
 };
@@ -12,7 +13,7 @@ exports.reports = function(req, res){
     console.log('get list');
     res.contentType('application/json'); 
  
-    reportModel.find({},function(err, docs){
+    model.Report.find({},function(err, docs){
         res.send('{ "report":' + JSON.stringify(docs) + ' }');
     });
 
@@ -25,9 +26,9 @@ exports.report = function(req, res){
     console.log('current : '+currentID);
 
     res.contentType('application/json');
-    reportModel.findOne({_id:currentID }, function(err,docs) {    	
+    model.Report.findOne({_id:currentID }, function(err,docs) {      
         res.send('"report" : ' + JSON.stringify(docs));
-	});
+    });
 };
 
 exports.report_post = function(req, res){
@@ -52,7 +53,7 @@ exports.report_post = function(req, res){
     };
 
     // save data to db
-    report = new reportModel();
+    report = new model.Report();
     report.title = req.body.title;
     report.thumbnail_image = "/images/" + report._id + "/" + req.files.thumbnail_image.name;
     report.full_image = "/images/"+ report._id + "/" + req.files.full_image.name;
@@ -61,6 +62,8 @@ exports.report_post = function(req, res){
     report.note = req.body.note;
     report.categories = req.body.categories;
     report.last_modified = new Date();
+    report.created_at = new Date();
+    report.text = 'my worng text';
 
     report.save(function (err) {
         if (!err){
@@ -119,7 +122,8 @@ exports.report_post = function(req, res){
         });
     }
 
-    reportModel.findOne({_id:report._id }, function(err,docs) {       
+    model.Report.findOne({_id:report._id }, function(err,docs) {      
+        console.log('report model' + docs); 
         res.render('add_response', {title: 'City bug',report: docs});
     });
 };
