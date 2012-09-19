@@ -14,7 +14,6 @@
 #import "UIImageView+AFNetworking.h"
 
 #define kSceenSize self.parentViewController.view.frame.size
-#define kToolBarSize toolBar.frame.size
 #define CAMERA_SCALAR 1.32
 
 static NSString *gotoFormSegue = @"presentFormSegue";
@@ -30,7 +29,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     NSArray *entries;
 
 }
-@synthesize toolBar;
+
 
 
 #pragma mark - View's Life Cycle
@@ -38,9 +37,6 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self.parentViewController.view addSubview:toolBar];
-    toolBar.frame = CGRectMake(0, kSceenSize.height - kToolBarSize.height, kToolBarSize.width, kToolBarSize.height);
     
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     
@@ -59,13 +55,11 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [toolBar removeFromSuperview];
     [super viewWillDisappear:animated];
 }
 
 - (void)viewDidUnload
 {
-    [self setToolBar:nil];
     [super viewDidUnload];
 }
 

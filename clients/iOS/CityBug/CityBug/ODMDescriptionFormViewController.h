@@ -13,8 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;
 
-@property (weak, nonatomic) IBOutlet UITextField *locationTextField;
-
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField, *noteTextField;
 
 @property (weak, nonatomic) UIImage *bugImage;

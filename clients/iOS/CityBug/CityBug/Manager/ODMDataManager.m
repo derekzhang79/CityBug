@@ -112,12 +112,12 @@ static ODMDataManager *sharedDataManager = nil;
         
         [reportParams setValue:[report title] forParam:@"title"];
         [reportParams setValue:[report note] forParam:@"note"];
+    
+        NSData *fullImageData = UIImageJPEGRepresentation(report.fullImage, 1);
+        NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImage, 1);
         
-        NSString *mainBundle = [[NSBundle mainBundle] bundlePath];
-        
-        NSData *imageData = [NSData dataWithContentsOfFile:[mainBundle stringByAppendingPathComponent:@"bugs.jpeg"]];
-        [reportParams setData:imageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
-        [reportParams setData:imageData MIMEType:@"image/jpeg" forParam:@"full_image"];
+        [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
+        [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
         
         loader.params = reportParams;
     }];

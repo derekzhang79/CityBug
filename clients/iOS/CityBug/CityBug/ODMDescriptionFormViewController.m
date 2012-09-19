@@ -18,14 +18,11 @@
     NSMutableDictionary *entryDict;
 }
 
-@synthesize locationTextField;
 @synthesize bugImage;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    self.locationTextField.delegate = self;
     self.bugImageView.image = self.bugImage;
 
 }
@@ -33,7 +30,6 @@
 - (void)viewDidUnload
 {
     [self setBugImageView:nil];
-    [self setLocationTextField:nil];
     [super viewDidUnload];
 }
 
@@ -41,13 +37,16 @@
 {
     // POST report to server
     ODMReport *report = [[ODMReport alloc] init];
-    report.title = @"Post from RestKit";
-    report.note = @"Note from RestKit";
+    report.title = self.titleTextField.text;
+    report.note = self.noteTextField.text;
+    report.fullImage = self.bugImage;
+    report.thumbnailImage = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
     
     [[ODMDataManager sharedInstance] postNewReport:report];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -81,8 +80,13 @@
 - (void)updateCategoryList:(ODMCategoryListViewController *)delegate withCategory:(id)category
 {
     ODMLog(@"category : %@", category);
-    
     [self.tableView reloadData];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end
