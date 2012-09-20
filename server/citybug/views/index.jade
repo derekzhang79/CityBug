@@ -39,7 +39,7 @@
                 fullImage.width = 40;
                 fullImage.heigth = 40;
                 var textnodeLatitude=document.createTextNode(report['lat']);
-                var textnodeLongitude=document.createTextNode(report['long']);
+                var textnodeLongitude=document.createTextNode(report['lng']);
                 var textnodeNote=document.createTextNode(report['note']);
                 var textnodeCategories=document.createTextNode(report['categories']);
                 var textnodeDate=document.createTextNode(report['last_modified']);
@@ -88,7 +88,7 @@
                                 td
                                     img(src="#{report.full_image}", width = "40", heigth = "40")
                                 td= report['lat']
-                                td= report['long']
+                                td= report['lng']
                                 td= report['note']
                                 td= report['categories']
                                 td= report['last_modified']

@@ -7,11 +7,11 @@ var environment = require('../environment');
 var service = require('../service');
     service.init(environment);
 // loads model file and engine
-var reportModel = service.useModel('model');
+var model = service.useModel('model');
 
 // Home page => registration form
 exports.index = function(req, res){
-    var query =  reportModel.Report.find({});
+    var query =  model.Report.find({});
 
     query.exec(function (err, docs) {
 			res.render('index.jade', { title: 'City bug', report: docs });
