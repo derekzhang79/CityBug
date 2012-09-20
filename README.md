@@ -125,7 +125,22 @@ CityBug Project (Beta v.1.0)
 	* Response
 
 				{
-					"categores": ["A", "B", "C"]
+				    "categories": [
+				        {
+				            "created_at": "2012-09-20T03:35:15.853Z",
+				            "last_modified": "2012-09-20T03:35:15.853Z",
+				            "title": "cat1",
+				            "_id": "505a8ef3cea52e3676000001",
+				            "__v": 0
+				        },
+				        {
+				            "created_at": "2012-09-20T03:35:15.853Z",
+				            "last_modified": "2012-09-20T03:35:15.853Z",
+				            "title": "cat2",
+				            "_id": "505a8ef3cea52e3676000002",
+				            "__v": 0
+				        }
+				    ]
 				}
 	* Response Status
 		* 1000 - Unknown
@@ -189,9 +204,9 @@ CityBug Project (Beta v.1.0)
 
 
 				{
-					"Places" : [
+					"places" : [
 						{
-							"ServerPlaces": [
+							"suggest_places": [
 								{
 									"title":"สุทธิสาร",
 									"lat":12.4,
@@ -213,21 +228,24 @@ CityBug Project (Beta v.1.0)
 							]
 						},
 						{
-							"FoursquarePlaces": [
+							"additional_places": [
 								{
 									"title":"14 กันยา",
 									"lat":13.4,
 									"long":29.333
+									"id":"4bf58dd8d48988d143941737"
 								},	
 								{
 									"title":"ลาดพร้าว 64",
 									"lat":12.987,
 									"long":30.0001
+									"id":"4bf58dd8d48988d143941736"
 								},
 								{
 									"title":"แยกปราบเซียน",
 									"lat":17.1234,
 									"long":17.4321
+									"id":"4bf58dd8d48988d143941735"
 								}
 							]
 						}

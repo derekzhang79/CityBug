@@ -255,3 +255,11 @@ exports.report_post = function(req, res){
         });
     }
 };
+
+// GET /api/categories >> get list of categories
+exports.categories = function(req, res) {
+    res.contentType('application/json');
+    model.Category.find({}, function(err,docs) {   
+        res.send('{ "categories":' + JSON.stringify(docs) + '}');
+    });
+}
