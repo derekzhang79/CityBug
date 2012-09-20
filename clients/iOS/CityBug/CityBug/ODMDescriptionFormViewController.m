@@ -9,6 +9,7 @@
 #import "ODMDescriptionFormViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ODMDataManager.h"
+#import "ODMReport.h"
 
 #import "ODMEditFormFieldViewController.h"
 #import "ODMNoteFormFieldViewController.h"
@@ -17,19 +18,11 @@
     NSMutableDictionary *entryDict;
 }
 
-@synthesize locationTextField;
 @synthesize bugImage;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.descTextView.layer.borderWidth = 5.0f;
-    self.descTextView.layer.borderColor = [[UIColor grayColor] CGColor];
-    self.descTextView.layer.cornerRadius = 5;
-    self.descTextView.delegate = self;
-    
-
-    self.locationTextField.delegate = self;
     self.bugImageView.image = self.bugImage;
 
 }
@@ -37,22 +30,23 @@
 - (void)viewDidUnload
 {
     [self setBugImageView:nil];
-    [self setDescTextView:nil];
-    [self setLocationTextField:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (IBAction)doneButtonTapped:(id)sender
 {
-    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
+    // POST report to server
+    ODMReport *report = [[ODMReport alloc] init];
+    report.title = self.titleTextField.text;
+    report.note = self.noteTextField.text;
+    report.fullImage = self.bugImage;
+    report.thumbnailImage = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
     
-    [dataManager postNewEntry:self.bugImage
-                        title:self.titleLabel.text
-                         note:self.descTextLabel.text];
+    [[ODMDataManager sharedInstance] postNewReport:report];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -75,9 +69,9 @@
     ODMLog(@"formfield %@", textField.text);
     
     if ([viewController isKindOfClass:[ODMEditFormFieldViewController class]]) {
-        self.descTextLabel.text = textField.text;
+
     } else if ([viewController isKindOfClass:[ODMNoteFormFieldViewController class]]) {
-        self.titleLabel.text = textField.text;
+
     }
     
     [self.tableView reloadData];
@@ -86,10 +80,13 @@
 - (void)updateCategoryList:(ODMCategoryListViewController *)delegate withCategory:(id)category
 {
     ODMLog(@"category : %@", category);
-    
-    self.categoryLabel.text = (NSString *)category;
-    
     [self.tableView reloadData];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end

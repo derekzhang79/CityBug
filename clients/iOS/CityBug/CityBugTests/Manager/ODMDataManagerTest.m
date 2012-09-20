@@ -10,10 +10,12 @@
 #import <CoreData/CoreData.h>
 #import "ODMEntry.h"
 #import "ODMDataManager.h"
+#import "ODMReport.h"
 
 @implementation ODMDataManagerTest {
     NSManagedObjectContext *context;
     ODMDataManager *dataManager;
+    RKObjectManager *objectManager;
 }
 
 - (void)setUp
@@ -29,6 +31,8 @@
     context.persistentStoreCoordinator = psc;
     
     dataManager = [ODMDataManager sharedInstance];
+    
+    objectManager = [RKObjectManager sharedManager];
 }
 
 - (void)tearDown
@@ -39,32 +43,33 @@
 
 - (void)testInitializeDataManager
 {
-    STAssertNotNil(dataManager, @"DataManager should not nill");
+    STAssertNotNil(dataManager, @"DataManager should not nil");
+    
+    STAssertNotNil(objectManager, @"RestKit Manager shuold not nil");
 }
 
-- (void)testGetJSONFromServer
+- (void)testListReport
 {
-    NSArray *entries = [dataManager get:@"/api/entries"];
-    
-    STAssertNotNil(entries, @"Entries should not return nil");
-    
-    STAssertTrue([entries count] > 0, @"DataManager should not empty array");
-    
-    BOOL success = [dataManager insertEntriesToPersistentStore:entries withManagedObjectContext:context];
-    
-    STAssertTrue(success, @"DataManager should not failed when insert entries to persistenstore");
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"ODMEntry" inManagedObjectContext:context]];
-    
-    NSError *error;
-    
-    NSArray *results = [context executeFetchRequest:fetchRequest error:&error];
-    
-    STAssertNil(error, @"DataManager cannot fetch entries from persistentstore with error %@", error);
-    
-    STAssertTrue([results count] > 0, @"FetchedArray should not empty after insert any entries to persistentstore");
+    [objectManager loadObjectsAtResourcePath:@"/api/reports" delegate:self];
+}
+
+- (void)testPostNewReport
+{
+    ODMReport *report = [ODMReport new];
+    report.title = @"Post from RestKit";
+    report.note = @"Note from RestKit";
+
+    [dataManager postNewReport:report];
+}
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
+{
+    ODMLog(@"Loader Failed %@", error);
+}
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects
+{
+    ODMLog(@"Finish load with object %@", objects);
 }
 
 @end

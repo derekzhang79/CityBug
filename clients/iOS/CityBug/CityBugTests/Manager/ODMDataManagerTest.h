@@ -8,6 +8,6 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface ODMDataManagerTest : SenTestCase
+@interface ODMDataManagerTest : SenTestCase <RKObjectLoaderDelegate>
 
 @end
