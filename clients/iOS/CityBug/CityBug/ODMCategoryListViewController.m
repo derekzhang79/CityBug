@@ -44,18 +44,6 @@
     return 1;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    catString = cell.textLabel.text;
-    
-    if ([self.delegate respondsToSelector:@selector(updateCategoryList:withCategory:)]) {
-        [self.delegate updateCategoryList:self withCategory:catString];
-    }
-    
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CategoryCellIdentifier";
@@ -76,6 +64,19 @@
     
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    catString = cell.textLabel.text;
+    
+    if ([self.delegate respondsToSelector:@selector(updateCategoryList:withCategory:)]) {
+        [self.delegate updateCategoryList:self withCategory:catString];
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 #pragma mark - VIEW
 

@@ -11,6 +11,7 @@
 #import "ODMEntry.h"
 #import "ODMReport.h"
 #import "ODMCategory.h"
+#import "ODMPlace.h"
 
 #import "AFJSONRequestOperation.h"
 #import "AFHTTPClient.h"
@@ -27,7 +28,7 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 /*
  * Read write access only DataManager
  */
-@property (nonatomic, readwrite, strong) NSArray *categories, *reports;
+@property (nonatomic, readwrite, strong) NSArray *categories, *reports, *places;
 @end
 
 @implementation ODMDataManager
@@ -110,9 +111,13 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
     [[RKObjectManager sharedManager] postObject:report usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
         
-        [reportParams setValue:[report title] forParam:@"title"];
-        [reportParams setValue:[report note] forParam:@"note"];
-    
+        [reportParams setValue:[report title]     forParam:@"title"];
+        [reportParams setValue:[report note]      forParam:@"note"];
+        [reportParams setValue:[report latitude]  forParam:@"lat"];
+        [reportParams setValue:[report longitude] forParam:@"lng"];
+        [reportParams setValue:@"admin"           forParam:@"username"];
+        [reportParams setValue:[report categories] forParam:@"categories"];
+        
         NSData *fullImageData = UIImageJPEGRepresentation(report.fullImage, 1);
         NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImage, 1);
         
@@ -129,17 +134,11 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
  */
 - (NSArray *)categories
 {
-    if (categories_ == nil) {
-        
-        // Prototype Version using AlertView pop over when fetching category list
-        
-        UIAlertView *alertFetchingCategory = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CityBugTitleAlert", @"Title for alert dialog") message:NSLocalizedString(@"Waiting for connection", @"Waiting for connection") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK Button") otherButtonTitles:nil];
-        
-        [alertFetchingCategory show];
+    if (!categories_) {
         
         [serviceObjectManager loadObjectsAtResourcePath:@"/api/categories" usingBlock:^(RKObjectLoader *loader){
             loader.onDidLoadObjects = ^(NSArray *objects){
-                self.categories = [objects copy];
+                categories_ = [objects copy];
                 
                 // Post notification with category array
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCategoriesLoadingFinish object:self.categories];
@@ -149,6 +148,48 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
     
     ODMCategory *cat = [ODMCategory new]; cat.title = @"Human error";
     return [NSArray arrayWithObjects:cat, nil];
+}
+
+#pragma mark - PLACE
+/**
+ * Place list
+ */
+- (NSArray *)places
+{
+    if (!places_) {
+        
+        NSDictionary *queryParams = [NSDictionary dictionaryWithKeysAndObjects:@"lat", @"10.33023",
+                                     @"lng", @"133.324523", nil];
+        NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:queryParams];
+        
+        [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
+            loader.onDidLoadObjects = ^(NSArray *objects){
+                places_ = [objects copy];
+                
+                // Post notification with category array
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCategoriesLoadingFinish object:self.places];
+            };
+        }];
+    }
+    
+    ODMPlace *place1 = [[ODMPlace alloc] init];
+    place1.title = @"Opendream@BKK";
+    place1.latitude = @13.791343;
+    place1.longitude = @100.587473;
+    
+    ODMPlace *place2 = [[ODMPlace alloc] init];
+    place2.title = @"Opendream@CHX";
+    place2.latitude = @13.791343;
+    place2.longitude = @100.587473;
+    
+    NSDictionary *sectionA = [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects:place1, nil], @"suggestion_place", nil];
+    NSDictionary *sectionB = [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects:place2, nil], @"additional_place", nil];
+    return [NSArray arrayWithObjects:sectionA, sectionB, nil];
+}
+
+- (NSArray *)placesWithQueryParams:(NSDictionary *)params
+{
+    return nil;
 }
 
 #pragma mark - RKObjectLoader Delegate
