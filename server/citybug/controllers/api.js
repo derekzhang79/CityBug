@@ -8,11 +8,6 @@ exports.add = function(req, res){
     });
 };
 
-exports.place_search = function(req, res){
-    res.statusCode = 200;
-    res.send("search place");
-};
-
 
 // GET /api/reports >> get list of entries
 exports.reports = function(req, res){

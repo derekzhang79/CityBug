@@ -1,5 +1,7 @@
 var controller = require('./controllers/index'),
-    api = require('./controllers/api');
+    api = require('./controllers/api'),
+    place = require('./controllers/place');
+
 module.exports = function(app, express){
 
 	app.get('/', controller.index);
@@ -11,7 +13,8 @@ module.exports = function(app, express){
 	app.get('/api/reports/*', api.report);
 
 	//place
-	app.get('/api/place/search', api.place_search)
+	app.get('/callback', place.callback);
+	app.get('/api/place/search', place.place_search)
 
 	//categories
 	app.get('/api/categories', api.categories);
