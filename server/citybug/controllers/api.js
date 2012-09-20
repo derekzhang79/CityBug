@@ -56,47 +56,47 @@ exports.report_post = function(req, res){
       });
     };
 
-    add mockup user nut id = 5059a5241b9c322369000011
-    var user = new model.User();
-    user.username = 'admin';
-    user.password = '1234';
-    user.email = '123@ggg.com';
-    user.created_at = new Date();
-    user.last_modified = new Date();
-    user.save(function (err){
-        if (err) {
-            console.log(err);
-            // do something
-        } else {
-            console.log('user' + user);
-        }
-    }); 
+    //  //add mockup user nut id = 5059a5241b9c322369000011
+    // var user = new model.User();
+    // user.username = 'admin';
+    // user.password = '1234';
+    // user.email = '123@ggg.com';
+    // user.created_at = new Date();
+    // user.last_modified = new Date();
+    // user.save(function (err){
+    //     if (err) {
+    //         console.log(err);
+    //         // do something
+    //     } else {
+    //         console.log('user' + user);
+    //     }
+    // }); 
 
-    // add Mock up category
-    var cat1 = new model.Category();
-    cat1.title = 'cat1';
-    cat1.last_modified = new Date();
-    cat1.created_at = new Date();
-    var cat2 = new model.Category();
-    cat2.title = 'cat2';
-    cat2.last_modified = new Date();
-    cat2.created_at = new Date();
-    cat1.save(function (err){
-        if (err) {
-            console.log(err);
-            // do something
-        } else {
-            console.log('cat1' + cat1);
-        }
-    }); 
-    cat2.save(function (err){
-        if (err) {
-            console.log(err);
-            // do something
-        } else {
-            console.log('cat2' + cat2);
-        }
-    }); 
+    // // add Mock up category
+    // var cat1 = new model.Category();
+    // cat1.title = 'cat1';
+    // cat1.last_modified = new Date();
+    // cat1.created_at = new Date();
+    // var cat2 = new model.Category();
+    // cat2.title = 'cat2';
+    // cat2.last_modified = new Date();
+    // cat2.created_at = new Date();
+    // cat1.save(function (err){
+    //     if (err) {
+    //         console.log(err);
+    //         // do something
+    //     } else {
+    //         console.log('cat1' + cat1);
+    //     }
+    // }); 
+    // cat2.save(function (err){
+    //     if (err) {
+    //         console.log(err);
+    //         // do something
+    //     } else {
+    //         console.log('cat2' + cat2);
+    //     }
+    // }); 
     
     //  // add mockup place
     // var place = new model.Place();
