@@ -28,11 +28,17 @@ exports.reports = function(req, res){
 exports.report = function(req, res){
     var url = req.url;
     var currentID = url.match( /[^\/]+\/?$/ );
-
     res.contentType('application/json');
-    model.Report.findOne({_id:currentID }, function(err,docs) {   
-        res.send('"reports" : ' + JSON.stringify(docs));
-	});
+
+    model.Report.findOne({_id:currentID})
+        .populate('user','username email thumbnail_image')
+        .populate('categories','title')
+        .exec(function (err, report) {
+            if (err) { 
+                return handleError(err);
+            }
+            res.send('{ "reports":' + JSON.stringify(report) + ' }');
+    });
 };
 
 exports.report_post = function(req, res){
@@ -102,7 +108,7 @@ exports.report_post = function(req, res){
     // var place = new model.Place();
     // place.title = 'สวนดอกจ้า';
     // place.lat = 12.34;
-    // place.long = 45.67;
+    // place.lng = 45.67;
     // place.created_at = new Date();
     // place.last_modified = new Date();
     // place.save(function (err){
@@ -127,7 +133,7 @@ exports.report_post = function(req, res){
     report.thumbnail_image = thumbnail_image_short_path;
     report.full_image = full_image_short_path;
     report.lat = req.body.lat;
-    report.long = req.body.long;
+    report.lng = req.body.lng;
     report.note = req.body.note;
     report.is_resolved = false;
     report.imin_count = 0;

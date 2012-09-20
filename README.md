@@ -34,7 +34,7 @@ CityBug Project (Beta v.1.0)
 									"imin_count":1,
 									"is_resolved":false,
 									"note":"ท่อตันทั้งสาย",
-									"long":10.329,
+									"lng":10.329,
 									"lat":99.1245,
 									"full_image":"/images/report/505ac6a025aad95080000001.png",
 									"thumbnail_image":"/images/report/505ac6a025aad95080000001_thumbnail.png",
@@ -210,19 +210,19 @@ CityBug Project (Beta v.1.0)
 								{
 									"title":"สุทธิสาร",
 									"lat":12.4,
-									"long":28.323,
+									"lng":28.323,
 									"_id":"505ac6a025aad95080000001"
 								},	
 								{
 									"title":"อารียาแมนดารีน่า",
 									"lat":10.987,
-									"long":90.07877,
+									"lng":90.07877,
 									"_id":"505ac6a025aad95080000002"
 								},
 								{
 									"title":"โอเพ่นดรีม",
 									"lat":67.999,
-									"long":32.545,
+									"lng":32.545,
 									"_id":"505ac6a025aad95080000003"
 								}
 							]
@@ -232,19 +232,19 @@ CityBug Project (Beta v.1.0)
 								{
 									"title":"14 กันยา",
 									"lat":13.4,
-									"long":29.333
+									"lng":29.333
 									"id":"4bf58dd8d48988d143941737"
 								},	
 								{
 									"title":"ลาดพร้าว 64",
 									"lat":12.987,
-									"long":30.0001
+									"lng":30.0001
 									"id":"4bf58dd8d48988d143941736"
 								},
 								{
 									"title":"แยกปราบเซียน",
 									"lat":17.1234,
-									"long":17.4321
+									"lng":17.4321
 									"id":"4bf58dd8d48988d143941735"
 								}
 							]

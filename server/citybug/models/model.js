@@ -12,7 +12,7 @@ module.exports = function (mongoose) {
 	var PlaceSchema = new Schema({
 		title				: String
 		, lat 				: Number
-		, long 				: Number
+		, lng 				: Number
 		, last_modified		: Date
 		, created_at		: Date
 	});
@@ -41,7 +41,7 @@ module.exports = function (mongoose) {
 	var ReportSchema = new Schema({
 		title				: String
 		, lat				: Number
-		, long				: Number
+		, lng				: Number
 		, note				: String
 		, full_image		: String
 		, thumbnail_image	: String
