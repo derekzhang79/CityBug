@@ -58,7 +58,10 @@
     ODMReport *report = [ODMReport new];
     report.title = @"Post from RestKit";
     report.note = @"Note from RestKit";
-
+    report.latitude = @13.791343;
+    report.longitude = @100.587473;
+    report.fullImage = [UIImage imageNamed:@"1.jpeg"];
+    report.thumbnailImage = [UIImage imageNamed:@"1.jpeg"];
     [dataManager postNewReport:report];
 }
 

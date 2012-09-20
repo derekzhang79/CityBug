@@ -7,12 +7,7 @@
 //
 
 #import "ODMDescriptionFormViewController.h"
-#import <QuartzCore/QuartzCore.h>
 #import "ODMDataManager.h"
-#import "ODMReport.h"
-
-#import "ODMEditFormFieldViewController.h"
-#import "ODMNoteFormFieldViewController.h"
 
 @implementation ODMDescriptionFormViewController {
     NSMutableDictionary *entryDict;
@@ -39,6 +34,8 @@
     ODMReport *report = [[ODMReport alloc] init];
     report.title = self.titleTextField.text;
     report.note = self.noteTextField.text;
+    report.latitude = @13.791343;
+    report.longitude = @100.587473;
     report.fullImage = self.bugImage;
     report.thumbnailImage = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
     
@@ -53,22 +50,39 @@
     if ([segue.identifier isEqualToString:@"categorySegueIdentifier"]) {
         ODMCategoryListViewController *formVC = segue.destinationViewController;
         formVC.delegate = self;
+    } else if ([segue.identifier isEqualToString:@"PlaceFormSequeIdentifier"]) {
+        ODMPlaceFormViewController *formVC = segue.destinationViewController;
+        formVC.delegate = self;
     }
 }
 
-#pragma mark - FormField Delegate
-
+#pragma mark - CATEGORY
+/**
+ * Update Category Label
+ */
 - (void)updateCategoryList:(ODMCategoryListViewController *)delegate withCategory:(id)category
 {
     self.categoryLabel.text = category;
-
-    [self.tableView reloadData];
+    
+    ODMLog(@"Update Category %@", category);
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    [self resignFirstResponder];
+    
     return YES;
+}
+
+#pragma mark - PLACE
+/**
+ * Update Place Label
+ */
+- (void)didSelectPlace:(ODMPlace *)place
+{
+    self.localtionLabel.text = [place title];
+    
+    ODMLog(@"Update Place %@", [place title]);
 }
 
 @end

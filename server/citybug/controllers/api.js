@@ -34,6 +34,9 @@ exports.report = function(req, res){
     model.Report.findOne({_id:currentID})
         .populate('user','username email thumbnail_image')
         .populate('categories','title')
+        .populate('comments')
+        .populate('imins')
+        .populate('place')
         .exec(function (err, report) {
             if (err) { 
                 return handleError(err);
@@ -63,72 +66,6 @@ exports.report_post = function(req, res){
       });
     };
 
-    //add mockup user 
-    model.User.find({} , function(err,allUser) { 
-        if (err || allUser.length < 1) {
-            var user = new model.User();
-            user.username = 'admin';
-            user.password = '1234';
-            user.email = '123@ggg.com';
-            user.created_at = new Date();
-            user.last_modified = new Date();
-            user.save(function (err){
-                if (err) {
-                    console.log(err);
-                    // do something
-                } else {
-                    console.log('user' + user);
-                }
-            }); 
-        }
-    });
-
-    // add Mock up category
-    model.User.find({} , function(err,allUser) { 
-        if (err || allUser.length < 1) {
-            var cat1 = new model.Category();
-            cat1.title = 'cat1';
-            cat1.last_modified = new Date();
-            cat1.created_at = new Date();
-            var cat2 = new model.Category();
-            cat2.title = 'cat2';
-            cat2.last_modified = new Date();
-            cat2.created_at = new Date();
-            cat1.save(function (err){
-                if (err) {
-                    console.log(err);
-                    // do something
-                } else {
-                    console.log('cat1' + cat1);
-                }
-            }); 
-            cat2.save(function (err){
-                if (err) {
-                    console.log(err);
-                    // do something
-                } else {
-                    console.log('cat2' + cat2);
-                }
-            }); 
-        }
-    });
-    
-    // // add mockup place
-    // var place = new model.Place();
-    // place.title = 'สวนดอกจ้า';
-    // place.lat = 12.34;
-    // place.lng = 45.67;
-    // place.created_at = new Date();
-    // place.last_modified = new Date();
-    // place.save(function (err){
-    //     if (err) {
-    //         console.log(err);
-    //         // do something
-    //     } else {
-    //         console.log('place' + place);
-    //     }
-    // }); 
-
 
     // save data to db
     var report = new model.Report();
@@ -156,21 +93,28 @@ exports.report_post = function(req, res){
 */
 
     //Find User from username
-    model.User.findOne({username: 'admin' }, function(err,user) {   
-        
+    model.User.findOne({username: req.body.username }, function(err,user) {   
+        if (user == null) {
+            // res.contentType('Content-Type', 'application/json');
+            // res.statusCode = 200;
+            // res.send(2003);
+            res.redirect('/');
+            return;
+        };
         // Set user to Report
         report.user = user._id;
 
-        //model.Category.find({ $or : [ { title : 'cat1' } , { title : 'cat2' } ] } , function(err,catArray) { 
+        // model.Category.find({ $or : [ { title : 'cat1' } , { title : 'cat2' } ] } , function(err,catArray) { 
 
         //Find Category from request
-        var firstCategoryFromRequest;
-        if (req.body.categories != null && req.body.categories.length > 0) {
-            firstCategoryFromRequest = req.body.categories[0];
-        } 
+        var query = {};
+        query["$or"]=[];
+        for (cat in req.body.categories) {
+            query["$or"].push({"title":req.body.categories[cat]});
+        }
 
         //Category can not add from client
-        model.Category.find({ title: firstCategoryFromRequest} , function(err,catTitleFromClient) { 
+        model.Category.find(query, function(err,catTitleFromClient) { 
           
             if (!err) {
                 for (i in catTitleFromClient ) {

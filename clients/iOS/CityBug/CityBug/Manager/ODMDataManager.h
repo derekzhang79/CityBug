@@ -6,6 +6,10 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
+#import "ODMReport.h"
+#import "ODMCategory.h"
+#import "ODMPlace.h"
+
 extern NSString *ODMDataManagerNotificationCategoriesLoadingFinish;
 extern NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 
@@ -14,10 +18,10 @@ extern NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 @interface ODMDataManager : NSObject <RKObjectLoaderDelegate> {
     RKObjectManager *serviceObjectManager;
     
-    NSArray *reports_, *categories_;
+    NSArray *reports_, *categories_, *places_;
 }
 
-@property (nonatomic, readonly ,strong) NSArray *reports, *categories;
+@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places;
 
 /*
  * Singleton pattern

@@ -15,6 +15,7 @@
 		CE16A29E160ACE4100396033 /* 2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A297160ACE4100396033 /* 2.jpeg */; };
 		CE16A29F160ACE4100396033 /* 1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A298160ACE4100396033 /* 1.jpeg */; };
 		CE16A2A2160AF8B400396033 /* ODMPlaceFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE16A2A1160AF8B400396033 /* ODMPlaceFormViewController.m */; };
+		CE16A2DD160B07D500396033 /* ODMPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = CE16A2DC160B07D500396033 /* ODMPlace.m */; };
 		CE7C595D16097FD600F3D496 /* CityBugTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E861603767D0041B3B8 /* CityBugTests-Info.plist */; };
 		CEB10E231603748E0041B3B8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E211603748E0041B3B8 /* main.m */; };
 		CEB10E27160374A50041B3B8 /* balloon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E24160374A50041B3B8 /* balloon.jpeg */; };
@@ -118,6 +119,8 @@
 		CE16A298160ACE4100396033 /* 1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 1.jpeg; path = CityBug/images/Prototype/1.jpeg; sourceTree = SOURCE_ROOT; };
 		CE16A2A0160AF8B400396033 /* ODMPlaceFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMPlaceFormViewController.h; path = CityBug/ODMPlaceFormViewController.h; sourceTree = SOURCE_ROOT; };
 		CE16A2A1160AF8B400396033 /* ODMPlaceFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMPlaceFormViewController.m; path = CityBug/ODMPlaceFormViewController.m; sourceTree = SOURCE_ROOT; };
+		CE16A2DB160B07D500396033 /* ODMPlace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMPlace.h; sourceTree = "<group>"; };
+		CE16A2DC160B07D500396033 /* ODMPlace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMPlace.m; sourceTree = "<group>"; };
 		CEB10E1F1603748E0041B3B8 /* CityBug-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CityBug-Info.plist"; path = "CityBug/CityBug-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CEB10E201603748E0041B3B8 /* CityBug-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CityBug-Prefix.pch"; path = "CityBug/CityBug-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		CEB10E211603748E0041B3B8 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CityBug/main.m; sourceTree = SOURCE_ROOT; };
@@ -270,6 +273,8 @@
 				CEB10E2F160374B90041B3B8 /* ODMCategory.m */,
 				CEB10E30160374B90041B3B8 /* ODMEntry.h */,
 				CEB10E31160374B90041B3B8 /* ODMEntry.m */,
+				CE16A2DB160B07D500396033 /* ODMPlace.h */,
+				CE16A2DC160B07D500396033 /* ODMPlace.m */,
 			);
 			name = Model;
 			path = CityBug/Model;
@@ -630,6 +635,7 @@
 				CEB10EB0160376FC0041B3B8 /* UIImageView+AFNetworking.m in Sources */,
 				CEF8C32216097B79008871D4 /* ODMReport.m in Sources */,
 				CE16A2A2160AF8B400396033 /* ODMPlaceFormViewController.m in Sources */,
+				CE16A2DD160B07D500396033 /* ODMPlace.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

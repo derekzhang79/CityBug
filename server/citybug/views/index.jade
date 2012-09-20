@@ -78,10 +78,22 @@
                             th Longitude
                             th Note
                             th Categories
-                            th last modified
+                            th Resolved?
+                            th User
+                            th Place
+                            th Total join (imin)
+                            td Who join
+                            th Comments
+                            th Last modified
+                            th Create at
                     tbody#reporttable
                         - report.forEach(function(report){
-                            tr.xx
+                            -   var allCat = ""
+                            -   report['categories'].forEach(function(cat){
+                            -   allCat = allCat + cat.title 
+                            -   });
+
+                            tr
                                 td= report['title']
                                 td
                                     img(src="#{report.thumbnail_image}", width = "40", heigth = "40")
@@ -90,6 +102,13 @@
                                 td= report['lat']
                                 td= report['lng']
                                 td= report['note']
-                                td= report['categories']
+                                td= allCat
+                                td= report['is_resolved']
+                                td= report['user'].username
+                                th= report['place']
+                                th= report['imin_count']
+                                th= report['imins']
+                                th= report['comments']
                                 td= report['last_modified']
+                                td= report['created_at']
                         - })
