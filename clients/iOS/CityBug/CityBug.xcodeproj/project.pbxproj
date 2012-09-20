@@ -103,6 +103,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		985F4949160B0F4300D642D0 /* EXF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXF.h; sourceTree = "<group>"; };
+		985F494A160B0F4300D642D0 /* EXFConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFConstants.h; sourceTree = "<group>"; };
+		985F494B160B0F4300D642D0 /* EXFGPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFGPS.h; sourceTree = "<group>"; };
+		985F494C160B0F4300D642D0 /* EXFHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFHandlers.h; sourceTree = "<group>"; };
+		985F494D160B0F4300D642D0 /* EXFJFIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFJFIF.h; sourceTree = "<group>"; };
+		985F494E160B0F4300D642D0 /* EXFJpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFJpeg.h; sourceTree = "<group>"; };
+		985F494F160B0F4300D642D0 /* EXFLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFLogging.h; sourceTree = "<group>"; };
+		985F4950160B0F4300D642D0 /* EXFMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFMetaData.h; sourceTree = "<group>"; };
+		985F4951160B0F4300D642D0 /* EXFTagDefinitionHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFTagDefinitionHolder.h; sourceTree = "<group>"; };
+		985F4952160B0F4300D642D0 /* EXFUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFUtils.h; sourceTree = "<group>"; };
 		CEB10E1F1603748E0041B3B8 /* CityBug-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CityBug-Info.plist"; path = "CityBug/CityBug-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CEB10E201603748E0041B3B8 /* CityBug-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CityBug-Prefix.pch"; path = "CityBug/CityBug-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		CEB10E211603748E0041B3B8 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CityBug/main.m; sourceTree = SOURCE_ROOT; };
@@ -214,6 +224,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		985F4948160B0F4300D642D0 /* Exif */ = {
+			isa = PBXGroup;
+			children = (
+				985F4949160B0F4300D642D0 /* EXF.h */,
+				985F494A160B0F4300D642D0 /* EXFConstants.h */,
+				985F494B160B0F4300D642D0 /* EXFGPS.h */,
+				985F494C160B0F4300D642D0 /* EXFHandlers.h */,
+				985F494D160B0F4300D642D0 /* EXFJFIF.h */,
+				985F494E160B0F4300D642D0 /* EXFJpeg.h */,
+				985F494F160B0F4300D642D0 /* EXFLogging.h */,
+				985F4950160B0F4300D642D0 /* EXFMetaData.h */,
+				985F4951160B0F4300D642D0 /* EXFTagDefinitionHolder.h */,
+				985F4952160B0F4300D642D0 /* EXFUtils.h */,
+			);
+			name = Exif;
+			path = Vendor/Exif;
+			sourceTree = "<group>";
+		};
 		98675A0715FDFD9200B34785 /* images */ = {
 			isa = PBXGroup;
 			children = (
@@ -280,6 +308,7 @@
 		CEB10E90160376F10041B3B8 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				985F4948160B0F4300D642D0 /* Exif */,
 				CEF8C2FB1609747D008871D4 /* RestKit.xcodeproj */,
 				CEB10E91160376FC0041B3B8 /* AFNetworking */,
 			);

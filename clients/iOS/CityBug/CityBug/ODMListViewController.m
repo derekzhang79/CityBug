@@ -12,6 +12,7 @@
 #import "ODMDataManager.h"
 #import "ODMEntry.h"
 #import "UIImageView+AFNetworking.h"
+#import "EXFJpeg.h"
 
 #define kSceenSize self.parentViewController.view.frame.size
 #define CAMERA_SCALAR 1.32
