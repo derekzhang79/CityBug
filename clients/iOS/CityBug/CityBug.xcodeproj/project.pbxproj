@@ -359,12 +359,12 @@
 				CEB10E38160374CC0041B3B8 /* ODMHelper.h */,
 				CEB10E5F160375420041B3B8 /* ODMAppDelegate.h */,
 				CEB10E47160374CC0041B3B8 /* ODMAppDelegate.m */,
-				CEB10E3D160374CC0041B3B8 /* ODMListViewController.h */,
-				CEB10E39160374CC0041B3B8 /* ODMListViewController.m */,
 				CEB10E3A160374CC0041B3B8 /* ODMDescriptionViewController.h */,
 				CEB10E3B160374CC0041B3B8 /* ODMDescriptionViewController.m */,
 				CEB10E3F160374CC0041B3B8 /* ODMDescriptionFormViewController.h */,
 				CEB10E3C160374CC0041B3B8 /* ODMDescriptionFormViewController.m */,
+				CEB10E3D160374CC0041B3B8 /* ODMListViewController.h */,
+				CEB10E39160374CC0041B3B8 /* ODMListViewController.m */,
 				CEB10E3E160374CC0041B3B8 /* ODMCategoryListViewController.m */,
 				CEB10E40160374CC0041B3B8 /* ODMCategoryListViewController.h */,
 				CEB10E41160374CC0041B3B8 /* ODMFormFiedViewController.h */,
@@ -719,14 +719,14 @@
 		CEEE607115FDEDFB00324883 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Patipat Susumpow (A6UFV79794)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Pirapa Sirawuttinanon (E7WPHXU5Q8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
 				INFOPLIST_FILE = "CityBug/CityBug-Info.plist";
 				PRODUCT_NAME = CityBug;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -734,14 +734,14 @@
 		CEEE607215FDEDFB00324883 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Patipat Susumpow (A6UFV79794)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Pirapa Sirawuttinanon (E7WPHXU5Q8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
 				INFOPLIST_FILE = "CityBug/CityBug-Info.plist";
 				PRODUCT_NAME = CityBug;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -120,17 +120,15 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     NSLog(@"clickedButtonAtIndex");
     picker =  [[UIImagePickerController alloc] init];
     picker.delegate = self;
+    picker.allowsEditing = YES;
     if (buttonIndex == 0 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        picker.allowsEditing = NO;
         picker.wantsFullScreenLayout = YES;
         picker.cameraViewTransform = CGAffineTransformScale(picker.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);
         
         [self presentModalViewController:picker animated:YES];
     } else if (buttonIndex == 1 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
-        
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        picker.allowsEditing = NO;
         
         [self presentModalViewController:picker animated:YES];
 
@@ -140,7 +138,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {      
     
-    imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerOriginalImage];
+    imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerEditedImage];
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
         // Save the new image (original or edited) to the Camera Roll.
