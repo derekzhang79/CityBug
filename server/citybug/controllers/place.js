@@ -15,6 +15,15 @@ var CLIENT_SECRET = KEYS.CLIENT_SECRET;
 var REDIRECT_URI = "http://54.251.32.49:3003/callback";
 
 exports.place_search = function(req, res){
+	var lat = req.query.lat;
+	var lng = req.query.lng;
+
+	// res.cookie('lat', lat, { expires: new Date(Date.now() + 900000), httpOnly: true });
+	// res.cookie('lng', lng, { expires: new Date(Date.now() + 900000), httpOnly: true });
+
+	console.log("get request param >> "+ JSON.stringify(req.query));
+	var newRedirectUrl = REDIRECT_URI + "?lat=" + lat + "&lng="+lng;
+
 	var loc = "https://foursquare.com/oauth2/authenticate?client_id=" + CLIENT_ID + "&response_type=code&redirect_uri=" + REDIRECT_URI;
 	res.writeHead(303, { 'location': loc });
 	res.end();
@@ -23,6 +32,10 @@ exports.place_search = function(req, res){
 exports.callback = function(req, res){
 
 	var code = req.query.code;
+	// var lat = req.cookies.lat;
+	// var lng = req.cookies.lng;
+	// console.log("llllat" + lat + "lngggg" + lng);
+	// console.log("cookie! "+ req.cookies);
 
 	FOURSQ.getAccessToken({
 		code: code,
@@ -33,12 +46,11 @@ exports.callback = function(req, res){
 
 		if (access_token !== undefined) {
 
-			// testUserCheckins(access_token);
-			// testUserBadges(access_token);
-			// testTipSearch(access_token);
-			// testUserSearch(access_token);
+			//Mock up lat lng
+			var lat = 40.721294;
+			var lng = -73.983994;
 
-			venueSearch(access_token, 12, 34, function (data) {
+			venueSearch(access_token, lat, lng, function (data) {
 				if (data != null && data != undefined) {
 					res.contentType('application/json'); 
 					res.statuscode = 200;
@@ -50,18 +62,6 @@ exports.callback = function(req, res){
 				}
 			});
 			
-			// testGetRecentCheckins(access_token);
-			// testGetSettings(access_token);
-			// testGetPhoto(access_token);
-
-			// testGetUser(access_token);
-			// testGetVenue(access_token);
-			// testGetVenueAspect(access_token);
-
-			// testGetCheckin(access_token);
-			// testGetTip(access_token);
-
-			// res.send('access token = '+ access_token);
 
 		} else {
 			console.log("access_token is undefined.");
@@ -73,14 +73,14 @@ exports.callback = function(req, res){
 
 function venueSearch(access_token, lat, lng, callbackFunction) {
 
-	var query = { ll: "40.721294, -73.983994" };
-	// console.log("res2" + res);
+	var latlngString = lat + "," + lng;
+	var query = { ll: latlngString };
+
 	FOURSQ.searchVenues(query, access_token, function (data) {
 		console.log("-> searchVenue OK");
 
 		callbackFunction(data);
-		// console.log("res3" + res);
-
+		
 	}, function (error) {
 		console.log(error);
 		console.log("-> searchVenue ERROR");
