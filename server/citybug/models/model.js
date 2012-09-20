@@ -47,7 +47,7 @@ module.exports = function (mongoose) {
 		, thumbnail_image	: String
 		, is_resolved		: Boolean
 		, categories		: [CategorySchema]
-		, user				: [UserSchema]
+		, user				: { type: Schema.Types.ObjectId, ref: 'User' }
 		, place				: [PlaceSchema]
 		, imin_count		: Number
 		, comments 			: [CommentSchema]
@@ -55,7 +55,7 @@ module.exports = function (mongoose) {
 		, last_modified		: Date
 		, created_at		: Date
 	});
-	
+
 	var SubscriptionSchema = new Schema({
 		place 				: [PlaceSchema]
 		, user 				: [UserSchema]

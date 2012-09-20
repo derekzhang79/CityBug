@@ -51,35 +51,66 @@ exports.report_post = function(req, res){
       });
     };
 
+    // // add mockup user nut id = 5059a5241b9c322369000011
+    // var user = new model.User();
+    // user.username = 'nut';
+
+    // user.save(function (err){
+    //     if (err) {
+    //         console.log(err);
+    //         // do something
+    //     } else {
+    //         console.log('user' + user);
+    //     }
+    // }); 
+
+
     // save data to db
     var report = new model.Report();
-    report.title = req.body.title;
-
+    
     var thumbnail_image_type = req.files.thumbnail_image.name.match( /[^.]+.?$/ );
     var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_type;
     var full_image_type = req.files.full_image.name.match( /[^.]+.?$/ );
     var full_image_short_path = "/images/report/" + report._id + "." + full_image_type;
-
+    
+    report.title = req.body.title;
     report.thumbnail_image = thumbnail_image_short_path;
     report.full_image = full_image_short_path;
     report.lat = req.body.lat;
     report.long = req.body.long;
     report.note = req.body.note;
+    report.is_resolved = false;
+    report.imin_count = 0;
     report.categories = req.body.categories;
     report.last_modified = new Date();
     report.created_at = new Date();
 
-    report.save(function (err) {
-        if (!err){
-            console.log('Success!');
-            res.statusCode = 200;
-        }
-        else {
-            console.log('Error !');
-            console.log(err);
-            res.statusCode = 500;
-        }
+
+    model.User.findOne({username: 'nut' }, function(err,user) {   
+        console.log('find user1 ' + user + ' -id- ' + user._id);
+        
+        report.user = user._id;
+
+        report.save(function (err) {
+            if (!err){
+                console.log('Success! with ' + report.user.username);
+                console.log('report JSON >>' + JSON.stringify(report));
+                res.statusCode = 200;
+                res.render('add_response', {title: 'City bug', report: report});
+
+                model.Report.findOne({ title: report.title }).populate('user').exec(function (err, report) {
+                    if (err) 
+                        return handleError(err);
+                    console.log('The creator is ' + report); // prints "The creator is Aaron"
+                })
+            } else {
+                console.log('Error !');
+                console.log(err);
+                res.statusCode = 500;
+            }
+        });
     });
+
 
     // make directory
     fs.mkdirParent("./public/images/report/");
@@ -125,8 +156,4 @@ exports.report_post = function(req, res){
             console.log('Delete temporary file');
         });
     }
-
-    model.Report.findOne({_id:report._id }, function(err,docs) {   
-        res.render('add_response', {title: 'City bug', report: docs});
-    });
 };
