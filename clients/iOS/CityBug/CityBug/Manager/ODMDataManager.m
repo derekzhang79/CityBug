@@ -112,7 +112,9 @@ static ODMDataManager *sharedDataManager = nil;
         
         [reportParams setValue:[report title] forParam:@"title"];
         [reportParams setValue:[report note] forParam:@"note"];
-    
+        [reportParams setValue:[NSNumber numberWithDouble:[report lat]] forParam:@"lat"];
+        [reportParams setValue:[NSNumber numberWithDouble:[report lng]] forParam:@"lng"];
+        
         NSData *fullImageData = UIImageJPEGRepresentation(report.fullImage, 1);
         NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImage, 1);
         

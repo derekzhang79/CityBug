@@ -8,6 +8,8 @@
 
 #import "ODMFormFiedViewController.h"
 #import "ODMCategoryListViewController.h"
+#import <CoreLocation/CoreLocation.h>
+
 
 @interface ODMDescriptionFormViewController : UITableViewController <UITextViewDelegate, UITextFieldDelegate, ODMFormFieldDelegate, ODMCategoryListDelegate>
 
@@ -16,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField, *noteTextField;
 
 @property (weak, nonatomic) UIImage *bugImage;
+@property (weak, nonatomic) CLLocation *location;
 
 - (IBAction)doneButtonTapped:(id)sender;
 

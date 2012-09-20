@@ -11,9 +11,13 @@
 #import "ODMDataManager.h"
 
 @implementation ODMAppDelegate
+{
+    BOOL gLogging;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    gLogging = FALSE;
     // you can chang "BASE_URL" to 
     RKObjectManager *objectManager = [RKObjectManager managerWithBaseURLString:BASE_URL];
     objectManager.client.baseURL = [RKURL URLWithString:BASE_URL];

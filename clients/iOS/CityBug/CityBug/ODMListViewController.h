@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-
-@interface ODMListViewController : UITableViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ODMListViewController : UITableViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate>
 
 - (IBAction)addButtonTapped:(id)sender;
 
 - (IBAction)refreshButtonTapped:(id)sender;
+
+@property CLLocation *location;
 
 @end

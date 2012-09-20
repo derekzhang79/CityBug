@@ -13,6 +13,8 @@
 
 #import "ODMEditFormFieldViewController.h"
 #import "ODMNoteFormFieldViewController.h"
+#import <CoreLocation/CoreLocation.h>
+
 
 @implementation ODMDescriptionFormViewController {
     NSMutableDictionary *entryDict;
@@ -41,6 +43,9 @@
     report.note = self.noteTextField.text;
     report.fullImage = self.bugImage;
     report.thumbnailImage = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
+    report.lat = self.location.coordinate.latitude;
+    report.lng = self.location.coordinate.longitude;
+    
     
     [[ODMDataManager sharedInstance] postNewReport:report];
     

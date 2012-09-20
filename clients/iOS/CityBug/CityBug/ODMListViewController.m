@@ -12,7 +12,11 @@
 #import "ODMDataManager.h"
 #import "ODMEntry.h"
 #import "UIImageView+AFNetworking.h"
-#import "EXFJpeg.h"
+
+#import <ImageIO/ImageIO.h>
+#import <ImageIO/CGImageSource.h>
+#import <ImageIO/CGImageProperties.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 
 #define kSceenSize self.parentViewController.view.frame.size
 #define CAMERA_SCALAR 1.32
@@ -20,7 +24,9 @@
 static NSString *gotoFormSegue = @"presentFormSegue";
 static NSString *gotoViewSegue = @"showDescriptionSegue";
 
-@interface ODMListViewController ()
+@interface ODMListViewController () {
+    CLLocationManager *locationManager;
+}
 
 @end
 
@@ -28,6 +34,12 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     UIImage *imageToSave;
     UIImagePickerController *picker;
     NSArray *entries;
+    
+    ALAssetsLibraryAssetForURLResultBlock resultblock;
+    ALAssetsLibraryAccessFailureBlock failureblock;
+    ALAssetsLibrary *assetsLib;
+    CLLocation *location;
+
 
 }
 
@@ -52,6 +64,24 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 {
     [super viewDidLoad];
     [self setTitle:@"CityBug"];
+    
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [locationManager startUpdatingLocation];
+    
+
+    
+    resultblock = ^(ALAsset *myasset) {
+        CLLocation *locationAsset = [myasset valueForProperty:ALAssetPropertyLocation];
+        self.location = locationAsset; 
+    };
+    failureblock = ^(NSError *myerror) {
+        NSLog(@"error while get Location from picture : %d - message: %s", errno, strerror(errno));
+        self.location = nil;
+    };
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -136,20 +166,34 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     }
 }
 
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{      
-    
+{   
     imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerEditedImage];
+ 
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
         // Save the new image (original or edited) to the Camera Roll.
         UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
+        self.location = locationManager.location;
+    }
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        
+        // Get the asset url
+        NSURL *pictureURL = [info objectForKey:UIImagePickerControllerReferenceURL];
+        assetsLib = [[ALAssetsLibrary alloc] init];
+        [assetsLib assetForURL:pictureURL resultBlock:resultblock failureBlock:failureblock];
+    
+        
     }
     
     [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:gotoFormSegue afterDelay:1.f];
     [self dismissModalViewControllerAnimated: YES];
     
 }
+
+
 
 #pragma mark - segue
 
@@ -158,6 +202,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     if ([segue.identifier isEqualToString:gotoFormSegue]) {
         ODMDescriptionFormViewController *formViewController = (ODMDescriptionFormViewController *) segue.destinationViewController;
         formViewController.bugImage = imageToSave;
+        formViewController.location = self.location;
     }
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
         ODMDescriptionViewController *DetailViewController = (ODMDescriptionViewController *) segue.destinationViewController;
@@ -173,8 +218,6 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 {
     __block NSString *imagePath = [aEntry objectForKey:@"thumbnail_image"];
    
-
-    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,  0ul);
     dispatch_async(queue, ^{
         if ([[imagePath substringToIndex:1] isEqualToString:@"."]) {

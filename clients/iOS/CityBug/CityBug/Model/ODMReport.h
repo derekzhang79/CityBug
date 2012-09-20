@@ -18,5 +18,6 @@
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *note;
 @property (nonatomic, strong) UIImage *thumbnailImage, *fullImage;
+@property (nonatomic) double lat, lng;
 
 @end

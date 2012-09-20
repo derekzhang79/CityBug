@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		985F49EE160B2D1000D642D0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */; };
+		985F49F0160B2D1B00D642D0 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49EF160B2D1B00D642D0 /* ImageIO.framework */; };
+		985F49F2160B2EEB00D642D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49F1160B2EEB00D642D0 /* CoreLocation.framework */; };
 		CE7C595D16097FD600F3D496 /* CityBugTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E861603767D0041B3B8 /* CityBugTests-Info.plist */; };
 		CEB10E231603748E0041B3B8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E211603748E0041B3B8 /* main.m */; };
 		CEB10E27160374A50041B3B8 /* balloon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E24160374A50041B3B8 /* balloon.jpeg */; };
@@ -103,16 +106,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		985F4949160B0F4300D642D0 /* EXF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXF.h; sourceTree = "<group>"; };
-		985F494A160B0F4300D642D0 /* EXFConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFConstants.h; sourceTree = "<group>"; };
-		985F494B160B0F4300D642D0 /* EXFGPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFGPS.h; sourceTree = "<group>"; };
-		985F494C160B0F4300D642D0 /* EXFHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFHandlers.h; sourceTree = "<group>"; };
-		985F494D160B0F4300D642D0 /* EXFJFIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFJFIF.h; sourceTree = "<group>"; };
-		985F494E160B0F4300D642D0 /* EXFJpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFJpeg.h; sourceTree = "<group>"; };
-		985F494F160B0F4300D642D0 /* EXFLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFLogging.h; sourceTree = "<group>"; };
-		985F4950160B0F4300D642D0 /* EXFMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFMetaData.h; sourceTree = "<group>"; };
-		985F4951160B0F4300D642D0 /* EXFTagDefinitionHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFTagDefinitionHolder.h; sourceTree = "<group>"; };
-		985F4952160B0F4300D642D0 /* EXFUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFUtils.h; sourceTree = "<group>"; };
+		985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		985F49EF160B2D1B00D642D0 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		985F49F1160B2EEB00D642D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		CEB10E1F1603748E0041B3B8 /* CityBug-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CityBug-Info.plist"; path = "CityBug/CityBug-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CEB10E201603748E0041B3B8 /* CityBug-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CityBug-Prefix.pch"; path = "CityBug/CityBug-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		CEB10E211603748E0041B3B8 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CityBug/main.m; sourceTree = SOURCE_ROOT; };
@@ -196,6 +192,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				985F49F2160B2EEB00D642D0 /* CoreLocation.framework in Frameworks */,
+				985F49F0160B2D1B00D642D0 /* ImageIO.framework in Frameworks */,
+				985F49EE160B2D1000D642D0 /* AssetsLibrary.framework in Frameworks */,
 				CEF8C31F1609778F008871D4 /* libRestKit.a in Frameworks */,
 				CEF8C11F16097043008871D4 /* QuartzCore.framework in Frameworks */,
 				CEF8C11D1609703E008871D4 /* libxml2.dylib in Frameworks */,
@@ -224,24 +223,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		985F4948160B0F4300D642D0 /* Exif */ = {
-			isa = PBXGroup;
-			children = (
-				985F4949160B0F4300D642D0 /* EXF.h */,
-				985F494A160B0F4300D642D0 /* EXFConstants.h */,
-				985F494B160B0F4300D642D0 /* EXFGPS.h */,
-				985F494C160B0F4300D642D0 /* EXFHandlers.h */,
-				985F494D160B0F4300D642D0 /* EXFJFIF.h */,
-				985F494E160B0F4300D642D0 /* EXFJpeg.h */,
-				985F494F160B0F4300D642D0 /* EXFLogging.h */,
-				985F4950160B0F4300D642D0 /* EXFMetaData.h */,
-				985F4951160B0F4300D642D0 /* EXFTagDefinitionHolder.h */,
-				985F4952160B0F4300D642D0 /* EXFUtils.h */,
-			);
-			name = Exif;
-			path = Vendor/Exif;
-			sourceTree = "<group>";
-		};
 		98675A0715FDFD9200B34785 /* images */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,7 +289,6 @@
 		CEB10E90160376F10041B3B8 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				985F4948160B0F4300D642D0 /* Exif */,
 				CEF8C2FB1609747D008871D4 /* RestKit.xcodeproj */,
 				CEB10E91160376FC0041B3B8 /* AFNetworking */,
 			);
@@ -367,6 +347,9 @@
 		CEEE604015FDEDFB00324883 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				985F49F1160B2EEB00D642D0 /* CoreLocation.framework */,
+				985F49EF160B2D1B00D642D0 /* ImageIO.framework */,
+				985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */,
 				CEF8C11E16097043008871D4 /* QuartzCore.framework */,
 				CEF8C11C1609703E008871D4 /* libxml2.dylib */,
 				CEF8C11A16097034008871D4 /* SystemConfiguration.framework */,
@@ -689,6 +672,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -725,6 +709,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -753,6 +738,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
 				INFOPLIST_FILE = "CityBug/CityBug-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Vendor/Exif\"",
+				);
 				PRODUCT_NAME = CityBug;
 				PROVISIONING_PROFILE = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
@@ -768,6 +757,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
 				INFOPLIST_FILE = "CityBug/CityBug-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Vendor/Exif\"",
+				);
 				PRODUCT_NAME = CityBug;
 				PROVISIONING_PROFILE = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
