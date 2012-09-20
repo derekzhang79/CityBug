@@ -45,7 +45,7 @@
 {
     STAssertNotNil(dataManager, @"DataManager should not nil");
     
-    STAssertNotNil(objectManager, @"RestKit Manager shuold not nil");
+    STAssertNotNil(objectManager, @"RestKit Manager should not nil");
 }
 
 - (void)testListReport
@@ -60,6 +60,13 @@
     report.note = @"Note from RestKit";
 
     [dataManager postNewReport:report];
+}
+
+- (void)testCategoryList
+{
+    NSArray *categoires = [dataManager categories];
+    
+    STAssertTrue([categoires count] > 0, @"Category List should not equal to 0");
 }
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error

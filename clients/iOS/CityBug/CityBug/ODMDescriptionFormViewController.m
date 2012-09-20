@@ -50,13 +50,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"editNoteFormIdentifier"]) {
-        ODMFormFiedViewController *formVC = segue.destinationViewController;
-        formVC.delegate = self;
-    } else if ([segue.identifier isEqualToString:@"editTitleFormIdentifier"]) {
-        ODMFormFiedViewController *formVC = segue.destinationViewController;
-        formVC.delegate = self;
-    } else if ([segue.identifier isEqualToString:@"categorySegueIdentifier"]) {
+    if ([segue.identifier isEqualToString:@"categorySegueIdentifier"]) {
         ODMCategoryListViewController *formVC = segue.destinationViewController;
         formVC.delegate = self;
     }
@@ -64,22 +58,10 @@
 
 #pragma mark - FormField Delegate
 
-- (void)updateFormField:(ODMFormFiedViewController *)viewController withTextField:(UITextField *)textField
-{
-    ODMLog(@"formfield %@", textField.text);
-    
-    if ([viewController isKindOfClass:[ODMEditFormFieldViewController class]]) {
-
-    } else if ([viewController isKindOfClass:[ODMNoteFormFieldViewController class]]) {
-
-    }
-    
-    [self.tableView reloadData];
-}
-
 - (void)updateCategoryList:(ODMCategoryListViewController *)delegate withCategory:(id)category
 {
-    ODMLog(@"category : %@", category);
+    self.categoryLabel.text = category;
+
     [self.tableView reloadData];
 }
 

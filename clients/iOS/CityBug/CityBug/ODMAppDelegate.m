@@ -28,7 +28,6 @@
     [objectManager.mappingProvider setMapping:reportMapping forKeyPath:@"reports"];
     
     [objectManager.router routeClass:[ODMReport class] toResourcePath:@"/api/reports" forMethod:RKRequestMethodPOST];
-    
     return YES;
 }
 
