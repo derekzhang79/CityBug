@@ -13,7 +13,6 @@ exports.place_search = function(req, res){
     res.send("search place");
 };
 
-
 // GET /api/reports >> get list of entries
 exports.reports = function(req, res){
     console.log('get list');
@@ -100,16 +99,17 @@ exports.report_post = function(req, res){
         // Set user to Report
         report.user = user._id;
 
-        //model.Category.find({ $or : [ { title : 'cat1' } , { title : 'cat2' } ] } , function(err,catArray) { 
+        // model.Category.find({ $or : [ { title : 'cat1' } , { title : 'cat2' } ] } , function(err,catArray) { 
 
         //Find Category from request
-        var firstCategoryFromRequest;
-        if (req.body.categories != null && req.body.categories.length > 0) {
-            firstCategoryFromRequest = req.body.categories[0];
-        } 
-
+        var query = {};
+        query["$or"]=[];
+        for (cat in req.body.categories) {
+            query["$or"].push({"title":req.body.categories[cat]});
+            
+        }
         //Category can not add from client
-        model.Category.find({ title: firstCategoryFromRequest} , function(err,catTitleFromClient) { 
+        model.Category.find(query, function(err,catTitleFromClient) { 
           
             if (!err) {
                 for (i in catTitleFromClient ) {

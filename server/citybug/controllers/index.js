@@ -12,7 +12,7 @@ var model = service.useModel('model');
 // Home page => registration form
 exports.index = function(req, res){
 
-	
+
     //add mockup user 
     model.User.find({} , function(err,allUser) { 
         if (err || allUser.length < 1) {
@@ -80,9 +80,18 @@ exports.index = function(req, res){
     // }); 
 
 
-    var query =  model.Report.find({});
+    model.Report.find({})
+        .populate('user','username email thumbnail_image')
+        .populate('categories','title')
+        .populate('comments')
+        .populate('imins')
+        .populate('place')
+        .exec(function (err, report) {
+            if (err) { 
+                return handleError(err);
+            }
 
-    query.exec(function (err, docs) {
-			res.render('index.jade', { title: 'City bug', report: docs });
-	});	
+			res.render('index.jade', { title: 'City bug', report: report });
+    });
+
 };
