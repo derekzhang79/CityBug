@@ -21,26 +21,65 @@ CityBug Project (Beta v.1.0)
 	* Login required - YES
 	* Response <span id="ref-a"></span>
 
-				{
-					"entries": [
+		{ 
+			"reports":[
 						{
-							"id": 1
-							"title": "lorem ipsum",
-							"place": {
-								"name": "opendream",
-								"lat": 10.32354,
-								"lng": 133.3450
+							"user":{
+								"email":"123@ggg.com",
+								"username":"admin",
+								"_id":"505a9c25c6c280e578000001"
 							},
-							"comments": [
+							"created_at":"2012-09-20T07:32:48.090Z",
+							"last_modified":"2012-09-20T07:32:48.090Z",
+							"imin_count":1,
+							"is_resolved":false,
+							"note":"ท่อตันทั้งสาย",
+							"long":10.329,
+							"lat":99.1245,
+							"full_image":"/images/report/505ac6a025aad95080000001.png",
+							"thumbnail_image":"/images/report/505ac6a025aad95080000001_thumbnail.png",
+							"title":"น้ำท่วม",
+							"_id":"505ac6a025aad95080000001",
+							"__v":0,
+							"imins":[
 								{
-									"id": 1
-									"text": "I love it"
+									"user":{
+										"email":"123@ggg.com",
+										"username":"admin",
+										"_id":"505a9c25c6c280e578000001"
+									},
+									"last_modified":"2012-09-20T07:32:48.090Z"
 								}
 							],
-							"categories": ["A", "B"]
+							"comments":[
+								{
+									"text":"น่าสงสารจัง",
+									"user":{
+										"email":"123@ggg.com",
+										"username":"admin",
+										"_id":"505a9c25c6c280e578000001"
+									},
+									"last_modified":"2012-09-20T07:32:48.090Z"
+								},
+								{
+									"text":"สู้ๆนะคะ",
+									"user":{
+										"email":"123@ggg.com",
+										"username":"admin",
+										"_id":"505a9c25c6c280e578000001"
+									},
+									"last_modified":"2012-09-20T07:32:48.090Z"
+								}
+							],
+							"categories":[
+								{
+									"title":"cat1",
+									"_id":"505a8ef3cea52e3676000001"
+								}
+							]
 						}
-					]
-				}
+			]
+		}
 
 * Most Recent
 
@@ -147,6 +186,53 @@ CityBug Project (Beta v.1.0)
 	* [username] - string (หากเป็นการค้นหาสถานที่ใกล้เคียง ให้ระบุ username เพื่อค้นหาจากสถานที่ใน CityBug ก่อน โดยจำเป็นต้องใช้ text ควบคู่ด้วย) 
 	* HTTP Method - GET
 	* Login required - NO
+
+
+	{
+		"Places" : [
+			{
+				"ServerPlaces": [
+					{
+						"title":"สุทธิสาร",
+						"lat":12.4,
+						"long":28.323,
+						"_id":"505ac6a025aad95080000001"
+					},	
+					{
+						"title":"อารียาแมนดารีน่า",
+						"lat":10.987,
+						"long":90.07877,
+						"_id":"505ac6a025aad95080000002"
+					},
+					{
+						"title":"โอเพ่นดรีม",
+						"lat":67.999,
+						"long":32.545,
+						"_id":"505ac6a025aad95080000003"
+					}
+				]
+			},
+			{
+				"FoursquarePlaces": [
+					{
+						"title":"14 กันยา",
+						"lat":13.4,
+						"long":29.333
+					},	
+					{
+						"title":"ลาดพร้าว 64",
+						"lat":12.987,
+						"long":30.0001
+					},
+					{
+						"title":"แยกปราบเซียน",
+						"lat":17.1234,
+						"long":17.4321
+					}
+				]
+			}
+		]
+	}
 
 * view
 	
