@@ -38,6 +38,9 @@ exports.report = function(req, res){
     model.Report.findOne({_id:currentID})
         .populate('user','username email thumbnail_image')
         .populate('categories','title')
+        .populate('comments')
+        .populate('imins')
+        .populate('place')
         .exec(function (err, report) {
             if (err) { 
                 return handleError(err);
@@ -95,7 +98,13 @@ exports.report_post = function(req, res){
 
     //Find User from username
     model.User.findOne({username: req.body.username }, function(err,user) {   
-        
+        if (user == null) {
+            // res.contentType('Content-Type', 'application/json');
+            // res.statusCode = 200;
+            // res.send(2003);
+            res.redirect('/');
+            return;
+        };
         // Set user to Report
         report.user = user._id;
 
