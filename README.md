@@ -76,6 +76,15 @@ CityBug Project (Beta v.1.0)
 											"title":"cat1",
 											"_id":"505a8ef3cea52e3676000001"
 										}
+									], 
+									"place":[
+										{
+											"title":"น้ำเรื่มท่วม"
+											"lat":11.50
+											"lng":11.2
+											"last_modified":"2012-09-20T07:32:48.090Z"
+											"_id":"505a9c25c6c280e578000002"
+										}
 									]
 								}
 					]

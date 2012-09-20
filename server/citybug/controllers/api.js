@@ -106,8 +106,8 @@ exports.report_post = function(req, res){
         query["$or"]=[];
         for (cat in req.body.categories) {
             query["$or"].push({"title":req.body.categories[cat]});
-            
         }
+
         //Category can not add from client
         model.Category.find(query, function(err,catTitleFromClient) { 
           
