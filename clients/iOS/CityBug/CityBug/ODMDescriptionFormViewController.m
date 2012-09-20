@@ -7,12 +7,9 @@
 //
 
 #import "ODMDescriptionFormViewController.h"
-#import <QuartzCore/QuartzCore.h>
 #import "ODMDataManager.h"
 #import "ODMReport.h"
 
-#import "ODMEditFormFieldViewController.h"
-#import "ODMNoteFormFieldViewController.h"
 #import <CoreLocation/CoreLocation.h>
 
 
@@ -41,10 +38,11 @@
     ODMReport *report = [[ODMReport alloc] init];
     report.title = self.titleTextField.text;
     report.note = self.noteTextField.text;
+    report.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
+    report.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];;
     report.fullImage = self.bugImage;
     report.thumbnailImage = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
-    report.lat = self.location.coordinate.latitude;
-    report.lng = self.location.coordinate.longitude;
+
     
     
     [[ODMDataManager sharedInstance] postNewReport:report];
@@ -55,43 +53,42 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"editNoteFormIdentifier"]) {
-        ODMFormFiedViewController *formVC = segue.destinationViewController;
-        formVC.delegate = self;
-    } else if ([segue.identifier isEqualToString:@"editTitleFormIdentifier"]) {
-        ODMFormFiedViewController *formVC = segue.destinationViewController;
-        formVC.delegate = self;
-    } else if ([segue.identifier isEqualToString:@"categorySegueIdentifier"]) {
+    if ([segue.identifier isEqualToString:@"categorySegueIdentifier"]) {
         ODMCategoryListViewController *formVC = segue.destinationViewController;
         formVC.delegate = self;
+    } else if ([segue.identifier isEqualToString:@"PlaceFormSequeIdentifier"]) {
+        ODMPlaceFormViewController *formVC = segue.destinationViewController;
+        formVC.delegate = self;
     }
 }
 
-#pragma mark - FormField Delegate
-
-- (void)updateFormField:(ODMFormFiedViewController *)viewController withTextField:(UITextField *)textField
-{
-    ODMLog(@"formfield %@", textField.text);
-    
-    if ([viewController isKindOfClass:[ODMEditFormFieldViewController class]]) {
-
-    } else if ([viewController isKindOfClass:[ODMNoteFormFieldViewController class]]) {
-
-    }
-    
-    [self.tableView reloadData];
-}
-
+#pragma mark - CATEGORY
+/**
+ * Update Category Label
+ */
 - (void)updateCategoryList:(ODMCategoryListViewController *)delegate withCategory:(id)category
 {
-    ODMLog(@"category : %@", category);
-    [self.tableView reloadData];
+    self.categoryLabel.text = category;
+    
+    ODMLog(@"Update Category %@", category);
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    [self resignFirstResponder];
+    
     return YES;
+}
+
+#pragma mark - PLACE
+/**
+ * Update Place Label
+ */
+- (void)didSelectPlace:(ODMPlace *)place
+{
+    self.localtionLabel.text = [place title];
+    
+    ODMLog(@"Update Place %@", [place title]);
 }
 
 @end

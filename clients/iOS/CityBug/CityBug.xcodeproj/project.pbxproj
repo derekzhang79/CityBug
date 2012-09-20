@@ -10,6 +10,15 @@
 		985F49EE160B2D1000D642D0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */; };
 		985F49F0160B2D1B00D642D0 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49EF160B2D1B00D642D0 /* ImageIO.framework */; };
 		985F49F2160B2EEB00D642D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49F1160B2EEB00D642D0 /* CoreLocation.framework */; };
+		CE16A299160ACE4100396033 /* cat1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE16A292160ACE4100396033 /* cat1.png */; };
+		CE16A29A160ACE4100396033 /* 6.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A293160ACE4100396033 /* 6.jpeg */; };
+		CE16A29B160ACE4100396033 /* 5.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A294160ACE4100396033 /* 5.jpeg */; };
+		CE16A29C160ACE4100396033 /* 4.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A295160ACE4100396033 /* 4.jpeg */; };
+		CE16A29D160ACE4100396033 /* 3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A296160ACE4100396033 /* 3.jpeg */; };
+		CE16A29E160ACE4100396033 /* 2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A297160ACE4100396033 /* 2.jpeg */; };
+		CE16A29F160ACE4100396033 /* 1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A298160ACE4100396033 /* 1.jpeg */; };
+		CE16A2A2160AF8B400396033 /* ODMPlaceFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE16A2A1160AF8B400396033 /* ODMPlaceFormViewController.m */; };
+		CE16A2DD160B07D500396033 /* ODMPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = CE16A2DC160B07D500396033 /* ODMPlace.m */; };
 		CE7C595D16097FD600F3D496 /* CityBugTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E861603767D0041B3B8 /* CityBugTests-Info.plist */; };
 		CEB10E231603748E0041B3B8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E211603748E0041B3B8 /* main.m */; };
 		CEB10E27160374A50041B3B8 /* balloon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E24160374A50041B3B8 /* balloon.jpeg */; };
@@ -22,9 +31,7 @@
 		CEB10E49160374CC0041B3B8 /* ODMDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E3B160374CC0041B3B8 /* ODMDescriptionViewController.m */; };
 		CEB10E4A160374CC0041B3B8 /* ODMDescriptionFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E3C160374CC0041B3B8 /* ODMDescriptionFormViewController.m */; };
 		CEB10E4B160374CC0041B3B8 /* ODMCategoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E3E160374CC0041B3B8 /* ODMCategoryListViewController.m */; };
-		CEB10E4C160374CC0041B3B8 /* ODMEditFormFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E43160374CC0041B3B8 /* ODMEditFormFieldViewController.m */; };
 		CEB10E4D160374CC0041B3B8 /* ODMFormFiedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E44160374CC0041B3B8 /* ODMFormFiedViewController.m */; };
-		CEB10E4E160374CC0041B3B8 /* ODMNoteFormFieldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E46160374CC0041B3B8 /* ODMNoteFormFieldViewController.m */; };
 		CEB10E4F160374CC0041B3B8 /* ODMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E47160374CC0041B3B8 /* ODMAppDelegate.m */; };
 		CEB10E5E1603752B0041B3B8 /* ODMModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E5C1603752B0041B3B8 /* ODMModel.xcdatamodeld */; };
 		CEB10E6D160375C10041B3B8 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E6B160375C10041B3B8 /* MainStoryboard.storyboard */; };
@@ -109,6 +116,17 @@
 		985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		985F49EF160B2D1B00D642D0 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		985F49F1160B2EEB00D642D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		CE16A292160ACE4100396033 /* cat1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cat1.png; path = CityBug/images/Prototype/cat1.png; sourceTree = SOURCE_ROOT; };
+		CE16A293160ACE4100396033 /* 6.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 6.jpeg; path = CityBug/images/Prototype/6.jpeg; sourceTree = SOURCE_ROOT; };
+		CE16A294160ACE4100396033 /* 5.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 5.jpeg; path = CityBug/images/Prototype/5.jpeg; sourceTree = SOURCE_ROOT; };
+		CE16A295160ACE4100396033 /* 4.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 4.jpeg; path = CityBug/images/Prototype/4.jpeg; sourceTree = SOURCE_ROOT; };
+		CE16A296160ACE4100396033 /* 3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 3.jpeg; path = CityBug/images/Prototype/3.jpeg; sourceTree = SOURCE_ROOT; };
+		CE16A297160ACE4100396033 /* 2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 2.jpeg; path = CityBug/images/Prototype/2.jpeg; sourceTree = SOURCE_ROOT; };
+		CE16A298160ACE4100396033 /* 1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 1.jpeg; path = CityBug/images/Prototype/1.jpeg; sourceTree = SOURCE_ROOT; };
+		CE16A2A0160AF8B400396033 /* ODMPlaceFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMPlaceFormViewController.h; path = CityBug/ODMPlaceFormViewController.h; sourceTree = SOURCE_ROOT; };
+		CE16A2A1160AF8B400396033 /* ODMPlaceFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMPlaceFormViewController.m; path = CityBug/ODMPlaceFormViewController.m; sourceTree = SOURCE_ROOT; };
+		CE16A2DB160B07D500396033 /* ODMPlace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMPlace.h; sourceTree = "<group>"; };
+		CE16A2DC160B07D500396033 /* ODMPlace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMPlace.m; sourceTree = "<group>"; };
 		CEB10E1F1603748E0041B3B8 /* CityBug-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CityBug-Info.plist"; path = "CityBug/CityBug-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CEB10E201603748E0041B3B8 /* CityBug-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CityBug-Prefix.pch"; path = "CityBug/CityBug-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		CEB10E211603748E0041B3B8 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CityBug/main.m; sourceTree = SOURCE_ROOT; };
@@ -131,11 +149,7 @@
 		CEB10E3F160374CC0041B3B8 /* ODMDescriptionFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMDescriptionFormViewController.h; path = CityBug/ODMDescriptionFormViewController.h; sourceTree = SOURCE_ROOT; };
 		CEB10E40160374CC0041B3B8 /* ODMCategoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMCategoryListViewController.h; path = CityBug/ODMCategoryListViewController.h; sourceTree = SOURCE_ROOT; };
 		CEB10E41160374CC0041B3B8 /* ODMFormFiedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMFormFiedViewController.h; path = CityBug/ODMFormFiedViewController.h; sourceTree = SOURCE_ROOT; };
-		CEB10E42160374CC0041B3B8 /* ODMEditFormFieldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMEditFormFieldViewController.h; path = CityBug/ODMEditFormFieldViewController.h; sourceTree = SOURCE_ROOT; };
-		CEB10E43160374CC0041B3B8 /* ODMEditFormFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMEditFormFieldViewController.m; path = CityBug/ODMEditFormFieldViewController.m; sourceTree = SOURCE_ROOT; };
 		CEB10E44160374CC0041B3B8 /* ODMFormFiedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMFormFiedViewController.m; path = CityBug/ODMFormFiedViewController.m; sourceTree = SOURCE_ROOT; };
-		CEB10E45160374CC0041B3B8 /* ODMNoteFormFieldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMNoteFormFieldViewController.h; path = CityBug/ODMNoteFormFieldViewController.h; sourceTree = SOURCE_ROOT; };
-		CEB10E46160374CC0041B3B8 /* ODMNoteFormFieldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMNoteFormFieldViewController.m; path = CityBug/ODMNoteFormFieldViewController.m; sourceTree = SOURCE_ROOT; };
 		CEB10E47160374CC0041B3B8 /* ODMAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMAppDelegate.m; path = CityBug/ODMAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		CEB10E5D1603752B0041B3B8 /* ODMModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ODMModel.xcdatamodel; sourceTree = "<group>"; };
 		CEB10E5F160375420041B3B8 /* ODMAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMAppDelegate.h; path = CityBug/ODMAppDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -234,6 +248,13 @@
 		98675A0815FDFD9900B34785 /* prototype */ = {
 			isa = PBXGroup;
 			children = (
+				CE16A292160ACE4100396033 /* cat1.png */,
+				CE16A293160ACE4100396033 /* 6.jpeg */,
+				CE16A294160ACE4100396033 /* 5.jpeg */,
+				CE16A295160ACE4100396033 /* 4.jpeg */,
+				CE16A296160ACE4100396033 /* 3.jpeg */,
+				CE16A297160ACE4100396033 /* 2.jpeg */,
+				CE16A298160ACE4100396033 /* 1.jpeg */,
 				CEB10E24160374A50041B3B8 /* balloon.jpeg */,
 				CEB10E25160374A50041B3B8 /* process.png */,
 				CEB10E26160374A50041B3B8 /* bugs.jpeg */,
@@ -261,6 +282,8 @@
 				CEB10E2F160374B90041B3B8 /* ODMCategory.m */,
 				CEB10E30160374B90041B3B8 /* ODMEntry.h */,
 				CEB10E31160374B90041B3B8 /* ODMEntry.m */,
+				CE16A2DB160B07D500396033 /* ODMPlace.h */,
+				CE16A2DC160B07D500396033 /* ODMPlace.m */,
 			);
 			name = Model;
 			path = CityBug/Model;
@@ -371,22 +394,22 @@
 				CEB10E38160374CC0041B3B8 /* ODMHelper.h */,
 				CEB10E5F160375420041B3B8 /* ODMAppDelegate.h */,
 				CEB10E47160374CC0041B3B8 /* ODMAppDelegate.m */,
+				CEB10E2A160374B90041B3B8 /* Manager */,
+				CEB10E2D160374B90041B3B8 /* Model */,
+				CEB10E3D160374CC0041B3B8 /* ODMListViewController.h */,
+				CEB10E39160374CC0041B3B8 /* ODMListViewController.m */,
 				CEB10E3A160374CC0041B3B8 /* ODMDescriptionViewController.h */,
 				CEB10E3B160374CC0041B3B8 /* ODMDescriptionViewController.m */,
 				CEB10E3F160374CC0041B3B8 /* ODMDescriptionFormViewController.h */,
 				CEB10E3C160374CC0041B3B8 /* ODMDescriptionFormViewController.m */,
 				CEB10E3D160374CC0041B3B8 /* ODMListViewController.h */,
 				CEB10E39160374CC0041B3B8 /* ODMListViewController.m */,
-				CEB10E3E160374CC0041B3B8 /* ODMCategoryListViewController.m */,
+				CE16A2A0160AF8B400396033 /* ODMPlaceFormViewController.h */,
+				CE16A2A1160AF8B400396033 /* ODMPlaceFormViewController.m */,
 				CEB10E40160374CC0041B3B8 /* ODMCategoryListViewController.h */,
+				CEB10E3E160374CC0041B3B8 /* ODMCategoryListViewController.m */,
 				CEB10E41160374CC0041B3B8 /* ODMFormFiedViewController.h */,
 				CEB10E44160374CC0041B3B8 /* ODMFormFiedViewController.m */,
-				CEB10E42160374CC0041B3B8 /* ODMEditFormFieldViewController.h */,
-				CEB10E43160374CC0041B3B8 /* ODMEditFormFieldViewController.m */,
-				CEB10E45160374CC0041B3B8 /* ODMNoteFormFieldViewController.h */,
-				CEB10E46160374CC0041B3B8 /* ODMNoteFormFieldViewController.m */,
-				CEB10E2A160374B90041B3B8 /* Manager */,
-				CEB10E2D160374B90041B3B8 /* Model */,
 				CEEE604815FDEDFB00324883 /* Supporting Files */,
 			);
 			name = CityBug;
@@ -559,6 +582,13 @@
 				CEB10E28160374A50041B3B8 /* process.png in Resources */,
 				CEB10E29160374A50041B3B8 /* bugs.jpeg in Resources */,
 				CEB10E6D160375C10041B3B8 /* MainStoryboard.storyboard in Resources */,
+				CE16A299160ACE4100396033 /* cat1.png in Resources */,
+				CE16A29A160ACE4100396033 /* 6.jpeg in Resources */,
+				CE16A29B160ACE4100396033 /* 5.jpeg in Resources */,
+				CE16A29C160ACE4100396033 /* 4.jpeg in Resources */,
+				CE16A29D160ACE4100396033 /* 3.jpeg in Resources */,
+				CE16A29E160ACE4100396033 /* 2.jpeg in Resources */,
+				CE16A29F160ACE4100396033 /* 1.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,9 +632,7 @@
 				CEB10E49160374CC0041B3B8 /* ODMDescriptionViewController.m in Sources */,
 				CEB10E4A160374CC0041B3B8 /* ODMDescriptionFormViewController.m in Sources */,
 				CEB10E4B160374CC0041B3B8 /* ODMCategoryListViewController.m in Sources */,
-				CEB10E4C160374CC0041B3B8 /* ODMEditFormFieldViewController.m in Sources */,
 				CEB10E4D160374CC0041B3B8 /* ODMFormFiedViewController.m in Sources */,
-				CEB10E4E160374CC0041B3B8 /* ODMNoteFormFieldViewController.m in Sources */,
 				CEB10E4F160374CC0041B3B8 /* ODMAppDelegate.m in Sources */,
 				CEB10E5E1603752B0041B3B8 /* ODMModel.xcdatamodeld in Sources */,
 				CEB10EA7160376FC0041B3B8 /* AFHTTPClient.m in Sources */,
@@ -618,6 +646,8 @@
 				CEB10EAF160376FC0041B3B8 /* AFXMLRequestOperation.m in Sources */,
 				CEB10EB0160376FC0041B3B8 /* UIImageView+AFNetworking.m in Sources */,
 				CEF8C32216097B79008871D4 /* ODMReport.m in Sources */,
+				CE16A2A2160AF8B400396033 /* ODMPlaceFormViewController.m in Sources */,
+				CE16A2DD160B07D500396033 /* ODMPlace.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

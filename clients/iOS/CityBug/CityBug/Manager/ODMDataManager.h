@@ -6,25 +6,32 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
+#import "ODMReport.h"
+#import "ODMCategory.h"
+#import "ODMPlace.h"
+
+extern NSString *ODMDataManagerNotificationCategoriesLoadingFinish;
+extern NSString *ODMDataManagerNotificationCategoriesLoadingFail;
+
 @class ODMReport;
 
 @interface ODMDataManager : NSObject <RKObjectLoaderDelegate> {
-    NSManagedObjectContext *defaultContext;
+    RKObjectManager *serviceObjectManager;
+    
+    NSArray *reports_, *categories_, *places_;
 }
 
-+ (id)sharedInstance;
+@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places;
 
 /*
- * Insert/Update entries
+ * Singleton pattern
  */
-- (BOOL)insertEntriesToPersistentStore:(NSArray *)entries withManagedObjectContext:(NSManagedObjectContext *)context;
++ (id)sharedInstance;
 
 /*
  * Get all entries
  */
 - (NSArray *)getEntryList;
-
-- (void)postNewEntry:(UIImage *)aImage title:(NSString *)aTitle note:(NSString *)aNote;
 
 /*
  * Post New Report

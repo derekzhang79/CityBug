@@ -21,24 +21,72 @@ CityBug Project (Beta v.1.0)
 	* Login required - YES
 	* Response <span id="ref-a"></span>
 
-				{
-					"entries": [
-						{
-							"id": 1
-							"title": "lorem ipsum",
-							"place": {
-								"name": "opendream",
-								"lat": 10.32354,
-								"lng": 133.3450
-							},
-							"comments": [
+				{ 
+					"reports":[
 								{
-									"id": 1
-									"text": "I love it"
+									"user":{
+										"email":"123@ggg.com",
+										"username":"admin",
+										"_id":"505a9c25c6c280e578000001"
+									},
+									"created_at":"2012-09-20T07:32:48.090Z",
+									"last_modified":"2012-09-20T07:32:48.090Z",
+									"imin_count":1,
+									"is_resolved":false,
+									"note":"ท่อตันทั้งสาย",
+									"lng":10.329,
+									"lat":99.1245,
+									"full_image":"/images/report/505ac6a025aad95080000001.png",
+									"thumbnail_image":"/images/report/505ac6a025aad95080000001_thumbnail.png",
+									"title":"น้ำท่วม",
+									"_id":"505ac6a025aad95080000001",
+									"__v":0,
+									"imins":[
+										{
+											"user":{
+												"email":"123@ggg.com",
+												"username":"admin",
+												"_id":"505a9c25c6c280e578000001"
+											},
+											"last_modified":"2012-09-20T07:32:48.090Z"
+										}
+									],
+									"comments":[
+										{
+											"text":"น่าสงสารจัง",
+											"user":{
+												"email":"123@ggg.com",
+												"username":"admin",
+												"_id":"505a9c25c6c280e578000001"
+											},
+											"last_modified":"2012-09-20T07:32:48.090Z"
+										},
+										{
+											"text":"สู้ๆนะคะ",
+											"user":{
+												"email":"123@ggg.com",
+												"username":"admin",
+												"_id":"505a9c25c6c280e578000001"
+											},
+											"last_modified":"2012-09-20T07:32:48.090Z"
+										}
+									],
+									"categories":[
+										{
+											"title":"cat1",
+											"_id":"505a8ef3cea52e3676000001"
+										}
+									], 
+									"place":[
+										{
+											"title":"น้ำเรื่มท่วม"
+											"lat":11.50
+											"lng":11.2
+											"last_modified":"2012-09-20T07:32:48.090Z"
+											"_id":"505a9c25c6c280e578000002"
+										}
+									]
 								}
-							],
-							"categories": ["A", "B"]
-						}
 					]
 				}
 
@@ -86,7 +134,22 @@ CityBug Project (Beta v.1.0)
 	* Response
 
 				{
-					"categores": ["A", "B", "C"]
+				    "categories": [
+				        {
+				            "created_at": "2012-09-20T03:35:15.853Z",
+				            "last_modified": "2012-09-20T03:35:15.853Z",
+				            "title": "cat1",
+				            "_id": "505a8ef3cea52e3676000001",
+				            "__v": 0
+				        },
+				        {
+				            "created_at": "2012-09-20T03:35:15.853Z",
+				            "last_modified": "2012-09-20T03:35:15.853Z",
+				            "title": "cat2",
+				            "_id": "505a8ef3cea52e3676000002",
+				            "__v": 0
+				        }
+				    ]
 				}
 	* Response Status
 		* 1000 - Unknown
@@ -147,6 +210,56 @@ CityBug Project (Beta v.1.0)
 	* [username] - string (หากเป็นการค้นหาสถานที่ใกล้เคียง ให้ระบุ username เพื่อค้นหาจากสถานที่ใน CityBug ก่อน โดยจำเป็นต้องใช้ text ควบคู่ด้วย) 
 	* HTTP Method - GET
 	* Login required - NO
+
+
+				{
+					"places" : [
+						{
+							"suggest_places": [
+								{
+									"title":"สุทธิสาร",
+									"lat":12.4,
+									"lng":28.323,
+									"_id":"505ac6a025aad95080000001"
+								},	
+								{
+									"title":"อารียาแมนดารีน่า",
+									"lat":10.987,
+									"lng":90.07877,
+									"_id":"505ac6a025aad95080000002"
+								},
+								{
+									"title":"โอเพ่นดรีม",
+									"lat":67.999,
+									"lng":32.545,
+									"_id":"505ac6a025aad95080000003"
+								}
+							]
+						},
+						{
+							"additional_places": [
+								{
+									"title":"14 กันยา",
+									"lat":13.4,
+									"lng":29.333
+									"id":"4bf58dd8d48988d143941737"
+								},	
+								{
+									"title":"ลาดพร้าว 64",
+									"lat":12.987,
+									"lng":30.0001
+									"id":"4bf58dd8d48988d143941736"
+								},
+								{
+									"title":"แยกปราบเซียน",
+									"lat":17.1234,
+									"lng":17.4321
+									"id":"4bf58dd8d48988d143941735"
+								}
+							]
+						}
+					]
+				}
 
 * view
 	

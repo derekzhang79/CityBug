@@ -8,6 +8,7 @@ exports.add = function(req, res){
     });
 };
 
+
 // GET /api/reports >> get list of entries
 exports.reports = function(req, res){
     console.log('get list');
@@ -28,11 +29,20 @@ exports.reports = function(req, res){
 exports.report = function(req, res){
     var url = req.url;
     var currentID = url.match( /[^\/]+\/?$/ );
-
     res.contentType('application/json');
-    model.Report.findOne({_id:currentID }, function(err,docs) {   
-        res.send('"reports" : ' + JSON.stringify(docs));
-	});
+
+    model.Report.findOne({_id:currentID})
+        .populate('user','username email thumbnail_image')
+        .populate('categories','title')
+        .populate('comments')
+        .populate('imins')
+        .populate('place')
+        .exec(function (err, report) {
+            if (err) { 
+                return handleError(err);
+            }
+            res.send('{ "reports":' + JSON.stringify(report) + ' }');
+    });
 };
 
 exports.report_post = function(req, res){
@@ -56,64 +66,6 @@ exports.report_post = function(req, res){
       });
     };
 
-    //  //add mockup user nut id = 5059a5241b9c322369000011
-    // var user = new model.User();
-    // user.username = 'admin';
-    // user.password = '1234';
-    // user.email = '123@ggg.com';
-    // user.created_at = new Date();
-    // user.last_modified = new Date();
-    // user.save(function (err){
-    //     if (err) {
-    //         console.log(err);
-    //         // do something
-    //     } else {
-    //         console.log('user' + user);
-    //     }
-    // }); 
-
-    // // add Mock up category
-    // var cat1 = new model.Category();
-    // cat1.title = 'cat1';
-    // cat1.last_modified = new Date();
-    // cat1.created_at = new Date();
-    // var cat2 = new model.Category();
-    // cat2.title = 'cat2';
-    // cat2.last_modified = new Date();
-    // cat2.created_at = new Date();
-    // cat1.save(function (err){
-    //     if (err) {
-    //         console.log(err);
-    //         // do something
-    //     } else {
-    //         console.log('cat1' + cat1);
-    //     }
-    // }); 
-    // cat2.save(function (err){
-    //     if (err) {
-    //         console.log(err);
-    //         // do something
-    //     } else {
-    //         console.log('cat2' + cat2);
-    //     }
-    // }); 
-    
-    //  // add mockup place
-    // var place = new model.Place();
-    // place.title = 'สวนดอกจ้า';
-    // place.lat = 12.34;
-    // place.long = 45.67;
-    // place.created_at = new Date();
-    // place.last_modified = new Date();
-    // place.save(function (err){
-    //     if (err) {
-    //         console.log(err);
-    //         // do something
-    //     } else {
-    //         console.log('place' + place);
-    //     }
-    // }); 
-
 
     // save data to db
     var report = new model.Report();
@@ -127,7 +79,7 @@ exports.report_post = function(req, res){
     report.thumbnail_image = thumbnail_image_short_path;
     report.full_image = full_image_short_path;
     report.lat = req.body.lat;
-    report.long = req.body.long;
+    report.lng = req.body.lng;
     report.note = req.body.note;
     report.is_resolved = false;
     report.imin_count = 0;
@@ -140,22 +92,29 @@ exports.report_post = function(req, res){
     , place             : { type: Schema.Types.ObjectId, ref: 'Place' }
 */
 
-    //Find User from name
-    model.User.findOne({username: 'admin' }, function(err,user) {   
-        
+    //Find User from username
+    model.User.findOne({username: req.body.username }, function(err,user) {   
+        if (user == null) {
+            // res.contentType('Content-Type', 'application/json');
+            // res.statusCode = 200;
+            // res.send(2003);
+            res.redirect('/');
+            return;
+        };
         // Set user to Report
         report.user = user._id;
 
-        //model.Category.find({ $or : [ { title : 'cat1' } , { title : 'cat2' } ] } , function(err,catArray) { 
+        // model.Category.find({ $or : [ { title : 'cat1' } , { title : 'cat2' } ] } , function(err,catArray) { 
 
         //Find Category from request
-        var firstCategoryFromRequest;
-        if (req.body.categories.length > 0) {
-            firstCategoryFromRequest = req.body.categories[0];
-        } 
+        var query = {};
+        query["$or"]=[];
+        for (cat in req.body.categories) {
+            query["$or"].push({"title":req.body.categories[cat]});
+        }
 
         //Category can not add from client
-        model.Category.find({ title: firstCategoryFromRequest} , function(err,catTitleFromClient) { 
+        model.Category.find(query, function(err,catTitleFromClient) { 
           
             if (!err) {
                 for (i in catTitleFromClient ) {
@@ -255,3 +214,11 @@ exports.report_post = function(req, res){
         });
     }
 };
+
+// GET /api/categories >> get list of categories
+exports.categories = function(req, res) {
+    res.contentType('application/json');
+    model.Category.find({}, function(err,docs) {   
+        res.send('{ "categories":' + JSON.stringify(docs) + '}');
+    });
+}

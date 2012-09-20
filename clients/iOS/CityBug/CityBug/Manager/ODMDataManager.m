@@ -10,39 +10,61 @@
 #import <CoreData/CoreData.h>
 #import "ODMEntry.h"
 #import "ODMReport.h"
+#import "ODMCategory.h"
+#import "ODMPlace.h"
 
 #import "AFJSONRequestOperation.h"
 #import "AFHTTPClient.h"
 #import "AFHTTPRequestOperation.h"
+
 static ODMDataManager *sharedDataManager = nil;
 
-@implementation ODMDataManager
+NSString *ODMDataManagerNotificationCategoriesLoadingFinish;
+NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 
-#pragma mark - Application's Documents directory
 
-/**
- Returns the URL to the application's Documents directory.
+
+@interface ODMDataManager(Accessor)
+/*
+ * Read write access only DataManager
  */
-- (NSURL *)applicationDocumentsDirectory
-{
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
+@property (nonatomic, readwrite, strong) NSArray *categories, *reports, *places;
+@end
+
+@implementation ODMDataManager
 
 #pragma mark - Initialize
 
 - (id)init
 {
-    self = [super init];
-    if (self) {
-        NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"ODMCache.sqlite"];
+    if (self = [super init]) {
+        //
+        // Initialize Notification Identifier String
+        //
+        ODMDataManagerNotificationCategoriesLoadingFinish = @"ODMDataManagerNotificationCategoriesLoadingFinish";
+        ODMDataManagerNotificationCategoriesLoadingFail = @"ODMDataManagerNotificationCategoriesLoadingFail";
         
-        NSManagedObjectModel *mom = [NSManagedObjectModel mergedModelFromBundles:[NSBundle allBundles]];
-        NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
+        //
+        // RestKit setup
+        //
+        serviceObjectManager = [RKObjectManager managerWithBaseURLString:BASE_URL];;
         
-        [psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:NULL];
+        //
+        // Object Mapping
+        //
+        RKObjectMapping *reportMapping = [RKObjectMapping mappingForClass:[ODMReport class]];
+        [reportMapping mapKeyPath:@"title" toAttribute:@"title"];
+        [reportMapping mapKeyPath:@"note" toAttribute:@"note"];
+        [reportMapping mapKeyPath:@"thumbnailImage" toAttribute:@"thumbnail_image"];
         
-        defaultContext = [[NSManagedObjectContext alloc] init];
-        defaultContext.persistentStoreCoordinator = psc;
+        [serviceObjectManager.mappingProvider addObjectMapping:reportMapping];
+        [serviceObjectManager.mappingProvider setSerializationMapping:reportMapping forClass:[ODMReport class]];
+        [serviceObjectManager.mappingProvider setMapping:reportMapping forKeyPath:@"reports"];
+        
+        //
+        // Routing
+        //
+        [serviceObjectManager.router routeClass:[ODMReport class] toResourcePath:@"/api/reports" forMethod:RKRequestMethodPOST];
     }
     return self;
 }
@@ -78,27 +100,6 @@ static ODMDataManager *sharedDataManager = nil;
     return [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error] objectForKey:@"entries"];
 }
 
-- (void)postNewEntry:(UIImage *)aImage title:(NSString *)aTitle note:(NSString *)aNote
-{
-    
-    NSURL *url = [NSURL URLWithString:BASE_URL];
-    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
-    NSData *fullImageData = UIImageJPEGRepresentation(aImage, 1);
-    NSData *thumbnailImageData = UIImageJPEGRepresentation(aImage, 0.3);
-    
-    NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:@"/api/entries" parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
-        [formData appendPartWithFileData:fullImageData name:@"full_image"
-                                fileName:@"avatar.jpg" mimeType:@"image/jpeg"];
-        [formData appendPartWithFileData:thumbnailImageData name:@"thumbnail_image"
-                                fileName:@"avatar.jpg" mimeType:@"image/jpeg"];
-        [formData appendPartWithFormData:[aTitle dataUsingEncoding:NSUTF8StringEncoding] name:@"title"];
-        [formData appendPartWithFormData:[aNote dataUsingEncoding:NSUTF8StringEncoding] name:@"note"];
-    }];
-    
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    [operation start];
-}
-
 /*
  * CREATE REPORT
  * HTTP POST
@@ -110,10 +111,13 @@ static ODMDataManager *sharedDataManager = nil;
     [[RKObjectManager sharedManager] postObject:report usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
         
+
         [reportParams setValue:[report title] forParam:@"title"];
         [reportParams setValue:[report note] forParam:@"note"];
-        [reportParams setValue:[NSNumber numberWithDouble:[report lat]] forParam:@"lat"];
-        [reportParams setValue:[NSNumber numberWithDouble:[report lng]] forParam:@"lng"];
+        [reportParams setValue:[report latitude]  forParam:@"lat"];
+        [reportParams setValue:[report longitude] forParam:@"lng"];
+        [reportParams setValue:@"admin"           forParam:@"username"];
+        [reportParams setValue:[report categories] forParam:@"categories"];
         
         NSData *fullImageData = UIImageJPEGRepresentation(report.fullImage, 1);
         NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImage, 1);
@@ -125,56 +129,68 @@ static ODMDataManager *sharedDataManager = nil;
     }];
 }
 
-- (id)insertEntry:(NSDictionary *)entry withError:(NSError **)error withManagedObjectContext:(NSManagedObjectContext *)context
+#pragma mark - CATEGORY
+/**
+ * Category List
+ */
+- (NSArray *)categories
 {
-    ODMEntry *newEntry = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([ODMEntry class]) inManagedObjectContext:context];
-    
-    [newEntry setValue:[entry objectForKey:@"id"] forKey:@"entryID"];
-    
-    [newEntry setValue:[entry objectForKey:@"title"] forKey:@"title"];
-    [newEntry setValue:[entry objectForKey:@"note"] forKey:@"note"];
-    [newEntry setValue:[entry objectForKey:@"note"] forKey:@"note"];
-    [newEntry setValue:[entry objectForKey:@"thumbnail_image"] forKey:@"thumbnailImage"];
-    [newEntry setValue:[entry objectForKey:@"full_image"] forKey:@"fullImage"];
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:DATE_FORMAT];
-    
-    NSDate *lastModifiedDate = [dateFormatter dateFromString:[entry objectForKey:@"lastModified"]];
-    [newEntry setValue:lastModifiedDate forKey:@"lastModified"];
-
-    NSNumber *latitudeNum = [NSNumber numberWithDouble:[[entry objectForKey:@"latitude"] doubleValue]];
-    NSNumber *longitudeNum = [NSNumber numberWithDouble:[[entry objectForKey:@"longitude"] doubleValue]];
-
-    [newEntry setValue:latitudeNum forKey:@"latitude"];
-    [newEntry setValue:longitudeNum forKey:@"longitude"];
-    
-    return newEntry;
-}
-
-- (BOOL)insertEntriesToPersistentStore:(NSArray *)entries
-{
-    return [self insertEntriesToPersistentStore:entries withManagedObjectContext:defaultContext];
-}
-
-
-- (BOOL)insertEntriesToPersistentStore:(NSArray *)entries withManagedObjectContext:(NSManagedObjectContext *)context
-{
-    for (NSDictionary *entry in entries) {
-
-        NSError *error;
-        if ([self insertEntry:entry withError:&error withManagedObjectContext:context] == nil) {
-            ODMLog(@"insert error %@", error);
-            break;
-        }
+    if (!categories_) {
+        
+        [serviceObjectManager loadObjectsAtResourcePath:@"/api/categories" usingBlock:^(RKObjectLoader *loader){
+            loader.onDidLoadObjects = ^(NSArray *objects){
+                categories_ = [objects copy];
+                
+                // Post notification with category array
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCategoriesLoadingFinish object:self.categories];
+            };
+        }];
     }
     
-    NSError *error;
-    if ([defaultContext save:&error]) {
-        ODMLog(@"save error %@", error);
-    };
+    ODMCategory *cat = [ODMCategory new]; cat.title = @"Human error";
+    return [NSArray arrayWithObjects:cat, nil];
+}
+
+#pragma mark - PLACE
+/**
+ * Place list
+ */
+- (NSArray *)places
+{
+    if (!places_) {
+        
+        NSDictionary *queryParams = [NSDictionary dictionaryWithKeysAndObjects:@"lat", @"10.33023",
+                                     @"lng", @"133.324523", nil];
+        NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:queryParams];
+        
+        [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
+            loader.onDidLoadObjects = ^(NSArray *objects){
+                places_ = [objects copy];
+                
+                // Post notification with category array
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCategoriesLoadingFinish object:self.places];
+            };
+        }];
+    }
     
-    return YES;
+    ODMPlace *place1 = [[ODMPlace alloc] init];
+    place1.title = @"Opendream@BKK";
+    place1.latitude = @13.791343;
+    place1.longitude = @100.587473;
+    
+    ODMPlace *place2 = [[ODMPlace alloc] init];
+    place2.title = @"Opendream@CHX";
+    place2.latitude = @13.791343;
+    place2.longitude = @100.587473;
+    
+    NSDictionary *sectionA = [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects:place1, nil], @"suggestion_place", nil];
+    NSDictionary *sectionB = [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects:place2, nil], @"additional_place", nil];
+    return [NSArray arrayWithObjects:sectionA, sectionB, nil];
+}
+
+- (NSArray *)placesWithQueryParams:(NSDictionary *)params
+{
+    return nil;
 }
 
 #pragma mark - RKObjectLoader Delegate
