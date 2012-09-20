@@ -27,13 +27,13 @@ module.exports = function (mongoose) {
 	});
 	var CommentSchema = new Schema({
 		text				: String
-		, user 				: [UserSchema]
+		, user 				: { type: Schema.Types.ObjectId, ref: 'User' }
 		, last_modified		: Date
 		, created_at		: Date
 	});
 
 	var IminSchema = new Schema({
-		user 				: [UserSchema]
+		user 				: { type: Schema.Types.ObjectId, ref: 'User' }
 		, last_modified		: Date
 		, created_at		: Date
 	});
@@ -46,19 +46,19 @@ module.exports = function (mongoose) {
 		, full_image		: String
 		, thumbnail_image	: String
 		, is_resolved		: Boolean
-		, categories		: [CategorySchema]
+		, categories		: [{ type: Schema.Types.ObjectId, ref: 'Category' }]
 		, user				: { type: Schema.Types.ObjectId, ref: 'User' }
-		, place				: [PlaceSchema]
+		, place				: { type: Schema.Types.ObjectId, ref: 'Place' }
 		, imin_count		: Number
-		, comments 			: [CommentSchema]
-		, imins 			: [IminSchema]
+		, comments 			: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
+		, imins 			: [{ type: Schema.Types.ObjectId, ref: 'Imin' }]
 		, last_modified		: Date
 		, created_at		: Date
 	});
 
 	var SubscriptionSchema = new Schema({
-		place 				: [PlaceSchema]
-		, user 				: [UserSchema]
+		place 				: { type: Schema.Types.ObjectId, ref: 'Place' }
+		, user 				: { type: Schema.Types.ObjectId, ref: 'User' }
 		, last_modified		: Date
 		, created_at		: Date
 	});

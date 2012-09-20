@@ -13,10 +13,15 @@ exports.reports = function(req, res){
     console.log('get list');
     res.contentType('application/json'); 
  
-    model.Report.find({},function(err, docs){
-        res.send('{ "reports":' + JSON.stringify(docs) + ' }');
+    model.Report.find({})
+        .populate('user','username email thumbnail_image')
+        .populate('categories','title')
+        .exec(function (err, report) {
+            if (err) { 
+                return handleError(err);
+            }
+            res.send('{ "reports":' + JSON.stringify(report) + ' }');
     });
-
 };
 
 // GET /api/report/{id} >> get one report from id
@@ -51,16 +56,61 @@ exports.report_post = function(req, res){
       });
     };
 
-    // // add mockup user nut id = 5059a5241b9c322369000011
+    // add mockup user nut id = 5059a5241b9c322369000011
     // var user = new model.User();
-    // user.username = 'nut';
-
+    // user.username = 'admin';
+    // user.password = '1234';
+    // user.email = '123@ggg.com';
+    // user.created_at = new Date();
+    // user.last_modified = new Date();
     // user.save(function (err){
     //     if (err) {
     //         console.log(err);
     //         // do something
     //     } else {
     //         console.log('user' + user);
+    //     }
+    // }); 
+
+    // // add Mock up category
+    // var cat1 = new model.Category();
+    // cat1.title = 'cat1';
+    // cat1.last_modified = new Date();
+    // cat1.created_at = new Date();
+    // var cat2 = new model.Category();
+    // cat2.title = 'cat2';
+    // cat2.last_modified = new Date();
+    // cat2.created_at = new Date();
+    // cat1.save(function (err){
+    //     if (err) {
+    //         console.log(err);
+    //         // do something
+    //     } else {
+    //         console.log('cat1' + cat1);
+    //     }
+    // }); 
+    // cat2.save(function (err){
+    //     if (err) {
+    //         console.log(err);
+    //         // do something
+    //     } else {
+    //         console.log('cat2' + cat2);
+    //     }
+    // }); 
+    
+    //  // add mockup place
+    // var place = new model.Place();
+    // place.title = 'สวนดอกจ้า';
+    // place.lat = 12.34;
+    // place.long = 45.67;
+    // place.created_at = new Date();
+    // place.last_modified = new Date();
+    // place.save(function (err){
+    //     if (err) {
+    //         console.log(err);
+    //         // do something
+    //     } else {
+    //         console.log('place' + place);
     //     }
     // }); 
 
@@ -81,33 +131,81 @@ exports.report_post = function(req, res){
     report.note = req.body.note;
     report.is_resolved = false;
     report.imin_count = 0;
-    report.categories = req.body.categories;
     report.last_modified = new Date();
     report.created_at = new Date();
 
+/*
+    , categories        : [{ type: Schema.Types.ObjectId, ref: 'Category' }]
+    , user              : { type: Schema.Types.ObjectId, ref: 'User' }
+    , place             : { type: Schema.Types.ObjectId, ref: 'Place' }
+*/
 
-    model.User.findOne({username: 'nut' }, function(err,user) {   
-        console.log('find user1 ' + user + ' -id- ' + user._id);
+    //Find User from name
+    model.User.findOne({username: 'admin' }, function(err,user) {   
         
+        // Set user to Report
         report.user = user._id;
 
-        report.save(function (err) {
-            if (!err){
-                console.log('Success! with ' + report.user.username);
-                console.log('report JSON >>' + JSON.stringify(report));
-                res.statusCode = 200;
-                res.render('add_response', {title: 'City bug', report: report});
+        //model.Category.find({ $or : [ { title : 'cat1' } , { title : 'cat2' } ] } , function(err,catArray) { 
 
-                model.Report.findOne({ title: report.title }).populate('user').exec(function (err, report) {
-                    if (err) 
-                        return handleError(err);
-                    console.log('The creator is ' + report); // prints "The creator is Aaron"
-                })
+        //Find Category from request
+        var firstCategoryFromRequest;
+        if (req.body.categories.length > 0) {
+            firstCategoryFromRequest = req.body.categories[0];
+        } 
+
+        //Category can not add from client
+        model.Category.find({ title: firstCategoryFromRequest} , function(err,catTitleFromClient) { 
+          
+            if (!err) {
+                for (i in catTitleFromClient ) {
+                    // Push category to Report's category list
+                    report.categories.push(catTitleFromClient[i]._id);
+                    console.log('categories' + catTitleFromClient);
+                }
             } else {
-                console.log('Error !');
-                console.log(err);
-                res.statusCode = 500;
+                console.log('err' + err);
             }
+
+
+            model.Place.findOne({_id: req.body.placeID }, function(err,place) {   
+
+                if (!err && place != null) { //Can find place in database
+                    report.place = place._id;
+                } else {
+                    //เอา id ที่ได้ ไป map กับ foursquare
+
+                }
+
+                //Save new Report to Database
+                report.save(function (err) {
+                    if (!err){
+                        console.log('Success! with ' + report);
+                        console.log('report JSON >>' + JSON.stringify(report));
+                        res.statusCode = 200;
+                        res.render('add_response', {title: 'City bug', report: report});
+
+                        //Query report with user data
+                        model.Report.findOne({ title: report.title })
+                        .populate('user','username email thumbnail_image')
+                        .populate('categories','title')
+                        .exec(function (err, report) {
+                            if (err) { 
+                                return handleError(err);
+                            }
+                            console.log('The creator is ' + report); 
+                            console.log('The creator JSON is ' + JSON.stringify(report));
+                    })
+                        
+                    } else {
+                        console.log('Error !');
+                        console.log(err);
+                        res.statusCode = 500;
+                        // res.send();
+                    }
+                });
+
+            });
         });
     });
 
