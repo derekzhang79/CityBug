@@ -8,6 +8,12 @@ exports.add = function(req, res){
     });
 };
 
+exports.place_search = function(req, res){
+    res.statusCode = 200;
+    res.send("search place");
+};
+
+
 // GET /api/reports >> get list of entries
 exports.reports = function(req, res){
     console.log('get list');
@@ -62,49 +68,57 @@ exports.report_post = function(req, res){
       });
     };
 
-    //  //add mockup user nut id = 5059a5241b9c322369000011
-    // var user = new model.User();
-    // user.username = 'admin';
-    // user.password = '1234';
-    // user.email = '123@ggg.com';
-    // user.created_at = new Date();
-    // user.last_modified = new Date();
-    // user.save(function (err){
-    //     if (err) {
-    //         console.log(err);
-    //         // do something
-    //     } else {
-    //         console.log('user' + user);
-    //     }
-    // }); 
+    //add mockup user 
+    model.User.find({} , function(err,allUser) { 
+        if (err || allUser.length < 1) {
+            var user = new model.User();
+            user.username = 'admin';
+            user.password = '1234';
+            user.email = '123@ggg.com';
+            user.created_at = new Date();
+            user.last_modified = new Date();
+            user.save(function (err){
+                if (err) {
+                    console.log(err);
+                    // do something
+                } else {
+                    console.log('user' + user);
+                }
+            }); 
+        }
+    });
 
-    // // add Mock up category
-    // var cat1 = new model.Category();
-    // cat1.title = 'cat1';
-    // cat1.last_modified = new Date();
-    // cat1.created_at = new Date();
-    // var cat2 = new model.Category();
-    // cat2.title = 'cat2';
-    // cat2.last_modified = new Date();
-    // cat2.created_at = new Date();
-    // cat1.save(function (err){
-    //     if (err) {
-    //         console.log(err);
-    //         // do something
-    //     } else {
-    //         console.log('cat1' + cat1);
-    //     }
-    // }); 
-    // cat2.save(function (err){
-    //     if (err) {
-    //         console.log(err);
-    //         // do something
-    //     } else {
-    //         console.log('cat2' + cat2);
-    //     }
-    // }); 
+    // add Mock up category
+    model.User.find({} , function(err,allUser) { 
+        if (err || allUser.length < 1) {
+            var cat1 = new model.Category();
+            cat1.title = 'cat1';
+            cat1.last_modified = new Date();
+            cat1.created_at = new Date();
+            var cat2 = new model.Category();
+            cat2.title = 'cat2';
+            cat2.last_modified = new Date();
+            cat2.created_at = new Date();
+            cat1.save(function (err){
+                if (err) {
+                    console.log(err);
+                    // do something
+                } else {
+                    console.log('cat1' + cat1);
+                }
+            }); 
+            cat2.save(function (err){
+                if (err) {
+                    console.log(err);
+                    // do something
+                } else {
+                    console.log('cat2' + cat2);
+                }
+            }); 
+        }
+    });
     
-    //  // add mockup place
+    // // add mockup place
     // var place = new model.Place();
     // place.title = 'สวนดอกจ้า';
     // place.lat = 12.34;
@@ -146,7 +160,7 @@ exports.report_post = function(req, res){
     , place             : { type: Schema.Types.ObjectId, ref: 'Place' }
 */
 
-    //Find User from name
+    //Find User from username
     model.User.findOne({username: 'admin' }, function(err,user) {   
         
         // Set user to Report
@@ -156,7 +170,7 @@ exports.report_post = function(req, res){
 
         //Find Category from request
         var firstCategoryFromRequest;
-        if (req.body.categories.length > 0) {
+        if (req.body.categories != null && req.body.categories.length > 0) {
             firstCategoryFromRequest = req.body.categories[0];
         } 
 
