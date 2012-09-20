@@ -11,11 +11,21 @@
 @protocol ODMCategoryListDelegate;
 
 @interface ODMCategoryListViewController : UITableViewController {
-    __unsafe_unretained id <ODMCategoryListDelegate> delegate;
+    __unsafe_unretained id <ODMCategoryListDelegate> _delegate;
+    
+    NSArray *_datasource;
 }
 
 @property (unsafe_unretained) id <ODMCategoryListDelegate> delegate;
 
+/*
+ * Datasource
+ */
+@property (nonatomic, readonly, strong) NSArray *datasource;
+
+/*
+ * Save a category and Send this view back to the form
+ */
 - (IBAction)save:(id)sender;
 
 @end

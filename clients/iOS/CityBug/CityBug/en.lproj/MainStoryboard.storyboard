@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12B19" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="tet-i1-BY7">
     <dependencies>
+        <deployment version="1296" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
     <scenes>
@@ -75,33 +76,57 @@
             </objects>
             <point key="canvasLocation" x="-3280" y="-1114"/>
         </scene>
-        <!--Edit Form Field View Controller - Edit note-->
+        <!--Place Form View Controller - Choose a place-->
         <scene sceneID="sLk-TH-hvq">
             <objects>
-                <viewController id="Xt7-0I-1YV" customClass="ODMEditFormFieldViewController" sceneMemberID="viewController">
+                <viewController id="Xt7-0I-1YV" customClass="ODMPlaceFormViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9KO-Kz-9Fe">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="Insert text here" minimumFontSize="17" id="wCe-iE-y1c">
-                                <rect key="frame" x="10" y="20" width="300" height="420"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="u87-d7-yCQ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <sections>
+                                    <tableViewSection headerTitle="CityBug" id="f0j-MD-RoZ">
+                                        <cells>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" id="lNA-oE-4FN">
+                                                <rect key="frame" x="0.0" y="46" width="320" height="46"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                    <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </tableViewCell>
+                                        </cells>
+                                    </tableViewSection>
+                                    <tableViewSection headerTitle="Foursquare" id="Odw-xe-yhg">
+                                        <cells>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" id="iRG-BC-aFC">
+                                                <rect key="frame" x="0.0" y="138" width="320" height="46"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                    <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </tableViewCell>
+                                        </cells>
+                                    </tableViewSection>
+                                </sections>
+                            </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Edit note" id="iY9-Cc-fc2">
+                    <navigationItem key="navigationItem" title="Choose a place" id="iY9-Cc-fc2">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="xeo-wu-hvu">
                             <connections>
                                 <action selector="save:" destination="Xt7-0I-1YV" id="gct-mt-Tq6"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="formTextField" destination="wCe-iE-y1c" id="3o2-Ti-9sw"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YwC-o3-IHy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -198,70 +223,35 @@
         <scene sceneID="HJI-4P-vLE">
             <objects>
                 <tableViewController id="LR7-d9-1re" customClass="ODMCategoryListViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2dh-5L-TWo">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2dh-5L-TWo">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <sections>
-                            <tableViewSection id="VeS-o2-SBl">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="S3x-Rg-gTI" style="IBUITableViewCellStyleDefault" id="Osw-tb-i40">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCellIdentifier" textLabel="S3x-Rg-gTI" imageView="WfR-ql-f3G" style="IBUITableViewCellStyleDefault" id="Osw-tb-i40">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Category A" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S3x-Rg-gTI">
+                                            <rect key="frame" x="47" y="0.0" width="230" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Category A" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S3x-Rg-gTI">
-                                                    <rect key="frame" x="10" y="0.0" width="300" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Ue3-I4-B8D" style="IBUITableViewCellStyleDefault" id="34r-Ko-ahg">
-                                        <rect key="frame" x="0.0" y="44" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="cat1.png" id="WfR-ql-f3G">
+                                            <rect key="frame" x="5" y="5" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Category B" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ue3-I4-B8D">
-                                                    <rect key="frame" x="10" y="0.0" width="300" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="o9q-d2-IKZ" style="IBUITableViewCellStyleDefault" id="YGQ-yn-a7W">
-                                        <rect key="frame" x="0.0" y="88" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Category C" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o9q-d2-IKZ">
-                                                    <rect key="frame" x="10" y="0.0" width="300" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="LR7-d9-1re" id="8Ik-WR-Iyd"/>
                             <outlet property="delegate" destination="LR7-d9-1re" id="byk-wg-Ych"/>
@@ -291,7 +281,7 @@
                             <tableViewSection headerTitle="Form" id="gVM-zC-I7D">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cattegoryListCellIdentifier" rowHeight="126" id="ra0-NV-BrL">
-                                        <rect key="frame" x="0.0" y="46" width="320" height="128"/>
+                                        <rect key="frame" x="0.0" y="46" width="320" height="127"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="125"/>
@@ -325,12 +315,40 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="7zX-fj-V6J" detailTextLabel="8sH-8c-bOq" style="IBUITableViewCellStyleValue1" id="g1G-W5-2gc">
+                                        <rect key="frame" x="0.0" y="173" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Place" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7zX-fj-V6J">
+                                                    <rect key="frame" x="10" y="11" width="45" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8sH-8c-bOq">
+                                                    <rect key="frame" x="226" y="11" width="44" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.2196078431372549" green="0.32941176470588235" blue="0.52941176470588236" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="Xt7-0I-1YV" kind="push" identifier="placeSequeIdentifier" id="CNE-Ty-m2c"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection id="Slc-hG-TlR">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cattegoryListCellIdentifier" textLabel="rGn-3P-HTj" detailTextLabel="yBv-u0-5OA" rowHeight="41" style="IBUITableViewCellStyleValue1" id="3y4-wd-6X6">
-                                        <rect key="frame" x="0.0" y="185" width="320" height="42"/>
+                                        <rect key="frame" x="0.0" y="229" width="320" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="280" height="40"/>
@@ -353,9 +371,12 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="LR7-d9-1re" kind="push" id="Khr-2s-fsB"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="101" id="nFP-cR-kja">
-                                        <rect key="frame" x="0.0" y="227" width="320" height="102"/>
+                                        <rect key="frame" x="0.0" y="271" width="320" height="102"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="100"/>
@@ -406,6 +427,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bugImageView" destination="smU-Cv-UUG" id="L8N-jH-3X0"/>
+                        <outlet property="categoryLabel" destination="yBv-u0-5OA" id="ZAa-fc-rcr"/>
                         <outlet property="noteTextField" destination="jTN-Jr-fRD" id="gAr-zK-YS1"/>
                         <outlet property="titleTextField" destination="swL-5T-kd7" id="Ehq-Cw-dOK"/>
                     </connections>
@@ -550,7 +572,57 @@
     </scenes>
     <resources>
         <image name="bugs.jpeg" width="196" height="257"/>
+        <image name="cat1.png" width="32" height="32"/>
     </resources>
+    <classes>
+        <class className="ODMCategoryListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMCategoryListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="save:"/>
+            </relationships>
+        </class>
+        <class className="ODMDescriptionFormViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMDescriptionFormViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButtonTapped:"/>
+                <relationship kind="outlet" name="bugImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="categoryLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="locationTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="noteTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="titleTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="ODMDescriptionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMDescriptionViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButtonTapped:"/>
+                <relationship kind="outlet" name="bugImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="catergoryLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="descTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ODMFormFiedViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMFormFiedViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="CategoryButtonTapped:"/>
+                <relationship kind="action" name="save:"/>
+                <relationship kind="outlet" name="noteTextView" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="titleTextView" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="ODMListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addButtonTapped:"/>
+                <relationship kind="action" name="refreshButtonTapped:"/>
+                <relationship kind="outlet" name="toolBar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="ODMPlaceFormViewController" superclassName="ODMFormFiedViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMPlaceFormViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

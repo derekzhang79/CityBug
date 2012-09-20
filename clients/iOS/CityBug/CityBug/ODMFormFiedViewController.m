@@ -34,6 +34,11 @@
     }
 }
 
+- (void)reloadData
+{
+    
+}
+
 - (void)viewDidUnload {
     [self setTitleTextView:nil];
     [self setNoteTextView:nil];
