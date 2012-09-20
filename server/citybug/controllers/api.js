@@ -95,7 +95,7 @@ exports.report_post = function(req, res){
 */
 
     //Find User from username
-    model.User.findOne({username: 'admin' }, function(err,user) {   
+    model.User.findOne({username: req.body.username }, function(err,user) {   
         
         // Set user to Report
         report.user = user._id;
