@@ -52,9 +52,73 @@ exports.callback = function(req, res){
 
 			venueSearch(access_token, lat, lng, function (data) {
 				if (data != null && data != undefined) {
-					res.contentType('application/json'); 
-					res.statuscode = 200;
-					res.send('{ "additional_places":' + JSON.stringify(data) + ' }');
+
+					//------------------------ Manage 4sq places ---------------------------------
+					var object = data[0];
+					// console.log(">>>>>> "+ object+" \n "+JSON.stringify(object.items));
+					var itemArray = object.items;
+					var placeArray = [];
+
+					for (i in itemArray) {
+						//Create place object from 4sq data
+						var newPlace = new model.Place();
+						newPlace.id_foursquare = itemArray[i].id;		
+						newPlace.title = itemArray[i].name;			
+						newPlace.distance = itemArray[i].location.distance;
+						newPlace.lat = itemArray[i].location.lat;
+						newPlace.lng = itemArray[i].location.lng;
+						newPlace.last_modified = new Date();
+						newPlace.created_at = new Date();
+
+						placeArray.push(newPlace);
+					}
+
+					//Sort 4sq place by distance
+					placeArray = placeArray.sort(function(a, b) {
+						if (a.distance < b.distance) { return -1; }
+						if (a.distance > b.distance) { return  1; }
+						return 0;
+					});
+					console.log("Get place from foursquare "+placeArray.length + " places");
+
+					//------------------------ Manage server places ---------------------------------
+					
+					model.Place.find({}).exec(function (err, serverPlace) {
+			            var serverPlaceArray = [];
+			            if (err) { 
+			                console.log("error find place " + err);
+			            } else {
+							for (i in serverPlace) {
+								//Calculate distance in each server place
+								serverPlace[i].distance = distanceCalculate(serverPlace[i].lat, serverPlace[i].lng, lat, lng);
+								serverPlaceArray.push(serverPlace[i]);
+							}
+			            
+				            //Sort server place by distance
+							serverPlaceArray = serverPlaceArray.sort(function(a, b) {
+								if (a.distance < b.distance) { return -1; }
+								if (a.distance > b.distance) { return  1; }
+								return 0;
+							});
+						}
+
+						//Get only first 30 sorted places
+						var thirtyServerPlaceArray;
+						if (serverPlaceArray != null && serverPlaceArray.length > 30) 
+							thirtyServerPlaceArray = serverPlaceArray.slice(0,30);
+						else
+							thirtyServerPlaceArray = serverPlaceArray;
+
+						console.log("Get place from server "+thirtyServerPlaceArray.length + " places");						
+
+			            // Send response
+						res.contentType('application/json'); 
+						res.statuscode = 200;
+
+						var responseString = '{ "suggest_places":'+ JSON.stringify(thirtyServerPlaceArray) +',"additional_places":' + JSON.stringify(placeArray) + ' }';
+						res.send(responseString);
+			    	});
+
 				} else {
 					res.contentType('application/html');
 					res.statuscode = 500;
@@ -62,7 +126,6 @@ exports.callback = function(req, res){
 				}
 			});
 			
-
 		} else {
 			console.log("access_token is undefined.");
 		}
@@ -70,6 +133,22 @@ exports.callback = function(req, res){
 	});
 };
 
+function distanceCalculate(lat1, lon1, lat2, lon2) {
+	var radlat1 = Math.PI * lat1/180;
+	var radlat2 = Math.PI * lat2/180;
+	var radlon1 = Math.PI * lon1/180;
+	var radlon2 = Math.PI * lon2/180;
+	var theta = lon1-lon2;
+	var radtheta = Math.PI * theta/180;
+	var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+	dist = Math.acos(dist);
+	dist = dist * 180/Math.PI;
+	dist = dist * 60 * 1.1515;
+	dist = dist * 1.609344;  //kilometre
+
+	//console.log("distance from "+lat1 +" "+ lon1+" "+ lat2 +" "+ lon2 + " = " + dist + "km");
+	return dist
+}
 
 function venueSearch(access_token, lat, lng, callbackFunction) {
 

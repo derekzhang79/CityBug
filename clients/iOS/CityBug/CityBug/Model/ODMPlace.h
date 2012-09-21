@@ -6,12 +6,14 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@interface ODMPlace : NSObject {
+    NSString *_title, *_uid;
+    NSNumber *_latittude, *_longitude;
+}
 
-@interface ODMPlace : NSObject
+@property (nonatomic, strong) NSString *title, *uid;
+@property (nonatomic, strong) NSNumber *latitude, *longitude;
 
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSNumber *latitude;
-@property (nonatomic, strong) NSNumber *longitude;
++ (ODMPlace *)placeWithTitle:(NSString *)title latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude uid:(NSString *)uid;
 
 @end

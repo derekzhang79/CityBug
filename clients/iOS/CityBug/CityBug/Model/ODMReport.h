@@ -8,20 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
-@class ODMPlace;
+@class ODMPlace, ODMUser, ODMCategory;
 
 @interface ODMReport : NSObject {
     NSArray  *_categories;
     NSNumber *_latitude, *_longitude;
-    NSString *_title, *_note;
+    NSString *_title, *_note, *_uid;
     UIImage  *_thumbnailImage, *_fullImage;
-    ODMPlace *place_;
+    ODMPlace *_place;
+    ODMUser  *_user;
 }
 
-@property (nonatomic, strong) NSString *title, *note;
+@property (nonatomic, strong) NSString *title, *note, *uid;
 @property (nonatomic, strong) NSNumber *latitude, *longitude;
 @property (nonatomic, strong) NSArray *categories;
 @property (nonatomic, strong) UIImage *thumbnailImage, *fullImage;
 @property (nonatomic, strong) ODMPlace *place;
+@property (nonatomic, strong) ODMUser *user;
 
+- (BOOL)validateValue:(__autoreleasing id *)value forKey:(NSString *)key error:(NSError *__autoreleasing *)error;
+
++ (ODMReport *)newReportWithTitle:(NSString *)title note:(NSString *)note;
 @end

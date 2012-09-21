@@ -11,7 +11,7 @@ exports.add = function(req, res){
 
 // GET /api/reports >> get list of entries
 exports.reports = function(req, res){
-    console.log('get list');
+    console.log('Get report list');
     res.contentType('application/json'); 
  
     model.Report.find({})
@@ -127,9 +127,9 @@ exports.report_post = function(req, res){
     // save data to db
     var report = new model.Report();
     
-    var thumbnail_image_type = req.files.thumbnail_image.name.match( /[^.]+.?$/ );
+    var thumbnail_image_type = req.files.thumbnail_image.type.match( /[^\/]+\/?$/ );
     var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_type;
-    var full_image_type = req.files.full_image.name.match( /[^.]+.?$/ );
+    var full_image_type = req.files.full_image.type.match( /[^\/]+\/?$/ );
     var full_image_short_path = "/images/report/" + report._id + "." + full_image_type;
     
     report.title = req.body.title;
@@ -199,7 +199,9 @@ exports.report_post = function(req, res){
                         console.log('Success! with ' + report);
                         console.log('report JSON >>' + JSON.stringify(report));
                         res.statusCode = 200;
-                        res.render('add_response', {title: 'City bug', report: report});
+                        res.contentType('application/json'); 
+                        res.send("Add new report success!");
+                        //res.render('add_response', {title: 'City bug', report: report});
 
                         //Query report with user data
                         model.Report.findOne({ title: report.title })
@@ -217,6 +219,8 @@ exports.report_post = function(req, res){
                         console.log('Error !');
                         console.log(err);
                         res.statusCode = 500;
+                        res.contentType('application/json'); 
+                        res.send("Add new report not success with error "+err);
                         // res.send();
                     }
                 });

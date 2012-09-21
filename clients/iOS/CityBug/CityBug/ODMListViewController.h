@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 opendream. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
 @interface ODMListViewController : UITableViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate>
@@ -15,6 +14,8 @@
 
 - (IBAction)refreshButtonTapped:(id)sender;
 
-@property CLLocation *location;
+@property (strong, nonatomic) CLLocation *location;
+
+- (IBAction)createNewReport:(id)sender;
 
 @end

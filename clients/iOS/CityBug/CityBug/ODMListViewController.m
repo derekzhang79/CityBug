@@ -10,8 +10,6 @@
 #import "ODMDescriptionFormViewController.h"
 #import "ODMDescriptionViewController.h"
 #import "ODMDataManager.h"
-#import "ODMEntry.h"
-#import "UIImageView+AFNetworking.h"
 
 #import <ImageIO/ImageIO.h>
 #import <ImageIO/CGImageSource.h>
@@ -68,14 +66,13 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     locationManager.distanceFilter = kCLDistanceFilterNone;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
     [locationManager startUpdatingLocation];
-    
+    self.location = locationManager.location;
 
-    
     resultblock = ^(ALAsset *myasset) {
         CLLocation *locationAsset = [myasset valueForProperty:ALAssetPropertyLocation];
-        self.location = locationAsset; 
+        self.location = locationAsset;
     };
     failureblock = ^(NSError *myerror) {
         NSLog(@"error while get Location from picture : %d - message: %s", errno, strerror(errno));
@@ -125,6 +122,29 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 #pragma mark -
 
+- (IBAction)createNewReport:(id)sender
+{
+    // POST report to server
+    ODMReport *report = [[ODMReport alloc] init];
+    report.title = @"PostAAAA";
+    report.note = @"กกกกกกกก __#$%@#$%@$% ขขขขขขขข";
+    report.latitude = @13.791343;
+    report.longitude = @100.587473;
+    report.fullImage = [UIImage imageNamed:@"1.jpeg"];
+    report.thumbnailImage = [UIImage imageWithCGImage:[UIImage imageNamed:@"1.jpeg"].CGImage scale:0.25 orientation:[UIImage imageNamed:@"1.jpeg"].imageOrientation];
+    
+    // Add categories to report by associated object
+    ODMCategory *category = [ODMCategory categoryWithTitle:@"หมวดหมู่"];
+    report.categories = [NSArray arrayWithObject:category];
+    
+    // Add place to report by associated object
+    ODMPlace *place = [ODMPlace placeWithTitle:@"Opendream" latitude:report.latitude longitude:report.longitude uid:@"505a8ef3cea52e3676000001"];
+    report.place = place;
+    
+    // Call DataManager with new report
+    [[ODMDataManager sharedInstance] postNewReport:report];
+}
+
 - (IBAction)addButtonTapped:(id)sender
 {
     NSLog(@"addButtonTapped");
@@ -135,7 +155,6 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
                                              otherButtonTitles:@"Camera", @"Existing Photo", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     [actionSheet showInView:self.view];
-
 
 }
 
@@ -158,34 +177,38 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
         picker.cameraViewTransform = CGAffineTransformScale(picker.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);
         
         [self presentModalViewController:picker animated:YES];
+        
     } else if (buttonIndex == 1 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
         [self presentModalViewController:picker animated:YES];
 
     }
 }
 
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{   
+- (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
     imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerEditedImage];
- 
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        // Save the new image (original or edited) to the Camera Roll.
-        UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
+
+   
+    assetsLib = [[ALAssetsLibrary alloc] init];
+    if (aPicker.sourceType == UIImagePickerControllerSourceTypeCamera) {
         self.location = locationManager.location;
-    }
-    
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         
-        // Get the asset url
+        // get Metadata's image for add more attribute (location attribute).
+        NSDictionary *metadata = [info objectForKey:UIImagePickerControllerMediaMetadata];
+        [metadata setValue:self.location forKey:ALAssetPropertyLocation];
+        
+        // save image and metadata to the Photos Album.
+        [assetsLib writeImageToSavedPhotosAlbum:imageToSave.CGImage metadata:metadata completionBlock:^(NSURL *assetURL, NSError *error) {
+            NSLog(@"image saved");
+        }];
+ 
+    } else if (aPicker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
         NSURL *pictureURL = [info objectForKey:UIImagePickerControllerReferenceURL];
-        assetsLib = [[ALAssetsLibrary alloc] init];
-        [assetsLib assetForURL:pictureURL resultBlock:resultblock failureBlock:failureblock];
-    
         
+        //  invokes a given block passing as a parameter an asset identified by a specified file URL.
+        [assetsLib assetForURL:pictureURL resultBlock:resultblock failureBlock:failureblock];
     }
     
     [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:gotoFormSegue afterDelay:1.f];
@@ -203,6 +226,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
         ODMDescriptionFormViewController *formViewController = (ODMDescriptionFormViewController *) segue.destinationViewController;
         formViewController.bugImage = imageToSave;
         formViewController.location = self.location;
+        
     }
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
         ODMDescriptionViewController *DetailViewController = (ODMDescriptionViewController *) segue.destinationViewController;
@@ -224,10 +248,8 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
             imagePath = [imagePath substringFromIndex:1];
         }
         imagePath = [BASE_URL stringByAppendingString:imagePath];
-        UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:1];
-        
-        NSLog(@"image %@", imagePath);
-        [thumbnailImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
+//        UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:1];
+//        [thumbnailImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
 
 
     });
@@ -236,9 +258,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     titleLabel.text = [aEntry objectForKey:@"title"];
     
     UILabel *noteLabel = (UILabel *)[cell viewWithTag:2];
-    noteLabel.text = [aEntry objectForKey:@"note"];
-
- 
+    noteLabel.text = [aEntry objectForKey:@"note"]; 
 }
 
 

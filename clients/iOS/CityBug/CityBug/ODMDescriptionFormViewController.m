@@ -23,7 +23,6 @@
 {
     [super viewDidLoad];
     self.bugImageView.image = self.bugImage;
-
 }
 
 - (void)viewDidUnload
@@ -34,6 +33,13 @@
 
 - (IBAction)doneButtonTapped:(id)sender
 {
+    [self createNewReport];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)createNewReport
+{
     // POST report to server
     ODMReport *report = [[ODMReport alloc] init];
     report.title = self.titleTextField.text;
@@ -42,14 +48,18 @@
     report.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];;
     report.fullImage = self.bugImage;
     report.thumbnailImage = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
-
     
+    // Add categories to report by associated object
+    ODMCategory *category = [ODMCategory categoryWithTitle:self.categoryLabel.text];
+    report.categories = [NSArray arrayWithObject:category];
     
+    // Add place to report by associated object
+    ODMPlace *place = [ODMPlace placeWithTitle:self.localtionLabel.text latitude:report.latitude longitude:report.longitude uid:@"505a8ef3cea52e3676000001"];
+    report.place = place;
+    
+    // Call DataManager with new report
     [[ODMDataManager sharedInstance] postNewReport:report];
-    
-    [self.navigationController popViewControllerAnimated:YES];
 }
-
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

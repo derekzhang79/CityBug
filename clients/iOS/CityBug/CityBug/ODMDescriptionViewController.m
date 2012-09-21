@@ -7,7 +7,6 @@
 //
 
 #import "ODMDescriptionViewController.h"
-#import "UIImageView+AFNetworking.h"
 
 @implementation ODMDescriptionViewController
 
@@ -26,8 +25,8 @@
     }
     
     
-    NSString *imagePath = [BASE_URL stringByAppendingString:[self.entry objectForKey:@"full_image"]];
-    [self.bugImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
+//    NSString *imagePath = [BASE_URL stringByAppendingString:[self.entry objectForKey:@"full_image"]];
+//    [self.bugImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
     self.descTextView.text = [self.entry objectForKey:@"title"];
     self.locationLabel.text = location;
     self.catergoryLabel.text = [self.entry objectForKey:@"categories"];
