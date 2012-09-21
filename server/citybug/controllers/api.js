@@ -17,6 +17,10 @@ exports.reports = function(req, res){
     model.Report.find({})
         .populate('user','username email thumbnail_image')
         .populate('categories','title')
+        .populate('comments')
+        .populate('imins')
+        .populate('place')
+
         .exec(function (err, report) {
             if (err) { 
                 return handleError(err);
@@ -31,6 +35,7 @@ exports.report = function(req, res){
     var currentID = url.match( /[^\/]+\/?$/ );
     res.contentType('application/json');
 
+    var json_report = [];
     model.Report.findOne({_id:currentID})
         .populate('user','username email thumbnail_image')
         .populate('categories','title')
@@ -41,7 +46,59 @@ exports.report = function(req, res){
             if (err) { 
                 return handleError(err);
             }
-            res.send('{ "reports":' + JSON.stringify(report) + ' }');
+
+            var query = {};
+            query["$or"] = [];
+            for (i in report.comments) {
+                if (report.comments[i]._id != undefined && report.comments.length > 0) {
+                    query["$or"].push({"_id":report.comments[i]._id});
+                }
+            }
+
+            if (!(query["$or"].length > 0)) {
+                json_report.push(
+                        {"user":report.user,
+                         "_id":report._id,
+                         "comments":[],
+                         "title":report.title,
+                         "lat":report.lat,
+                         "lng":report.lng,
+                         "note":report.note,
+                         "full_image":report.full_image,
+                         "thumbnail_image":report.thumbnail_image,
+                         "is_resolved":report.is_resolved,
+                         "categories":report.categories,
+                         "place":report.place,
+                         "imins":report.imins,
+                         "last_modified":report.last_modified,
+                         "created_at":report.created_at
+                });
+                res.send(JSON.stringify(json_report));
+            } else {
+                addComment(query, function(comments) {
+                    json_report.push(
+                    {"user":report.user,
+                     "_id":report._id,
+                     "comments":comments,
+                     "_id":report._id,
+                     "title":report.title,
+                     "lat":report.lat,
+                     "lng":report.lng,
+                     "note":report.note,
+                     "full_image":report.full_image,
+                     "thumbnail_image":report.thumbnail_image,
+                     "is_resolved":report.is_resolved,
+                     "categories":report.categories,
+                     "place":report.place,
+                     "imins":report.imins,
+                     "last_modified":report.last_modified,
+                     "created_at":report.created_at
+                    });
+                    console.log(JSON.stringify(json_report));
+                    res.send(JSON.stringify(json_report));
+                });
+            }
+        
     });
 };
 
@@ -222,3 +279,22 @@ exports.categories = function(req, res) {
         res.send('{ "categories":' + JSON.stringify(docs) + '}');
     });
 }
+
+function addComment(query, callbackFunction) {
+
+    model.Comment.find(query)
+        .populate('user','username email thumbnail_image')
+        .exec(function (err, comments) {
+            if (err) { 
+                console.log(err);
+                return;
+            }
+            if (comments != undefined && comments.length > 0) {
+                callbackFunction(comments);  
+            } 
+            return;
+    });
+
+}
+
+
