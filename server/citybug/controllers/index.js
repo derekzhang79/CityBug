@@ -63,11 +63,12 @@ exports.index = function(req, res){
         }
     });
     
-    // // add mockup place
+     // add mockup place
     // var place = new model.Place();
     // place.title = 'สวนดอกจ้า';
-    // place.lat = 12.34;
-    // place.lng = 45.67;
+    // place.id_foursquare = "40a55d80f964a52020f31ee3";
+    // place.lat = 122.34;
+    // place.lng = 453.67;
     // place.created_at = new Date();
     // place.last_modified = new Date();
     // place.save(function (err){

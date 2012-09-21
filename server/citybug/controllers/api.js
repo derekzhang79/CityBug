@@ -11,7 +11,7 @@ exports.add = function(req, res){
 
 // GET /api/reports >> get list of entries
 exports.reports = function(req, res){
-    console.log('get list');
+    console.log('Get report list');
     res.contentType('application/json'); 
  
     model.Report.find({})
