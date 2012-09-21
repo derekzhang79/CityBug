@@ -12,48 +12,62 @@ exports.add = function(req, res){
 
 exports.comment_post = function(req, res) {
     var url = req.url;
-    var currentID = url.match( /^.*?\/(\w+)\/[^\/]*$/ );    
-    
+    // reg localhost:3003/api/report/505c1671ae45f73d0d000006/comment --> 505c1671ae45f73d0d000006
+    var urlArrayID = url.match( /^.*?\/(\w+)\/[^\/]*$/ );    
+    var currentID;
+    // get :id from url
+    if(urlArrayID.length > 2) {
+        currentID = urlArrayID[1];
+    }
+
     console.log('id ' + currentID[1] + ' username ' + req.body.username + ' text ' + req.body.text);
     res.contentType('application/json');
 
-    // find report by id
-    model.Report.findOne({_id:req.body.report_id}, function(err, report) {
-        if (!err) {
-            console.log('err' + err);
+    //Find User by username from request
+    model.User.findOne({username:req.body.username}, function (err, user){
+        //add comment
+        if (err) {
+            console.log(err);
         } else {
-            model.User.findOne({username:req.body.username}, function (err, user){
-                //add comment
-                console.log('user'+ user);
-                var comment = new model.Comment();
-                comment.text = req.body.text;
-                comment.user = user._id;
-                comment.report = currentID;
-                comment.last_modified = new Date();
-                comment.created_at = new Date();
-                comment.save(function (err){
-                    console.log('comment' + comment);
-                    console.log('report' + report);
-                    if (!err) {
-                        console.log(err);
+            var newComment = new model.Comment();
+            newComment.text = req.body.text;
+            newComment.user = user._id;
+            newComment.report = currentID;
+            newComment.last_modified = new Date();
+            newComment.created_at = new Date();
+            newComment.save(function (err){
+                if (err) {
+                    console.log(err);
+                } else {
+                    // find report by id
+                    model.Report.findOne({_id:currentID}, function(err, report) {
+                        if (err) {
+                            console.log('err' + err);
+                        } else {
+                            report.comments.push(newComment._id);
+                            report.save(function (err){
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    res.writeHead(200, { 'Content-Type' : 'application/json'});
+                                    res.write(JSON.stringify(report));
+                                    res.end();
+                                }
 
-                    } else {
-                        report.comments.push(comment._id);
-
-                        report.save(function (err){
-                            if (!err) {
-                                console.log(err);
-                            } else {
-                                res.send('200');
-                            }
-
-                        });
-                    }
-                }); 
+                            });
+                        }
+                    });
+                }
             });
-        }
+        } 
     });
+
+    
 }
+
+exports.add_comment = function(req, res){
+    res.render('add_comment.jade', { title: 'City bug'});
+};
 
 // GET /api/reports >> get list of entries
 exports.reports = function(req, res) {
@@ -81,6 +95,7 @@ exports.report = function(req, res) {
     var currentID = url.match( /[^\/]+\/?$/ );
     res.contentType('application/json');
 
+    // create josn
     var json_report = [];
     model.Report.findOne({_id:currentID})
         .populate('user','username email thumbnail_image')
@@ -93,6 +108,7 @@ exports.report = function(req, res) {
                 return handleError(err);
             }
 
+            // create query whete _id = "comment._id"
             var query = {};
             query["$or"] = [];
             for (i in report.comments) {
@@ -101,6 +117,7 @@ exports.report = function(req, res) {
                 }
             }
 
+            // have none comment add comment to null []
             if (!(query["$or"].length > 0)) {
                 json_report.push(
                         {"user":report.user,
@@ -121,7 +138,8 @@ exports.report = function(req, res) {
                 });
                 res.send('{ "reports":' + JSON.stringify(json_report) + '}');
             } else {
-                addComment(query, function(comments) {
+                // have comment query comment than add to json
+                queryComment(query, function(comments) {
                     json_report.push(
                     {"user":report.user,
                      "_id":report._id,
@@ -140,11 +158,10 @@ exports.report = function(req, res) {
                      "last_modified":report.last_modified,
                      "created_at":report.created_at
                     });
-                    console.log('{ "reports":' + JSON.stringify(json_report) + '}');
                     res.send('{ "reports":' + JSON.stringify(json_report) + '}');
                 });
             }
-        
+            // do not render here because of asyn
     });
 };
 
@@ -350,7 +367,7 @@ exports.categories = function(req, res) {
     });
 }
 
-function addComment(query, callbackFunction) {
+function queryComment(query, callbackFunction) {
 
     model.Comment.find(query)
         .populate('user','username email thumbnail_image')

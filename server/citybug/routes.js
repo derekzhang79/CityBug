@@ -13,6 +13,9 @@ module.exports = function(app, express){
 	app.get('/api/report/*', api.report);
 	app.post('/api/report/*/comment', api.comment_post);
 
+	//comment
+	app.get('/add_comment', api.add_comment);
+
 	//place
 	app.get('/callback_place_search', place.callback_place_search);
 	app.get('/api/place/search', place.place_search)
