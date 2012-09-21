@@ -20,7 +20,7 @@ module.exports = {
             "lng": 453.67,
             "lat": 122.34,
             "id_foursquare": "mockupplaceid",
-            "title": "à¸ªà¸§à¸™à¸”à¸­à¸à¸ˆà¹‰à¸²",
+            "title": "สวนดอกจ้า",
             "_id": "505c28296b3c8f8d15000001",
             "__v": 0
         },

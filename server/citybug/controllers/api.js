@@ -21,8 +21,7 @@ exports.comment_post = function(req, res) {
     }
 
     console.log('id ' + currentID[1] + ' username ' + req.body.username + ' text ' + req.body.text);
-    res.contentType('application/json');
-
+    
     //Find User by username from request
     model.User.findOne({username:req.body.username}, function (err, user){
         //add comment
@@ -49,7 +48,7 @@ exports.comment_post = function(req, res) {
                                 if (err) {
                                     console.log(err);
                                 } else {
-                                    res.writeHead(200, { 'Content-Type' : 'application/json'});
+                                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                                     res.write(JSON.stringify(report));
                                     res.end();
                                 }
@@ -160,14 +159,10 @@ exports.report = function(req, res) {
                      "last_modified":report.last_modified,
                      "created_at":report.created_at
                     });
-<<<<<<< HEAD
                     console.log('{ "reports":' + JSON.stringify(json_report) + '}');
                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                     res.write('{ "reports":' + JSON.stringify(json_report) + '}');
                     res.end();
-=======
-                    res.send('{ "reports":' + JSON.stringify(json_report) + '}');
->>>>>>> 2600b6a5dbf3b1c11d74b8507ad7ff8d0dc561cf
                 });
             }
             // do not render here because of asyn
@@ -224,9 +219,6 @@ exports.report_post = function(req, res) {
     //Find User from username
     model.User.findOne({username: req.body.username }, function(err,user) {   
         if (user == null) {
-            // res.contentType('Content-Type', 'application/json');
-            // res.statusCode = 200;
-            // res.send(2003);
             res.redirect('/');
             return;
         };
@@ -266,14 +258,14 @@ exports.report_post = function(req, res) {
                     report.save(function (err) {
                         if (!err){
                             console.log('Success! with ' + report);
-                            res.writeHead(200, { 'Content-Type' : 'application/json'});
+                            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                             res.write(JSON.stringify(report));
                             res.end();
                             
                         } else {
                             console.log('Error !'+ err);
-                            res.writeHead(500, { 'Content-Type' : 'application/json'});
-                            res.write('{ "statusCode":"500", "message":"Add new report not success with error '+err+'"}');
+                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.write('{ "statusCode":"500", "message":"Add new comment not success with error '+err+'"}');
                             res.end();
                         }
                     });
@@ -303,13 +295,13 @@ exports.report_post = function(req, res) {
                             report.save(function (err) {
                                 if (!err){
                                     console.log('Success! with ' + report);
-                                    res.writeHead(200, { 'Content-Type' : 'application/json'});
+                                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                                     res.write(JSON.stringify(report));
                                     res.end();
                                     
                                 } else {
                                     console.log('Error !'+ err);
-                                    res.writeHead(500, { 'Content-Type' : 'application/json'});
+                                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
                                     res.write('{ "statusCode":"500", "message":"Add new report not success with error '+err+'"}');
                                     res.end();
                                 }

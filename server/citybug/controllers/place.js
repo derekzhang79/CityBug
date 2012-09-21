@@ -16,10 +16,9 @@ var REDIRECT_URI = KEYS.HOST;
 
 exports.place_search = function(req, res){
 
-	res.contentType('application/json'); 
-	res.statuscode = 200;
-
-	res.send(mockup_places);
+    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+    res.write(JSON.stringify(mockup_places));
+    res.end()
 
 /*
 	var lat = req.query.lat;
@@ -32,6 +31,7 @@ exports.place_search = function(req, res){
 	res.writeHead(303, { 'location': loc });
 	res.end();
 */
+
 }
 
 
@@ -130,25 +130,25 @@ exports.callback_place_search = function(req, res){
 						}
 
 			            //---------------------------------------- Send response ----------------------------------
-						res.contentType('application/json'); 
-						res.statuscode = 200;
-
 						var responseString = '{ "suggest_places":'+ JSON.stringify(thirtyServerPlaceArray) +',"additional_places":' + JSON.stringify(foursquarePlaceArray) + ' }';
-						res.send(responseString);
+						
+						res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+						res.write(responseString);
+					    res.end();
 			    	});
 
 				} else {
-					res.contentType('application/html');
-					res.statuscode = 500;
-					res.send("Cannot Find Place");
+					res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+					res.write("Cannot Find Place");
+				    res.end();
 				}
 			});
 			
 		} else {
 			console.log("access_token is undefined.");
-			res.contentType('application/html');
-			res.statuscode = 500;
-			res.send("Cannot Find Place");
+			res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+			res.write("Cannot Find Place , Access token is undefined");
+		    res.end();
 		}
 
 	});
