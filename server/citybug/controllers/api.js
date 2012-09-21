@@ -142,7 +142,9 @@ exports.report_post = function(req, res){
                         console.log('Success! with ' + report);
                         console.log('report JSON >>' + JSON.stringify(report));
                         res.statusCode = 200;
-                        res.render('add_response', {title: 'City bug', report: report});
+                        res.contentType('application/json'); 
+                        res.send("Add new report success!");
+                        //res.render('add_response', {title: 'City bug', report: report});
 
                         //Query report with user data
                         model.Report.findOne({ title: report.title })
@@ -160,6 +162,8 @@ exports.report_post = function(req, res){
                         console.log('Error !');
                         console.log(err);
                         res.statusCode = 500;
+                        res.contentType('application/json'); 
+                        res.send("Add new report not success with error "+err);
                         // res.send();
                     }
                 });
