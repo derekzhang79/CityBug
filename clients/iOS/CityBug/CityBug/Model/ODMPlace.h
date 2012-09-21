@@ -8,7 +8,7 @@
 
 @interface ODMPlace : NSObject {
     NSString *_title, *_uid, *_type;
-    NSNumber *_latittude, *_longitude;
+    NSNumber *_latitude, *_longitude;
 }
 
 @property (nonatomic, strong) NSString *title, *uid, *type;

@@ -116,27 +116,6 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 }
 
 /*
- * Method :GET
- */
-- (NSArray *)getEntryList
-{
-    NSError *error;
-    NSString *url = [BASE_URL stringByAppendingString:API_LIST];
-      NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-
-    if (error) {
-        ODMLog(@"error when get api %@ with error %@", [BASE_URL stringByAppendingString:API_LIST], error);
-            return nil;
-    }
-
-    if (!data) {
-        return nil;
-    }
-
-    return [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error] objectForKey:@"entries"];
-}
-
-/*
  * CREATE REPORT
  * HTTP POST
  */
@@ -152,14 +131,14 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         
         [reportParams setValue:[report title] forParam:@"title"];
         [reportParams setValue:[report note] forParam:@"note"];
-        [reportParams setValue:[report latitude]  forParam:@"lat"];
+        [reportParams setValue:[report latitude]   forParam:@"lat"];
         [reportParams setValue:[report longitude] forParam:@"lng"];
         [reportParams setValue:[report.user username] forParam:@"username"];
         
         [reportParams setValue:[report.place uid] forParam:@"place_id"];
         [reportParams setValue:[report.place title] forParam:@"place_title"];
         [reportParams setValue:[report.place latitude] forParam:@"place_lat"];
-        [reportParams setValue:[report.place longitude] forParam:@"place_lat"];
+        [reportParams setValue:[report.place longitude] forParam:@"place_lng"];
         
         NSArray *catItems = [report.categories valueForKeyPath:@"title"];
         [reportParams setValue:catItems forParam:@"categories"];
@@ -169,7 +148,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         
         [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
         [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
-        
+    
         loader.params = reportParams;
     }];
 }

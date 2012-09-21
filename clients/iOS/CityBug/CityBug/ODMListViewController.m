@@ -49,9 +49,6 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 {
     [super viewWillAppear:animated];
     
-    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
-    
-    entries = [dataManager getEntryList];
     if (!entries) {
         entries = [NSArray new];
     }
@@ -159,8 +156,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 }
 
 - (IBAction)refreshButtonTapped:(id)sender {
-    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
-    entries = [dataManager getEntryList];
+
     [self.tableView reloadData];
 
 }

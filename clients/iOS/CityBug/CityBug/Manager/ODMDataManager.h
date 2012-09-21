@@ -33,11 +33,6 @@ extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
 + (id)sharedInstance;
 
 /*
- * Get all entries
- */
-- (NSArray *)getEntryList;
-
-/*
  * Post New Report
  */
 - (void)postNewReport:(ODMReport *)report;

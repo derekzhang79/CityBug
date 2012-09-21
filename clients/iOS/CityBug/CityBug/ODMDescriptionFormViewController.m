@@ -15,6 +15,7 @@
 
 @implementation ODMDescriptionFormViewController {
     NSMutableDictionary *entryDict;
+    ODMPlace *selectedPlace;
 }
 
 @synthesize bugImage;
@@ -70,18 +71,18 @@
         
         ODMLog(@"error %@ : description %@", error, [[error userInfo] objectForKey:@"description"]);
         
-        if (isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
         report.note = self.noteTextField.text;
         error = nil;
         isValid = [report validateValue:NULL forKey:@"note" error:&error];
-        if (isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
         report.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
-        report.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];;
+        report.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
         error = nil;
         isValid = [report validateValue:NULL forKey:@"location" error:&error];
-        if (isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
         report.fullImage = self.bugImage;
         report.thumbnailImage = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
@@ -91,7 +92,7 @@
         report.categories = [NSArray arrayWithObject:category];
         
         // Add place to report by associated object
-        ODMPlace *place = [ODMPlace placeWithTitle:self.localtionLabel.text latitude:report.latitude longitude:report.longitude uid:@"505a8ef3cea52e3676000001" type:@"suggested"];
+        ODMPlace *place = selectedPlace;
         report.place = place;
         
         // Call DataManager with new report
@@ -133,6 +134,7 @@
  */
 - (void)didSelectPlace:(ODMPlace *)place
 {
+    selectedPlace = place;
     self.localtionLabel.text = [place title];
     
     ODMLog(@"Update Place %@", [place title]);
