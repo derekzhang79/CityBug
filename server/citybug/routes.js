@@ -10,7 +10,7 @@ module.exports = function(app, express){
 	app.get('/add', api.add);
 	app.get('/api/reports', api.reports);
 	app.post('/api/reports', api.report_post);
-	app.get('/api/reports/*', api.report);
+	app.get('/api/report/*', api.report);
 
 	//place
 	app.get('/callback_place_search', place.callback_place_search);

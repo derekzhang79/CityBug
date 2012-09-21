@@ -158,6 +158,7 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         
         [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
         [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
+        
         loader.params = reportParams;
     }];
 }

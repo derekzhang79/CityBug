@@ -36,7 +36,15 @@
 
 - (BOOL)validateLocationWithLatitude:(NSNumber *)latitude longitude:(NSNumber *)longitude
 {
-    return NO;
+    double lat = [latitude doubleValue];
+    double lng = [longitude doubleValue];
+    
+    if (lat < -90.f || lat > 90.f) {
+        return NO;
+    } else if (lng < -180.f || lng > 180.f) {
+        return NO;
+    }
+    return YES;
 }
 
 /**
@@ -51,10 +59,14 @@
      * Validate Title field
      */
     if ([key isEqualToString:@"title"]) {
-        if (self.title.length > MAXIMUM_REPORT_LENGTH) {
+        if (self.title.length <= MINIMUN_REPORT_LENGTH) {
+            *error = [NSError errorWithDomain:TITLE_INVALID_REQUIRE_TEXT code:1001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(TITLE_INVALID_REQUIRE_DESCRIPTION_TEXT, TITLE_INVALID_REQUIRE_DESCRIPTION_TEXT), nil]];
+            return NO;
+        }
+        else if (self.title.length > MAXIMUM_REPORT_LENGTH) {
             *error = [NSError errorWithDomain:TITLE_INVALID_TEXT code:1002 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(TITLE_INVALID_DESCRIPTION_TEXT, TITLE_INVALID_DESCRIPTION_TEXT), nil]];
             return NO;
-        } else if ([self validateTitleField:self.title] == NO) {
+        } else if (![self validateTitleField:self.title]) {
             *error = [NSError errorWithDomain:TITLE_LENGTH_INVALID_TEXT code:1003 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(TITLE_LENGTH_INVALID_DESCRIPTION_TEXT, TITLE_LENGTH_INVALID_DESCRIPTION_TEXT), nil]];
             return NO;
         }
@@ -66,6 +78,9 @@
     } else if ([key isEqualToString:@"location"]) {
         if (!self.longitude || !self.latitude) {
             *error = [NSError errorWithDomain:LOCATION_INVALID_TEXT code:2001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(LOCATION_INVALID_DESCRIPTION_TEXT, LOCATION_INVALID_DESCRIPTION_TEXT), nil]];
+            return NO;
+        } else if (![self validateLocationWithLatitude:self.longitude longitude:self.latitude]) {
+            *error = [NSError errorWithDomain:LOCATION_VALUE_INVALID_TEXT code:2001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(LOCATION_VALUE_INVALID_DESCRIPTION_TEXT, LOCATION_VALUE_INVALID_DESCRIPTION_TEXT), nil]];
             return NO;
         }
     }

@@ -78,11 +78,66 @@
     STAssertFalse(passValidateLocation, @"Report location should present before send to server-side");
 }
 
-- (void)testCategoryList
+- (void)testPostNewReportShouldErrorWhenLocationIsIncorrectStandardByLatitude
 {
-    NSArray *categoires = [dataManager categories];
+    ODMReport *report = [ODMReport newReportWithTitle:@"TestNewReport" note:@"TestNewReportWithNote"];
+    report.longitude = @123.124354;
+    NSError *error = nil;
     
-    STAssertTrue([categoires count] > 0, @"Category List should not equal to 0");
+    report.latitude = [NSNumber numberWithDouble:-90.99];
+    BOOL passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+    
+    report.latitude = [NSNumber numberWithDouble:-90.f];
+    passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+    
+    report.latitude = [NSNumber numberWithDouble:-89.99];
+    passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+    
+    report.latitude = [NSNumber numberWithDouble:89.99];
+    passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+    
+    report.latitude = [NSNumber numberWithDouble:90.f];
+    passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+    
+    report.latitude = [NSNumber numberWithDouble:90.001f];
+    passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+}
+
+- (void)testPostNewReportShouldErrorWhenLocationIsIncorrectStandardByLongitude
+{
+    ODMReport *report = [ODMReport newReportWithTitle:@"TestNewReport" note:@"TestNewReportWithNote"];
+    report.latitude = @10.42413;
+    NSError *error = nil;
+    
+    report.longitude = [NSNumber numberWithDouble:-180.01f];
+    BOOL passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+    
+    report.longitude = [NSNumber numberWithDouble:-180.f];
+    passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+    
+    report.longitude = [NSNumber numberWithDouble:-179.99];
+    passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+    
+    report.longitude = [NSNumber numberWithDouble:179.99];
+    passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+    
+    report.longitude = [NSNumber numberWithDouble:180.f];
+    passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+    
+    report.longitude = [NSNumber numberWithDouble:180.01f];
+    passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
 }
 
 @end
