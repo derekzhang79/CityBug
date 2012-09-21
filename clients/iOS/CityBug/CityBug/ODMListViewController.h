@@ -15,6 +15,6 @@
 
 - (IBAction)refreshButtonTapped:(id)sender;
 
-@property CLLocation *location;
+@property (strong, nonatomic) CLLocation *location;
 
 @end
