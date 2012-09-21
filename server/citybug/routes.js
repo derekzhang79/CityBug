@@ -14,7 +14,7 @@ module.exports = function(app, express){
 	app.post('/api/report/*/comment', api.comment_post);
 
 	//place
-	app.get('/callback', place.callback);
+	app.get('/callback_place_search', place.callback_place_search);
 	app.get('/api/place/search', place.place_search)
 
 	//categories
