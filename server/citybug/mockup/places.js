@@ -1,7 +1,8 @@
 module.exports = {
-    "suggest_places": [
+    "places": [
         {
             "distance": 0.07444324802004024,
+            "type": "suggested",
             "created_at": "2012-09-21T09:39:52.921Z",
             "last_modified": "2012-09-21T09:39:52.921Z",
             "lng": -73.98427,
@@ -13,6 +14,7 @@ module.exports = {
         },
         {
             "distance": 10.20127270187,
+            "type": "suggested",
             "last_modified": "2012-09-21T08:41:13.446Z",
             "created_at": "2012-09-21T08:41:13.446Z",
             "lng": 453.67,
@@ -24,6 +26,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.239Z",
+            "type": "suggested",
             "last_modified": "2012-09-21T09:45:02.239Z",
             "lng": -73.98332129,
             "lat": 40.722262,
@@ -34,6 +37,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.239Z",
+            "type": "suggested",
             "last_modified": "2012-09-21T09:45:02.239Z",
             "lng": -73.98334980010986,
             "lat": 40.72233145987863,
@@ -44,6 +48,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.241Z",
+            "type": "suggested",
             "last_modified": "2012-09-21T09:45:02.241Z",
             "lng": -73.983208,
             "lat": 40.722342,
@@ -51,11 +56,10 @@ module.exports = {
             "title": "Billy Hurricane's",
             "id_foursquare": "4c521c3d99ecc9b6a2c05d5a",
             "_id": "505c371e1e62b3bf1c00000c"
-        }
-    ],
-    "additional_places": [
+        },
         {
             "created_at": "2012-09-21T09:45:02.239Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.239Z",
             "lng": -73.983994,
             "lat": 40.721294,
@@ -66,6 +70,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.241Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.241Z",
             "lng": -73.98449223708757,
             "lat": 40.721609485383816,
@@ -76,6 +81,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.246Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.246Z",
             "lng": -73.9846070190824,
             "lat": 40.72111893965933,
@@ -86,6 +92,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.246Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.246Z",
             "lng": -73.984595540886,
             "lat": 40.72151928153547,
@@ -96,6 +103,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.245Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.245Z",
             "lng": -73.98475049647948,
             "lat": 40.721000102885576,
@@ -106,6 +114,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.246Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.246Z",
             "lng": -73.98425693378371,
             "lat": 40.72067826445507,
@@ -116,6 +125,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.240Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.240Z",
             "lng": -73.984641,
             "lat": 40.721719,
@@ -126,6 +136,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.240Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.240Z",
             "lng": -73.983596,
             "lat": 40.721891,
@@ -136,6 +147,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.240Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.240Z",
             "lng": -73.98427,
             "lat": 40.720658,
@@ -146,6 +158,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.243Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.243Z",
             "lng": -73.984522,
             "lat": 40.721846,
@@ -156,6 +169,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.239Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.239Z",
             "lng": -73.984246,
             "lat": 40.720623,
@@ -166,6 +180,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.245Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.245Z",
             "lng": -73.98427,
             "lat": 40.720589,
@@ -176,6 +191,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.245Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.245Z",
             "lng": -73.984379,
             "lat": 40.720622,
@@ -186,6 +202,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.246Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.246Z",
             "lng": -73.98469310553351,
             "lat": 40.72075947467961,
@@ -196,6 +213,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.240Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.240Z",
             "lng": -73.984806,
             "lat": 40.721741,
@@ -206,6 +224,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.245Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.245Z",
             "lng": -73.984378,
             "lat": 40.720573,
@@ -216,6 +235,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.241Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.241Z",
             "lng": -73.984809,
             "lat": 40.721773,
@@ -226,6 +246,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.242Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.242Z",
             "lng": -73.982941,
             "lat": 40.721349,
@@ -236,6 +257,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.241Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.241Z",
             "lng": -73.984926,
             "lat": 40.721676,
@@ -246,6 +268,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.245Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.245Z",
             "lng": -73.98286232535908,
             "lat": 40.72126218456357,
@@ -256,6 +279,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.241Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.241Z",
             "lng": -73.982831,
             "lat": 40.721221,
@@ -266,6 +290,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.241Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.241Z",
             "lng": -73.98438319412892,
             "lat": 40.72041790246302,
@@ -276,6 +301,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.239Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.239Z",
             "lng": -73.98347067431185,
             "lat": 40.722126576323426,
@@ -286,6 +312,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.246Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.246Z",
             "lng": -73.98383223928617,
             "lat": 40.720338,
@@ -296,6 +323,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.245Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.245Z",
             "lng": -73.985164,
             "lat": 40.720881,
@@ -306,6 +334,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.241Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.241Z",
             "lng": -73.98414661,
             "lat": 40.722314,
@@ -316,6 +345,7 @@ module.exports = {
         },
         {
             "created_at": "2012-09-21T09:45:02.246Z",
+            "type": "additional",
             "last_modified": "2012-09-21T09:45:02.246Z",
             "lng": -73.9840780198574,
             "lat": 40.72234721402162,
