@@ -26,4 +26,7 @@
 @property (nonatomic, strong) ODMPlace *place;
 @property (nonatomic, strong) ODMUser *user;
 
+- (BOOL)validateValue:(__autoreleasing id *)value forKey:(NSString *)key error:(NSError *__autoreleasing *)error;
+
++ (ODMReport *)newReportWithTitle:(NSString *)title note:(NSString *)note;
 @end

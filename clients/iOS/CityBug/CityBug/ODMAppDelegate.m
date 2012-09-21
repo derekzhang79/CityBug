@@ -14,10 +14,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // you can chang "BASE_URL" to 
-    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURLString:BASE_URL];
-    objectManager.client.baseURL = [RKURL URLWithString:BASE_URL];
-
     RKLogConfigureByName("RestKit/Network*", RKLogLevelTrace);
     RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelDebug);
     
