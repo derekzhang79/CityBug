@@ -17,8 +17,7 @@ exports.add_comment = function(req, res){
 // GET /api/reports >> get list of entries
 exports.reports = function(req, res){
     console.log('Get report list');
-    res.contentType('application/json'); 
- 
+
     model.Report.find({})
         .populate('user','username email thumbnail_image')
         .populate('categories','title')
@@ -30,7 +29,9 @@ exports.reports = function(req, res){
             if (err) { 
                 return handleError(err);
             }
-            res.send('{ "reports":' + JSON.stringify(report) + ' }');
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "reports":' + JSON.stringify(report) + '}');
+            res.end();
     });
 };
 
@@ -38,7 +39,6 @@ exports.reports = function(req, res){
 exports.report = function(req, res){
     var url = req.url;
     var currentID = url.match( /[^\/]+\/?$/ );
-    res.contentType('application/json');
 
     var json_report = [];
     model.Report.findOne({_id:currentID})
@@ -78,7 +78,9 @@ exports.report = function(req, res){
                          "last_modified":report.last_modified,
                          "created_at":report.created_at
                 });
-                res.send('{ "reports":' + JSON.stringify(json_report) + '}');
+                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write('{ "reports":' + JSON.stringify(json_report) + '}');
+                res.end()
             } else {
                 addComment(query, function(comments) {
                     json_report.push(
@@ -100,7 +102,9 @@ exports.report = function(req, res){
                      "created_at":report.created_at
                     });
                     console.log('{ "reports":' + JSON.stringify(json_report) + '}');
-                    res.send('{ "reports":' + JSON.stringify(json_report) + '}');
+                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                    res.write('{ "reports":' + JSON.stringify(json_report) + '}');
+                    res.end();
                 });
             }
         
@@ -303,9 +307,10 @@ exports.report_post = function(req, res){
 
 // GET /api/categories >> get list of categories
 exports.categories = function(req, res) {
-    res.contentType('application/json');
-    model.Category.find({}, function(err,docs) {   
-        res.send('{ "categories":' + JSON.stringify(docs) + '}');
+    model.Category.find({}, function(err,docs) {
+        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+        res.write('{ "categories":' + JSON.stringify(docs) + '}');
+        res.end();
     });
 }
 
