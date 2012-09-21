@@ -1,6 +1,7 @@
 var environment = require('../environment'),
     service = require('../service'),
-    model =  service.useModel('model');
+    model =  service.useModel('model'),
+    mockup_places = require('../mockup/places');
     
 var sys = require('sys'),
 express = require('express'),
@@ -14,6 +15,13 @@ var CLIENT_SECRET = KEYS.CLIENT_SECRET;
 var REDIRECT_URI = KEYS.HOST;
 
 exports.place_search = function(req, res){
+
+	res.contentType('application/json'); 
+	res.statuscode = 200;
+
+	res.send(mockup_places);
+
+/*
 	var lat = req.query.lat;
 	var lng = req.query.lng;
 
@@ -23,6 +31,7 @@ exports.place_search = function(req, res){
 	var loc = "https://foursquare.com/oauth2/authenticate?client_id=" + CLIENT_ID + "&response_type=code&redirect_uri=" + REDIRECT_URI + "callback_place_search";
 	res.writeHead(303, { 'location': loc });
 	res.end();
+*/
 }
 
 
@@ -143,6 +152,7 @@ exports.callback_place_search = function(req, res){
 		}
 
 	});
+
 };
 
 function distanceCalculate(lat1, lon1, lat2, lon2) {
