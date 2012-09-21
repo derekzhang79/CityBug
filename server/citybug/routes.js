@@ -11,6 +11,7 @@ module.exports = function(app, express){
 	app.get('/api/reports', api.reports);
 	app.post('/api/reports', api.report_post);
 	app.get('/api/report/*', api.report);
+	app.post('/api/report/*/comment', api.comment_post);
 
 	//place
 	app.get('/callback', place.callback);

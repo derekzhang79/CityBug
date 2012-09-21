@@ -8,9 +8,44 @@ exports.add = function(req, res){
     });
 };
 
+exports.comment_post = function(req, res) {
+    var url = req.url;
+    var currentID = url.match( /^.*?\/(\w+)\/[^\/]*$/ );    
+    
+    console.log('id ' + currentID[1]);
+    res.contentType('application/json');
+
+    // find report by id
+    model.Report.findOne({_id:currentID}, function(err, report) {
+        model.User.findOne({username:req.body.username}, function (err, user){
+            var comment = new model.Comment();
+            comment.text = req.body.text;
+            comment.user = req.body.user._id;
+            comment.report = currentID;
+            comment.last_modified = new Date();
+            comment.created_at = new Date();
+            comment.save(function (err){
+                if (err) {
+                    console.log(err);
+
+                } else {
+                    report.push(comment._id);
+
+                    report.save(function (err){
+                        if (err) {
+                            console.log(err);
+                        };
+                    });
+                }
+            }); 
+        });
+    });
+
+    res.send('200');
+}
 
 // GET /api/reports >> get list of entries
-exports.reports = function(req, res){
+exports.reports = function(req, res) {
     console.log('Get report list');
     res.contentType('application/json'); 
  
@@ -30,7 +65,7 @@ exports.reports = function(req, res){
 };
 
 // GET /api/report/{id} >> get one report from id
-exports.report = function(req, res){
+exports.report = function(req, res) {
     var url = req.url;
     var currentID = url.match( /[^\/]+\/?$/ );
     res.contentType('application/json');
@@ -102,7 +137,7 @@ exports.report = function(req, res){
     });
 };
 
-exports.report_post = function(req, res){
+exports.report_post = function(req, res) {
     var fs = require('fs');
 
     // create directory

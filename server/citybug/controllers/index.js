@@ -151,7 +151,7 @@ exports.index = function(req, res){
                              "created_at":report[r].created_at
                     });
                 } else {
-                    queryComment(query, report, r, json_report, function(json_report) {
+                    queryComment(query, report, r, json_report, function(comments) {
                         queryCount++;
 
                         json_report.push(
@@ -172,13 +172,13 @@ exports.index = function(req, res){
                              "created_at":report[r].created_at
                         });
                         if (maxCommentCount == queryCount) {
-                            res.render('index.jade', { title: 'City bug', report: json_report });
+                            // res.render('index.jade', { title: 'City bug', report: json_report });
                             console.log('my report' + JSON.stringify(json_report));
                         }
                     });
                 }
             }
-
+            res.render('index.jade', { title: 'City bug', report: report });
     });
 
 };
@@ -192,9 +192,8 @@ function queryComment(query, report, r,json_report, callbackFunction) {
                 console.log(err);
                 return;
             }
-            comments;
             if (comments != undefined && comments.length > 0) {
-                callbackFunction(json_report);                  
+                callbackFunction(comments);                  
             } 
             return;
     });
