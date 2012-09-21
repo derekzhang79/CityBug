@@ -52,9 +52,37 @@ exports.callback = function(req, res){
 
 			venueSearch(access_token, lat, lng, function (data) {
 				if (data != null && data != undefined) {
+					var object = data[0];
+					// console.log(">>>>>> "+ object+" \n "+JSON.stringify(object.items));
+					var itemArray = object.items;
+					var placeArray = [];
+
+					for (i in itemArray) {
+						var newPlace = new model.Place();
+						
+						// console.log("place"+ i+ " = " + itemArray[i].id);
+						newPlace.id_foursquare = itemArray[i].id;		
+						newPlace.title = itemArray[i].name;			
+						newPlace.distance = itemArray[i].location.distance;
+						newPlace.lat = itemArray[i].location.lat;
+						newPlace.lng = itemArray[i].location.lng;
+						newPlace.last_modified = new Date();
+						newPlace.created_at = new Date();
+
+						placeArray.push(newPlace);
+					}
+
+					//Sort place by distance
+					placeArray = placeArray.sort(function(a, b) {
+						if (a.distance < b.distance) { return -1; }
+						if (a.distance > b.distance) { return  1; }
+						return 0;
+					});
+					console.log("Get place fron foursquare "+placeArray.length + " places");
+
 					res.contentType('application/json'); 
 					res.statuscode = 200;
-					res.send('{ "additional_places":' + JSON.stringify(data) + ' }');
+					res.send('{ "additional_places":' + JSON.stringify(placeArray) + ' }');
 				} else {
 					res.contentType('application/html');
 					res.statuscode = 500;
@@ -62,7 +90,6 @@ exports.callback = function(req, res){
 				}
 			});
 			
-
 		} else {
 			console.log("access_token is undefined.");
 		}

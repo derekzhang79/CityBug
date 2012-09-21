@@ -10,9 +10,11 @@ module.exports = function (mongoose) {
 	});
 
 	var PlaceSchema = new Schema({
-		title				: String
+		id_foursquare		: String
+		, title				: String
 		, lat 				: Number
 		, lng 				: Number
+		, distance			: Number
 		, last_modified		: Date
 		, created_at		: Date
 	});
