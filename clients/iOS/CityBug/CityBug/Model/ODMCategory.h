@@ -10,7 +10,7 @@
     NSString *_title;
 }
 
-@property (nonatomic, strong) NSString * title;
+@property (nonatomic, strong) NSString *title;
 
 + (ODMCategory *)categoryWithTitle:(NSString *)category;
 
