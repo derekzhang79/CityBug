@@ -25,56 +25,6 @@ exports.place_search = function(req, res){
 	res.end();
 }
 
-/*
-exports.place_foursquare = function(req, res){
-	var url = req.url;
-    var id_foursquare = url.match( /[^\/]+\/?$/ );
-
-	console.log("get request param >> "+ JSON.stringify(req.query));
-
-	var loc = "https://foursquare.com/oauth2/authenticate?client_id=" + CLIENT_ID + "&response_type=code&redirect_uri=" + REDIRECT_URI + "callback_place_foursquare";
-	res.writeHead(303, { 'location': loc });
-	res.end();
-}
-
-exports.callback_place_foursquare = function(req, res){
-
-	var code = req.query.code;
-
-	FOURSQ.getAccessToken({
-		code: code,
-		redirect_uri: REDIRECT_URI,
-		client_id: CLIENT_ID,
-		client_secret: CLIENT_SECRET
-	}, function (access_token) {
-
-		if (access_token !== undefined) {
-			//Mock up id_foursquare
-			var id_foursquare = "4e58363cc65b219786a909fc";
-
-			getVenue(access_token, id_foursquare, function (data) {
-				if (data != null && data != undefined) {
-					// console.log("data = "+ JSON.stringify(data));
-					res.contentType('application/json');
-					res.statuscode = 200;
-					res.send(JSON.stringify(data));
-				} else {
-					res.contentType('application/json');
-					res.statuscode = 500;
-					res.send("Cannot Find Venue from id "+ id_foursquare);
-				}
-			});
-			
-		} else {
-			console.log("access_token is undefined.");
-			res.contentType('application/html');
-			res.statuscode = 500;
-			res.send("Cannot Find Venue");
-		}
-
-	});
-};
-*/
 
 exports.callback_place_search = function(req, res){
 
