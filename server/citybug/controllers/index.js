@@ -106,6 +106,8 @@ exports.index = function(req, res){
 
     //     }
     // }); 
+
+
     var json_report = [];
     var queryCount = 0;
     var maxCommentCount = 0;
@@ -172,12 +174,13 @@ exports.index = function(req, res){
                              "created_at":report[r].created_at
                         });
                         if (maxCommentCount == queryCount) {
-                            res.render('index.jade', { title: 'City bug', report: json_report });
+                            // res.render('index.jade', { title: 'City bug', report: json_report });
                             console.log('my report' + JSON.stringify(json_report));
                         }
                     });
                 }
             }
+        res.render('index.jade', { title: 'City bug', report: report });
 
     });
 
