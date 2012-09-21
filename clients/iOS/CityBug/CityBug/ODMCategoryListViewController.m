@@ -87,26 +87,29 @@
     [self.tableView reloadData];
 }
 
-- (void)reloadData:(NSArray *)newData
+- (void)updateCategoriesNotification:(NSNotification *)notification
 {
-    _datasource = newData;
-    
-    [self.tableView reloadData];
+    if ([[notification object] isKindOfClass:[NSArray class]]) {
+        _datasource = [notification object];
+        
+        [self.tableView reloadData];
+    }
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self reloadData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(reloadData:)
-//                                                 name:ODMDataManagerNotificationCategoriesLoadingFinish
-//                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateCategoriesNotification:)
+                                                 name:ODMDataManagerNotificationCategoriesLoadingFinish
+                                               object:nil];
 }
 
 @end

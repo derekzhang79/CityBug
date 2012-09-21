@@ -12,7 +12,6 @@
 #import "ODMReport.h"
 
 @implementation ODMDataManagerTest {
-    NSManagedObjectContext *context;
     ODMDataManager *dataManager;
     RKObjectManager *objectManager;
 }
@@ -22,7 +21,6 @@
     [super setUp];
     
     dataManager = [ODMDataManager sharedInstance];
-    
     objectManager = [RKObjectManager sharedManager];
     
     STAssertNotNil(dataManager, @"DataManager should not nil");
@@ -32,7 +30,9 @@
 
 - (void)tearDown
 {
-    context = nil;
+    dataManager = nil;
+    objectManager = nil;
+    
     [super tearDown];
 }
 
@@ -138,6 +138,43 @@
     report.longitude = [NSNumber numberWithDouble:180.01f];
     passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
     STAssertFalse(passValidateLocation, @"Report location should present before send to server-side %@", error);
+}
+
+#pragma mark - PLACE
+
+- (void)testGroupPlaces
+{
+    ODMPlace *place1 = [[ODMPlace alloc] init];
+    place1.title = @"Opendream@BKK";
+    place1.latitude = @13.791343;
+    place1.longitude = @100.587473;
+    place1.type = @"suggested_place";
+    
+    ODMPlace *place2 = [[ODMPlace alloc] init];
+    place2.title = @"Opendream@CHX";
+    place2.latitude = @13.791343;
+    place2.longitude = @100.587473;
+    place2.type = @"suggested_place";
+    
+    ODMPlace *place3 = [[ODMPlace alloc] init];
+    place3.title = @"Opendream@CHX สวนดอก";
+    place3.latitude = @13.791343;
+    place3.longitude = @100.587473;
+    place3.type = @"suggested_place";
+    
+    ODMPlace *place4 = [[ODMPlace alloc] init];
+    place4.title = @"Opendream@CHX สวนดอกจ้าาาาาา";
+    place4.latitude = @13.791343;
+    place4.longitude = @100.587473;
+    place4.type = @"additional_place";
+    
+    ODMLog(@"group place %@",[dataManager groupPlaceByType:[NSArray arrayWithObjects:place1, place2, place3, place4, nil]]);
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObject:@"ดอก" forKey:@"title"];
+    NSArray *results = [dataManager placesWithQueryParams:params];
+    
+    ODMLog(@"places %@", results);
+    STAssertTrue([results count] > 0, @"Places result should contain any places");
 }
 
 @end
