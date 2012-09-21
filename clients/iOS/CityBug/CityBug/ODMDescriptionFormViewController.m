@@ -38,27 +38,12 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)createNewReport
+- (BOOL)resignFirstResponder
 {
-    // POST report to server
-    ODMReport *report = [[ODMReport alloc] init];
-    report.title = self.titleTextField.text;
-    report.note = self.noteTextField.text;
-    report.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
-    report.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];;
-    report.fullImage = self.bugImage;
-    report.thumbnailImage = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
+    [self.titleTextField resignFirstResponder];
+    [self.noteTextField resignFirstResponder];
     
-    // Add categories to report by associated object
-    ODMCategory *category = [ODMCategory categoryWithTitle:self.categoryLabel.text];
-    report.categories = [NSArray arrayWithObject:category];
-    
-    // Add place to report by associated object
-    ODMPlace *place = [ODMPlace placeWithTitle:self.localtionLabel.text latitude:report.latitude longitude:report.longitude uid:@"505a8ef3cea52e3676000001"];
-    report.place = place;
-    
-    // Call DataManager with new report
-    [[ODMDataManager sharedInstance] postNewReport:report];
+    return [super resignFirstResponder];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -69,6 +54,55 @@
     } else if ([segue.identifier isEqualToString:@"PlaceFormSequeIdentifier"]) {
         ODMPlaceFormViewController *formVC = segue.destinationViewController;
         formVC.delegate = self;
+    }
+}
+
+#pragma mark - REPORT
+
+- (void)createNewReport
+{
+    // POST report to server
+    @try {
+        
+        ODMReport *report = [[ODMReport alloc] init];
+        report.title = self.titleTextField.text;
+        NSError *error = nil;
+        BOOL isValid = [report validateValue:NULL forKey:@"title" error:&error];
+        
+        ODMLog(@"error %@ : description %@", error, [[error userInfo] objectForKey:@"description"]);
+        
+        if (isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        
+        report.note = self.noteTextField.text;
+        error = nil;
+        isValid = [report validateValue:NULL forKey:@"note" error:&error];
+        if (isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        
+        report.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
+        report.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];;
+        error = nil;
+        isValid = [report validateValue:NULL forKey:@"location" error:&error];
+        if (isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        
+        report.fullImage = self.bugImage;
+        report.thumbnailImage = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
+        
+        // Add categories to report by associated object
+        ODMCategory *category = [ODMCategory categoryWithTitle:self.categoryLabel.text];
+        report.categories = [NSArray arrayWithObject:category];
+        
+        // Add place to report by associated object
+        ODMPlace *place = [ODMPlace placeWithTitle:self.localtionLabel.text latitude:report.latitude longitude:report.longitude uid:@"505a8ef3cea52e3676000001"];
+        report.place = place;
+        
+        // Call DataManager with new report
+        [[ODMDataManager sharedInstance] postNewReport:report];
+    }
+    @catch (NSException *exception) {
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CityBug", @"CityBug") message:[exception reason] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
+        
+        [alertView show];
     }
 }
 
@@ -99,6 +133,13 @@
     self.localtionLabel.text = [place title];
     
     ODMLog(@"Update Place %@", [place title]);
+}
+
+#pragma mark - TABLEVIEW
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self resignFirstResponder];
 }
 
 @end
