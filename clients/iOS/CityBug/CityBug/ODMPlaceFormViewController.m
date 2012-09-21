@@ -18,7 +18,7 @@
 {
     switch (section) {
         case 0:
-            return @"suggestion_place";
+            return @"suggested_place";
             break;
         default:
             return @"additional_place";
@@ -29,9 +29,8 @@
 
 - (ODMPlace *)placeFromIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *sectionObject = [self.datasource objectAtIndex:indexPath.section];
-    NSArray *itemsInSection = [sectionObject objectForKey:[self keyForSection:indexPath.section]];
-    return [itemsInSection objectAtIndex:indexPath.row];
+    NSArray *sections = [self.datasource objectAtIndex:indexPath.section];
+    return [sections objectAtIndex:indexPath.row];
 }
 
 #pragma mark - TABLEVIEW
@@ -43,10 +42,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSDictionary *sectionObject = [self.datasource objectAtIndex:section];
-    NSArray *itemsInSection = [sectionObject objectForKey:[self keyForSection:section]];
-    
-    return [itemsInSection count];
+    NSArray *sectionItems = [self.datasource objectAtIndex:section];
+    return [sectionItems count];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -94,10 +91,29 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    // handle search event
+    if (searchText.length >= LOCATION_SEARCH_THRESHOLD) {
+        NSDictionary *params = [NSDictionary dictionaryWithObject:searchText forKey:@"title"];
+    
+        [[ODMDataManager sharedInstance] placesWithQueryParams:params];
+    }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [self reloadData];
 }
 
 #pragma mark - VIEW
+
+- (void)updatePlacesNotification:(NSNotification *)notification
+{
+    if ([[notification object] isKindOfClass:[NSArray class]]) {
+        _datasource = [NSArray arrayWithArray:[notification object]];
+    }
+    
+    [self.searchDisplayController.searchResultsTableView reloadData];
+    [self.tableView reloadData];
+}
 
 - (BOOL)resignFirstResponder
 {
@@ -117,6 +133,10 @@
 {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updatePlacesNotification:)
+                                                 name:ODMDataManagerNotificationPlacesLoadingFinish
+                                               object:nil];
     [self reloadData];
 }
 

@@ -10,8 +10,12 @@
 #import "ODMCategory.h"
 #import "ODMPlace.h"
 
+// Category
 extern NSString *ODMDataManagerNotificationCategoriesLoadingFinish;
 extern NSString *ODMDataManagerNotificationCategoriesLoadingFail;
+// Place
+extern NSString *ODMDataManagerNotificationPlacesLoadingFinish;
+extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 @class ODMReport;
 
@@ -38,4 +42,11 @@ extern NSString *ODMDataManagerNotificationCategoriesLoadingFail;
  */
 - (void)postNewReport:(ODMReport *)report;
 
+
+/*
+ * Places
+ */
+- (NSArray *)groupPlaceByType:(NSArray *)places;
+
+- (NSArray *)placesWithQueryParams:(NSDictionary *)params;
 @end
