@@ -198,10 +198,9 @@ exports.report_post = function(req, res){
                     if (!err){
                         console.log('Success! with ' + report);
                         console.log('report JSON >>' + JSON.stringify(report));
-                        res.statusCode = 200;
-                        res.contentType('application/json'); 
-                        res.send("Add new report success!");
-                        //res.render('add_response', {title: 'City bug', report: report});
+                        res.writeHead(200, { 'Content-Type' : 'application/json'});
+                        res.write(JSON.stringify(report));
+                        res.end();
 
                         //Query report with user data
                         model.Report.findOne({ title: report.title })
