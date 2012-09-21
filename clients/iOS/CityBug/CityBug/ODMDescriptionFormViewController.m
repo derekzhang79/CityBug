@@ -48,8 +48,6 @@
     report.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];;
     report.fullImage = self.bugImage;
     report.thumbnailImage = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
-
-    
     
     // Add categories to report by associated object
     ODMCategory *category = [ODMCategory categoryWithTitle:self.categoryLabel.text];
