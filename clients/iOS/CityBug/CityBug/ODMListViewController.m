@@ -72,7 +72,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
     resultblock = ^(ALAsset *myasset) {
         CLLocation *locationAsset = [myasset valueForProperty:ALAssetPropertyLocation];
-        self.location = locationAsset; 
+        self.location = locationAsset;
     };
     failureblock = ^(NSError *myerror) {
         NSLog(@"error while get Location from picture : %d - message: %s", errno, strerror(errno));
@@ -187,22 +187,28 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 
 - (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{   
+{
     imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerEditedImage];
- 
+
+   
+    assetsLib = [[ALAssetsLibrary alloc] init];
     if (aPicker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-        
-        // Save the new image (original or edited) to the Camera Roll.
-        UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
         self.location = locationManager.location;
-    } else if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
         
-        // Get the asset url
+        // get Metadata's image for add more attribute (location attribute).
+        NSDictionary *metadata = [info objectForKey:UIImagePickerControllerMediaMetadata];
+        [metadata setValue:self.location forKey:ALAssetPropertyLocation];
+        
+        // save image and metadata to the Photos Album.
+        [assetsLib writeImageToSavedPhotosAlbum:imageToSave.CGImage metadata:metadata completionBlock:^(NSURL *assetURL, NSError *error) {
+            NSLog(@"image saved");
+        }];
+ 
+    } else if (aPicker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
         NSURL *pictureURL = [info objectForKey:UIImagePickerControllerReferenceURL];
-        assetsLib = [[ALAssetsLibrary alloc] init];
-        [assetsLib assetForURL:pictureURL resultBlock:resultblock failureBlock:failureblock];
-    
         
+        //  invokes a given block passing as a parameter an asset identified by a specified file URL.
+        [assetsLib assetForURL:pictureURL resultBlock:resultblock failureBlock:failureblock];
     }
     
     [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:gotoFormSegue afterDelay:1.f];
