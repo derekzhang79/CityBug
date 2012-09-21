@@ -243,11 +243,11 @@
 			children = (
 				CEB10E5C1603752B0041B3B8 /* ODMModel.xcdatamodeld */,
 				CEF8C32016097B79008871D4 /* ODMReport.h */,
-				CEF8C32116097B79008871D4 /* ODMReport.m */,
 				CEB10E2E160374B90041B3B8 /* ODMCategory.h */,
 				CEB10E2F160374B90041B3B8 /* ODMCategory.m */,
 				CE16A2DB160B07D500396033 /* ODMPlace.h */,
 				CE16A2DC160B07D500396033 /* ODMPlace.m */,
+				CEF8C32116097B79008871D4 /* ODMReport.m */,
 				CE16A332160B32EE00396033 /* ODMUser.h */,
 				CE16A333160B32EE00396033 /* ODMUser.m */,
 			);
@@ -686,8 +686,8 @@
 		CEEE607115FDEDFB00324883 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Patipat Susumpow (A6UFV79794)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Pirapa Sirawuttinanon (E7WPHXU5Q8)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
 				INFOPLIST_FILE = "CityBug/CityBug-Info.plist";
@@ -696,7 +696,7 @@
 					"\"$(SRCROOT)/Vendor/Exif\"",
 				);
 				PRODUCT_NAME = CityBug;
-				PROVISIONING_PROFILE = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -705,8 +705,8 @@
 		CEEE607215FDEDFB00324883 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Patipat Susumpow (A6UFV79794)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Pirapa Sirawuttinanon (E7WPHXU5Q8)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
 				INFOPLIST_FILE = "CityBug/CityBug-Info.plist";
@@ -715,7 +715,7 @@
 					"\"$(SRCROOT)/Vendor/Exif\"",
 				);
 				PRODUCT_NAME = CityBug;
-				PROVISIONING_PROFILE = "633F8D19-A100-4B52-AF15-7FDBDB278E00";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};

@@ -33,9 +33,8 @@
 
 - (IBAction)doneButtonTapped:(id)sender
 {
-    [self createNewReport];
-    
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([self createNewReport])
+        [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (BOOL)resignFirstResponder
@@ -59,7 +58,7 @@
 
 #pragma mark - REPORT
 
-- (void)createNewReport
+- (BOOL)createNewReport
 {
     // POST report to server
     @try {
@@ -103,7 +102,11 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CityBug", @"CityBug") message:[exception reason] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
         
         [alertView show];
+        
+        return NO;
     }
+    
+    return YES;
 }
 
 #pragma mark - CATEGORY

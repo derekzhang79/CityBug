@@ -18,10 +18,10 @@
 {
     switch (section) {
         case 0:
-            return @"suggested_place";
+            return @"suggested";
             break;
         default:
-            return @"additional_place";
+            return @"additional";
             break;
     }
     return nil;
@@ -42,6 +42,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if ([self.datasource count] == 0) return 0;
+    
     NSArray *sectionItems = [self.datasource objectAtIndex:section];
     return [sectionItems count];
 }
@@ -108,10 +110,10 @@
 - (void)updatePlacesNotification:(NSNotification *)notification
 {
     if ([[notification object] isKindOfClass:[NSArray class]]) {
+        
         _datasource = [NSArray arrayWithArray:[notification object]];
     }
     
-    [self.searchDisplayController.searchResultsTableView reloadData];
     [self.tableView reloadData];
 }
 

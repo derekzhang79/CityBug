@@ -46,7 +46,6 @@ extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
 /*
  * Places
  */
-- (NSArray *)groupPlaceByType:(NSArray *)places;
+- (void)placesWithQueryParams:(NSDictionary *)params;
 
-- (NSArray *)placesWithQueryParams:(NSDictionary *)params;
 @end
