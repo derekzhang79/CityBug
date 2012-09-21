@@ -92,7 +92,7 @@
         report.categories = [NSArray arrayWithObject:category];
         
         // Add place to report by associated object
-        ODMPlace *place = [ODMPlace placeWithTitle:self.localtionLabel.text latitude:report.latitude longitude:report.longitude uid:@"505a8ef3cea52e3676000001"];
+        ODMPlace *place = [ODMPlace placeWithTitle:self.localtionLabel.text latitude:report.latitude longitude:report.longitude uid:@"505a8ef3cea52e3676000001" type:@"suggested"];
         report.place = place;
         
         // Call DataManager with new report
