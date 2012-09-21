@@ -73,7 +73,7 @@ exports.report = function(req, res){
                          "last_modified":report.last_modified,
                          "created_at":report.created_at
                 });
-                res.send(JSON.stringify(json_report));
+                res.send('{ "reports":' + JSON.stringify(json_report) + '}');
             } else {
                 addComment(query, function(comments) {
                     json_report.push(
@@ -94,8 +94,8 @@ exports.report = function(req, res){
                      "last_modified":report.last_modified,
                      "created_at":report.created_at
                     });
-                    console.log(JSON.stringify(json_report));
-                    res.send(JSON.stringify(json_report));
+                    console.log('{ "reports":' + JSON.stringify(json_report) + '}');
+                    res.send('{ "reports":' + JSON.stringify(json_report) + '}');
                 });
             }
         
