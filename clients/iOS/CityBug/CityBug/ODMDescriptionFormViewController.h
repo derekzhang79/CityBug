@@ -21,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel, *placeLabel, *localtionLabel;
 
 @property (weak, nonatomic) UIImage *bugImage;
-@property (weak, nonatomic) CLLocation *location;
+@property (strong, nonatomic) CLLocation *location;
 
 - (IBAction)doneButtonTapped:(id)sender;
 

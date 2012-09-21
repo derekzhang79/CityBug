@@ -66,11 +66,10 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     locationManager.distanceFilter = kCLDistanceFilterNone;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
     [locationManager startUpdatingLocation];
-    
+    self.location = locationManager.location;
 
-    
     resultblock = ^(ALAsset *myasset) {
         CLLocation *locationAsset = [myasset valueForProperty:ALAssetPropertyLocation];
         self.location = locationAsset; 
@@ -157,7 +156,6 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     [actionSheet showInView:self.view];
 
-
 }
 
 - (IBAction)refreshButtonTapped:(id)sender {
@@ -179,27 +177,25 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
         picker.cameraViewTransform = CGAffineTransformScale(picker.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);
         
         [self presentModalViewController:picker animated:YES];
+        
     } else if (buttonIndex == 1 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
         [self presentModalViewController:picker animated:YES];
 
     }
 }
 
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {   
     imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerEditedImage];
  
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
+    if (aPicker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        
         // Save the new image (original or edited) to the Camera Roll.
         UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
         self.location = locationManager.location;
-    }
-    
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+    } else if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
         
         // Get the asset url
         NSURL *pictureURL = [info objectForKey:UIImagePickerControllerReferenceURL];
@@ -224,6 +220,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
         ODMDescriptionFormViewController *formViewController = (ODMDescriptionFormViewController *) segue.destinationViewController;
         formViewController.bugImage = imageToSave;
         formViewController.location = self.location;
+        
     }
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
         ODMDescriptionViewController *DetailViewController = (ODMDescriptionViewController *) segue.destinationViewController;
