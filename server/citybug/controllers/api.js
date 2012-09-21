@@ -1,6 +1,8 @@
 var environment = require('../environment'),
     service = require('../service'),
-    model =  service.useModel('model');
+    model =  service.useModel('model'),
+    http = require('http'),
+    KEYS = require('../key');
 
 exports.add = function(req, res){
     model.Report.find({},function(err, docs){
@@ -127,57 +129,134 @@ exports.report_post = function(req, res){
             }
 
 
-            model.Place.findOne({_id: req.body.placeID }, function(err,place) {   
-
+            model.Place.findOne({id_foursquare: req.body.place_id }, function(err,place) {   
+                console.log(">>>>>>>>>>>>>>>> " + req.body.place_id);
                 if (!err && place != null) { //Can find place in database
                     report.place = place._id;
-                } else {
+                    console.log("Can find place in database > "+ place);
+                    //--------------------------------------------------------------
+                    //Save new Report to Database
+                    report.save(function (err) {
+                        if (!err){
+                            console.log('Success! with ' + report);
+                            res.writeHead(200, { 'Content-Type' : 'application/json'});
+                            res.write(JSON.stringify(report));
+                            res.end();
+                            
+                        } else {
+                            console.log('Error !'+ err);
+                            res.writeHead(200, { 'Content-Type' : 'application/json'});
+                            res.write('{ "statusCode":"500", "message":"Add new report not success with error '+err+'"}');
+                            res.end();
+                        }
+                    });
+                    //--------------------------------------------------------------
+
+                } else { //Can NOT find place in database
+                    console.log("Can NOT find place in database");
+
+                    //Save place
+                    var newPlace = new model.Place();
+                    newPlace.id_foursquare = req.body.place_id;       
+                    newPlace.title = req.body.place_title;         
+                    newPlace.lat = req.body.place_lat;
+                    newPlace.lng = req.body.place_lng;
+                    newPlace.last_modified = new Date();
+                    newPlace.created_at = new Date();
+
+                    newPlace.save(function (err){
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log('>>> Saved place' + newPlace);
+                            report.place = newPlace._id;
+
+                            //--------------------------------------------------------------
+                            //Save new Report to Database
+                            report.save(function (err) {
+                                if (!err){
+                                    console.log('Success! with ' + report);
+                                    res.writeHead(200, { 'Content-Type' : 'application/json'});
+                                    res.write(JSON.stringify(report));
+                                    res.end();
+                                    
+                                } else {
+                                    console.log('Error !'+ err);
+                                    res.writeHead(200, { 'Content-Type' : 'application/json'});
+                                    res.write('{ "statusCode":"500", "message":"Add new report not success with error '+err+'"}');
+                                    res.end();
+                                }
+                            });
+                            //--------------------------------------------------------------
+                        }
+                    }); 
+
+                    /*
                     //เอา id ที่ได้ ไป map กับ foursquare
+                    var options = {
+                        host: 'localhost:3003',
+                        path: '/api/place/foursquare/',
+                        method: 'GET'
+                    };
 
+                    request.on('response', function (response) {
+                        var result = '';
+                        response.on('data', function (chunk) {
+                            result += chunk;
+                        });
+                        response.on('end', function () {
+                            console.log("resultttt = " + result);
+                            var data = result;
+
+                            //Save place
+                            var newPlace = new model.Place();
+                            newPlace.id_foursquare = data.id;       
+                            newPlace.title = data.name;         
+                            newPlace.lat = data.location.lat;
+                            newPlace.lng = data.location.lng;
+                            newPlace.last_modified = new Date();
+                            newPlace.created_at = new Date();
+
+                            newPlace.save(function (err){
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log('>>> Saved place' + newPlace);
+                                    report.place = newPlace._id;
+
+                                    //--------------------------------------------------------------
+                                    //Save new Report to Database
+                                    report.save(function (err) {
+                                        if (!err){
+                                            console.log('Success! with ' + report);
+                                            res.writeHead(200, { 'Content-Type' : 'application/json'});
+                                            res.write(JSON.stringify(report));
+                                            res.end();
+                                            
+                                        } else {
+                                            console.log('Error !'+ err);
+                                            res.writeHead(200, { 'Content-Type' : 'application/json'});
+                                            res.write('{ "statusCode":"500", "message":"Add new report not success with error '+err+'"}');
+                                            res.end();
+                                        }
+                                    });
+                                    //--------------------------------------------------------------
+                                }
+                            }); 
+                        });
+                    });
+                    request.end(); // start the request
+                    */
                 }
-
-                //Save new Report to Database
-                report.save(function (err) {
-                    if (!err){
-                        console.log('Success! with ' + report);
-                        console.log('report JSON >>' + JSON.stringify(report));
-                        res.statusCode = 200;
-                        res.contentType('application/json'); 
-                        res.send("Add new report success!");
-                        //res.render('add_response', {title: 'City bug', report: report});
-
-                        //Query report with user data
-                        model.Report.findOne({ title: report.title })
-                        .populate('user','username email thumbnail_image')
-                        .populate('categories','title')
-                        .exec(function (err, report) {
-                            if (err) { 
-                                return handleError(err);
-                            }
-                            console.log('The creator is ' + report); 
-                            console.log('The creator JSON is ' + JSON.stringify(report));
-                    })
-                        
-                    } else {
-                        console.log('Error !');
-                        console.log(err);
-                        res.statusCode = 500;
-                        res.contentType('application/json'); 
-                        res.send("Add new report not success with error "+err);
-                        // res.send();
-                    }
-                });
 
             });
         });
     });
 
-
     // make directory
     fs.mkdirParent("./public/images/report/");
 
     //save picture to /public/images/report/:id
-
     if (req.files.thumbnail_image.name) {
         // get the temporary location of the file : ./uploads
         var tmp_path = req.files.thumbnail_image.path;
