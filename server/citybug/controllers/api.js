@@ -16,14 +16,19 @@ exports.comment_post = function(req, res) {
     var urlArrayID = url.match( /^.*?\/(\w+)\/[^\/]*$/ );    
     var currentID;
     // get :id from url
-    if(urlArrayID.length > 2) {
+    if(urlArrayID != null && urlArrayID.length > 1) {
         currentID = urlArrayID[1];
+    } else {
+        res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+        res.write("Can not add new comment, wrong report ID\n Please use format /api/report/:id/comment");
+        res.end();
+        return;
     }
     
     //Find User by username from request
     model.User.findOne({username:req.body.username}, function (err, user){
         //add comment
-        if (err) {
+        if (err || user == null) {
             console.log(err);
         } else {
             var newComment = new model.Comment();
@@ -41,6 +46,7 @@ exports.comment_post = function(req, res) {
                         if (err) {
                             console.log('err' + err);
                         } else {
+                            console.log('new comment '+report);
                             report.comments.push(newComment._id);
                             report.save(function (err){
                                 if (err) {
