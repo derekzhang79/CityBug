@@ -64,7 +64,8 @@
                 tabBody.appendChild(row);
             }
         h2
-            <a href="/add">Click here to test POST api</a>
+            <a href="/add">Click here to test POST api</a><br/>
+            <a href="/add_comment">Click here to test POST COMMENT api</a>
         article.row
             .span14
                 h2 report list
@@ -90,7 +91,7 @@
                         - report.forEach(function(report){
                             -   var allCat = ""
                             -   report['categories'].forEach(function(cat){
-                            -   allCat = allCat + cat.title 
+                            -   allCat = allCat + cat.title + ","
                             -   });
 
                             tr

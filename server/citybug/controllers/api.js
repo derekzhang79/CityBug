@@ -10,6 +10,9 @@ exports.add = function(req, res){
     });
 };
 
+exports.add_comment = function(req, res){
+    res.render('add_comment.jade', { title: 'City bug'});
+};
 
 // GET /api/reports >> get list of entries
 exports.reports = function(req, res){

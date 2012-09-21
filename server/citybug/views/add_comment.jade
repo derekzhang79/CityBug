@@ -1,0 +1,28 @@
+.container
+    .content
+        header.page-header
+            h1 City Bug
+                small.subtitle bug around the world
+            h2
+                <a href="/">Back</a>    
+        script
+            function send(commentForm) {
+                var reportID = document.getElementById('report_id').value;
+                document.getElementById('comment_form').setAttribute("action", "/api/report/" + reportID + "/comment");
+                // frm.setAttribute("action", "/api/report/" + frm.getElementsByName(report_id) + "/comment");
+            }
+
+        form(action='/api/report/:id/comment', method='post', onsubmit='send(this)', id='comment_form')
+            fieldset
+                label(for="report_id") report id
+                .input
+                    input(type='text', id='report_id', name='report_id')
+                label(for="username") username
+                .input
+                    input(type='text', id='username', name='username')
+                label(for="text") text comment
+                .input
+                    input(type='text', id='text', name='text')
+            fieldset
+                .actions
+                    input(type='submit', value="Save")
