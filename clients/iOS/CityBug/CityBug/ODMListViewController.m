@@ -126,7 +126,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 {
     // POST report to server
     ODMReport *report = [[ODMReport alloc] init];
-    report.title = @"PostAAAA";
+    report.title = @"";
     report.note = @"กกกกกกกก __#$%@#$%@$% ขขขขขขขข";
     report.latitude = @13.791343;
     report.longitude = @100.587473;
