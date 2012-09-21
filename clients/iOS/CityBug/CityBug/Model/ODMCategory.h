@@ -6,8 +6,12 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-@interface ODMCategory : NSObject
+@interface ODMCategory : NSObject {
+    NSString *_title;
+}
 
 @property (nonatomic, strong) NSString * title;
+
++ (ODMCategory *)categoryWithTitle:(NSString *)category;
 
 @end

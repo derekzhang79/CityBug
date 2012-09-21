@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12B19" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="tet-i1-BY7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C54" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="tet-i1-BY7">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
@@ -54,6 +54,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="CityBug" id="yRl-mM-wfn">
+                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="Vzv-mi-JjT">
+                            <connections>
+                                <action selector="createNewReport:" destination="tWb-Y8-6bh" id="hZ9-rQ-CyX"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Yxx-9y-5wn">
                             <connections>
                                 <action selector="addButtonTapped:" destination="tWb-Y8-6bh" id="Q8f-mf-gDb"/>
@@ -67,93 +72,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oXn-Nc-CEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3280" y="-1114"/>
-        </scene>
-        <!--Description Form View Controller-->
-        <scene sceneID="zyt-Xt-cmd">
-            <objects>
-                <viewController id="isB-Ul-rwG" customClass="ODMDescriptionFormViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="skl-5P-Bok">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="JOH-Ay-8QK">
-                                <rect key="frame" x="20" y="160" width="280" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Choose a category">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="CategoryButtonTapped:" destination="isB-Ul-rwG" eventType="touchUpInside" id="By9-Yd-6I8"/>
-                                </connections>
-                            </button>
-                            <view alpha="0.80000000000000004" contentMode="scaleToFill" id="oKo-zz-6xy">
-                                <rect key="frame" x="20" y="254" width="127" height="119"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.38431376218795776" green="0.48627454042434692" blue="0.61176472902297974" alpha="1" colorSpace="deviceRGB"/>
-                            </view>
-                            <view alpha="0.80000000000000004" contentMode="scaleToFill" id="vCZ-IU-USY">
-                                <rect key="frame" x="183" y="254" width="48" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.38431376218795776" green="0.48627454042434692" blue="0.61176472902297974" alpha="1" colorSpace="deviceRGB"/>
-                            </view>
-                            <view alpha="0.80000000000000004" contentMode="scaleToFill" id="eaj-IM-b2S">
-                                <rect key="frame" x="252" y="254" width="48" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.38431376218795776" green="0.48627454042434692" blue="0.61176472902297974" alpha="1" colorSpace="deviceRGB"/>
-                            </view>
-                            <view alpha="0.80000000000000004" contentMode="scaleToFill" id="YJZ-yu-8O1">
-                                <rect key="frame" x="183" y="326" width="48" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.38431376218795776" green="0.48627454042434692" blue="0.61176472902297974" alpha="1" colorSpace="deviceRGB"/>
-                            </view>
-                            <view alpha="0.80000000000000004" contentMode="scaleToFill" id="Sy0-dq-GzE">
-                                <rect key="frame" x="252" y="326" width="48" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.38431376218795776" green="0.48627454042434692" blue="0.61176472902297974" alpha="1" colorSpace="deviceRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="vHI-9B-2oI">
-                                <rect key="frame" x="20" y="20" width="280" height="125"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="WNu-xm-d99">
-                                        <rect key="frame" x="14" y="13" width="100" height="100"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" red="0.38431376220000002" green="0.48627454040000001" blue="0.61176472900000001" alpha="1" colorSpace="deviceRGB"/>
-                                    </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Report Title" minimumFontSize="17" id="JZa-pU-0ro">
-                                        <rect key="frame" x="122" y="13" width="144" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="bezel" placeholder="Report Note" minimumFontSize="17" id="Ui2-ph-X9x">
-                                        <rect key="frame" x="122" y="52" width="144" height="61"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="cOs-nW-a5n"/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <connections>
-                        <outlet property="bugImageView" destination="WNu-xm-d99" id="8CJ-J0-Dlp"/>
-                        <outlet property="titleTextField" destination="JZa-pU-0ro" id="hv1-kW-5Ev"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rmx-Us-t4j" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2725" y="-879"/>
         </scene>
         <!--Category List View Controller - Choose Category-->
         <scene sceneID="HJI-4P-vLE">
@@ -244,7 +162,7 @@
         <scene sceneID="H9w-fQ-n6f">
             <objects>
                 <tableViewController id="fLN-el-UYt" customClass="ODMDescriptionFormViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="10" id="UXr-qu-5GW">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="UXr-qu-5GW">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -260,15 +178,15 @@
                                             <subviews>
                                                 <view contentMode="scaleToFill" id="MZJ-r1-TC8">
                                                     <rect key="frame" x="0.0" y="0.0" width="300" height="125"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="smU-Cv-UUG">
-                                                            <rect key="frame" x="13" y="13" width="100" height="100"/>
+                                                            <rect key="frame" x="13" y="13" width="80" height="100"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" red="0.38431376220000002" green="0.48627454040000001" blue="0.61176472900000001" alpha="1" colorSpace="deviceRGB"/>
                                                         </imageView>
                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Report Title" minimumFontSize="17" id="swL-5T-kd7">
-                                                            <rect key="frame" x="128" y="13" width="159" height="30"/>
+                                                            <rect key="frame" x="128" y="13" width="152" height="30"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -277,7 +195,7 @@
                                                             </connections>
                                                         </textField>
                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="bezel" placeholder="Report Note" minimumFontSize="17" id="jTN-Jr-fRD">
-                                                            <rect key="frame" x="128" y="52" width="159" height="61"/>
+                                                            <rect key="frame" x="128" y="52" width="152" height="61"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -325,7 +243,7 @@
                             <tableViewSection id="Slc-hG-TlR">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cattegoryListCellIdentifier" textLabel="rGn-3P-HTj" detailTextLabel="yBv-u0-5OA" rowHeight="41" style="IBUITableViewCellStyleValue1" id="3y4-wd-6X6">
-                                        <rect key="frame" x="0.0" y="226" width="320" height="42"/>
+                                        <rect key="frame" x="0.0" y="235" width="320" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="280" height="40"/>
@@ -353,7 +271,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="101" id="nFP-cR-kja">
-                                        <rect key="frame" x="0.0" y="268" width="320" height="102"/>
+                                        <rect key="frame" x="0.0" y="277" width="320" height="102"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="100"/>
@@ -414,7 +332,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4fD-nf-WHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2725" y="-241"/>
+            <point key="canvasLocation" x="-2733" y="-879"/>
         </scene>
         <!--Place Form View Controller - Choose a place-->
         <scene sceneID="OxR-pm-25R">
@@ -600,19 +518,11 @@
                 <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
-        <class className="ODMFormFiedViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMFormFiedViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="CategoryButtonTapped:"/>
-                <relationship kind="action" name="save:"/>
-                <relationship kind="outlet" name="noteTextView" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="titleTextView" candidateClass="UITextField"/>
-            </relationships>
-        </class>
         <class className="ODMListViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMListViewController.h"/>
             <relationships>
                 <relationship kind="action" name="addButtonTapped:"/>
+                <relationship kind="action" name="createNewReport:"/>
                 <relationship kind="action" name="refreshButtonTapped:"/>
             </relationships>
         </class>

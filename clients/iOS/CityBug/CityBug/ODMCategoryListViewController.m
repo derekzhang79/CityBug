@@ -87,9 +87,26 @@
     [self.tableView reloadData];
 }
 
+- (void)reloadData:(NSArray *)newData
+{
+    _datasource = newData;
+    
+    [self.tableView reloadData];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [self reloadData];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(reloadData:)
+//                                                 name:ODMDataManagerNotificationCategoriesLoadingFinish
+//                                               object:nil];
 }
 
 @end

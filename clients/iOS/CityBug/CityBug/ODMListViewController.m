@@ -10,8 +10,6 @@
 #import "ODMDescriptionFormViewController.h"
 #import "ODMDescriptionViewController.h"
 #import "ODMDataManager.h"
-#import "ODMEntry.h"
-#import "UIImageView+AFNetworking.h"
 
 #define kSceenSize self.parentViewController.view.frame.size
 #define CAMERA_SCALAR 1.32
@@ -94,6 +92,29 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 #pragma mark -
 
+- (IBAction)createNewReport:(id)sender
+{
+    // POST report to server
+    ODMReport *report = [[ODMReport alloc] init];
+    report.title = @"PostAAAA";
+    report.note = @"กกกกกกกก __#$%@#$%@$% ขขขขขขขข";
+    report.latitude = @13.791343;
+    report.longitude = @100.587473;
+    report.fullImage = [UIImage imageNamed:@"1.jpeg"];
+    report.thumbnailImage = [UIImage imageWithCGImage:[UIImage imageNamed:@"1.jpeg"].CGImage scale:0.25 orientation:[UIImage imageNamed:@"1.jpeg"].imageOrientation];
+    
+    // Add categories to report by associated object
+    ODMCategory *category = [ODMCategory categoryWithTitle:@"หมวดหมู่"];
+    report.categories = [NSArray arrayWithObject:category];
+    
+    // Add place to report by associated object
+    ODMPlace *place = [ODMPlace placeWithTitle:@"Opendream" latitude:report.latitude longitude:report.longitude uid:@"505a8ef3cea52e3676000001"];
+    report.place = place;
+    
+    // Call DataManager with new report
+    [[ODMDataManager sharedInstance] postNewReport:report];
+}
+
 - (IBAction)addButtonTapped:(id)sender
 {
     NSLog(@"addButtonTapped");
@@ -172,18 +193,14 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 {
     __block NSString *imagePath = [aEntry objectForKey:@"thumbnail_image"];
    
-
-    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,  0ul);
     dispatch_async(queue, ^{
         if ([[imagePath substringToIndex:1] isEqualToString:@"."]) {
             imagePath = [imagePath substringFromIndex:1];
         }
         imagePath = [BASE_URL stringByAppendingString:imagePath];
-        UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:1];
-        
-        NSLog(@"image %@", imagePath);
-        [thumbnailImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
+//        UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:1];
+//        [thumbnailImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
 
 
     });
@@ -192,9 +209,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     titleLabel.text = [aEntry objectForKey:@"title"];
     
     UILabel *noteLabel = (UILabel *)[cell viewWithTag:2];
-    noteLabel.text = [aEntry objectForKey:@"note"];
-
- 
+    noteLabel.text = [aEntry objectForKey:@"note"]; 
 }
 
 

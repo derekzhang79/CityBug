@@ -14,26 +14,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // you can chang "BASE_URL" to 
-    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURLString:BASE_URL];
-    objectManager.client.baseURL = [RKURL URLWithString:BASE_URL];
+    RKLogConfigureByName("RestKit/Network*", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelDebug);
     
-    RKObjectMapping *reportMapping = [RKObjectMapping mappingForClass:[ODMReport class]];
-    [reportMapping mapKeyPath:@"title" toAttribute:@"title"];
-    [reportMapping mapKeyPath:@"note" toAttribute:@"note"];
-    [reportMapping mapKeyPath:@"thumbnailImage" toAttribute:@"thumbnail_image"];
-    
-    [objectManager.mappingProvider addObjectMapping:reportMapping];
-    [objectManager.mappingProvider setSerializationMapping:reportMapping forClass:[ODMReport class]];
-    [objectManager.mappingProvider setMapping:reportMapping forKeyPath:@"reports"];
-    
-    [objectManager.router routeClass:[ODMReport class] toResourcePath:@"/api/reports" forMethod:RKRequestMethodPOST];
     return YES;
 }
 
-- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
-{
-    ODMLog(@"error %@", error);
-}
 
 @end

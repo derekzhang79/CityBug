@@ -6,13 +6,11 @@
 //  Copyright (c) 2012 opendream. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-
 @interface ODMListViewController : UITableViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 - (IBAction)addButtonTapped:(id)sender;
 
 - (IBAction)refreshButtonTapped:(id)sender;
 
+- (IBAction)createNewReport:(id)sender;
 @end
