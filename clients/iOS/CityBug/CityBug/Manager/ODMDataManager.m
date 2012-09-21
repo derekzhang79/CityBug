@@ -144,13 +144,12 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
     [[RKObjectManager sharedManager] postObject:report usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
         
-
         [reportParams setValue:[report title] forParam:@"title"];
         [reportParams setValue:[report note] forParam:@"note"];
         [reportParams setValue:[report latitude]  forParam:@"lat"];
         [reportParams setValue:[report longitude] forParam:@"lng"];
         [reportParams setValue:[report.user username] forParam:@"username"];
-
+        
         NSArray *catItems = [report.categories valueForKeyPath:@"title"];
         [reportParams setValue:catItems forParam:@"categories"];
         
@@ -159,7 +158,6 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         
         [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
         [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
-        
         loader.params = reportParams;
     }];
 }

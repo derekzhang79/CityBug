@@ -20,6 +20,7 @@
 		CE16A2A2160AF8B400396033 /* ODMPlaceFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE16A2A1160AF8B400396033 /* ODMPlaceFormViewController.m */; };
 		CE16A2DD160B07D500396033 /* ODMPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = CE16A2DC160B07D500396033 /* ODMPlace.m */; };
 		CE16A334160B32EE00396033 /* ODMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CE16A333160B32EE00396033 /* ODMUser.m */; };
+		CE314DC3160C231A00D01C8F /* ODMDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CE314DC2160C231A00D01C8F /* ODMDataManagerTest.m */; };
 		CE7C595D16097FD600F3D496 /* CityBugTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E861603767D0041B3B8 /* CityBugTests-Info.plist */; };
 		CEB10E231603748E0041B3B8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E211603748E0041B3B8 /* main.m */; };
 		CEB10E27160374A50041B3B8 /* balloon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E24160374A50041B3B8 /* balloon.jpeg */; };
@@ -35,8 +36,6 @@
 		CEB10E4F160374CC0041B3B8 /* ODMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E47160374CC0041B3B8 /* ODMAppDelegate.m */; };
 		CEB10E5E1603752B0041B3B8 /* ODMModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E5C1603752B0041B3B8 /* ODMModel.xcdatamodeld */; };
 		CEB10E6D160375C10041B3B8 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E6B160375C10041B3B8 /* MainStoryboard.storyboard */; };
-		CEB10E891603767D0041B3B8 /* ODMDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E821603767D0041B3B8 /* ODMDataManagerTest.m */; };
-		CEB10E8A1603767D0041B3B8 /* ODMEntryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E851603767D0041B3B8 /* ODMEntryTest.m */; };
 		CEB10E8C1603767D0041B3B8 /* CityBugTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E881603767D0041B3B8 /* CityBugTests.m */; };
 		CEB10E8F160376910041B3B8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E8D160376910041B3B8 /* InfoPlist.strings */; };
 		CEEE604215FDEDFB00324883 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE604115FDEDFB00324883 /* UIKit.framework */; };
@@ -119,6 +118,8 @@
 		CE16A2DC160B07D500396033 /* ODMPlace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMPlace.m; sourceTree = "<group>"; };
 		CE16A332160B32EE00396033 /* ODMUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMUser.h; sourceTree = "<group>"; };
 		CE16A333160B32EE00396033 /* ODMUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMUser.m; sourceTree = "<group>"; };
+		CE314DC1160C231A00D01C8F /* ODMDataManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMDataManagerTest.h; sourceTree = "<group>"; };
+		CE314DC2160C231A00D01C8F /* ODMDataManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMDataManagerTest.m; sourceTree = "<group>"; };
 		CEB10E1F1603748E0041B3B8 /* CityBug-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CityBug-Info.plist"; path = "CityBug/CityBug-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CEB10E201603748E0041B3B8 /* CityBug-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CityBug-Prefix.pch"; path = "CityBug/CityBug-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		CEB10E211603748E0041B3B8 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CityBug/main.m; sourceTree = SOURCE_ROOT; };
@@ -144,10 +145,6 @@
 		CEB10E5D1603752B0041B3B8 /* ODMModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ODMModel.xcdatamodel; sourceTree = "<group>"; };
 		CEB10E5F160375420041B3B8 /* ODMAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMAppDelegate.h; path = CityBug/ODMAppDelegate.h; sourceTree = SOURCE_ROOT; };
 		CEB10E6C160375C10041B3B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = CityBug/en.lproj/MainStoryboard.storyboard; sourceTree = SOURCE_ROOT; };
-		CEB10E811603767D0041B3B8 /* ODMDataManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMDataManagerTest.h; sourceTree = "<group>"; };
-		CEB10E821603767D0041B3B8 /* ODMDataManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMDataManagerTest.m; sourceTree = "<group>"; };
-		CEB10E841603767D0041B3B8 /* ODMEntryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMEntryTest.h; sourceTree = "<group>"; };
-		CEB10E851603767D0041B3B8 /* ODMEntryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMEntryTest.m; sourceTree = "<group>"; };
 		CEB10E861603767D0041B3B8 /* CityBugTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CityBugTests-Info.plist"; path = "CityBugTests/CityBugTests-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CEB10E871603767D0041B3B8 /* CityBugTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CityBugTests.h; path = CityBugTests/CityBugTests.h; sourceTree = SOURCE_ROOT; };
 		CEB10E881603767D0041B3B8 /* CityBugTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CityBugTests.m; path = CityBugTests/CityBugTests.m; sourceTree = SOURCE_ROOT; };
@@ -261,8 +258,8 @@
 		CEB10E801603767D0041B3B8 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				CEB10E811603767D0041B3B8 /* ODMDataManagerTest.h */,
-				CEB10E821603767D0041B3B8 /* ODMDataManagerTest.m */,
+				CE314DC1160C231A00D01C8F /* ODMDataManagerTest.h */,
+				CE314DC2160C231A00D01C8F /* ODMDataManagerTest.m */,
 			);
 			name = Manager;
 			path = CityBugTests/Manager;
@@ -271,8 +268,6 @@
 		CEB10E831603767D0041B3B8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CEB10E841603767D0041B3B8 /* ODMEntryTest.h */,
-				CEB10E851603767D0041B3B8 /* ODMEntryTest.m */,
 			);
 			name = Model;
 			path = CityBugTests/Model;
@@ -584,9 +579,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEB10E891603767D0041B3B8 /* ODMDataManagerTest.m in Sources */,
-				CEB10E8A1603767D0041B3B8 /* ODMEntryTest.m in Sources */,
 				CEB10E8C1603767D0041B3B8 /* CityBugTests.m in Sources */,
+				CE314DC3160C231A00D01C8F /* ODMDataManagerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,8 +7,7 @@
 //
 
 #import "ODMDataManagerTest.h"
-#import <CoreData/CoreData.h>
-#import "ODMEntry.h"
+
 #import "ODMDataManager.h"
 #import "ODMReport.h"
 
@@ -22,17 +21,13 @@
 {
     [super setUp];
     
-    NSManagedObjectModel *mom = [NSManagedObjectModel mergedModelFromBundles:[NSBundle allBundles]];
-    NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-    
-    [psc addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:nil options:nil error:NULL];
-    
-    context = [[NSManagedObjectContext alloc] init];
-    context.persistentStoreCoordinator = psc;
-    
     dataManager = [ODMDataManager sharedInstance];
     
     objectManager = [RKObjectManager sharedManager];
+    
+    STAssertNotNil(dataManager, @"DataManager should not nil");
+    
+    STAssertNotNil(objectManager, @"RestKit Manager should not nil");
 }
 
 - (void)tearDown
@@ -41,28 +36,46 @@
     [super tearDown];
 }
 
-- (void)testInitializeDataManager
+- (void)testPostNewReportShouldErrorWhenTitleInputContainsHTMLTag
 {
-    STAssertNotNil(dataManager, @"DataManager should not nil");
+    ODMReport *report = [ODMReport newReportWithTitle:@"TestNewReport" note:@"TestNewReportWithNote"];
+    report.title = @"wrsdfeiuasdpoi <INPUT> oiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiu";
+    NSError *error = nil;
+    BOOL passValidateLength = [report validateValue:NULL forKey:@"title" error:&error];
+    STAssertFalse(passValidateLength, @"Report title should be invalidated");
+    STAssertNotNil(error, @"Report title should not contain HTML Tags");
+}
+
+- (void)testPostNewReportShouldErrorWhenTitleInputMoreThan256Characters
+{
+    ODMReport *report = [ODMReport newReportWithTitle:@"TestNewReport" note:@"TestNewReportWithNote"];
+    report.title = @"wrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiuwrsdfeiuasdpoiu";
+    NSError *error = nil;
+    BOOL passValidateLength = [report validateValue:NULL forKey:@"title" error:&error];
+    STAssertFalse(passValidateLength, @"Report title should be invalidated");
+    STAssertNotNil(error, @"Report title should more than 256 characters");
+}
+
+- (void)testPostNewReportShouldErrorWhenNoteInputMoreThan1024Characters
+{
+    ODMReport *report = [ODMReport newReportWithTitle:@"TestNewReport" note:@"TestNewReportWithNote"];
+    report.note = @"werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2werwex poiu sadwerqpwoe sadiruasdn d2";
     
-    STAssertNotNil(objectManager, @"RestKit Manager should not nil");
+    NSError *error = nil;
+    BOOL passValidateLength = [report validateValue:NULL forKey:@"note" error:&error];
+    STAssertFalse(passValidateLength, @"Report note should be invalidated");
+    STAssertNotNil(error, @"Report note should more than 1024 characters");
 }
 
-- (void)testListReport
+- (void)testPostNewReportShouldErrorWhenLocationIsEmpty
 {
-    [objectManager loadObjectsAtResourcePath:@"/api/reports" delegate:self];
-}
-
-- (void)testPostNewReport
-{
-    ODMReport *report = [ODMReport new];
-    report.title = @"Post from RestKit";
-    report.note = @"Note from RestKit";
-    report.latitude = @13.791343;
-    report.longitude = @100.587473;
-    report.fullImage = [UIImage imageNamed:@"1.jpeg"];
-    report.thumbnailImage = [UIImage imageNamed:@"1.jpeg"];
-    [dataManager postNewReport:report];
+    ODMReport *report = [ODMReport newReportWithTitle:@"TestNewReport" note:@"TestNewReportWithNote"];
+    NSError *error = nil;
+    
+    report.latitude = nil;
+    report.longitude = nil;
+    BOOL passValidateLocation = [report validateValue:NULL forKey:@"location" error:&error];
+    STAssertFalse(passValidateLocation, @"Report location should present before send to server-side");
 }
 
 - (void)testCategoryList
@@ -70,16 +83,6 @@
     NSArray *categoires = [dataManager categories];
     
     STAssertTrue([categoires count] > 0, @"Category List should not equal to 0");
-}
-
-- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
-{
-    ODMLog(@"Loader Failed %@", error);
-}
-
-- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects
-{
-    ODMLog(@"Finish load with object %@", objects);
 }
 
 @end
