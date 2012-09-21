@@ -70,9 +70,9 @@ exports.report_post = function(req, res){
     // save data to db
     var report = new model.Report();
     
-    var thumbnail_image_type = req.files.thumbnail_image.name.match( /[^.]+.?$/ );
+    var thumbnail_image_type = req.files.thumbnail_image.type.match( /[^\/]+\/?$/ );
     var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_type;
-    var full_image_type = req.files.full_image.name.match( /[^.]+.?$/ );
+    var full_image_type = req.files.full_image.type.match( /[^\/]+\/?$/ );
     var full_image_short_path = "/images/report/" + report._id + "." + full_image_type;
     
     report.title = req.body.title;
