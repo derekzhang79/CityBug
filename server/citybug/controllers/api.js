@@ -14,36 +14,45 @@ exports.comment_post = function(req, res) {
     var url = req.url;
     var currentID = url.match( /^.*?\/(\w+)\/[^\/]*$/ );    
     
-    console.log('id ' + currentID[1]);
+    console.log('id ' + currentID[1] + ' username ' + req.body.username + ' text ' + req.body.text);
     res.contentType('application/json');
 
     // find report by id
-    model.Report.findOne({_id:currentID}, function(err, report) {
-        model.User.findOne({username:req.body.username}, function (err, user){
-            var comment = new model.Comment();
-            comment.text = req.body.text;
-            comment.user = req.body.user._id;
-            comment.report = currentID;
-            comment.last_modified = new Date();
-            comment.created_at = new Date();
-            comment.save(function (err){
-                if (err) {
-                    console.log(err);
+    model.Report.findOne({_id:req.body.report_id}, function(err, report) {
+        if (!err) {
+            console.log('err' + err);
+        } else {
+            model.User.findOne({username:req.body.username}, function (err, user){
+                //add comment
+                console.log('user'+ user);
+                var comment = new model.Comment();
+                comment.text = req.body.text;
+                comment.user = user._id;
+                comment.report = currentID;
+                comment.last_modified = new Date();
+                comment.created_at = new Date();
+                comment.save(function (err){
+                    console.log('comment' + comment);
+                    console.log('report' + report);
+                    if (!err) {
+                        console.log(err);
 
-                } else {
-                    report.push(comment._id);
+                    } else {
+                        report.comments.push(comment._id);
 
-                    report.save(function (err){
-                        if (err) {
-                            console.log(err);
-                        };
-                    });
-                }
-            }); 
-        });
+                        report.save(function (err){
+                            if (!err) {
+                                console.log(err);
+                            } else {
+                                res.send('200');
+                            }
+
+                        });
+                    }
+                }); 
+            });
+        }
     });
-
-    res.send('200');
 }
 
 // GET /api/reports >> get list of entries
