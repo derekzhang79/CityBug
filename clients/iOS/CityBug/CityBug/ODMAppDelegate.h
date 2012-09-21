@@ -6,9 +6,7 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-@interface ODMAppDelegate : UIResponder <UIApplicationDelegate, RKObjectLoaderDelegate>
+@interface ODMAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

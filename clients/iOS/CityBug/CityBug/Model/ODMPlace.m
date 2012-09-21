@@ -10,4 +10,20 @@
 
 @implementation ODMPlace
 
+- (id)initWithPlaceWithTitle:(NSString *)title latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude uid:(NSString *)theUID
+{
+    if (self = [super init]) {
+        _uid = theUID;
+        _title = title;
+        _latitude = latitude;
+        _longitude = longitude;
+    }
+    return self;
+}
+
++ (ODMPlace *)placeWithTitle:(NSString *)title latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude uid:(NSString *)uid
+{
+    return [[self alloc] initWithPlaceWithTitle:title latitude:latitude longitude:longitude uid:uid];
+}
+            
 @end
