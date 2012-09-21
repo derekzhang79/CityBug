@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 opendream. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "ODMEntry.h"
 
 @interface ODMDescriptionViewController : UIViewController
 

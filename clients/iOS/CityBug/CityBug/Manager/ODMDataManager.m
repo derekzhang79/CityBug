@@ -7,15 +7,11 @@
 //
 
 #import "ODMDataManager.h"
-#import <CoreData/CoreData.h>
-#import "ODMEntry.h"
+
 #import "ODMReport.h"
 #import "ODMCategory.h"
 #import "ODMPlace.h"
-
-#import "AFJSONRequestOperation.h"
-#import "AFHTTPClient.h"
-#import "AFHTTPRequestOperation.h"
+#import "ODMUser.h"
 
 static ODMDataManager *sharedDataManager = nil;
 
@@ -38,6 +34,7 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 - (id)init
 {
     if (self = [super init]) {
+        
         //
         // Initialize Notification Identifier String
         //
@@ -47,7 +44,11 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         //
         // RestKit setup
         //
-        serviceObjectManager = [RKObjectManager managerWithBaseURLString:BASE_URL];;
+        serviceObjectManager = [RKObjectManager managerWithBaseURLString:BASE_URL];
+        serviceObjectManager.client.username = @"admin";
+        serviceObjectManager.client.password = @"1q2w3e4r";
+//        serviceObjectManager.client.authenticationType = RKRequestAuthenticationTypeHTTPBasic;
+        serviceObjectManager.client.defaultHTTPEncoding = NSUTF8StringEncoding;
         
         //
         // Object Mapping
@@ -55,16 +56,45 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         RKObjectMapping *reportMapping = [RKObjectMapping mappingForClass:[ODMReport class]];
         [reportMapping mapKeyPath:@"title" toAttribute:@"title"];
         [reportMapping mapKeyPath:@"note" toAttribute:@"note"];
-        [reportMapping mapKeyPath:@"thumbnailImage" toAttribute:@"thumbnail_image"];
-        
+        [reportMapping mapKeyPath:@"thumbnail_image" toAttribute:@"thumbnailImage"];
+        [reportMapping mapKeyPath:@"full_image" toAttribute:@"fullImage"];
+        [reportMapping mapKeyPath:@"lat" toAttribute:@"latitude"];
+        [reportMapping mapKeyPath:@"lng" toAttribute:@"longitude"];
         [serviceObjectManager.mappingProvider addObjectMapping:reportMapping];
-        [serviceObjectManager.mappingProvider setSerializationMapping:reportMapping forClass:[ODMReport class]];
         [serviceObjectManager.mappingProvider setMapping:reportMapping forKeyPath:@"reports"];
         
-        //
+        RKObjectMapping *categoryMapping = [RKObjectMapping mappingForClass:[ODMCategory class]];
+        [categoryMapping mapKeyPath:@"title" toAttribute:@"title"];
+        
+        RKObjectMapping *placeMapping = [RKObjectMapping mappingForClass:[ODMPlace class]];
+        [placeMapping mapKeyPath:@"title" toAttribute:@"title"];
+        [placeMapping mapKeyPath:@"lat" toAttribute:@"latitude"];
+        [placeMapping mapKeyPath:@"lng" toAttribute:@"longitude"];
+
+        RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[ODMUser class]];
+        [userMapping mapAttributes:@"username", @"email", @"password", nil];
+        [userMapping mapKeyPath:@"_id" toAttribute:@"uid"];
+        
+        // Mapping Relation
+//        [reportMapping mapKeyPath:@"categories" toRelationship:@"categories" withMapping:categoryMapping];
+        [reportMapping mapRelationship:@"categories" withMapping:categoryMapping];
+        [reportMapping mapRelationship:@"place" withMapping:placeMapping];
+        [reportMapping mapRelationship:@"user" withMapping:userMapping];
+        
+        [serviceObjectManager.mappingProvider setMapping:reportMapping forKeyPath:@"reports"];
+        [serviceObjectManager.mappingProvider setMapping:categoryMapping forKeyPath:@"categories"];
+        [serviceObjectManager.mappingProvider setMapping:placeMapping forKeyPath:@"place"];
+        [serviceObjectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
+        
+        // Serialization
+        [serviceObjectManager.mappingProvider setSerializationMapping:[reportMapping inverseMapping] forClass:[ODMReport class]];
+        [serviceObjectManager.mappingProvider setSerializationMapping:categoryMapping forClass:[ODMCategory class]];
+        [serviceObjectManager.mappingProvider setSerializationMapping:placeMapping forClass:[ODMPlace class]];
+        [serviceObjectManager.mappingProvider setSerializationMapping:userMapping forClass:[ODMUser class]];
+        
         // Routing
-        //
         [serviceObjectManager.router routeClass:[ODMReport class] toResourcePath:@"/api/reports" forMethod:RKRequestMethodPOST];
+        [serviceObjectManager.router routeClass:[ODMCategory class] toResourcePath:@"/api/categories" forMethod:RKRequestMethodGET];
     }
     return self;
 }
@@ -108,6 +138,9 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 {
     RKParams *reportParams = [RKParams params];
     
+    ODMUser *admin = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
+    report.user = admin;
+    
     [[RKObjectManager sharedManager] postObject:report usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
         
@@ -116,8 +149,10 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         [reportParams setValue:[report note] forParam:@"note"];
         [reportParams setValue:[report latitude]  forParam:@"lat"];
         [reportParams setValue:[report longitude] forParam:@"lng"];
-        [reportParams setValue:@"admin"           forParam:@"username"];
-        [reportParams setValue:[report categories] forParam:@"categories"];
+        [reportParams setValue:[report.user username] forParam:@"username"];
+
+        NSArray *catItems = [report.categories valueForKeyPath:@"title"];
+        [reportParams setValue:catItems forParam:@"categories"];
         
         NSData *fullImageData = UIImageJPEGRepresentation(report.fullImage, 1);
         NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImage, 1);
@@ -138,6 +173,7 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
     if (!categories_) {
         
         [serviceObjectManager loadObjectsAtResourcePath:@"/api/categories" usingBlock:^(RKObjectLoader *loader){
+            loader.objectMapping = [serviceObjectManager.mappingProvider serializationMappingForClass:[ODMCategory class]];
             loader.onDidLoadObjects = ^(NSArray *objects){
                 categories_ = [objects copy];
                 
@@ -197,8 +233,7 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObject:(id)object
 {
-    ODMLog(@"objectLoader %@", object);
-    if ([objectLoader wasSentToResourcePath:@"/pet/uploadPhoto"]) {
+    if ([objectLoader wasSentToResourcePath:@"/api/reports"]) {
         ODMReport *report = (ODMReport*)object;
         ODMLog(@"******* SEND report title %@", [report title]);
     }
@@ -206,7 +241,7 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
 {
-    RKLogError(@"Loader Error %@", error);
+    RKLogError(@"!!!!!!!!!!!!!!!!!!!! Loader Error %@", error);
 }
 
 @end
