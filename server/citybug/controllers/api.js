@@ -19,8 +19,6 @@ exports.comment_post = function(req, res) {
     if(urlArrayID.length > 2) {
         currentID = urlArrayID[1];
     }
-
-    console.log('id ' + currentID[1] + ' username ' + req.body.username + ' text ' + req.body.text);
     
     //Find User by username from request
     model.User.findOne({username:req.body.username}, function (err, user){
