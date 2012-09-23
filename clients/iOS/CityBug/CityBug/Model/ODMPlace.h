@@ -7,13 +7,13 @@
 //
 
 @interface ODMPlace : NSObject {
-    NSString *_title, *_uid;
-    NSNumber *_latittude, *_longitude;
+    NSString *_title, *_uid, *_type;
+    NSNumber *_latitude, *_longitude;
 }
 
-@property (nonatomic, strong) NSString *title, *uid;
+@property (nonatomic, strong) NSString *title, *uid, *type;
 @property (nonatomic, strong) NSNumber *latitude, *longitude;
 
-+ (ODMPlace *)placeWithTitle:(NSString *)title latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude uid:(NSString *)uid;
++ (ODMPlace *)placeWithTitle:(NSString *)title latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude uid:(NSString *)uid type:(NSString *)type;
 
 @end

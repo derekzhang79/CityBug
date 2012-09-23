@@ -18,7 +18,8 @@ static ODMDataManager *sharedDataManager = nil;
 NSString *ODMDataManagerNotificationCategoriesLoadingFinish;
 NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 
-
+NSString *ODMDataManagerNotificationPlacesLoadingFinish;
+NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 @interface ODMDataManager(Accessor)
 /*
@@ -41,6 +42,9 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         ODMDataManagerNotificationCategoriesLoadingFinish = @"ODMDataManagerNotificationCategoriesLoadingFinish";
         ODMDataManagerNotificationCategoriesLoadingFail = @"ODMDataManagerNotificationCategoriesLoadingFail";
         
+        ODMDataManagerNotificationPlacesLoadingFinish = @"ODMDataManagerNotificationPlacesLoadingFinish";
+        ODMDataManagerNotificationPlacesLoadingFail = @"ODMDataManagerNotificationPlacesLoadingFail";
+        
         //
         // RestKit setup
         //
@@ -61,7 +65,7 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         [reportMapping mapKeyPath:@"lat" toAttribute:@"latitude"];
         [reportMapping mapKeyPath:@"lng" toAttribute:@"longitude"];
         [serviceObjectManager.mappingProvider addObjectMapping:reportMapping];
-        [serviceObjectManager.mappingProvider setMapping:reportMapping forKeyPath:@"reports"];
+
         
         RKObjectMapping *categoryMapping = [RKObjectMapping mappingForClass:[ODMCategory class]];
         [categoryMapping mapKeyPath:@"title" toAttribute:@"title"];
@@ -70,6 +74,8 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         [placeMapping mapKeyPath:@"title" toAttribute:@"title"];
         [placeMapping mapKeyPath:@"lat" toAttribute:@"latitude"];
         [placeMapping mapKeyPath:@"lng" toAttribute:@"longitude"];
+        [placeMapping mapKeyPath:@"_id" toAttribute:@"uid"];
+        [placeMapping mapKeyPath:@"type" toAttribute:@"type"];
 
         RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[ODMUser class]];
         [userMapping mapAttributes:@"username", @"email", @"password", nil];
@@ -83,7 +89,7 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         
         [serviceObjectManager.mappingProvider setMapping:reportMapping forKeyPath:@"reports"];
         [serviceObjectManager.mappingProvider setMapping:categoryMapping forKeyPath:@"categories"];
-        [serviceObjectManager.mappingProvider setMapping:placeMapping forKeyPath:@"place"];
+        [serviceObjectManager.mappingProvider setMapping:placeMapping forKeyPath:@"places"];
         [serviceObjectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
         
         // Serialization
@@ -110,27 +116,6 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 }
 
 /*
- * Method :GET
- */
-- (NSArray *)getEntryList
-{
-    NSError *error;
-    NSString *url = [BASE_URL stringByAppendingString:API_LIST];
-      NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-
-    if (error) {
-        ODMLog(@"error when get api %@ with error %@", [BASE_URL stringByAppendingString:API_LIST], error);
-            return nil;
-    }
-
-    if (!data) {
-        return nil;
-    }
-
-    return [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error] objectForKey:@"entries"];
-}
-
-/*
  * CREATE REPORT
  * HTTP POST
  */
@@ -146,9 +131,14 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         
         [reportParams setValue:[report title] forParam:@"title"];
         [reportParams setValue:[report note] forParam:@"note"];
-        [reportParams setValue:[report latitude]  forParam:@"lat"];
+        [reportParams setValue:[report latitude]   forParam:@"lat"];
         [reportParams setValue:[report longitude] forParam:@"lng"];
         [reportParams setValue:[report.user username] forParam:@"username"];
+        
+        [reportParams setValue:[report.place uid] forParam:@"place_id"];
+        [reportParams setValue:[report.place title] forParam:@"place_title"];
+        [reportParams setValue:[report.place latitude] forParam:@"place_lat"];
+        [reportParams setValue:[report.place longitude] forParam:@"place_lng"];
         
         NSArray *catItems = [report.categories valueForKeyPath:@"title"];
         [reportParams setValue:catItems forParam:@"categories"];
@@ -158,6 +148,7 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         
         [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
         [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
+    
         loader.params = reportParams;
     }];
 }
@@ -171,18 +162,17 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
     if (!categories_) {
         
         [serviceObjectManager loadObjectsAtResourcePath:@"/api/categories" usingBlock:^(RKObjectLoader *loader){
-            loader.objectMapping = [serviceObjectManager.mappingProvider serializationMappingForClass:[ODMCategory class]];
+            //loader.objectMapping = [serviceObjectManager.mappingProvider serializationMappingForClass:[ODMCategory class]];
             loader.onDidLoadObjects = ^(NSArray *objects){
-                categories_ = [objects copy];
+                categories_ = [NSArray arrayWithArray:objects];
                 
                 // Post notification with category array
-                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCategoriesLoadingFinish object:self.categories];
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCategoriesLoadingFinish object:categories_];
             };
         }];
     }
     
-    ODMCategory *cat = [ODMCategory new]; cat.title = @"Human error";
-    return [NSArray arrayWithObjects:cat, nil];
+    return categories_;
 }
 
 #pragma mark - PLACE
@@ -191,6 +181,7 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
  */
 - (NSArray *)places
 {
+    ODMLog(@"place called");
     if (!places_) {
         
         NSDictionary *queryParams = [NSDictionary dictionaryWithKeysAndObjects:@"lat", @"10.33023",
@@ -199,42 +190,35 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
         
         [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
             loader.onDidLoadObjects = ^(NSArray *objects){
-                places_ = [objects copy];
+                places_ = [objects sectionsGroupedByKeyPath:@"type"];
                 
                 // Post notification with category array
-                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCategoriesLoadingFinish object:self.places];
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlacesLoadingFinish object:places_];
             };
         }];
     }
     
-    ODMPlace *place1 = [[ODMPlace alloc] init];
-    place1.title = @"Opendream@BKK";
-    place1.latitude = @13.791343;
-    place1.longitude = @100.587473;
-    
-    ODMPlace *place2 = [[ODMPlace alloc] init];
-    place2.title = @"Opendream@CHX";
-    place2.latitude = @13.791343;
-    place2.longitude = @100.587473;
-    
-    NSDictionary *sectionA = [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects:place1, nil], @"suggestion_place", nil];
-    NSDictionary *sectionB = [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObjects:place2, nil], @"additional_place", nil];
-    return [NSArray arrayWithObjects:sectionA, sectionB, nil];
+    return places_;
 }
 
-- (NSArray *)placesWithQueryParams:(NSDictionary *)params
+- (void)placesWithQueryParams:(NSDictionary *)params
 {
-    return nil;
+    NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:params];
+    [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
+        loader.onDidLoadObjects = ^(NSArray *objects){
+            places_ = [objects sectionsGroupedByKeyPath:@"type"];
+            
+            // Post notification with category array
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlacesLoadingFinish object:places_];
+        };
+    }];
 }
 
 #pragma mark - RKObjectLoader Delegate
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObject:(id)object
 {
-    if ([objectLoader wasSentToResourcePath:@"/api/reports"]) {
-        ODMReport *report = (ODMReport*)object;
-        ODMLog(@"******* SEND report title %@", [report title]);
-    }
+    RKLogError(@"******* SUCCESSFULLY SEND %@", object);
 }
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error

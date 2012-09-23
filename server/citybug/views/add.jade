@@ -42,6 +42,18 @@
                 label(for="category2") category2 (cat2)
                 .input
                     input(type='text', name='categories')
+                label(for="place_id") Place ID from 4sq
+                .input
+                    input(type='text', id='place_id', name='place_id')
+                label(for="place_id") Place title 
+                .input
+                    input(type='text', id='place_id', name='place_title')
+                label(for="place_id") Place lat
+                .input
+                    input(type='text', id='place_id', name='place_lat')
+                label(for="place_id") Place lng
+                .input
+                    input(type='text', id='place_id', name='place_lng')
             fieldset
                 .actions
                     input(type='submit', value="Save", onclick='sendMessage()')

@@ -53,11 +53,12 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     
 //    entries = [dataManager getEntryList];
     entries = [self getMockupData];
+
     if (!entries) {
         entries = [NSArray new];
     }
@@ -132,8 +133,8 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 {
     // POST report to server
     ODMReport *report = [[ODMReport alloc] init];
-    report.title = @"PostAAAA";
-    report.note = @"กกกกกกกก __#$%@#$%@$% ขขขขขขขข";
+    report.title = @"สวัสดี ABVZX asdf;lk";
+    report.note = @"กกกกกกกกกกกกไไไไไไไกกก __#$%@#$%@$#$^@$%^% ขขขขขขขข";
     report.latitude = @13.791343;
     report.longitude = @100.587473;
     report.fullImage = [UIImage imageNamed:@"1.jpeg"];
@@ -144,7 +145,7 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     report.categories = [NSArray arrayWithObject:category];
     
     // Add place to report by associated object
-    ODMPlace *place = [ODMPlace placeWithTitle:@"Opendream" latitude:report.latitude longitude:report.longitude uid:@"505a8ef3cea52e3676000001"];
+    ODMPlace *place = [ODMPlace placeWithTitle:@"Opendream" latitude:report.latitude longitude:report.longitude uid:@"505a8ef3cea52e3676000001" type:@"suggested"];
     report.place = place;
     
     // Call DataManager with new report
@@ -165,15 +166,13 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 }
 
 - (IBAction)refreshButtonTapped:(id)sender {
-    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
-    entries = [dataManager getEntryList];
+
     [self.tableView reloadData];
 
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"clickedButtonAtIndex");
     picker =  [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = YES;
@@ -217,12 +216,9 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
         [assetsLib assetForURL:pictureURL resultBlock:resultblock failureBlock:failureblock];
     }
     
-    [self performSelector:@selector(performSegueWithIdentifier:sender:) withObject:gotoFormSegue afterDelay:1.f];
-    [self dismissModalViewControllerAnimated: YES];
-    
+    [self dismissModalViewControllerAnimated:YES];
+    [self performSegueWithIdentifier:gotoFormSegue sender:self];
 }
-
-
 
 #pragma mark - segue
 

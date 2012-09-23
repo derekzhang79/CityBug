@@ -10,10 +10,14 @@ module.exports = function(app, express){
 	app.get('/add', api.add);
 	app.get('/api/reports', api.reports);
 	app.post('/api/reports', api.report_post);
-	app.get('/api/reports/*', api.report);
+	app.get('/api/report/*', api.report);
+
+	//comment
+	app.get('/add_comment', api.add_comment);
+	app.post('/api/report/*/comment', api.comment_post);
 
 	//place
-	app.get('/callback', place.callback);
+	app.get('/callback_place_search', place.callback_place_search);
 	app.get('/api/place/search', place.place_search)
 
 	//categories

@@ -54,12 +54,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="CityBug" id="yRl-mM-wfn">
-                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="Vzv-mi-JjT">
-                            <connections>
-                                <action selector="createNewReport:" destination="tWb-Y8-6bh" id="hZ9-rQ-CyX"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Yxx-9y-5wn">
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="Yxx-9y-5wn">
                             <connections>
                                 <action selector="addButtonTapped:" destination="tWb-Y8-6bh" id="Q8f-mf-gDb"/>
                             </connections>
