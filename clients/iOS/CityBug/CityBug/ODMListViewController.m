@@ -41,7 +41,12 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 }
 
-
+- (NSArray *)getMockupData
+{
+    NSDictionary *sampleData = [NSDictionary dictionaryWithKeysAndObjects:@"MyTitle", @"title", nil];
+    NSArray *result = [NSArray arrayWithObject:sampleData];
+    return result;
+}
 
 #pragma mark - View's Life Cycle
 
@@ -51,7 +56,8 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     
-    entries = [dataManager getEntryList];
+//    entries = [dataManager getEntryList];
+    entries = [self getMockupData];
     if (!entries) {
         entries = [NSArray new];
     }
@@ -247,18 +253,18 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
         if ([[imagePath substringToIndex:1] isEqualToString:@"."]) {
             imagePath = [imagePath substringFromIndex:1];
         }
-        imagePath = [BASE_URL stringByAppendingString:imagePath];
+//        imagePath = [BASE_URL stringByAppendingString:imagePath];
 //        UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:1];
 //        [thumbnailImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
 
 
     });
     
-    UILabel *titleLabel = (UILabel *)[cell viewWithTag:3];
-    titleLabel.text = [aEntry objectForKey:@"title"];
+//    UILabel *titleLabel = (UILabel *)[cell viewWithTag:3];
+//    titleLabel.text = [aEntry objectForKey:@"title"];
     
-    UILabel *noteLabel = (UILabel *)[cell viewWithTag:2];
-    noteLabel.text = [aEntry objectForKey:@"note"]; 
+//    UILabel *noteLabel = (UILabel *)[cell viewWithTag:2];
+//    noteLabel.text = [aEntry objectForKey:@"note"]; 
 }
 
 
