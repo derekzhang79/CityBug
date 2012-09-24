@@ -87,4 +87,6 @@
         commentVC.delegate = self;
     }
 }
+- (IBAction)addCommentButtonTapped:(id)sender {
+}
 @end

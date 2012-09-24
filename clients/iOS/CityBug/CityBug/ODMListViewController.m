@@ -48,12 +48,6 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 @synthesize location;
 
-- (NSArray *)getMockupData
-{
-    NSDictionary *sampleData = [NSDictionary dictionaryWithKeysAndObjects:@"MyTitle", @"title", nil];
-    NSArray *result = [NSArray arrayWithObject:sampleData];
-    return result;
-}
 
 #pragma mark - View's Life Cycle
 
@@ -235,7 +229,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
         
     }
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
-        ODMDescriptionViewController *DetailViewController = (ODMDescriptionViewController *) segue.destinationViewController;
+        ODMReportDetailViewController *DetailViewController = (ODMReportDetailViewController *) segue.destinationViewController;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
         DetailViewController.entry = [datasource objectAtIndex:indexPath.row];
     }
