@@ -88,13 +88,13 @@ exports.add_comment = function(req, res){
 
 // GET /api/reports >> get list of entries
 exports.all_reports = function(req, res) {
-    console.log('Get report list');
+    console.log('Get all report list');
 
     // Query all report with all attribute
     // create custom json because relation database that 
     // report can get comment, but comment can get only _id 
     // so we query user in comment and make a new json
-    // Query all report with all attribute
+    
     var new_report = [];
     var queryCount = 0;
     var maxQueryCount = 0;
@@ -198,9 +198,111 @@ exports.all_reports = function(req, res) {
     });
 };
 
+function getAllReports(queryString, callbackFunction) {
+        // Query all report with all attribute
+    // create custom json because relation database that 
+    // report can get comment, but comment can get only _id 
+    // so we query user in comment and make a new json
+    
+    var new_report = [];
+    var queryCount = 0;
+    var maxQueryCount = 0;
+    model.Report.find(queryString)
+        .populate('user','username email thumbnail_image')
+        .populate('categories','title')
+        .populate('comments')
+        .populate('imins')
+        .populate('place')
+        .exec(function (err, report) {
+            if (err) { 
+                console.log(err);
+            }
+
+            // have none of report
+            if (report.length == 0 || report == null) {
+                callbackFunction(report);
+                return;
+            };
+
+
+            // find max comment, imin
+            // find need to do before query
+            for (r in report) {
+                for (i in report[r].comments) {
+                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                        if (i == 0) {
+                            maxQueryCount++;
+                        };
+                    }
+                    if (report[r].imins._id != undefined && report[r].imins.length > 0) {
+                        if (i == 0) {
+                            maxQueryCount++;
+                        };
+                    };
+                }
+            }
+
+            for (r in report) {
+                
+                // add query comment where _id:id or _id:id .... 
+                var query_comments = {};
+                query_comments["$or"] = [];
+                for (i in report[r].comments) {
+                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                        query_comments["$or"].push({"_id":report[r].comments[i]._id});
+                    }
+                }
+
+                // add query imin where _id:id or _id:id .... 
+                var query_imins = {};
+                query_imins["$or"] = [];
+                for (i in report[r].imins) {
+                    if (report[r].imins[i]._id != undefined && report[r].imins.length > 0) {
+                        query_imins["$or"].push({"_id":report[r].imins[i]._id});
+                    }
+                }
+
+                // get all comment
+                queryListComment(query_comments, r, function(comments, index, isQueryComment) {
+
+                    // get all imin
+                    queryListImin(query_imins, index, function(imins, index, isQueryImins) {
+                        // add data to report
+                        new_report.push(
+                            {"user":report[index].user,
+                             "_id":report[index]._id,
+                             "comments":comments,
+                             "title":report[index].title,
+                             "lat":report[index].lat,
+                             "lng":report[index].lng,
+                             "note":report[index].note,
+                             "full_image":report[index].full_image,
+                             "thumbnail_image":report[index].thumbnail_image,
+                             "is_resolved":report[index].is_resolved,
+                             "categories":report[index].categories,
+                             "place":report[index].place,
+                             "imins":imins,
+                             "last_modified":report[index].last_modified,
+                             "created_at":report[index].created_at
+                            });
+
+                        if (isQueryComment || isQueryImins) {
+                            queryCount++;
+                        };
+                        if (maxQueryCount == queryCount) {
+
+                            // All Report with all field
+                            callbackFunction(new_report);
+                        }
+                    });
+                });   
+            }
+    });
+}
+
 function isSignInWithUser(currentUser) {
-    // return true;
-    return false;
+    return true;
+    // return false;
 }
 
 function getCurrentUserID(tmp) {
@@ -214,82 +316,86 @@ exports.reports = function(req, res) {
     var currentLat = req.query.lat;
     var currentLng = req.query.lng;
 
-    var currentUserID = getCurrentUserID(req.headers);
+    // var currentUserID = getCurrentUserID(req.headers);
+    var currentUsername = req.query.username;
+    var currentPassword = req.query.password;
 
-    model.User.findOne({_id: currentUserID}, function(err,currentUser) { 
+    // model.User.findOne({_id: currentUserID}, function(err,currentUser) { 
 
+    model.User.findOne( { $and: [ { username: currentUsername }, { password: currentPassword } ] } , function(err,currentUser) { 
         if (err ) {
             console.log("Can not find user id with error"+ err);
             return;
         }
         else if (currentUser == null || currentUser == undefined  || isSignInWithUser(currentUser) == false ) {
-            console.log("Can not find user id "+ currentUserID);
-            model.Report.find({})
-                .populate('user','username email thumbnail_image')
-                .populate('categories','title')
-                .populate('comments')
-                .populate('imins')
-                .populate('place')
+            console.log("Can not find user at /api/reports");
 
-                .exec(function (err, report) {
-                    if (err) { 
-                        console.log(err);
-                        return;
-                    } else if (report == null) {
-                        //Response to client
-                        console.log("report is null");
-                        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                        res.write('{ "reports":' + JSON.stringify(report) + '}');
-                        res.end();
-                        return;
-                    }
-
-                    //ถ้า USER ไม่ sign in และมี lat lng จะแสดง feed โดยเรียงลำดับตามระยะห่าง เทียบกับ report.lat lng (30อันแรก)
-                    if ( currentLat != null && currentLng != null ) {
-                        console.log("Not signin & current lat ="+ currentLat+" lng = "+ currentLng);
-                        //sort by distance
-                        for ( i in report ) {
-                            if (report[i].place == null) {
-                                report[i].place = new model.Place();
-                            }
-                            report[i].place.distance = service.distanceCalculate(currentLat, currentLng, report[i].lat, report[i].lng);
-                            console.log("distance > " + i + " => "+ report[i].place.distance);
-                        }
-                        //ใช้ตัวแปร distance จาก place 
-                        report = report.sort(function(a, b) {
-                            if (a.place.distance < b.place.distance) { return -1; }
-                            if (a.place.distance > b.place.distance) { return  1; }
-                            return 0;
-                        });
-                    
-                    }
-                    //ถ้า USER ไม่ sign in และไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน 
-                    else if ( currentLat == null || currentLng == null ) {
-                        console.log("Not signin & current lat lng is null");
-                        report = report.sort(function(a, b) {
-                            return new Date(a.last_modified).getTime() - new Date(b.last_modified).getTime();
-                        });
-                    }
-
-                    //Get only first 30 sorted reports
-                    var thirtyReports;
-                    if (report != null && report.length > 30) 
-                        thirtyReports = report.slice(0,30);
-                    else
-                        thirtyReports = report;
-
+            getAllReports({}, function(report){
+                if (err) { 
+                    console.log(err);
+                    return;
+                } else if (report == null) {
                     //Response to client
+                    console.log("report is null");
                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.write('{ "reports":' + JSON.stringify(thirtyReports) + '}');
+                    res.write('{ "reports":' + JSON.stringify(report) + '}');
                     res.end();
                     return;
+                }
+
+                //ถ้า USER ไม่ sign in และมี lat lng จะแสดง feed โดยเรียงลำดับตามระยะห่าง เทียบกับ report.lat lng (30อันแรก)
+                if ( currentLat != null && currentLng != null ) {
+                    console.log("Not signin & current lat ="+ currentLat+" lng = "+ currentLng);
+                    //sort by distance
+                    for ( i in report ) {
+                        if (report[i].place == null) {
+                            report[i].place = new model.Place();
+                        }
+                        report[i].place.distance = service.distanceCalculate(currentLat, currentLng, report[i].lat, report[i].lng);
+                        console.log("distance > " + i + " => "+ report[i].place.distance);
+                    }
+                    //ใช้ตัวแปร distance จาก place 
+                    report = report.sort(function(a, b) {
+                        if (a.place.distance < b.place.distance) { return -1; }
+                        if (a.place.distance > b.place.distance) { return  1; }
+                        return 0;
+                    });
+                
+                }
+                //ถ้า USER ไม่ sign in และไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน 
+                else if ( currentLat == null || currentLng == null ) {
+                    console.log("Not signin & current lat lng is null");
+                    report = report.sort(function(a, b) {
+                        return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
+                    });
+                }
+
+                //Get only first 30 sorted reports
+                var thirtyReports;
+                if (report != null && report.length > 30) 
+                    thirtyReports = report.slice(0,30);
+                else
+                    thirtyReports = report;
+
+                //Response to client
+                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write('{ "reports":' + JSON.stringify(thirtyReports) + '}');
+                res.end();
+                return;
             });
-        } else if ( isSignInWithUser(currentUser) == true ) {
+        } else if ( currentUser != null && isSignInWithUser(currentUser) == true ) {
             //ถ้า USER sign in จะแสดง feed โดยเรียงลำดับตามเวลาที่แก้ไขล่าสุด และ แสดงเฉพาะสถานที่(place) ที่ถูก subscribe เท่านั้น 
-            console.log("loged in with user "+ currentUser);
+            console.log("logged in with user "+ currentUser);
             model.Subscription.find({user: currentUser}, function(err,subscribes) { 
                 if (err || subscribes == null || subscribes.length < 1) {
+                    // ถ้า User sign in แล้ว แต่ไม่ได้ subscribe ใครเลย และมี location จะแสดง feed โดยเรียงลำดับตามระยะห่าง และเอาแค่ 30 อัน แรก แต่ถ้าไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน
                     console.log("Can not find subscription with error "+ err);
+
+                    //Response to client
+                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                    res.write('Can not find subscription');
+                    res.end();
+
                 } else {
                     // create query where subscribe.user._id = "user._id"
                     var query = {};
@@ -308,19 +414,12 @@ exports.reports = function(req, res) {
                         qq = query;
                     }
                     //find only subscribed report
-                     model.Report.find(qq)
-                    .populate('user','username email thumbnail_image')
-                    .populate('categories','title')
-                    .populate('comments')
-                    .populate('imins')
-                    .populate('place')
-
-                    .exec(function (err, report) {
+                    getAllReports(qq, function(report){
                         if (err) { 
                             console.log("can not find report with error "+err);
                         }
                         report = report.sort(function(a, b) {
-                            return new Date(a.last_modified).getTime() - new Date(b.last_modified).getTime();
+                            return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
                         });
 
                         //Get only first 30 sorted places
@@ -364,7 +463,8 @@ exports.report = function(req, res) {
         .populate('place')
         .exec(function (err, report) {
             if (err) { 
-                return handleError(err);
+                console.log(err);
+                return;
             }
 
             // have none of report
@@ -435,11 +535,6 @@ exports.report = function(req, res) {
                         queryCount++;
                     };
                     if (maxQueryCount == queryCount) {
-
-                        // implement sort here //
-                        //                     //
-                        //                     //
-                        /////////////////////////
 
                         res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                         res.write('{ "reports":' + JSON.stringify(new_report) + '}');

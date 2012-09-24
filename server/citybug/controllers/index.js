@@ -16,6 +16,21 @@ exports.index = function(req, res){
     //add mockup user 
     model.User.find({} , function(err,allUser) { 
         if (err || allUser == null || allUser.length < 1) {
+            var user2 = new model.User();
+            user2.username = 'admin';
+            user2.password = '1q2w3e4r';
+            user2.email = '123@ggg.com';
+            user2.created_at = new Date();
+            user2.last_modified = new Date();
+            user2.save(function (err){
+                if (err) {
+                    console.log(err);
+                    // do something
+                } else {
+                    console.log('saved user' + user);
+                }
+            }); 
+            
             var user = new model.User();
             user.username = 'qwerty';
             user.password = '1234';
@@ -31,20 +46,7 @@ exports.index = function(req, res){
                 }
             }); 
 
-            var user2 = new model.User();
-            user2.username = 'admin';
-            user2.password = '1q2w3e4r';
-            user2.email = '123@ggg.com';
-            user2.created_at = new Date();
-            user2.last_modified = new Date();
-            user2.save(function (err){
-                if (err) {
-                    console.log(err);
-                    // do something
-                } else {
-                    console.log('saved user' + user);
-                }
-            }); 
+            
         }
     });
 
@@ -184,14 +186,13 @@ exports.index = function(req, res){
         .populate('place')
         .exec(function (err, report) {
             if (err) { 
-                return handleError(err);
+                console.log(err);
+                return;
             }
 
             // have none of report
             if (report.length == 0) {
-                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                res.write('{ "reports":' + JSON.stringify(report) + '}');
-                res.end();
+                res.render('index.jade',{title: 'City bug',report: report});
             };
 
 
@@ -266,7 +267,7 @@ exports.index = function(req, res){
                             //                     //
                             /////////////////////////
 
-                            res.render('index.jade',{title: 'City bug',report: new_report})
+                            res.render('index.jade',{title: 'City bug',report: new_report});
                         }
                     });
                 });   
