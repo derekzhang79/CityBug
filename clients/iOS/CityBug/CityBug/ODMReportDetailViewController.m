@@ -17,9 +17,11 @@
     NSMutableDictionary *commentDict;
     NSMutableArray *commentArray;
 }
-
-@synthesize amountInLabel;
+@synthesize reportImageView;
+@synthesize titleLabel;
 @synthesize locationLabel;
+@synthesize CommentLabel;
+
 
 
 - (void)reloadData
@@ -35,21 +37,10 @@
     } else {
         location = @"";
     }
-    
-    //    NSString *imagePath = [BASE_URL stringByAppendingString:[self.entry objectForKey:@"full_image"]];
-    //    [self.bugImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
-//    self.noteLabel.text = @"Biscuit brownie caramels apple pie wafer";
+
+    self.titleLabel.text = @"Biscuit brownie caramels apple pie wafer";
     self.locationLabel.text = location;
 
-}
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
 }
 
 - (void)viewDidLoad
@@ -67,54 +58,17 @@
 
 - (void)viewDidUnload
 {
-    [self setAmountInLabel:nil];
+
     [self setLocationLabel:nil];
+    [self setReportImageView:nil];
+    [self setTitleLabel:nil];
+    [self setCommentLabel:nil];
     [super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    NSInteger numberOfRow = [commentArray count];
-    return numberOfRow;
-    
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    // Configure the cell...
-
-    cell.detailTextLabel.text = @"Wooo";
-    return cell;
-}
-
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    NSString *result = [NSString stringWithFormat:@"Title: %@", [self.entry objectForKey:@"title"]];
-    if (section == 0)
-    {
-        return result;
-    }
-    return @"Comment";
-}
-
-
-- (IBAction)addCommentButtonTapped:(id)sender {
 }
 
 #pragma mark - FormField Delegate
@@ -125,9 +79,9 @@
     [commentDict setObject:comment forKey:@"comment"];
     [commentDict setObject:@"Plloy" forKey:@"user"];
     [commentArray addObject:commentDict];
+    self.CommentLabel.text = comment;
     
 }
-
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

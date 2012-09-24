@@ -12,12 +12,15 @@
 
 
 
-@interface ODMReportDetailViewController : UITableViewController<UITextFieldDelegate, ODMReportCommentDelegate>
+@interface ODMReportDetailViewController : UIViewController<UITextFieldDelegate, ODMReportCommentDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *amountInLabel;
-@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+
 
 @property (weak, nonatomic) NSDictionary *entry;
+@property (weak, nonatomic) IBOutlet UIImageView *reportImageView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *CommentLabel;
 
 
 @end
