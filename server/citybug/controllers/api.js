@@ -28,8 +28,12 @@ exports.comment_post = function(req, res) {
     //Find User by username from request
     model.User.findOne({username:req.body.username}, function (err, user){
         //add comment
-        if (err || user == null) {
+        if (err) {
             console.log(err);
+        } else if (user == null || user == undefined) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write("Can not add new comment, cannot find user Please use format /api/report/:id/comment");
+            res.end();
         } else {
             var newComment = new model.Comment();
             newComment.text = req.body.text;
@@ -40,23 +44,35 @@ exports.comment_post = function(req, res) {
             newComment.save(function (err){
                 if (err) {
                     console.log(err);
+                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                    res.write("Can not add new comment, save failed");
+                    res.end();
                 } else {
                     // find report by id
                     model.Report.findOne({_id:currentID}, function(err, report) {
                         if (err) {
                             console.log('err' + err);
+                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.write("Can not add new comment, cannot find user Please use format /api/report/:id/comment");
+                            res.end();
+                        } else if (report == null || report == undefined) {
+                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.write("Can not add new comment, wrong report ID\n Please use format /api/report/:id/comment");
+                            res.end();
                         } else {
-                            console.log('new comment '+report);
+                            console.log('new comment ' + report);
                             report.comments.push(newComment._id);
                             report.save(function (err){
                                 if (err) {
                                     console.log(err);
+                                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                                    res.write("Can not add new comment, save comments failed");
+                                    res.end();
                                 } else {
                                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                                     res.write(JSON.stringify(report));
                                     res.end();
                                 }
-
                             });
                         }
                     });
@@ -64,8 +80,6 @@ exports.comment_post = function(req, res) {
             });
         } 
     });
-
-    
 }
 
 exports.add_comment = function(req, res){
@@ -73,23 +87,357 @@ exports.add_comment = function(req, res){
 };
 
 // GET /api/reports >> get list of entries
-exports.reports = function(req, res) {
-    console.log('Get report list');
+exports.all_reports = function(req, res) {
+    console.log('Get all report list');
 
+    // Query all report with all attribute
+    // create custom json because relation database that 
+    // report can get comment, but comment can get only _id 
+    // so we query user in comment and make a new json
+    
+    var new_report = [];
+    var queryCount = 0;
+    var maxQueryCount = 0;
     model.Report.find({})
         .populate('user','username email thumbnail_image')
         .populate('categories','title')
         .populate('comments')
         .populate('imins')
         .populate('place')
-
         .exec(function (err, report) {
             if (err) { 
-                return handleError(err);
+                console.log(err);
             }
-            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write('{ "reports":' + JSON.stringify(report) + '}');
-            res.end();
+
+            // have none of report
+            if (report.length == 0) {
+                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write('{ "reports":' + JSON.stringify(report) + '}');
+                res.end();
+            };
+
+
+            // find max comment, imin
+            // find need to do before query
+            for (r in report) {
+                for (i in report[r].comments) {
+                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                        if (i == 0) {
+                            maxQueryCount++;
+                        };
+                    }
+                    if (report[r].imins._id != undefined && report[r].imins.length > 0) {
+                        if (i == 0) {
+                            maxQueryCount++;
+                        };
+                    };
+                }
+            }
+
+            for (r in report) {
+                
+                // add query comment where _id:id or _id:id .... 
+                var query_comments = {};
+                query_comments["$or"] = [];
+                for (i in report[r].comments) {
+                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                        query_comments["$or"].push({"_id":report[r].comments[i]._id});
+                    }
+                }
+
+                // add query imin where _id:id or _id:id .... 
+                var query_imins = {};
+                query_imins["$or"] = [];
+                for (i in report[r].imins) {
+                    if (report[r].imins[i]._id != undefined && report[r].imins.length > 0) {
+                        query_imins["$or"].push({"_id":report[r].imins[i]._id});
+                    }
+                }
+
+                // get all comment
+                queryListComment(query_comments, r, function(comments, index, isQueryComment) {
+
+                    // get all imin
+                    queryListImin(query_imins, index, function(imins, index, isQueryImins) {
+                        // add data to report
+                        new_report.push(
+                            {"user":report[index].user,
+                             "_id":report[index]._id,
+                             "comments":comments,
+                             "title":report[index].title,
+                             "lat":report[index].lat,
+                             "lng":report[index].lng,
+                             "note":report[index].note,
+                             "full_image":report[index].full_image,
+                             "thumbnail_image":report[index].thumbnail_image,
+                             "is_resolved":report[index].is_resolved,
+                             "categories":report[index].categories,
+                             "place":report[index].place,
+                             "imins":imins,
+                             "last_modified":report[index].last_modified,
+                             "created_at":report[index].created_at
+                            });
+
+                        if (isQueryComment || isQueryImins) {
+                            queryCount++;
+                        };
+                        if (maxQueryCount == queryCount) {
+
+                            // implement sort here //
+                            //                     //
+                            //                     //
+                            /////////////////////////
+
+                            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.write('{ "reports":' + JSON.stringify(new_report) + '}');
+                            res.end();
+                        }
+                    });
+                });   
+            }
+    });
+};
+
+function getAllReports(queryString, callbackFunction) {
+        // Query all report with all attribute
+    // create custom json because relation database that 
+    // report can get comment, but comment can get only _id 
+    // so we query user in comment and make a new json
+    
+    var new_report = [];
+    var queryCount = 0;
+    var maxQueryCount = 0;
+    model.Report.find(queryString)
+        .populate('user','username email thumbnail_image')
+        .populate('categories','title')
+        .populate('comments')
+        .populate('imins')
+        .populate('place')
+        .exec(function (err, report) {
+            if (err) { 
+                console.log(err);
+            }
+
+            // have none of report
+            if (report.length == 0 || report == null) {
+                callbackFunction(report);
+                return;
+            };
+
+
+            // find max comment, imin
+            // find need to do before query
+            for (r in report) {
+                for (i in report[r].comments) {
+                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                        if (i == 0) {
+                            maxQueryCount++;
+                        };
+                    }
+                    if (report[r].imins._id != undefined && report[r].imins.length > 0) {
+                        if (i == 0) {
+                            maxQueryCount++;
+                        };
+                    };
+                }
+            }
+
+            for (r in report) {
+                
+                // add query comment where _id:id or _id:id .... 
+                var query_comments = {};
+                query_comments["$or"] = [];
+                for (i in report[r].comments) {
+                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                        query_comments["$or"].push({"_id":report[r].comments[i]._id});
+                    }
+                }
+
+                // add query imin where _id:id or _id:id .... 
+                var query_imins = {};
+                query_imins["$or"] = [];
+                for (i in report[r].imins) {
+                    if (report[r].imins[i]._id != undefined && report[r].imins.length > 0) {
+                        query_imins["$or"].push({"_id":report[r].imins[i]._id});
+                    }
+                }
+
+                // get all comment
+                queryListComment(query_comments, r, function(comments, index, isQueryComment) {
+
+                    // get all imin
+                    queryListImin(query_imins, index, function(imins, index, isQueryImins) {
+                        // add data to report
+                        new_report.push(
+                            {"user":report[index].user,
+                             "_id":report[index]._id,
+                             "comments":comments,
+                             "title":report[index].title,
+                             "lat":report[index].lat,
+                             "lng":report[index].lng,
+                             "note":report[index].note,
+                             "full_image":report[index].full_image,
+                             "thumbnail_image":report[index].thumbnail_image,
+                             "is_resolved":report[index].is_resolved,
+                             "categories":report[index].categories,
+                             "place":report[index].place,
+                             "imins":imins,
+                             "last_modified":report[index].last_modified,
+                             "created_at":report[index].created_at
+                            });
+
+                        if (isQueryComment || isQueryImins) {
+                            queryCount++;
+                        };
+                        if (maxQueryCount == queryCount) {
+
+                            // All Report with all field
+                            callbackFunction(new_report);
+                        }
+                    });
+                });   
+            }
+    });
+}
+
+function isSignInWithUser(currentUser) {
+    return true;
+    // return false;
+}
+
+function getCurrentUserID(tmp) {
+    return '505c0e2451a3f4ab11000003';
+}
+
+// GET /api/reports >> get list of reports
+exports.reports = function(req, res) {
+    console.log('Get report list');
+
+    var currentLat = req.query.lat;
+    var currentLng = req.query.lng;
+
+    // var currentUserID = getCurrentUserID(req.headers);
+    var currentUsername = req.query.username;
+    var currentPassword = req.query.password;
+
+    // model.User.findOne({_id: currentUserID}, function(err,currentUser) { 
+
+    model.User.findOne( { $and: [ { username: currentUsername }, { password: currentPassword } ] } , function(err,currentUser) { 
+        if (err ) {
+            console.log("Can not find user id with error"+ err);
+            return;
+        }
+        else if (currentUser == null || currentUser == undefined  || isSignInWithUser(currentUser) == false ) {
+            console.log("Can not find user at /api/reports");
+
+            getAllReports({}, function(report){
+                if (err) { 
+                    console.log(err);
+                    return;
+                } else if (report == null) {
+                    //Response to client
+                    console.log("report is null");
+                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                    res.write('{ "reports":' + JSON.stringify(report) + '}');
+                    res.end();
+                    return;
+                }
+
+                //ถ้า USER ไม่ sign in และมี lat lng จะแสดง feed โดยเรียงลำดับตามระยะห่าง เทียบกับ report.lat lng (30อันแรก)
+                if ( currentLat != null && currentLng != null ) {
+                    console.log("Not signin & current lat ="+ currentLat+" lng = "+ currentLng);
+                    //sort by distance
+                    for ( i in report ) {
+                        if (report[i].place == null) {
+                            report[i].place = new model.Place();
+                        }
+                        report[i].place.distance = service.distanceCalculate(currentLat, currentLng, report[i].lat, report[i].lng);
+                        console.log("distance > " + i + " => "+ report[i].place.distance);
+                    }
+                    //ใช้ตัวแปร distance จาก place 
+                    report = report.sort(function(a, b) {
+                        if (a.place.distance < b.place.distance) { return -1; }
+                        if (a.place.distance > b.place.distance) { return  1; }
+                        return 0;
+                    });
+                
+                }
+                //ถ้า USER ไม่ sign in และไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน 
+                else if ( currentLat == null || currentLng == null ) {
+                    console.log("Not signin & current lat lng is null");
+                    report = report.sort(function(a, b) {
+                        return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
+                    });
+                }
+
+                //Get only first 30 sorted reports
+                var thirtyReports;
+                if (report != null && report.length > 30) 
+                    thirtyReports = report.slice(0,30);
+                else
+                    thirtyReports = report;
+
+                //Response to client
+                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write('{ "reports":' + JSON.stringify(thirtyReports) + '}');
+                res.end();
+                return;
+            });
+        } else if ( currentUser != null && isSignInWithUser(currentUser) == true ) {
+            //ถ้า USER sign in จะแสดง feed โดยเรียงลำดับตามเวลาที่แก้ไขล่าสุด และ แสดงเฉพาะสถานที่(place) ที่ถูก subscribe เท่านั้น 
+            console.log("logged in with user "+ currentUser);
+            model.Subscription.find({user: currentUser}, function(err,subscribes) { 
+                if (err || subscribes == null || subscribes.length < 1) {
+                    // ถ้า User sign in แล้ว แต่ไม่ได้ subscribe ใครเลย และมี location จะแสดง feed โดยเรียงลำดับตามระยะห่าง และเอาแค่ 30 อัน แรก แต่ถ้าไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน
+                    console.log("Can not find subscription with error "+ err);
+
+                    //Response to client
+                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                    res.write('Can not find subscription');
+                    res.end();
+
+                } else {
+                    // create query where subscribe.user._id = "user._id"
+                    var query = {};
+                    query["$or"] = [];
+                    for (i in subscribes) {
+                        console.log(i + " subscribes >> "+ subscribes[i]);
+                        if (subscribes[i].place != null && subscribes[i].place != undefined) {
+                            query["$or"].push({"place":subscribes[i].place}); //check report.place is in subscribe
+                        }
+                    }
+
+                    console.log("query[$or] subscribe is => "+ query["$or"]);
+
+                    var qq = {};
+                    if(query["$or"].length != 0) {
+                        qq = query;
+                    }
+                    //find only subscribed report
+                    getAllReports(qq, function(report){
+                        if (err) { 
+                            console.log("can not find report with error "+err);
+                        }
+                        report = report.sort(function(a, b) {
+                            return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
+                        });
+
+                        //Get only first 30 sorted places
+                        var thirtyReports;
+                        if (report != null && report.length > 30) 
+                            thirtyReports = report.slice(0,30);
+                        else
+                            thirtyReports = report;
+
+                        //Response to client
+                        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                        res.write('{ "reports":' + JSON.stringify(thirtyReports) + '}');
+                        res.end();
+                    });
+                }
+            });
+                
+        } 
     });
 };
 
@@ -98,8 +446,15 @@ exports.report = function(req, res) {
     var url = req.url;
     var currentID = url.match( /[^\/]+\/?$/ );
 
-    // create josn
-    var json_report = [];
+    
+    // Query all report with all attribute
+    // create custom json because relation database that 
+    // report can get comment, but comment can get only _id 
+    // so we query user in comment and make a new json
+    // Query all report with all attribute
+    var new_report = [];
+    var queryCount = 0;
+    var maxQueryCount = 0;
     model.Report.findOne({_id:currentID})
         .populate('user','username email thumbnail_image')
         .populate('categories','title')
@@ -108,24 +463,60 @@ exports.report = function(req, res) {
         .populate('place')
         .exec(function (err, report) {
             if (err) { 
-                return handleError(err);
+                console.log(err);
+                return;
             }
 
-            // create query whete _id = "comment._id"
-            var query = {};
-            query["$or"] = [];
+            // have none of report
+            if (report.length == 0) {
+                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write('{ "reports":' + JSON.stringify(report) + '}');
+                res.end();
+            };
+
+
+            // find max comment, imin
+            // find need to do before query
             for (i in report.comments) {
                 if (report.comments[i]._id != undefined && report.comments.length > 0) {
-                    query["$or"].push({"_id":report.comments[i]._id});
+                    if (i == 0) {
+                        maxQueryCount++;
+                    };
+                }
+                if (report.imins._id != undefined && report.imins.length > 0) {
+                    if (i == 0) {
+                        maxQueryCount++;
+                    };
+                };
+            }
+
+            // add query comment where _id:id or _id:id .... 
+            var query_comments = {};
+            query_comments["$or"] = [];
+            for (i in report.comments) {
+                if (report.comments[i]._id != undefined && report.comments.length > 0) {
+                    query_comments["$or"].push({"_id":report.comments[i]._id});
+                }
+            }            
+            // add query imins where _id:id or _id:id ....
+            var query_imins = {};
+            query_imins["$or"] = [];
+            for (i in report.imins) {
+                if (report.imins[i]._id != undefined && report.imins.length > 0) {
+                    query_imins["$or"].push({"_id":report.imins[i]._id});
                 }
             }
 
-            // have none comment add comment to null []
-            if (!(query["$or"].length > 0)) {
-                json_report.push(
+            // get all list 
+            queryListComment(query_comments, 0, function(comments, index, isQueryComment) {
+
+                // get all comment
+                queryListImin(query_imins, 0, function(imins, index, isQueryImins) {
+                    // add data to report
+                    new_report.push(
                         {"user":report.user,
                          "_id":report._id,
-                         "comments":[],
+                         "comments":comments,
                          "title":report.title,
                          "lat":report.lat,
                          "lng":report.lng,
@@ -135,41 +526,23 @@ exports.report = function(req, res) {
                          "is_resolved":report.is_resolved,
                          "categories":report.categories,
                          "place":report.place,
-                         "imins":report.imins,
+                         "imins":imins,
                          "last_modified":report.last_modified,
                          "created_at":report.created_at
+                        });
+
+                    if (isQueryComment || isQueryImins) {
+                        queryCount++;
+                    };
+                    if (maxQueryCount == queryCount) {
+
+                        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                        res.write('{ "reports":' + JSON.stringify(new_report) + '}');
+                        res.end();
+                    }
                 });
-                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                res.write('{ "reports":' + JSON.stringify(json_report) + '}');
-                res.end()
-            } else {
-                // have comment query comment than add to json
-                queryComment(query, function(comments) {
-                    json_report.push(
-                    {"user":report.user,
-                     "_id":report._id,
-                     "comments":comments,
-                     "_id":report._id,
-                     "title":report.title,
-                     "lat":report.lat,
-                     "lng":report.lng,
-                     "note":report.note,
-                     "full_image":report.full_image,
-                     "thumbnail_image":report.thumbnail_image,
-                     "is_resolved":report.is_resolved,
-                     "categories":report.categories,
-                     "place":report.place,
-                     "imins":report.imins,
-                     "last_modified":report.last_modified,
-                     "created_at":report.created_at
-                    });
-                    console.log('{ "reports":' + JSON.stringify(json_report) + '}');
-                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.write('{ "reports":' + JSON.stringify(json_report) + '}');
-                    res.end();
-                });
-            }
-            // do not render here because of asyn
+            });   
+        
     });
 };
 
@@ -194,18 +567,13 @@ exports.report_post = function(req, res) {
       });
     };
 
-
     // save data to db
     var report = new model.Report();
     
-    var thumbnail_image_type = req.files.thumbnail_image.type.match( /[^\/]+\/?$/ );
-    var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_type;
-    var full_image_type = req.files.full_image.type.match( /[^\/]+\/?$/ );
-    var full_image_short_path = "/images/report/" + report._id + "." + full_image_type;
     
+    var thumbnail_image_type = req.files.thumbnail_image.type.split("/");
+    var full_image_type = req.files.full_image.type.split("/");
     report.title = req.body.title;
-    report.thumbnail_image = thumbnail_image_short_path;
-    report.full_image = full_image_short_path;
     report.lat = req.body.lat;
     report.lng = req.body.lng;
     report.note = req.body.note;
@@ -213,6 +581,18 @@ exports.report_post = function(req, res) {
     report.imin_count = 0;
     report.last_modified = new Date();
     report.created_at = new Date();
+
+    if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
+        var thumbnail_image_extension = req.files.thumbnail_image.type.match( /[^\/]+\/?$/ );
+        var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_extension;
+        report.thumbnail_image = thumbnail_image_short_path;
+        console.log('noooooooo');
+    };
+    if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
+        var full_image_extension = req.files.full_image.type.match( /[^\/]+\/?$/ );
+        var full_image_short_path = "/images/report/" + report._id + "." + full_image_extension;
+        report.full_image = full_image_short_path;
+    };
 
 /*
     , categories        : [{ type: Schema.Types.ObjectId, ref: 'Category' }]
@@ -241,7 +621,7 @@ exports.report_post = function(req, res) {
         //Category can not add from client
         model.Category.find(query, function(err,catTitleFromClient) { 
           
-            if (!err) {
+            if (!err && catTitleFromClient != null) {
                 for (i in catTitleFromClient ) {
                     // Push category to Report's category list
                     report.categories.push(catTitleFromClient[i]._id);
@@ -249,8 +629,8 @@ exports.report_post = function(req, res) {
                 }
             } else {
                 console.log('err' + err);
-            }
 
+            }
 
             model.Place.findOne({id_foursquare: req.body.place_id }, function(err,place) {   
                 console.log(">>>>>>>>>>>>>>>> " + req.body.place_id);
@@ -263,14 +643,14 @@ exports.report_post = function(req, res) {
                         if (!err){
                             console.log('Success! with ' + report);
                             res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write(JSON.stringify(report));
+                            res.write('{ "reports":' + JSON.stringify(report) + '}');
                             res.end();
                             
                         } else {
                             console.log('Error !'+ err);
                             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write('{ "statusCode":"500", "message":"Add new comment not success with error '+err+'"}');
-                            res.end();
+                            res.write("Canot add new report, save failed");
+                            res.end();
                         }
                     });
                     //--------------------------------------------------------------
@@ -290,6 +670,8 @@ exports.report_post = function(req, res) {
                     newPlace.save(function (err){
                         if (err) {
                             console.log(err);
+                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.write('Canot add new comment, save place failed');
                         } else {
                             console.log('>>> Saved place' + newPlace);
                             report.place = newPlace._id;
@@ -300,14 +682,14 @@ exports.report_post = function(req, res) {
                                 if (!err){
                                     console.log('Success! with ' + report);
                                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                                    res.write(JSON.stringify(report));
+                                    res.write('{ "reports":' + JSON.stringify(report) + '}');
                                     res.end();
                                     
                                 } else {
                                     console.log('Error !'+ err);
                                     res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                                    res.write('{ "statusCode":"500", "message":"Add new report not success with error '+err+'"}');
-                                    res.end();
+                                    res.write("Canot add new comment, save failed");
+                                    res.end();
                                 }
                             });
                             //--------------------------------------------------------------
@@ -321,9 +703,9 @@ exports.report_post = function(req, res) {
 
     // make directory
     fs.mkdirParent("./public/images/report/");
-
+    
     //save picture to /public/images/report/:id
-    if (req.files.thumbnail_image.name) {
+    if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
         // get the temporary location of the file : ./uploads
         var tmp_path = req.files.thumbnail_image.path;
         // set where the file should actually exists - in this case it is in the "images" directory
@@ -346,7 +728,7 @@ exports.report_post = function(req, res) {
     }
 
     // do the same thing
-    if (req.files.full_image.name) {
+    if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
         var tmp_path = req.files.full_image.path;
         var full_image_path = './public' + full_image_short_path;
         fs.rename(tmp_path, full_image_path, function(err) {
@@ -367,27 +749,53 @@ exports.report_post = function(req, res) {
 // GET /api/categories >> get list of categories
 exports.categories = function(req, res) {
     model.Category.find({}, function(err,docs) {
+        if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write("Canot get categories");
+            res.end();
+        }
         res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
         res.write('{ "categories":' + JSON.stringify(docs) + '}');
         res.end();
     });
 }
 
-function queryComment(query, callbackFunction) {
-
+function queryListComment(query, r, callbackFunction) {
+    if (query['$or'].length <= 0) {
+        var emptyQuery = [];
+        callbackFunction(emptyQuery, r, false);
+        return;
+    };
     model.Comment.find(query)
         .populate('user','username email thumbnail_image')
         .exec(function (err, comments) {
             if (err) { 
-                console.log(err);
+                console.log('query comment ' + err);
                 return;
             }
             if (comments != undefined && comments.length > 0) {
-                callbackFunction(comments);  
+                callbackFunction(comments, r, true);                  
             } 
             return;
     });
-
 }
 
-
+function queryListImin(query, r, callbackFunction) {
+    if (query['$or'].length <= 0) {
+        var emptyQuery = [];
+        callbackFunction(emptyQuery, r, false);
+        return;
+    };
+    model.Imin.find(query)
+        .populate('user','username email thumbnail_image')
+        .exec(function (err, imins) {
+            if (err) { 
+                console.log('query imin' + err);
+                return;
+            }
+            if (comments != undefined && comments.length > 0) {
+                callbackFunction(imins, r, true);                  
+            } 
+            return;
+    });
+}
