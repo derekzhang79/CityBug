@@ -108,6 +108,7 @@ exports.index = function(req, res){
     // }); 
 
 
+    // Query all report with all attribute
     var json_report = [];
     var queryCount = 0;
     var maxCommentCount = 0;
@@ -134,7 +135,7 @@ exports.index = function(req, res){
                     }
                 }
 
-                if (!(query["$or"].length > 0)) {
+                if (query["$or"].length <= 0) { //if this report have no comment
                     json_report.push(
                             {"user":report[r].user,
                              "_id":report[r]._id,
@@ -180,6 +181,7 @@ exports.index = function(req, res){
                     });
                 }
             }
+        // Render list all reports page
         res.render('index.jade', { title: 'City bug', report: report });
 
     });
