@@ -7,14 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ODMReportCommentViewController.h"
 
-@interface ODMReportDetailViewController : UITableViewController
-@property (weak, nonatomic) IBOutlet UILabel *noteLabel;
+
+
+
+@interface ODMReportDetailViewController : UITableViewController<UITextFieldDelegate, ODMReportCommentDelegate>
+
 @property (weak, nonatomic) IBOutlet UILabel *amountInLabel;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 
 @property (weak, nonatomic) NSDictionary *entry;
 
-- (IBAction)addCommentButtonTapped:(id)sender;
 
 @end
