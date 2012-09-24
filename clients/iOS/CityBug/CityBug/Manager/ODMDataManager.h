@@ -10,6 +10,9 @@
 #import "ODMCategory.h"
 #import "ODMPlace.h"
 
+// Report
+extern NSString *ODMDataManagerNotificationReportsLoadingFinish;
+extern NSString *ODMDataManagerNotificationReportsLoadingFail;
 // Category
 extern NSString *ODMDataManagerNotificationCategoriesLoadingFinish;
 extern NSString *ODMDataManagerNotificationCategoriesLoadingFail;

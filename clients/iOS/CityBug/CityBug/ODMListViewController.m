@@ -16,6 +16,10 @@
 #import <ImageIO/CGImageProperties.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
+#import "ODMActivityFeedViewCell.h"
+
+#import "UIImageView+WebCache.h"
+
 #define kSceenSize self.parentViewController.view.frame.size
 #define CAMERA_SCALAR 1.32
 
@@ -31,15 +35,15 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 @implementation ODMListViewController {
     UIImage *imageToSave;
     UIImagePickerController *picker;
-    NSArray *entries;
+    NSArray *datasource;
     
     ALAssetsLibraryAssetForURLResultBlock resultblock;
     ALAssetsLibraryAccessFailureBlock failureblock;
     ALAssetsLibrary *assetsLib;
     CLLocation *location;
-
-
 }
+
+@synthesize location;
 
 - (NSArray *)getMockupData
 {
@@ -53,16 +57,6 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
-    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
-    
-//    entries = [dataManager getEntryList];
-    entries = [self getMockupData];
-
-    if (!entries) {
-        entries = [NSArray new];
-    }
-    [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
@@ -85,17 +79,16 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
         NSLog(@"error while get Location from picture : %d - message: %s", errno, strerror(errno));
         self.location = nil;
     };
-
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
+    
+    datasource = [[ODMDataManager sharedInstance] reports];
+    
+    if (!datasource) {
+        datasource = [NSArray new];
+    }
+    
+    [self.tableView reloadData];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -103,6 +96,12 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)updateReports:(NSNotification *)notification
+{
+    datasource = (NSArray *)[notification object];
+    
+    [self.tableView reloadData];
+}
 
 #pragma mark - Table view data source
 
@@ -113,17 +112,20 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%i", entries.count);
-    return [entries count];
+    return [datasource count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"BugCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
-        [self configureCell:cell withEntry:[entries objectAtIndex:indexPath.row]];
-
+    static NSString *CellIdentifier = @"ReportCellIdentifier";
+    ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];    
+    ODMReport *report = [datasource objectAtIndex:indexPath.row];
+    
+    cell.report = report;
+    NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cell.report.thumbnailImage]];
+    ODMLog(@"report URL %@",[reportURL absoluteString]);
+    [cell.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
+    
     return cell;
 }
 
@@ -137,8 +139,8 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     report.note = @"กกกกกกกกกกกกไไไไไไไกกก __#$%@#$%@$#$^@$%^% ขขขขขขขข";
     report.latitude = @13.791343;
     report.longitude = @100.587473;
-    report.fullImage = [UIImage imageNamed:@"1.jpeg"];
-    report.thumbnailImage = [UIImage imageWithCGImage:[UIImage imageNamed:@"1.jpeg"].CGImage scale:0.25 orientation:[UIImage imageNamed:@"1.jpeg"].imageOrientation];
+    report.fullImageData = [UIImage imageNamed:@"1.jpeg"];
+    report.thumbnailImageData = [UIImage imageWithCGImage:[UIImage imageNamed:@"1.jpeg"].CGImage scale:0.25 orientation:[UIImage imageNamed:@"1.jpeg"].imageOrientation];
     
     // Add categories to report by associated object
     ODMCategory *category = [ODMCategory categoryWithTitle:@"หมวดหมู่"];
@@ -154,7 +156,6 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 - (IBAction)addButtonTapped:(id)sender
 {
-    NSLog(@"addButtonTapped");
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Source"
                                                       delegate:self
                                              cancelButtonTitle:@"Cancel"
@@ -165,10 +166,11 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
 
 }
 
-- (IBAction)refreshButtonTapped:(id)sender {
+- (IBAction)refreshButtonTapped:(id)sender
+{
+    [[ODMDataManager sharedInstance] reports];
 
     [self.tableView reloadData];
-
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -186,7 +188,6 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     } else if (buttonIndex == 1 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentModalViewController:picker animated:YES];
-
     }
 }
 
@@ -233,35 +234,8 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
         ODMDescriptionViewController *DetailViewController = (ODMDescriptionViewController *) segue.destinationViewController;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
-        DetailViewController.entry = [entries objectAtIndex:indexPath.row];
+        DetailViewController.entry = [datasource objectAtIndex:indexPath.row];
     }
 }
-
-
-#pragma mark - Helper Function
-
-- (void)configureCell:(UITableViewCell *)cell withEntry:(NSDictionary *)aEntry
-{
-    __block NSString *imagePath = [aEntry objectForKey:@"thumbnail_image"];
-   
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,  0ul);
-    dispatch_async(queue, ^{
-        if ([[imagePath substringToIndex:1] isEqualToString:@"."]) {
-            imagePath = [imagePath substringFromIndex:1];
-        }
-//        imagePath = [BASE_URL stringByAppendingString:imagePath];
-//        UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:1];
-//        [thumbnailImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
-
-
-    });
-    
-//    UILabel *titleLabel = (UILabel *)[cell viewWithTag:3];
-//    titleLabel.text = [aEntry objectForKey:@"title"];
-    
-//    UILabel *noteLabel = (UILabel *)[cell viewWithTag:2];
-//    noteLabel.text = [aEntry objectForKey:@"note"]; 
-}
-
 
 @end
