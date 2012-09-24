@@ -15,9 +15,9 @@ exports.index = function(req, res){
 
     //add mockup user 
     model.User.find({} , function(err,allUser) { 
-        if (err || allUser.length < 1) {
+        if (err || allUser == null || allUser.length < 1) {
             var user = new model.User();
-            user.username = 'admin';
+            user.username = 'qwerty';
             user.password = '1234';
             user.email = '123@ggg.com';
             user.created_at = new Date();
@@ -27,7 +27,22 @@ exports.index = function(req, res){
                     console.log(err);
                     // do something
                 } else {
-                    console.log('user' + user);
+                    console.log('saved user' + user);
+                }
+            }); 
+
+            var user2 = new model.User();
+            user2.username = 'admin';
+            user2.password = '1q2w3e4r';
+            user2.email = '123@ggg.com';
+            user2.created_at = new Date();
+            user2.last_modified = new Date();
+            user2.save(function (err){
+                if (err) {
+                    console.log(err);
+                    // do something
+                } else {
+                    console.log('saved user' + user);
                 }
             }); 
         }
@@ -35,7 +50,7 @@ exports.index = function(req, res){
 
     // add Mock up category
     model.Category.find({} , function(err,allCategory) { 
-        if (err || allCategory.length < 1) {
+        if (err || allCategory == null || allCategory.length < 1) {
             var cat1 = new model.Category();
             cat1.title = 'cat1';
             cat1.last_modified = new Date();
@@ -58,6 +73,25 @@ exports.index = function(req, res){
                     // do something
                 } else {
                     console.log('cat2' + cat2);
+                }
+            }); 
+        }
+    });
+
+    //add mockup user 
+    model.Subscription.find({} , function(err,allSubscription) { 
+        if (err || allSubscription == null || allSubscription.length < 1) {
+            var ss = new model.Subscription();
+            ss.place = '505c28296b3c8f8d15000001';
+            ss.user = '505c0e2451a3f4ab11000003'; //admin subscribe to สวนดอกจ้า
+            ss.created_at = new Date();
+            ss.last_modified = new Date();
+            ss.save(function (err){
+                if (err) {
+                    console.log(err);
+                    // do something
+                } else {
+                    console.log('saved subscription' + ss);
                 }
             }); 
         }

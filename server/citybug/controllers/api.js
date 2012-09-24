@@ -87,7 +87,7 @@ exports.add_comment = function(req, res){
 };
 
 // GET /api/reports >> get list of entries
-exports.reports = function(req, res) {
+exports.all_reports = function(req, res) {
     console.log('Get report list');
 
     model.Report.find({})
@@ -99,11 +99,155 @@ exports.reports = function(req, res) {
 
         .exec(function (err, report) {
             if (err) { 
-                return handleError(err);
+                console.log(err);
             }
             res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
             res.write('{ "reports":' + JSON.stringify(report) + '}');
             res.end();
+    });
+};
+
+function isSignInWithUser(currentUser) {
+    return true;
+    // return false;
+}
+
+// GET /api/reports >> get list of reports
+exports.reports = function(req, res) {
+    console.log('Get report list');
+
+    var currentLat = req.query.lat;
+    var currentLng = req.query.lng;
+    // var currentUser = req.headers;
+    var currentUserID = '505c0e2451a3f4ab11000003';
+
+
+    model.User.findOne({_id: currentUserID}, function(err,currentUser) { 
+
+        if (err || currentUser == null || currentUser == undefined) {
+            console.log("Can not find user id "+ currentUserID);
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "reports":[]}');
+            res.end();
+            return;
+
+        } else { //can find user
+
+            if ( isSignInWithUser(currentUser) == true ) {
+                //ถ้า USER sign in จะแสดง feed โดยเรียงลำดับตามเวลาที่แก้ไขล่าสุด และ แสดงเฉพาะสถานที่(place) ที่ถูก subscribe เท่านั้น 
+
+                model.Subscription.find({user: currentUser}, function(err,subscribes) { 
+                    if (err || subscribes == null || subscribes.length < 1) {
+                        console.log("Can find subscription with error "+ err);
+                    } else {
+                        console.log("Subscribes => "+subscribes);
+                        // create query where subscribe.user._id = "user._id"
+                        var query = {};
+                        query["$or"] = [];
+                        for (i in subscribes) {
+                            console.log(i + " subscribes >> "+ subscribes[i]);
+                            if (subscribes[i].place != null && subscribes[i].place != undefined) {
+                                query["$or"].push({"place":subscribes[i].place}); //check report.place is in subscribe
+                            }
+                        }
+
+                        console.log("query subscribe is => "+ query);
+
+                        var qq = {};
+                        if(query["$or"].length != 0) {
+                            qq = query;
+                        }
+                        //find only subscribed report
+                         model.Report.find(qq)
+                        .populate('user','username email thumbnail_image')
+                        .populate('categories','title')
+                        .populate('comments')
+                        .populate('imins')
+                        .populate('place')
+
+                        .exec(function (err, report) {
+                            if (err) { 
+                                console.log("can not find report with error "+err);
+                            }
+                            report = report.sort(function(a, b) {
+                                return new Date(a.last_modified).getTime() - new Date(b.last_modified).getTime();
+                            });
+
+                            //Get only first 30 sorted places
+                            var thirtyReports;
+                            if (report != null && report.length > 30) 
+                                thirtyReports = report.slice(0,30);
+                            else
+                                thirtyReports = report;
+
+                            //Response to client
+                            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.write('{ "reports":' + JSON.stringify(thirtyReports) + '}');
+                            res.end();
+                        });
+                    }
+                });
+                    
+            } else if (isSignInWithUser(currentUser) == false ) {
+
+                model.Report.find({})
+                    .populate('user','username email thumbnail_image')
+                    .populate('categories','title')
+                    .populate('comments')
+                    .populate('imins')
+                    .populate('place')
+
+                    .exec(function (err, report) {
+                        if (err) { 
+                            console.log(err);
+                            return;
+                        } else if (report == null) {
+                            //Response to client
+                            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.write('{ "reports":' + JSON.stringify(report) + '}');
+                            res.end();
+                            return;
+                        }
+
+                        //ถ้า USER ไม่ sign in จะแสดง feed โดยเรียงลำดับตามระยะห่าง เทียบกับ report.lat lng (30อันแรก)
+                        if ( currentLat != null && currentLng != null ) {
+                            //sort by distance
+                            for ( i in report ) {
+                                if (report[i].place == null) {
+                                    report[i].place = new model.Place();
+                                }
+                                report[i].place.distance = service.distanceCalculate(currentLat, currentLng, report[i].lat, report[i].lng);
+                            }
+                            //ใช้ตัวแปร distance จาก place 
+                            report = report.sort(function(a, b) {
+                                if (a.place.distance < b.place.distance) { return -1; }
+                                if (a.place.distance > b.place.distance) { return  1; }
+                                return 0;
+                            });
+                        
+                        }
+                        //ถ้า USER ไม่ sign in และไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน 
+                        else if ( currentLat == null || currentLng == null ) {
+                            report = report.sort(function(a, b) {
+                                return new Date(a.last_modified).getTime() - new Date(b.last_modified).getTime();
+                            });
+                        }
+
+                        //Get only first 30 sorted reports
+                        var thirtyReports;
+                        if (report != null && report.length > 30) 
+                            thirtyReports = report.slice(0,30);
+                        else
+                            thirtyReports = report;
+
+                        //Response to client
+                        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                        res.write('{ "reports":' + JSON.stringify(thirtyReports) + '}');
+                        res.end();
+                        return;
+                });
+            }
+        }
     });
 };
 

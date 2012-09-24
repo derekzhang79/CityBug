@@ -11,6 +11,7 @@ module.exports = function(app, express){
 	app.get('/api/reports', api.reports);
 	app.post('/api/reports', api.report_post);
 	app.get('/api/report/*', api.report);
+	app.get('/api/reports/all', api.all_reports);
 
 	//comment
 	app.get('/add_comment', api.add_comment);
