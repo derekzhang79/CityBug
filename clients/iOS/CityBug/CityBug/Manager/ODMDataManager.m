@@ -15,6 +15,9 @@
 
 static ODMDataManager *sharedDataManager = nil;
 
+NSString *ODMDataManagerNotificationReportsLoadingFinish;
+NSString *ODMDataManagerNotificationReportsLoadingFail;
+
 NSString *ODMDataManagerNotificationCategoriesLoadingFinish;
 NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 
@@ -39,6 +42,9 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         //
         // Initialize Notification Identifier String
         //
+        ODMDataManagerNotificationReportsLoadingFinish = @"ODMDataManagerNotificationReportsLoadingFinish";
+        ODMDataManagerNotificationReportsLoadingFail = @"ODMDataManagerNotificationReportsLoadingFail";
+        
         ODMDataManagerNotificationCategoriesLoadingFinish = @"ODMDataManagerNotificationCategoriesLoadingFinish";
         ODMDataManagerNotificationCategoriesLoadingFail = @"ODMDataManagerNotificationCategoriesLoadingFail";
         
@@ -64,8 +70,9 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [reportMapping mapKeyPath:@"full_image" toAttribute:@"fullImage"];
         [reportMapping mapKeyPath:@"lat" toAttribute:@"latitude"];
         [reportMapping mapKeyPath:@"lng" toAttribute:@"longitude"];
+        [reportMapping mapKeyPath:@"imin_count" toAttribute:@"iminCount"];
+        [reportMapping mapKeyPath:@"last_modified" toAttribute:@"lastModified"];
         [serviceObjectManager.mappingProvider addObjectMapping:reportMapping];
-
         
         RKObjectMapping *categoryMapping = [RKObjectMapping mappingForClass:[ODMCategory class]];
         [categoryMapping mapKeyPath:@"title" toAttribute:@"title"];
@@ -74,7 +81,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [placeMapping mapKeyPath:@"title" toAttribute:@"title"];
         [placeMapping mapKeyPath:@"lat" toAttribute:@"latitude"];
         [placeMapping mapKeyPath:@"lng" toAttribute:@"longitude"];
-        [placeMapping mapKeyPath:@"_id" toAttribute:@"uid"];
+        [placeMapping mapKeyPath:@"id_foursquare" toAttribute:@"uid"];
         [placeMapping mapKeyPath:@"type" toAttribute:@"type"];
 
         RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[ODMUser class]];
@@ -82,7 +89,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [userMapping mapKeyPath:@"_id" toAttribute:@"uid"];
         
         // Mapping Relation
-//        [reportMapping mapKeyPath:@"categories" toRelationship:@"categories" withMapping:categoryMapping];
+        // [reportMapping mapKeyPath:@"categories" toRelationship:@"categories" withMapping:categoryMapping];
         [reportMapping mapRelationship:@"categories" withMapping:categoryMapping];
         [reportMapping mapRelationship:@"place" withMapping:placeMapping];
         [reportMapping mapRelationship:@"user" withMapping:userMapping];
@@ -143,14 +150,29 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         NSArray *catItems = [report.categories valueForKeyPath:@"title"];
         [reportParams setValue:catItems forParam:@"categories"];
         
-        NSData *fullImageData = UIImageJPEGRepresentation(report.fullImage, 1);
-        NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImage, 1);
+        NSData *fullImageData = UIImageJPEGRepresentation(report.fullImageData, 1);
+        NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImageData, 1);
         
         [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
         [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
     
         loader.params = reportParams;
     }];
+}
+
+- (NSArray *)reports
+{
+    if (1) {
+        [serviceObjectManager loadObjectsAtResourcePath:@"/api/reports" usingBlock:^(RKObjectLoader *loader){
+            loader.onDidLoadObjects = ^(NSArray *objects){
+                reports_ = [NSArray arrayWithArray:objects];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationReportsLoadingFinish object:reports_];
+            };
+        }];
+    }
+    
+    return reports_;
 }
 
 #pragma mark - CATEGORY

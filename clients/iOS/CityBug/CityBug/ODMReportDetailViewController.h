@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 opendream. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 @interface ODMReportDetailViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UILabel *noteLabel;
 @property (weak, nonatomic) IBOutlet UILabel *amountInLabel;

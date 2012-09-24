@@ -67,21 +67,30 @@
         ODMReport *report = [[ODMReport alloc] init];
         report.title = self.titleTextField.text;
         NSError *error = nil;
-        BOOL isValid = [report validateValue:NULL forKey:@"title" error:&error];
+        
+        id title = report.title;
+        BOOL isValid = [report validateValue:&title forKey:@"title" error:&error];
         
         ODMLog(@"error %@ : description %@", error, [[error userInfo] objectForKey:@"description"]);
         
         if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
         report.note = self.noteTextField.text;
+        id note = report.note;
         error = nil;
-        isValid = [report validateValue:NULL forKey:@"note" error:&error];
+        isValid = [report validateValue:&note forKey:@"note" error:&error];
         if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
         report.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
         report.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
         error = nil;
-        isValid = [report validateValue:NULL forKey:@"location" error:&error];
+        
+        id latitude = report.latitude;
+        isValid = [report validateValue:&latitude forKey:@"latitude" error:&error];
+        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        
+        id longitude = report.longitude;
+        isValid = [report validateValue:&longitude forKey:@"longitude" error:&error];
         if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
         report.fullImage = self.bugImage;
