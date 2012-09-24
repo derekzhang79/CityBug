@@ -235,7 +235,7 @@ exports.reports = function(req, res) {
         if (err ) {
             console.log("Can not find user id with error"+ err);
         }
-        else if (currentUser == null || currentUser == undefined  || isSignInWithUser(currentUser) == false ) {
+        else if (err || currentUser == null || currentUser == undefined  || isSignInWithUser(currentUser) == false ) {
             console.log("Can not find user at /api/reports");
 
             getAllReports({}, function(report){
@@ -330,7 +330,7 @@ exports.reports = function(req, res) {
                             return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
                         });
 
-                        //Get only first 30 sorted places
+                        //Get only first maxNumber sorted places
                         var resultReports;
                         if (report != null && report.length > maxNumber) 
                             resultReports = report.slice(0,maxNumber);
@@ -380,6 +380,7 @@ exports.report = function(req, res) {
                 res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                 res.write('{ "reports":' + JSON.stringify(report) + '}');
                 res.end();
+                return;
             };
 
 
