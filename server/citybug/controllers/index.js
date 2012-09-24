@@ -34,8 +34,8 @@ exports.index = function(req, res){
     });
 
     // add Mock up category
-    model.User.find({} , function(err,allUser) { 
-        if (err || allUser.length < 1) {
+    model.Category.find({} , function(err,allCategory) { 
+        if (err || allCategory.length < 1) {
             var cat1 = new model.Category();
             cat1.title = 'cat1';
             cat1.last_modified = new Date();
