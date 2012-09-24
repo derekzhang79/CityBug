@@ -494,7 +494,6 @@ exports.report_post = function(req, res) {
         var thumbnail_image_extension = req.files.thumbnail_image.type.match( /[^\/]+\/?$/ );
         var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_extension;
         report.thumbnail_image = thumbnail_image_short_path;
-        console.log('noooooooo');
     };
     if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
         var full_image_extension = req.files.full_image.type.match( /[^\/]+\/?$/ );
