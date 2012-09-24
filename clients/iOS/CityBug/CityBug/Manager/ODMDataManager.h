@@ -39,7 +39,7 @@ extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
  * Post New Report
  */
 - (void)postNewReport:(ODMReport *)report;
-
+- (void)postNewReport:(ODMReport *)report error:(NSError **)error;
 
 /*
  * Places

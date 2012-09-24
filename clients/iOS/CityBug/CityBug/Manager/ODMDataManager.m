@@ -140,8 +140,20 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
  */
 - (void)postNewReport:(ODMReport *)report
 {
+    [self postNewReport:report error:NULL];
+}
+
+- (void)postNewReport:(ODMReport *)report error:(NSError **)error
+{
     RKParams *reportParams = [RKParams params];
+
     report.user = [self currentUser];
+    
+    ODMUser *admin = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
+    if (!admin) {
+        *error = [NSError errorWithDomain:@"User does not exist" code:5001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:@"description", @"Must sign-in before create a new report", nil]];
+        return;
+    }
     
     [[RKObjectManager sharedManager] postObject:report usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
@@ -165,7 +177,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         
         [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
         [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
-    
+        
         loader.params = reportParams;
     }];
 }

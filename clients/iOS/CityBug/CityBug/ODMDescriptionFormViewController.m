@@ -105,7 +105,11 @@
         report.place = place;
         
         // Call DataManager with new report
-        [[ODMDataManager sharedInstance] postNewReport:report];
+        [[ODMDataManager sharedInstance] postNewReport:report error:&error];
+        
+        if (error) {
+            @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        }
     }
     @catch (NSException *exception) {
         
