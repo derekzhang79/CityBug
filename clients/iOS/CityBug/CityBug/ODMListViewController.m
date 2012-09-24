@@ -8,7 +8,7 @@
 
 #import "ODMListViewController.h"
 #import "ODMDescriptionFormViewController.h"
-#import "ODMDescriptionViewController.h"
+#import "ODMReportDetailViewController.h"
 #import "ODMDataManager.h"
 
 #import <ImageIO/ImageIO.h>
@@ -20,7 +20,7 @@
 #define CAMERA_SCALAR 1.32
 
 static NSString *gotoFormSegue = @"presentFormSegue";
-static NSString *gotoViewSegue = @"showDescriptionSegue";
+static NSString *gotoViewSegue = @"gotoViewSegue";
 
 @interface ODMListViewController () {
     CLLocationManager *locationManager;
@@ -231,9 +231,9 @@ static NSString *gotoViewSegue = @"showDescriptionSegue";
         
     }
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
-        ODMDescriptionViewController *DetailViewController = (ODMDescriptionViewController *) segue.destinationViewController;
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
-        DetailViewController.entry = [entries objectAtIndex:indexPath.row];
+//        ODMReportDetailViewController *DetailViewController = (ODMReportDetailViewController *) segue.destinationViewController;
+//        NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
+//        DetailViewController.entry = [entries objectAtIndex:indexPath.row];
     }
 }
 
