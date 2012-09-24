@@ -28,8 +28,12 @@ exports.comment_post = function(req, res) {
     //Find User by username from request
     model.User.findOne({username:req.body.username}, function (err, user){
         //add comment
-        if (err || user == null) {
+        if (err) {
             console.log(err);
+        } else if (user == null || user == undefined) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write("Can not add new comment, cannot find user Please use format /api/report/:id/comment");
+            res.end();
         } else {
             var newComment = new model.Comment();
             newComment.text = req.body.text;
@@ -40,23 +44,35 @@ exports.comment_post = function(req, res) {
             newComment.save(function (err){
                 if (err) {
                     console.log(err);
+                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                    res.write("Can not add new comment, save failed");
+                    res.end();
                 } else {
                     // find report by id
                     model.Report.findOne({_id:currentID}, function(err, report) {
-                        if (err || report == null) {
+                        if (err) {
                             console.log('err' + err);
+                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.write("Can not add new comment, cannot find user Please use format /api/report/:id/comment");
+                            res.end();
+                        } else if (report == null || report == undefined) {
+                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.write("Can not add new comment, wrong report ID\n Please use format /api/report/:id/comment");
+                            res.end();
                         } else {
-                            console.log('new comment '+report);
+                            console.log('new comment ' + report);
                             report.comments.push(newComment._id);
                             report.save(function (err){
                                 if (err) {
                                     console.log(err);
+                                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                                    res.write("Can not add new comment, save comments failed");
+                                    res.end();
                                 } else {
                                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                                     res.write(JSON.stringify(report));
                                     res.end();
                                 }
-
                             });
                         }
                     });
@@ -64,8 +80,6 @@ exports.comment_post = function(req, res) {
             });
         } 
     });
-
-    
 }
 
 exports.add_comment = function(req, res){
@@ -84,7 +98,7 @@ exports.reports = function(req, res) {
         .populate('place')
 
         .exec(function (err, report) {
-            if (err || null) { 
+            if (err) { 
                 return handleError(err);
             }
             res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
@@ -107,8 +121,16 @@ exports.report = function(req, res) {
         .populate('imins')
         .populate('place')
         .exec(function (err, report) {
-            if (err || report == null) { 
-                return handleError(err);
+            if (err) {
+                res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write("Can not add new comment, wrong report ID\n Please use format /api/report/:id/comment");
+                res.end();
+                return;
+            } else if (report == null) {
+                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write('{ "reports":' + JSON.stringify(report) + '}');
+                res.end();
+                return;
             }
 
             // create query whete _id = "comment._id"
@@ -249,8 +271,10 @@ exports.report_post = function(req, res) {
                 }
             } else {
                 console.log('err' + err);
+                res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write("Canot add new report, save failed");
+                res.end();
             }
-
 
             model.Place.findOne({id_foursquare: req.body.place_id }, function(err,place) {   
                 console.log(">>>>>>>>>>>>>>>> " + req.body.place_id);
@@ -263,14 +287,14 @@ exports.report_post = function(req, res) {
                         if (!err){
                             console.log('Success! with ' + report);
                             res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write(JSON.stringify(report));
+                            res.write('{ "reports":' + JSON.stringify(report) + '}');
                             res.end();
                             
                         } else {
                             console.log('Error !'+ err);
                             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write('{ "statusCode":"500", "message":"Add new comment not success with error '+err+'"}');
-                            res.end();
+                            res.write("Canot add new report, save failed");
+                            res.end();
                         }
                     });
                     //--------------------------------------------------------------
@@ -290,6 +314,8 @@ exports.report_post = function(req, res) {
                     newPlace.save(function (err){
                         if (err) {
                             console.log(err);
+                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.write('Canot add new comment, save place failed');
                         } else {
                             console.log('>>> Saved place' + newPlace);
                             report.place = newPlace._id;
@@ -300,14 +326,14 @@ exports.report_post = function(req, res) {
                                 if (!err){
                                     console.log('Success! with ' + report);
                                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                                    res.write(JSON.stringify(report));
+                                    res.write('{ "reports":' + JSON.stringify(report) + '}');
                                     res.end();
                                     
                                 } else {
                                     console.log('Error !'+ err);
                                     res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                                    res.write('{ "statusCode":"500", "message":"Add new report not success with error '+err+'"}');
-                                    res.end();
+                                    res.write("Canot add new comment, save failed");
+                                    res.end();
                                 }
                             });
                             //--------------------------------------------------------------
@@ -367,6 +393,11 @@ exports.report_post = function(req, res) {
 // GET /api/categories >> get list of categories
 exports.categories = function(req, res) {
     model.Category.find({}, function(err,docs) {
+        if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write("Canot get categories");
+            res.end();
+        }
         res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
         res.write('{ "categories":' + JSON.stringify(docs) + '}');
         res.end();
@@ -379,7 +410,7 @@ function queryComment(query, callbackFunction) {
         .populate('user','username email thumbnail_image')
         .exec(function (err, comments) {
             if (err) { 
-                console.log(err);
+                console.log('query comment error'+ err);
                 return;
             }
             if (comments != undefined && comments.length > 0) {
