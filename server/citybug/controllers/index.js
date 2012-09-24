@@ -169,9 +169,13 @@ exports.index = function(req, res){
 
 
     // Query all report with all attribute
-    var json_report = [];
+    // create custom json because relation database that 
+    // report can get comment, but comment can get only _id 
+    // so we query user in comment and make a new json
+    // Query all report with all attribute
+    var new_report = [];
     var queryCount = 0;
-    var maxCommentCount = 0;
+    var maxQueryCount = 0;
     model.Report.find({})
         .populate('user','username email thumbnail_image')
         .populate('categories','title')
@@ -183,85 +187,129 @@ exports.index = function(req, res){
                 return handleError(err);
             }
 
+            // have none of report
+            if (report.length == 0) {
+                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write('{ "reports":' + JSON.stringify(report) + '}');
+                res.end();
+            };
+
+
+            // find max comment, imin
+            // find need to do before query
             for (r in report) {
-                var query = {};
-                query["$or"] = [];
                 for (i in report[r].comments) {
                     if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
-                        query["$or"].push({"_id":report[r].comments[i]._id});
                         if (i == 0) {
-                            maxCommentCount++;
+                            maxQueryCount++;
                         };
                     }
-                }
-
-                if (query["$or"].length <= 0) { //if this report have no comment
-                    json_report.push(
-                            {"user":report[r].user,
-                             "_id":report[r]._id,
-                             "comments":[],
-                             "title":report[r].title,
-                             "lat":report[r].lat,
-                             "lng":report[r].lng,
-                             "note":report[r].note,
-                             "full_image":report[r].full_image,
-                             "thumbnail_image":report[r].thumbnail_image,
-                             "is_resolved":report[r].is_resolved,
-                             "categories":report[r].categories,
-                             "place":report[r].place,
-                             "imins":report[r].imins,
-                             "last_modified":report[r].last_modified,
-                             "created_at":report[r].created_at
-                    });
-                } else {
-                    queryComment(query, report, r, json_report, function(comments) {
-                        queryCount++;
-
-                        json_report.push(
-                            {"user":report[r].user,
-                             "_id":report[r]._id,
-                             "comments":comments,
-                             "title":report[r].title,
-                             "lat":report[r].lat,
-                             "lng":report[r].lng,
-                             "note":report[r].note,
-                             "full_image":report[r].full_image,
-                             "thumbnail_image":report[r].thumbnail_image,
-                             "is_resolved":report[r].is_resolved,
-                             "categories":report[r].categories,
-                             "place":report[r].place,
-                             "imins":report[r].imins,
-                             "last_modified":report[r].last_modified,
-                             "created_at":report[r].created_at
-                        });
-                        if (maxCommentCount == queryCount) {
-                            res.render('index.jade', { title: 'City bug', report: json_report });
-                            console.log('my report' + JSON.stringify(json_report));
-                        }
-                    });
+                    if (report[r].imins._id != undefined && report[r].imins.length > 0) {
+                        if (i == 0) {
+                            maxQueryCount++;
+                        };
+                    };
                 }
             }
 
-        // res.render('index.jade', { title: 'City bug', report: json_report });
-        // Render list all reports page
-        res.render('index.jade', { title: 'City bug', report: report });
-    });
+            for (r in report) {
+                
+                // add query comment where _id:id or _id:id .... 
+                var query_comments = {};
+                query_comments["$or"] = [];
+                for (i in report[r].comments) {
+                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                        query_comments["$or"].push({"_id":report[r].comments[i]._id});
+                    }
+                }
 
+                // add query imin where _id:id or _id:id .... 
+                var query_imins = {};
+                query_imins["$or"] = [];
+                for (i in report[r].imins) {
+                    if (report[r].imins[i]._id != undefined && report[r].imins.length > 0) {
+                        query_imins["$or"].push({"_id":report[r].imins[i]._id});
+                    }
+                }
+
+                // get all comment
+                queryListComment(query_comments, r, function(comments, index, isQueryComment) {
+
+                    // get all imin
+                    queryListImin(query_imins, index, function(imins, index, isQueryImins) {
+                        // add data to report
+                        new_report.push(
+                            {"user":report[index].user,
+                             "_id":report[index]._id,
+                             "comments":comments,
+                             "title":report[index].title,
+                             "lat":report[index].lat,
+                             "lng":report[index].lng,
+                             "note":report[index].note,
+                             "full_image":report[index].full_image,
+                             "thumbnail_image":report[index].thumbnail_image,
+                             "is_resolved":report[index].is_resolved,
+                             "categories":report[index].categories,
+                             "place":report[index].place,
+                             "imins":imins,
+                             "last_modified":report[index].last_modified,
+                             "created_at":report[index].created_at
+                            });
+
+                        if (isQueryComment || isQueryImins) {
+                            queryCount++;
+                        };
+                        if (maxQueryCount == queryCount) {
+
+                            // implement sort here //
+                            //                     //
+                            //                     //
+                            /////////////////////////
+
+                            res.render('index.jade',{title: 'City bug',report: new_report})
+                        }
+                    });
+                });   
+            }
+    });
 };
 
-function queryComment(query, report, r,json_report, callbackFunction) {
-
+function queryListComment(query, r, callbackFunction) {
+    if (query['$or'].length <= 0) {
+        var emptyQuery = [];
+        callbackFunction(emptyQuery, r, false);
+        return;
+    };
     model.Comment.find(query)
         .populate('user','username email thumbnail_image')
         .exec(function (err, comments) {
             if (err) { 
-                console.log(err);
+                console.log('query ' + err);
                 return;
             }
             if (comments != undefined && comments.length > 0) {
-                callbackFunction(comments);                  
+                callbackFunction(comments, r, true);                  
             } 
             return;
     });
+}
 
+function queryListImin(query, r, callbackFunction) {
+    if (query['$or'].length <= 0) {
+        var emptyQuery = [];
+        callbackFunction(emptyQuery, r, false);
+        return;
+    };
+    model.Imin.find(query)
+        .populate('user','username email thumbnail_image')
+        .exec(function (err, imins) {
+            if (err) { 
+                console.log('query ' + err);
+                return;
+            }
+            if (comments != undefined && comments.length > 0) {
+                callbackFunction(imins, r, true);                  
+            } 
+            return;
+    });
 }

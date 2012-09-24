@@ -89,9 +89,13 @@
                             th Create at
                     tbody#reporttable
                         - report.forEach(function(report){
-                            -   var allCat = ""
+                            -   var allCat = "";
                             -   report['categories'].forEach(function(cat){
-                                -       allCat = allCat + cat.title + ", "
+                                -   allCat = allCat + cat.title + ", "
+                            -   });
+                            -   var comments = "";
+                            -   report['comments'].forEach(function(comment){
+                                -   comments = comments + comment.user.username + ' c: ' + comment.text + ', ';
                             -   });
 
                             tr
@@ -109,7 +113,7 @@
                                 th= report['place']
                                 th= report['imin_count']
                                 th= report['imins']
-                                th= report['comments']
+                                th= comments
                                 td= report['last_modified']
                                 td= report['created_at']
                         - })

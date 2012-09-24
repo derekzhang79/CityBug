@@ -90,20 +90,111 @@ exports.add_comment = function(req, res){
 exports.all_reports = function(req, res) {
     console.log('Get report list');
 
+    // Query all report with all attribute
+    // create custom json because relation database that 
+    // report can get comment, but comment can get only _id 
+    // so we query user in comment and make a new json
+    // Query all report with all attribute
+    var new_report = [];
+    var queryCount = 0;
+    var maxQueryCount = 0;
     model.Report.find({})
         .populate('user','username email thumbnail_image')
         .populate('categories','title')
         .populate('comments')
         .populate('imins')
         .populate('place')
-
         .exec(function (err, report) {
             if (err) { 
                 console.log(err);
             }
-            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write('{ "reports":' + JSON.stringify(report) + '}');
-            res.end();
+
+            // have none of report
+            if (report.length == 0) {
+                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write('{ "reports":' + JSON.stringify(report) + '}');
+                res.end();
+            };
+
+
+            // find max comment, imin
+            // find need to do before query
+            for (r in report) {
+                for (i in report[r].comments) {
+                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                        if (i == 0) {
+                            maxQueryCount++;
+                        };
+                    }
+                    if (report[r].imins._id != undefined && report[r].imins.length > 0) {
+                        if (i == 0) {
+                            maxQueryCount++;
+                        };
+                    };
+                }
+            }
+
+            for (r in report) {
+                
+                // add query comment where _id:id or _id:id .... 
+                var query_comments = {};
+                query_comments["$or"] = [];
+                for (i in report[r].comments) {
+                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                        query_comments["$or"].push({"_id":report[r].comments[i]._id});
+                    }
+                }
+
+                // add query imin where _id:id or _id:id .... 
+                var query_imins = {};
+                query_imins["$or"] = [];
+                for (i in report[r].imins) {
+                    if (report[r].imins[i]._id != undefined && report[r].imins.length > 0) {
+                        query_imins["$or"].push({"_id":report[r].imins[i]._id});
+                    }
+                }
+
+                // get all comment
+                queryListComment(query_comments, r, function(comments, index, isQueryComment) {
+
+                    // get all imin
+                    queryListImin(query_imins, index, function(imins, index, isQueryImins) {
+                        // add data to report
+                        new_report.push(
+                            {"user":report[index].user,
+                             "_id":report[index]._id,
+                             "comments":comments,
+                             "title":report[index].title,
+                             "lat":report[index].lat,
+                             "lng":report[index].lng,
+                             "note":report[index].note,
+                             "full_image":report[index].full_image,
+                             "thumbnail_image":report[index].thumbnail_image,
+                             "is_resolved":report[index].is_resolved,
+                             "categories":report[index].categories,
+                             "place":report[index].place,
+                             "imins":imins,
+                             "last_modified":report[index].last_modified,
+                             "created_at":report[index].created_at
+                            });
+
+                        if (isQueryComment || isQueryImins) {
+                            queryCount++;
+                        };
+                        if (maxQueryCount == queryCount) {
+
+                            // implement sort here //
+                            //                     //
+                            //                     //
+                            /////////////////////////
+
+                            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.write('{ "reports":' + JSON.stringify(new_report) + '}');
+                            res.end();
+                        }
+                    });
+                });   
+            }
     });
 };
 
@@ -256,8 +347,15 @@ exports.report = function(req, res) {
     var url = req.url;
     var currentID = url.match( /[^\/]+\/?$/ );
 
-    // create josn
-    var json_report = [];
+    
+    // Query all report with all attribute
+    // create custom json because relation database that 
+    // report can get comment, but comment can get only _id 
+    // so we query user in comment and make a new json
+    // Query all report with all attribute
+    var new_report = [];
+    var queryCount = 0;
+    var maxQueryCount = 0;
     model.Report.findOne({_id:currentID})
         .populate('user','username email thumbnail_image')
         .populate('categories','title')
@@ -265,33 +363,60 @@ exports.report = function(req, res) {
         .populate('imins')
         .populate('place')
         .exec(function (err, report) {
-            if (err) {
-                res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                res.write("Can not add new comment, wrong report ID\n Please use format /api/report/:id/comment");
-                res.end();
-                return;
-            } else if (report == null) {
+            if (err) { 
+                return handleError(err);
+            }
+
+            // have none of report
+            if (report.length == 0) {
                 res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                 res.write('{ "reports":' + JSON.stringify(report) + '}');
                 res.end();
-                return;
-            }
+            };
 
-            // create query whete _id = "comment._id"
-            var query = {};
-            query["$or"] = [];
+
+            // find max comment, imin
+            // find need to do before query
             for (i in report.comments) {
                 if (report.comments[i]._id != undefined && report.comments.length > 0) {
-                    query["$or"].push({"_id":report.comments[i]._id});
+                    if (i == 0) {
+                        maxQueryCount++;
+                    };
+                }
+                if (report.imins._id != undefined && report.imins.length > 0) {
+                    if (i == 0) {
+                        maxQueryCount++;
+                    };
+                };
+            }
+
+            // add query comment where _id:id or _id:id .... 
+            var query_comments = {};
+            query_comments["$or"] = [];
+            for (i in report.comments) {
+                if (report.comments[i]._id != undefined && report.comments.length > 0) {
+                    query_comments["$or"].push({"_id":report.comments[i]._id});
+                }
+            }            
+            // add query imins where _id:id or _id:id ....
+            var query_imins = {};
+            query_imins["$or"] = [];
+            for (i in report.imins) {
+                if (report.imins[i]._id != undefined && report.imins.length > 0) {
+                    query_imins["$or"].push({"_id":report.imins[i]._id});
                 }
             }
 
-            // have none comment add comment to null []
-            if (!(query["$or"].length > 0)) {
-                json_report.push(
+            // get all list 
+            queryListComment(query_comments, 0, function(comments, index, isQueryComment) {
+
+                // get all comment
+                queryListImin(query_imins, 0, function(imins, index, isQueryImins) {
+                    // add data to report
+                    new_report.push(
                         {"user":report.user,
                          "_id":report._id,
-                         "comments":[],
+                         "comments":comments,
                          "title":report.title,
                          "lat":report.lat,
                          "lng":report.lng,
@@ -301,41 +426,28 @@ exports.report = function(req, res) {
                          "is_resolved":report.is_resolved,
                          "categories":report.categories,
                          "place":report.place,
-                         "imins":report.imins,
+                         "imins":imins,
                          "last_modified":report.last_modified,
                          "created_at":report.created_at
+                        });
+
+                    if (isQueryComment || isQueryImins) {
+                        queryCount++;
+                    };
+                    if (maxQueryCount == queryCount) {
+
+                        // implement sort here //
+                        //                     //
+                        //                     //
+                        /////////////////////////
+
+                        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                        res.write('{ "reports":' + JSON.stringify(new_report) + '}');
+                        res.end();
+                    }
                 });
-                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                res.write('{ "reports":' + JSON.stringify(json_report) + '}');
-                res.end()
-            } else {
-                // have comment query comment than add to json
-                queryComment(query, function(comments) {
-                    json_report.push(
-                    {"user":report.user,
-                     "_id":report._id,
-                     "comments":comments,
-                     "_id":report._id,
-                     "title":report.title,
-                     "lat":report.lat,
-                     "lng":report.lng,
-                     "note":report.note,
-                     "full_image":report.full_image,
-                     "thumbnail_image":report.thumbnail_image,
-                     "is_resolved":report.is_resolved,
-                     "categories":report.categories,
-                     "place":report.place,
-                     "imins":report.imins,
-                     "last_modified":report.last_modified,
-                     "created_at":report.created_at
-                    });
-                    console.log('{ "reports":' + JSON.stringify(json_report) + '}');
-                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.write('{ "reports":' + JSON.stringify(json_report) + '}');
-                    res.end();
-                });
-            }
-            // do not render here because of asyn
+            });   
+        
     });
 };
 
@@ -363,14 +475,10 @@ exports.report_post = function(req, res) {
     // save data to db
     var report = new model.Report();
     
-    var thumbnail_image_type = req.files.thumbnail_image.type.match( /[^\/]+\/?$/ );
-    var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_type;
-    var full_image_type = req.files.full_image.type.match( /[^\/]+\/?$/ );
-    var full_image_short_path = "/images/report/" + report._id + "." + full_image_type;
     
+    var thumbnail_image_type = req.files.thumbnail_image.type.split("/");
+    var full_image_type = req.files.full_image.type.split("/");
     report.title = req.body.title;
-    report.thumbnail_image = thumbnail_image_short_path;
-    report.full_image = full_image_short_path;
     report.lat = req.body.lat;
     report.lng = req.body.lng;
     report.note = req.body.note;
@@ -378,6 +486,18 @@ exports.report_post = function(req, res) {
     report.imin_count = 0;
     report.last_modified = new Date();
     report.created_at = new Date();
+
+    if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
+        var thumbnail_image_extension = req.files.thumbnail_image.type.match( /[^\/]+\/?$/ );
+        var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_extension;
+        report.thumbnail_image = thumbnail_image_short_path;
+        console.log('noooooooo');
+    };
+    if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
+        var full_image_extension = req.files.full_image.type.match( /[^\/]+\/?$/ );
+        var full_image_short_path = "/images/report/" + report._id + "." + full_image_extension;
+        report.full_image = full_image_short_path;
+    };
 
 /*
     , categories        : [{ type: Schema.Types.ObjectId, ref: 'Category' }]
@@ -488,9 +608,9 @@ exports.report_post = function(req, res) {
 
     // make directory
     fs.mkdirParent("./public/images/report/");
-
+    
     //save picture to /public/images/report/:id
-    if (req.files.thumbnail_image.name) {
+    if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
         // get the temporary location of the file : ./uploads
         var tmp_path = req.files.thumbnail_image.path;
         // set where the file should actually exists - in this case it is in the "images" directory
@@ -513,7 +633,7 @@ exports.report_post = function(req, res) {
     }
 
     // do the same thing
-    if (req.files.full_image.name) {
+    if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
         var tmp_path = req.files.full_image.path;
         var full_image_path = './public' + full_image_short_path;
         fs.rename(tmp_path, full_image_path, function(err) {
@@ -545,21 +665,42 @@ exports.categories = function(req, res) {
     });
 }
 
-function queryComment(query, callbackFunction) {
-
+function queryListComment(query, r, callbackFunction) {
+    if (query['$or'].length <= 0) {
+        var emptyQuery = [];
+        callbackFunction(emptyQuery, r, false);
+        return;
+    };
     model.Comment.find(query)
         .populate('user','username email thumbnail_image')
         .exec(function (err, comments) {
             if (err) { 
-                console.log('query comment error'+ err);
+                console.log('query comment ' + err);
                 return;
             }
             if (comments != undefined && comments.length > 0) {
-                callbackFunction(comments);  
+                callbackFunction(comments, r, true);                  
             } 
             return;
     });
-
 }
 
-
+function queryListImin(query, r, callbackFunction) {
+    if (query['$or'].length <= 0) {
+        var emptyQuery = [];
+        callbackFunction(emptyQuery, r, false);
+        return;
+    };
+    model.Imin.find(query)
+        .populate('user','username email thumbnail_image')
+        .exec(function (err, imins) {
+            if (err) { 
+                console.log('query imin' + err);
+                return;
+            }
+            if (comments != undefined && comments.length > 0) {
+                callbackFunction(imins, r, true);                  
+            } 
+            return;
+    });
+}
