@@ -332,14 +332,10 @@ exports.report_post = function(req, res) {
     // save data to db
     var report = new model.Report();
     
-    var thumbnail_image_type = req.files.thumbnail_image.type.match( /[^\/]+\/?$/ );
-    var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_type;
-    var full_image_type = req.files.full_image.type.match( /[^\/]+\/?$/ );
-    var full_image_short_path = "/images/report/" + report._id + "." + full_image_type;
     
+    var thumbnail_image_type = req.files.thumbnail_image.type.split("/");
+    var full_image_type = req.files.full_image.type.split("/");
     report.title = req.body.title;
-    report.thumbnail_image = thumbnail_image_short_path;
-    report.full_image = full_image_short_path;
     report.lat = req.body.lat;
     report.lng = req.body.lng;
     report.note = req.body.note;
@@ -347,6 +343,18 @@ exports.report_post = function(req, res) {
     report.imin_count = 0;
     report.last_modified = new Date();
     report.created_at = new Date();
+
+    if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
+        var thumbnail_image_extension = req.files.thumbnail_image.type.match( /[^\/]+\/?$/ );
+        var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_extension;
+        report.thumbnail_image = thumbnail_image_short_path;
+        console.log('noooooooo');
+    };
+    if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
+        var full_image_extension = req.files.full_image.type.match( /[^\/]+\/?$/ );
+        var full_image_short_path = "/images/report/" + report._id + "." + full_image_extension;
+        report.full_image = full_image_short_path;
+    };
 
 /*
     , categories        : [{ type: Schema.Types.ObjectId, ref: 'Category' }]
@@ -458,16 +466,8 @@ exports.report_post = function(req, res) {
     // make directory
     fs.mkdirParent("./public/images/report/");
     
-console.log('thumbnail_image_type ' + thumbnail_image_type);
-
     //save picture to /public/images/report/:id
-    if (thumbnail_image_type != 'png' && thumbnail_image_type != 'jpeg') {
-        // delete temporary file : ./upload
-        var tmp_path = req.files.thumbnail_image.path;
-        fs.unlink(tmp_path, function() {
-            console.log('Delete temporary file in upload');
-        });
-    } else if (req.files.thumbnail_image.name) {
+    if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
         // get the temporary location of the file : ./uploads
         var tmp_path = req.files.thumbnail_image.path;
         // set where the file should actually exists - in this case it is in the "images" directory
@@ -490,13 +490,7 @@ console.log('thumbnail_image_type ' + thumbnail_image_type);
     }
 
     // do the same thing
-    if (full_image_type != 'png' && full_image_type != 'jpeg') {
-        // delete temporary file : ./upload
-        var tmp_path = req.files.full_image.path;
-        fs.unlink(tmp_path, function() {
-            console.log('Delete temporary file in upload');
-        });
-    } else if (req.files.full_image.name) {
+    if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
         var tmp_path = req.files.full_image.path;
         var full_image_path = './public' + full_image_short_path;
         fs.rename(tmp_path, full_image_path, function(err) {
