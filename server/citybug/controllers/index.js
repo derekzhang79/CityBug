@@ -81,19 +81,45 @@ exports.index = function(req, res){
     //add mockup user 
     model.Subscription.find({} , function(err,allSubscription) { 
         if (err || allSubscription == null || allSubscription.length < 1) {
-            var ss = new model.Subscription();
-            ss.place = '505c28296b3c8f8d15000001';
-            ss.user = '505c0e2451a3f4ab11000003'; //admin subscribe to สวนดอกจ้า
-            ss.created_at = new Date();
-            ss.last_modified = new Date();
-            ss.save(function (err){
-                if (err) {
-                    console.log(err);
-                    // do something
-                } else {
-                    console.log('saved subscription' + ss);
-                }
-            }); 
+
+            model.User.find({} , function(err,allUser) {
+                if (allUser != null && allUser.length > 0) {
+
+                    model.Place.find({} , function(err,allPlace) {
+                        if (allPlace != null && allPlace.length > 0) {
+                            var ss = new model.Subscription();
+                            ss.place = allPlace[0]._id;
+                            ss.user = allUser[0]._id;
+                            ss.created_at = new Date();
+                            ss.last_modified = new Date();
+                            ss.save(function (err){
+                                if (err) {
+                                    console.log(err);
+                                    // do something
+                                } else {
+                                    console.log('saved subscription' + ss);
+                                }
+                            }); 
+                        }
+                        if (allPlace != null && allPlace.length > 1) {
+                            var ss2 = new model.Subscription();
+                            ss2.place = allPlace[1]._id;
+                            ss2.user =  allUser[0]._id; 
+                            ss2.created_at = new Date();
+                            ss2.last_modified = new Date();
+                            ss2.save(function (err){
+                                if (err) {
+                                    console.log(err);
+                                    // do something
+                                } else {
+                                    console.log('saved subscription' + ss2);
+                                }
+                            }); 
+                        }
+                    });
+                } 
+                
+            });
         }
     });
     
