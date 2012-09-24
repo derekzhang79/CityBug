@@ -43,7 +43,7 @@ exports.comment_post = function(req, res) {
                 } else {
                     // find report by id
                     model.Report.findOne({_id:currentID}, function(err, report) {
-                        if (err) {
+                        if (err || report == null) {
                             console.log('err' + err);
                         } else {
                             console.log('new comment '+report);
@@ -84,7 +84,7 @@ exports.reports = function(req, res) {
         .populate('place')
 
         .exec(function (err, report) {
-            if (err) { 
+            if (err || null) { 
                 return handleError(err);
             }
             res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
@@ -107,7 +107,7 @@ exports.report = function(req, res) {
         .populate('imins')
         .populate('place')
         .exec(function (err, report) {
-            if (err) { 
+            if (err || report == null) { 
                 return handleError(err);
             }
 
@@ -241,7 +241,7 @@ exports.report_post = function(req, res) {
         //Category can not add from client
         model.Category.find(query, function(err,catTitleFromClient) { 
           
-            if (!err) {
+            if (!err && catTitleFromClient != null) {
                 for (i in catTitleFromClient ) {
                     // Push category to Report's category list
                     report.categories.push(catTitleFromClient[i]._id);
