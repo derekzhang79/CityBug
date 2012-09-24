@@ -415,9 +415,7 @@ exports.report_post = function(req, res) {
                 }
             } else {
                 console.log('err' + err);
-                res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                res.write("Canot add new report, save failed");
-                res.end();
+
             }
 
             model.Place.findOne({id_foursquare: req.body.place_id }, function(err,place) {   
