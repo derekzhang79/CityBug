@@ -10,8 +10,6 @@
 		985F49EE160B2D1000D642D0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */; };
 		985F49F0160B2D1B00D642D0 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49EF160B2D1B00D642D0 /* ImageIO.framework */; };
 		985F49F2160B2EEB00D642D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49F1160B2EEB00D642D0 /* CoreLocation.framework */; };
-		98690046160F43500086CEAC /* geo.png in Resources */ = {isa = PBXBuildFile; fileRef = 98690044160F43500086CEAC /* geo.png */; };
-		98690047160F43500086CEAC /* in.png in Resources */ = {isa = PBXBuildFile; fileRef = 98690045160F43500086CEAC /* in.png */; };
 		98690050160F55EB0086CEAC /* ODMReportDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9869004F160F55EB0086CEAC /* ODMReportDetailViewController.m */; };
 		CE16A299160ACE4100396033 /* cat1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE16A292160ACE4100396033 /* cat1.png */; };
 		CE16A29A160ACE4100396033 /* 6.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A293160ACE4100396033 /* 6.jpeg */; };
@@ -35,6 +33,10 @@
 		CE314D3F161056BD00CB7820 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CE314D36161056BD00CB7820 /* UIButton+WebCache.m */; };
 		CE314D40161056BD00CB7820 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CE314D38161056BD00CB7820 /* UIImageView+WebCache.m */; };
 		CE314D4D16105E8A00CB7820 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE314D4C16105E8A00CB7820 /* MapKit.framework */; };
+		CE314D881610727200CB7820 /* ODMReportCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE314D871610727200CB7820 /* ODMReportCommentViewController.m */; };
+		CE314D8C161076C500CB7820 /* bad.png in Resources */ = {isa = PBXBuildFile; fileRef = CE314D89161076C500CB7820 /* bad.png */; };
+		CE314D8D161076C500CB7820 /* geo.png in Resources */ = {isa = PBXBuildFile; fileRef = CE314D8A161076C500CB7820 /* geo.png */; };
+		CE314D8E161076C500CB7820 /* in.png in Resources */ = {isa = PBXBuildFile; fileRef = CE314D8B161076C500CB7820 /* in.png */; };
 		CE314DC3160C231A00D01C8F /* ODMDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CE314DC2160C231A00D01C8F /* ODMDataManagerTest.m */; };
 		CE7C595D16097FD600F3D496 /* CityBugTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEB10E861603767D0041B3B8 /* CityBugTests-Info.plist */; };
 		CEB10E231603748E0041B3B8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB10E211603748E0041B3B8 /* main.m */; };
@@ -120,8 +122,6 @@
 		985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		985F49EF160B2D1B00D642D0 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		985F49F1160B2EEB00D642D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		98690044160F43500086CEAC /* geo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geo.png; sourceTree = SOURCE_ROOT; };
-		98690045160F43500086CEAC /* in.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = in.png; sourceTree = SOURCE_ROOT; };
 		9869004E160F55EB0086CEAC /* ODMReportDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMReportDetailViewController.h; path = CityBug/ODMReportDetailViewController.h; sourceTree = SOURCE_ROOT; };
 		9869004F160F55EB0086CEAC /* ODMReportDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMReportDetailViewController.m; path = CityBug/ODMReportDetailViewController.m; sourceTree = SOURCE_ROOT; };
 		CE16A292160ACE4100396033 /* cat1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cat1.png; path = CityBug/images/Prototype/cat1.png; sourceTree = SOURCE_ROOT; };
@@ -166,6 +166,11 @@
 		CE314D37161056BD00CB7820 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		CE314D38161056BD00CB7820 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		CE314D4C16105E8A00CB7820 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		CE314D861610727200CB7820 /* ODMReportCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMReportCommentViewController.h; path = CityBug/ODMReportCommentViewController.h; sourceTree = SOURCE_ROOT; };
+		CE314D871610727200CB7820 /* ODMReportCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMReportCommentViewController.m; path = CityBug/ODMReportCommentViewController.m; sourceTree = SOURCE_ROOT; };
+		CE314D89161076C500CB7820 /* bad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bad.png; path = CityBug/images/Prototype/bad.png; sourceTree = SOURCE_ROOT; };
+		CE314D8A161076C500CB7820 /* geo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = geo.png; path = CityBug/images/Prototype/geo.png; sourceTree = SOURCE_ROOT; };
+		CE314D8B161076C500CB7820 /* in.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = in.png; path = CityBug/images/Prototype/in.png; sourceTree = SOURCE_ROOT; };
 		CE314DC1160C231A00D01C8F /* ODMDataManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMDataManagerTest.h; sourceTree = "<group>"; };
 		CE314DC2160C231A00D01C8F /* ODMDataManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMDataManagerTest.m; sourceTree = "<group>"; };
 		CEB10E1F1603748E0041B3B8 /* CityBug-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CityBug-Info.plist"; path = "CityBug/CityBug-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -263,8 +268,9 @@
 		98675A0815FDFD9900B34785 /* prototype */ = {
 			isa = PBXGroup;
 			children = (
-				98690044160F43500086CEAC /* geo.png */,
-				98690045160F43500086CEAC /* in.png */,
+				CE314D89161076C500CB7820 /* bad.png */,
+				CE314D8A161076C500CB7820 /* geo.png */,
+				CE314D8B161076C500CB7820 /* in.png */,
 				CE16A292160ACE4100396033 /* cat1.png */,
 				CE16A293160ACE4100396033 /* 6.jpeg */,
 				CE16A294160ACE4100396033 /* 5.jpeg */,
@@ -282,6 +288,8 @@
 		CE314D19161016BA00CB7820 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CE314D861610727200CB7820 /* ODMReportCommentViewController.h */,
+				CE314D871610727200CB7820 /* ODMReportCommentViewController.m */,
 				CE314D16161016B600CB7820 /* ODMActivityFeedViewCell.h */,
 				CE314D17161016B600CB7820 /* ODMActivityFeedViewCell.m */,
 			);
@@ -631,9 +639,10 @@
 				CE16A29D160ACE4100396033 /* 3.jpeg in Resources */,
 				CE16A29E160ACE4100396033 /* 2.jpeg in Resources */,
 				CE16A29F160ACE4100396033 /* 1.jpeg in Resources */,
-				98690046160F43500086CEAC /* geo.png in Resources */,
-				98690047160F43500086CEAC /* in.png in Resources */,
 				CE314D221610548700CB7820 /* Localizable.strings in Resources */,
+				CE314D8C161076C500CB7820 /* bad.png in Resources */,
+				CE314D8D161076C500CB7820 /* geo.png in Resources */,
+				CE314D8E161076C500CB7820 /* in.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,6 +703,7 @@
 				CE314D3E161056BD00CB7820 /* SDWebImagePrefetcher.m in Sources */,
 				CE314D3F161056BD00CB7820 /* UIButton+WebCache.m in Sources */,
 				CE314D40161056BD00CB7820 /* UIImageView+WebCache.m in Sources */,
+				CE314D881610727200CB7820 /* ODMReportCommentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -824,10 +834,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
 				INFOPLIST_FILE = "CityBug/CityBug-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Vendor/Exif\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = CityBug;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -843,10 +850,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
 				INFOPLIST_FILE = "CityBug/CityBug-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Vendor/Exif\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = CityBug;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

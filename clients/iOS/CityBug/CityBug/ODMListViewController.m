@@ -8,7 +8,7 @@
 
 #import "ODMListViewController.h"
 #import "ODMDescriptionFormViewController.h"
-#import "ODMDescriptionViewController.h"
+#import "ODMReportDetailViewController.h"
 #import "ODMDataManager.h"
 
 #import <ImageIO/ImageIO.h>
@@ -20,11 +20,14 @@
 
 #import "UIImageView+WebCache.h"
 
+
+#import "ODMDescriptionViewController.h"
+
 #define kSceenSize self.parentViewController.view.frame.size
 #define CAMERA_SCALAR 1.32
 
 static NSString *gotoFormSegue = @"presentFormSegue";
-static NSString *gotoViewSegue = @"showDescriptionSegue";
+static NSString *gotoViewSegue = @"gotoViewSegue";
 
 @interface ODMListViewController () {
     CLLocationManager *locationManager;

@@ -8,16 +8,17 @@
 
 #import "ODMReportDetailViewController.h"
 
-@interface ODMReportDetailViewController ()
-
-@end
-
 @implementation ODMReportDetailViewController {
     int numberOfComment;
+    NSMutableDictionary *commentDict;
+    NSMutableArray *commentArray;
 }
-@synthesize noteLabel;
-@synthesize amountInLabel;
+
+@synthesize reportImageView;
+@synthesize titleLabel;
 @synthesize locationLabel;
+@synthesize CommentLabel;
+
 
 
 - (void)reloadData
@@ -33,21 +34,10 @@
     } else {
         location = @"";
     }
-    
-    //    NSString *imagePath = [BASE_URL stringByAppendingString:[self.entry objectForKey:@"full_image"]];
-    //    [self.bugImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
-    self.noteLabel.text = @"Biscuit brownie caramels apple pie wafer";
+
+    self.titleLabel.text = @"Biscuit brownie caramels apple pie wafer";
     self.locationLabel.text = location;
 
-}
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
 }
 
 - (void)viewDidLoad
@@ -55,13 +45,21 @@
     [super viewDidLoad];
     numberOfComment = 0;
     [self reloadData];
+    ODMReportCommentViewController *reportComment = [[ODMReportCommentViewController alloc] init];
+    reportComment.delegate = self;
+    commentDict = [[NSMutableDictionary alloc] init];
+    commentArray = [[NSMutableArray alloc] init];
+    
+    [self updateComment:@"sampleComment"];
 }
 
 - (void)viewDidUnload
 {
-    [self setNoteLabel:nil];
-    [self setAmountInLabel:nil];
+
     [self setLocationLabel:nil];
+    [self setReportImageView:nil];
+    [self setTitleLabel:nil];
+    [self setCommentLabel:nil];
     [super viewDidUnload];
 }
 
@@ -70,20 +68,23 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - Table view data source
+#pragma mark - FormField Delegate
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (void)updateComment:(NSString *)comment
 {
-    if (section == 0)
-    {
-        return [NSString stringWithFormat:@"Title: %@", [self.entry objectForKey:@"title"]];
-    } else if (section == 1) {
-        return @"test2";
-    }
-
+    NSLog(@"Comment %@", comment);
+    [commentDict setObject:comment forKey:@"comment"];
+    [commentDict setObject:@"Plloy" forKey:@"user"];
+    [commentArray addObject:commentDict];
+    self.CommentLabel.text = comment;
+    
 }
 
-
-- (IBAction)addCommentButtonTapped:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"commentSegue"]) {
+        ODMReportCommentViewController *commentVC = segue.destinationViewController;
+        commentVC.delegate = self;
+    }
 }
 @end

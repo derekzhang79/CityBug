@@ -93,8 +93,8 @@
         isValid = [report validateValue:&longitude forKey:@"longitude" error:&error];
         if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
-        report.fullImage = self.bugImage;
-        report.thumbnailImage = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
+        report.fullImageData = self.bugImage;
+        report.thumbnailImageData = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
         
         // Add categories to report by associated object
         ODMCategory *category = [ODMCategory categoryWithTitle:self.categoryLabel.text];
