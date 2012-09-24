@@ -457,9 +457,17 @@ exports.report_post = function(req, res) {
 
     // make directory
     fs.mkdirParent("./public/images/report/");
+    
+console.log('thumbnail_image_type ' + thumbnail_image_type);
 
     //save picture to /public/images/report/:id
-    if (req.files.thumbnail_image.name) {
+    if (thumbnail_image_type != 'png' && thumbnail_image_type != 'jpeg') {
+        // delete temporary file : ./upload
+        var tmp_path = req.files.thumbnail_image.path;
+        fs.unlink(tmp_path, function() {
+            console.log('Delete temporary file in upload');
+        });
+    } else if (req.files.thumbnail_image.name) {
         // get the temporary location of the file : ./uploads
         var tmp_path = req.files.thumbnail_image.path;
         // set where the file should actually exists - in this case it is in the "images" directory
@@ -482,7 +490,13 @@ exports.report_post = function(req, res) {
     }
 
     // do the same thing
-    if (req.files.full_image.name) {
+    if (full_image_type != 'png' && full_image_type != 'jpeg') {
+        // delete temporary file : ./upload
+        var tmp_path = req.files.full_image.path;
+        fs.unlink(tmp_path, function() {
+            console.log('Delete temporary file in upload');
+        });
+    } else if (req.files.full_image.name) {
         var tmp_path = req.files.full_image.path;
         var full_image_path = './public' + full_image_short_path;
         fs.rename(tmp_path, full_image_path, function(err) {
@@ -524,7 +538,7 @@ function queryListComment(query, r, callbackFunction) {
         .populate('user','username email thumbnail_image')
         .exec(function (err, comments) {
             if (err) { 
-                console.log('query ' + err);
+                console.log('query comment ' + err);
                 return;
             }
             if (comments != undefined && comments.length > 0) {
@@ -544,7 +558,7 @@ function queryListImin(query, r, callbackFunction) {
         .populate('user','username email thumbnail_image')
         .exec(function (err, imins) {
             if (err) { 
-                console.log('query ' + err);
+                console.log('query imin' + err);
                 return;
             }
             if (comments != undefined && comments.length > 0) {
