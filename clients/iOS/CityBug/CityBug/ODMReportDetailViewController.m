@@ -8,15 +8,12 @@
 
 #import "ODMReportDetailViewController.h"
 
-@interface ODMReportDetailViewController ()
-
-@end
-
 @implementation ODMReportDetailViewController {
     int numberOfComment;
     NSMutableDictionary *commentDict;
     NSMutableArray *commentArray;
 }
+
 @synthesize reportImageView;
 @synthesize titleLabel;
 @synthesize locationLabel;

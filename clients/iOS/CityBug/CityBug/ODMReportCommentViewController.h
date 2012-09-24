@@ -6,11 +6,7 @@
 //  Copyright (c) 2012 opendream. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-
 @protocol ODMReportCommentDelegate;
-
 
 @interface ODMReportCommentViewController : UIViewController<UITextFieldDelegate>
 
