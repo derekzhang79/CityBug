@@ -46,4 +46,8 @@ extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
  */
 - (void)placesWithQueryParams:(NSDictionary *)params;
 
+/*
+ * CurrentUser
+ */
+- (ODMUser *)currentUser;
 @end

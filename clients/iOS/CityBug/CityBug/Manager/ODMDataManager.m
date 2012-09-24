@@ -55,8 +55,8 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         // RestKit setup
         //
         serviceObjectManager = [RKObjectManager managerWithBaseURLString:BASE_URL];
-        serviceObjectManager.client.username = @"admin";
-        serviceObjectManager.client.password = @"1q2w3e4r";
+        serviceObjectManager.client.username = [[self currentUser] username];
+        serviceObjectManager.client.password = [[self currentUser] password];
 //        serviceObjectManager.client.authenticationType = RKRequestAuthenticationTypeHTTPBasic;
         serviceObjectManager.client.defaultHTTPEncoding = NSUTF8StringEncoding;
         
@@ -122,6 +122,18 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     return sharedDataManager;
 }
 
+#pragma mark - USER
+
+- (ODMUser *)currentUser
+{
+#if DEBUG_HAS_SIGNED_IN
+    return [ODMUser newUser:@"user" email:@"user@citybug.com" password:@"qwer4321"];
+#endif
+    return nil;
+}
+
+#pragma mark - REPORT
+
 /*
  * CREATE REPORT
  * HTTP POST
@@ -129,9 +141,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 - (void)postNewReport:(ODMReport *)report
 {
     RKParams *reportParams = [RKParams params];
-    
-    ODMUser *admin = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
-    report.user = admin;
+    report.user = [self currentUser];
     
     [[RKObjectManager sharedManager] postObject:report usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
@@ -162,8 +172,13 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (NSArray *)reports
 {
-    if (1) {
-        [serviceObjectManager loadObjectsAtResourcePath:@"/api/reports" usingBlock:^(RKObjectLoader *loader){
+    if (![self currentUser]) {
+        
+        NSDictionary *queryParams = [NSDictionary dictionaryWithKeysAndObjects:@"lat", @"10.33023",
+                                     @"lng", @"133.324523", @"limit", @30, @"username", @"user", @"password", @"qwer4321", nil];
+        NSString *resourcePath = [@"/api/reports" stringByAppendingQueryParameters:queryParams];
+        
+        [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
             loader.onDidLoadObjects = ^(NSArray *objects){
                 reports_ = [NSArray arrayWithArray:objects];
                 

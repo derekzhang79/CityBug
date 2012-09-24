@@ -6,8 +6,10 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-//#define BASE_URL @"http://127.0.0.1:3003"
-#define BASE_URL @"http://54.251.32.49:3003"
+#define BASE_URL @"http://127.0.0.1:3003"
+//#define BASE_URL @"http://54.251.32.49:3003"
+
+#define DEBUG_HAS_SIGNED_IN YES
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 #define DATE_FORMAT @"yyyy-MM-dd HH:mm:ss"
