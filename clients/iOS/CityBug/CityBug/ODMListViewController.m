@@ -9,19 +9,17 @@
 #import "ODMListViewController.h"
 #import "ODMDescriptionFormViewController.h"
 #import "ODMReportDetailViewController.h"
-#import "ODMDataManager.h"
+#import "ODMDescriptionViewController.h"
 
 #import <ImageIO/ImageIO.h>
 #import <ImageIO/CGImageSource.h>
 #import <ImageIO/CGImageProperties.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-#import "ODMActivityFeedViewCell.h"
-
 #import "UIImageView+WebCache.h"
-
-
-#import "ODMDescriptionViewController.h"
+#import "ODMActivityFeedViewCell.h"
+#import "ODMDataManager.h"
+#import "ODMReport.h"
 
 #define kSceenSize self.parentViewController.view.frame.size
 #define CAMERA_SCALAR 1.32
@@ -126,7 +124,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     
     cell.report = report;
     NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cell.report.thumbnailImage]];
-    ODMLog(@"report URL %@",[reportURL absoluteString]);
+    
     [cell.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
     
     return cell;

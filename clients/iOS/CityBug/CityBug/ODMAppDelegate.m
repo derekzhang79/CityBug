@@ -14,8 +14,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    RKLogConfigureByName("RestKit/Network*", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelDebug);
+    RKLogConfigureByName("RestKit/Network*", RKLogLevelWarning);
+    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelWarning);
     
     return YES;
 }

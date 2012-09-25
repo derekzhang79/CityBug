@@ -121,6 +121,11 @@
             *error = [NSError errorWithDomain:LOCATION_VALUE_INVALID_TEXT code:2001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(LOCATION_VALUE_INVALID_DESCRIPTION_TEXT, LOCATION_VALUE_INVALID_DESCRIPTION_TEXT), nil]];
             return NO;
         }
+    } else if ([key isEqualToString:@"place"]) {
+        if (!value) {
+            *error = [NSError errorWithDomain:PLACE_IS_REQUIRED_FIELD_TEXT code:3001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT, PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT), nil]];
+            return NO;
+        }
     }
     
     return YES;
