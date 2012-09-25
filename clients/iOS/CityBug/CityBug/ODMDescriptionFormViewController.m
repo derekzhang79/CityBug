@@ -72,11 +72,8 @@
         report.title = self.titleTextField.text;
         NSError *error = nil;
         
-        id title = report.title;
-        BOOL isValid = [report validateValue:&title forKey:@"title" error:&error];
-        
-        ODMLog(@"error %@ : description %@", error, [[error userInfo] objectForKey:@"description"]);
-        
+        NSString *title = report.title;
+        BOOL isValid = [report validateValue:&title forKey:@"title" error:&error];        
         if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
         report.note = self.noteTextField.text;

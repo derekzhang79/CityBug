@@ -24,7 +24,6 @@
         location = @"";
     }
     
-    
 //    NSString *imagePath = [BASE_URL stringByAppendingString:[self.entry objectForKey:@"full_image"]];
 //    [self.bugImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
     self.descTextView.text = [self.entry objectForKey:@"title"];

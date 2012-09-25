@@ -198,8 +198,8 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [reportParams setValue:[report.place latitude] forParam:@"place_lat"];
         [reportParams setValue:[report.place longitude] forParam:@"place_lng"];
         
-        NSArray *catItems = [report.categories valueForKeyPath:@"title"];
-        [reportParams setValue:catItems forParam:@"categories"];
+//        NSArray *catItems = [report.categories valueForKeyPath:@"title"];
+//        [reportParams setValue:catItems forParam:@"categories"];
         
         NSData *fullImageData = UIImageJPEGRepresentation(report.fullImageData, 1);
         NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImageData, 1);
