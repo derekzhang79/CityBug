@@ -262,10 +262,9 @@ exports.index = function(req, res){
                         };
                         if (maxQueryCount == queryCount && maxQueryCount != 0) {
 
-                            // implement sort here //
-                            //                     //
-                            //                     //
-                            /////////////////////////
+                            new_report = new_report.sort(function(a, b) {
+                                return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
+                            });
 
                             res.render('index.jade',{title: 'City bug',report: new_report});
                         }
@@ -273,6 +272,9 @@ exports.index = function(req, res){
                 });   
             }
             if (maxQueryCount == 0) {
+                new_report = new_report.sort(function(a, b) {
+                    return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
+                });
                 res.render('index.jade',{title: 'City bug',report: new_report});
             };
     });
