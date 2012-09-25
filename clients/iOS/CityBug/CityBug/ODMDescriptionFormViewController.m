@@ -190,7 +190,7 @@
 {
     self.categoryLabel.text = category;
     
-    ODMLog(@"Update Category %@", category);
+    [self.tableView reloadData];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -209,7 +209,7 @@
     selectedPlace = place;
     self.localtionLabel.text = [place title];
     
-    ODMLog(@"Update Place %@", [place title]);
+    [self.tableView reloadData];
 }
 
 #pragma mark - TABLEVIEW

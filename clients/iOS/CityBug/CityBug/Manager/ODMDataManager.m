@@ -57,8 +57,9 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         serviceObjectManager = [RKObjectManager managerWithBaseURLString:BASE_URL];
         serviceObjectManager.client.username = [[self currentUser] username];
         serviceObjectManager.client.password = [[self currentUser] password];
-//        serviceObjectManager.client.authenticationType = RKRequestAuthenticationTypeHTTPBasic;
+        serviceObjectManager.client.authenticationType = RKRequestAuthenticationTypeHTTPBasic;
         serviceObjectManager.client.defaultHTTPEncoding = NSUTF8StringEncoding;
+        serviceObjectManager.client.cachePolicy = RKRequestCachePolicyEnabled;
         
         //
         // Object Mapping
@@ -243,7 +244,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     }
     
     // Check whether current user has signed in
-    if ([self currentUser]) {
+    if ([self currentUser] && DEBUG_HAS_SIGNED_IN) {
         
         // DEBUG MODE (Helping Mode)
         // We add username and password as query parameters,
@@ -285,7 +286,10 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     
     [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
         loader.onDidLoadObjects = ^(NSArray *objects){
-            reports_ = [NSArray arrayWithArray:objects];
+            
+            NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"lastModified" ascending:NO];
+            
+            reports_ = [objects sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sort1, nil]];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationReportsLoadingFinish object:reports_];
         };

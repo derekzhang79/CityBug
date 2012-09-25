@@ -96,6 +96,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     datasource = (NSArray *)[notification object];
     
     [self.tableView reloadData];
+    
+    ODMLog(@"update reports [%i]", [datasource count]);
 }
 
 #pragma mark - Table view data source
