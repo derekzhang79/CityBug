@@ -57,8 +57,6 @@
     reportComment.delegate = self;
     commentDict = [[NSMutableDictionary alloc] init];
     commentArray = [[NSMutableArray alloc] init];
-    
-    [self updateComment:@"sampleComment"];
 }
 
 - (void)viewDidUnload
