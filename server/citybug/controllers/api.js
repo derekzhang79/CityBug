@@ -580,6 +580,7 @@ exports.report_post = function(req, res) {
                             console.log(err);
                             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
                             res.write('Canot add new comment, save place failed');
+                            res.end();
                         } else {
                             console.log('>>> Saved place' + newPlace);
                             report.place = newPlace._id;
