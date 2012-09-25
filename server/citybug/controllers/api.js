@@ -538,6 +538,16 @@ exports.report_post = function(req, res) {
     //Find User from username
     model.User.findOne({username: req.body.username }, function(err,user) {   
         if (user == null) {
+            // delete temp upload
+            var tmp_path = req.files.thumbnail_image.path;
+            fs.unlink(tmp_path, function() {
+                console.log('Delete temporary file');
+            });
+            var tmp_path = req.files.full_image.path;
+            fs.unlink(tmp_path, function() {
+                console.log('Delete temporary file');
+            });
+            
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
             res.write('Not get username from client');
             res.end();
@@ -637,51 +647,52 @@ exports.report_post = function(req, res) {
 
             });
         });
+        // make directory
+        fs.mkdirParent("./public/images/report/");
+        
+        //save picture to /public/images/report/:id
+        if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
+            // get the temporary location of the file : ./uploads
+            var tmp_path = req.files.thumbnail_image.path;
+            // set where the file should actually exists - in this case it is in the "images" directory
+            var thumbnail_image_path = './public' + thumbnail_image_short_path;
+            // move the file from the temporary location to the intended location
+            fs.rename(tmp_path, thumbnail_image_path, function(err) {
+                if (err) throw err;
+                // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+                fs.unlink(tmp_path, function() {
+                    if (err) throw err;
+                        console.log('File uploaded to: ' + thumbnail_image_path + ' - ' + req.files.thumbnail_image.size + ' bytes');
+                });
+            });        
+        } else {
+            // delete temporary file : ./upload
+            var tmp_path = req.files.thumbnail_image.path;
+            fs.unlink(tmp_path, function() {
+                console.log('Delete temporary file');
+            });
+        }
+
+        // do the same thing
+        if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
+            var tmp_path = req.files.full_image.path;
+            var full_image_path = './public' + full_image_short_path;
+            fs.rename(tmp_path, full_image_path, function(err) {
+                if (err) throw err;
+                fs.unlink(tmp_path, function() {
+                    if (err) throw err;
+                        console.log('File uploaded to: ' + full_image_path + ' - ' + req.files.full_image.size + ' bytes');
+                });
+            });
+        } else {
+            var tmp_path = req.files.full_image.path;
+            fs.unlink(tmp_path, function() {
+                console.log('Delete temporary file');
+            });
+        }
+
     });
 
-    // make directory
-    fs.mkdirParent("./public/images/report/");
-    
-    //save picture to /public/images/report/:id
-    if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
-        // get the temporary location of the file : ./uploads
-        var tmp_path = req.files.thumbnail_image.path;
-        // set where the file should actually exists - in this case it is in the "images" directory
-        var thumbnail_image_path = './public' + thumbnail_image_short_path;
-        // move the file from the temporary location to the intended location
-        fs.rename(tmp_path, thumbnail_image_path, function(err) {
-            if (err) throw err;
-            // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-            fs.unlink(tmp_path, function() {
-                if (err) throw err;
-                    console.log('File uploaded to: ' + thumbnail_image_path + ' - ' + req.files.thumbnail_image.size + ' bytes');
-            });
-        });        
-    } else {
-        // delete temporary file : ./upload
-        var tmp_path = req.files.thumbnail_image.path;
-        fs.unlink(tmp_path, function() {
-            console.log('Delete temporary file');
-        });
-    }
-
-    // do the same thing
-    if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
-        var tmp_path = req.files.full_image.path;
-        var full_image_path = './public' + full_image_short_path;
-        fs.rename(tmp_path, full_image_path, function(err) {
-            if (err) throw err;
-            fs.unlink(tmp_path, function() {
-                if (err) throw err;
-                    console.log('File uploaded to: ' + full_image_path + ' - ' + req.files.full_image.size + ' bytes');
-            });
-        });
-    } else {
-        var tmp_path = req.files.full_image.path;
-        fs.unlink(tmp_path, function() {
-            console.log('Delete temporary file');
-        });
-    }
 };
 
 // GET /api/categories >> get list of categories
