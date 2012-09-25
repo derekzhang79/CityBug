@@ -20,8 +20,6 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 NSString *ODMDataManagerNotificationPlacesLoadingFinish;
 NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
-#define MINIMUN_ACCURACY_DISTANCE 100
-
 @interface ODMDataManager(Accessor)
 /*
  * Read write access only DataManager

@@ -39,7 +39,7 @@
 #define LONG_LENGTH_STRING_ERROR_DESCRIPTION_TEXT LONG_LENGTH_STRING_ERROR_DOMAIN
 // Location
 #define LOCATION_INVALID_TEXT @"Location services Error"
-#define LOCATION_INVALID_DESCRIPTION_TEXT @"Location service could not acquire your location"
+#define LOCATION_INVALID_DESCRIPTION_TEXT @"Location services could not acquire your location"
 
 #define LOCATION_VALUE_INVALID_TEXT @"Latitude/Longitude error"
 #define LOCATION_VALUE_INVALID_DESCRIPTION_TEXT @"Invalid latitude or longitude value. Latitude should valid in range (-90,90) and longitude should valid in range (-180, 180)"
@@ -48,9 +48,11 @@
 
 #define PLACE_IS_REQUIRED_FIELD_TEXT @"Require place"
 #define PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT @"Please select a place for this report"
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define USER_CURRENT_LOCATION @"currentLocation"
+#define MINIMUN_ACCURACY_DISTANCE 100
 
 /*
  * ODMLog
