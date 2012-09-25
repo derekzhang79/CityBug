@@ -106,9 +106,9 @@
         report.place = place;
         isValid = [report validateValue:&place forKey:@"place" error:&error];
         if (!place) {
-            error = [NSError errorWithDomain:PLACE_IS_REQUIRED_FIELD_TEXT code:2001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([ODMReport class]), self, @"description", NSLocalizedString(PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT, PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT), nil]];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CityBug", @"CityBug") message:@"Local location services are enable" delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
             
-            @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+            [alertView show];
         }
         
         //
@@ -118,17 +118,47 @@
         // Retrieve location from NSUserDefault
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         CLLocation *location = (CLLocation *)[userDefault objectForKey:USER_CURRENT_LOCATION];
+        if (location != nil && location.horizontalAccuracy <= MINIMUN_ACCURACY_DISTANCE && location.verticalAccuracy <= MINIMUN_ACCURACY_DISTANCE) {
+            //
+            // Location services are enable and
+            // already has detected current location
+            //
+            report.latitude = @(location.coordinate.latitude);
+            report.longitude = @(location.coordinate.longitude);
+            
+        } else {
+            if (place) {
+                //
+                // Worst case
+                // We use place's location from provider(foursquare)
+                //
+                report.latitude = report.place.latitude;
+                report.longitude = report.place.longitude;
+                
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CityBug", @"CityBug") message:@"Use location from foursquare" delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
+                [alertView show];
+                
+            } else {
+                //
+                // Location Services are disable
+                //
+                error = [NSError errorWithDomain:LOCATION_INVALID_TEXT code:3002 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(LOCATION_INVALID_DESCRIPTION_TEXT, LOCATION_INVALID_DESCRIPTION_TEXT), nil]];
+                
+                @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+            }
+        }
         
-        report.latitude = @(location.coordinate.latitude);
-        report.longitude = @(location.coordinate.longitude);
-        
+        //
         // Validate Latitude
+        //
         error = nil;
         id latitude = report.latitude;
         isValid = [report validateValue:&latitude forKey:@"latitude" error:&error];
         if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
+        //
         // Validate Longitude
+        //
         id longitude = report.longitude;
         isValid = [report validateValue:&longitude forKey:@"longitude" error:&error];
         if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
@@ -136,11 +166,11 @@
         //
         // Post Report
         //
-        
-        // Call DataManager with new report
-        [[ODMDataManager sharedInstance] postNewReport:report error:&error];
         if (error) {
             @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        } else {
+            // Call DataManager with new report
+            [[ODMDataManager sharedInstance] postNewReport:report error:&error];
         }
     }
     @catch (NSException *exception) {

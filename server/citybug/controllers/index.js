@@ -18,8 +18,8 @@ exports.index = function(req, res){
         if (err || allUser == null || allUser.length < 1) {
             var user2 = new model.User();
             user2.username = 'admin';
-            user2.password = '1q2w3e4r';
-            user2.email = '123@ggg.com';
+            user2.password = 'qwer4321';
+            user2.email = 'admin@citybug.in.th';
             user2.created_at = new Date();
             user2.last_modified = new Date();
             user2.save(function (err){
@@ -84,14 +84,14 @@ exports.index = function(req, res){
     model.Subscription.find({} , function(err,allSubscription) { 
         if (err || allSubscription == null || allSubscription.length < 1) {
 
-            model.User.find({} , function(err,allUser) {
-                if (allUser != null && allUser.length > 0) {
+            model.User.findOne({username: 'admin'} , function(err,adminUser) {
+                if (adminUser != null && !err) {
 
                     model.Place.find({} , function(err,allPlace) {
                         if (allPlace != null && allPlace.length > 0) {
                             var ss = new model.Subscription();
                             ss.place = allPlace[0]._id;
-                            ss.user = allUser[0]._id;
+                            ss.user = adminUser._id;
                             ss.created_at = new Date();
                             ss.last_modified = new Date();
                             ss.save(function (err){
@@ -106,7 +106,7 @@ exports.index = function(req, res){
                         if (allPlace != null && allPlace.length > 1) {
                             var ss2 = new model.Subscription();
                             ss2.place = allPlace[1]._id;
-                            ss2.user =  allUser[0]._id; 
+                            ss2.user =  adminUser._id; 
                             ss2.created_at = new Date();
                             ss2.last_modified = new Date();
                             ss2.save(function (err){
