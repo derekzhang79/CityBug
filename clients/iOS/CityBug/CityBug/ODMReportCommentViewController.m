@@ -59,7 +59,8 @@
         [self.delegate updateComment:self.CommentTextField.text];
     }
     ODMComment *comment = [[ODMComment alloc] init];
-//    [[ODMDataManager sharedInstance] post:comment];
+    [comment setText:self.CommentTextField.text];
+    [[ODMDataManager sharedInstance] postComment:comment];
     
 }
 
