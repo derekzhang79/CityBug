@@ -10,6 +10,24 @@ exports.add = function(req, res){
     });
 };
 
+exports.subscriptions = function(req, res){
+
+    model.Subscription.find({}, function(err,docs) {
+        if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write("Cannot get subscription");
+            res.end();
+            return;
+        } else {
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "subscriptions":' + JSON.stringify(docs) + '}');
+            res.end();
+            return;
+        }
+    });
+    
+};
+
 exports.comment_post = function(req, res) {
     var url = req.url;
     // reg localhost:3003/api/report/505c1671ae45f73d0d000006/comment --> 505c1671ae45f73d0d000006
@@ -700,12 +718,15 @@ exports.categories = function(req, res) {
     model.Category.find({}, function(err,docs) {
         if (err) {
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write("Canot get categories");
+            res.write("Cannot get categories");
             res.end();
+            return;
+        } else {
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "categories":' + JSON.stringify(docs) + '}');
+            res.end();
+            return;
         }
-        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-        res.write('{ "categories":' + JSON.stringify(docs) + '}');
-        res.end();
     });
 }
 

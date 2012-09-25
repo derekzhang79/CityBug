@@ -31,7 +31,6 @@ exports.place_search = function(req, res){
 	res.writeHead(303, { 'location': loc });
 	res.end();
 */
-
 }
 
 
@@ -53,8 +52,8 @@ exports.callback_place_search = function(req, res){
 		if (access_token !== undefined) {
 
 			//Mock up lat lng
-			var lat = 40.721294;
-			var lng = -73.983994;
+			var lat = 18.79646; //40.721294
+			var lng = 98.95322; //-73.983994
 
 			venueSearch(access_token, lat, lng, function (data) {
 				if (data != null && data != undefined) {
@@ -72,6 +71,7 @@ exports.callback_place_search = function(req, res){
 						newPlace.id_foursquare = itemArray[i].id;		
 						newPlace.title = itemArray[i].name;			
 						newPlace.distance = itemArray[i].location.distance;
+						newPlace.type = 'additional';
 						newPlace.lat = itemArray[i].location.lat;
 						newPlace.lng = itemArray[i].location.lng;
 						newPlace.last_modified = new Date();
@@ -97,6 +97,7 @@ exports.callback_place_search = function(req, res){
 			                console.log("error find place " + err);
 			            } else {
 							for (i in serverPlace) {
+								serverPlace[i].type = 'suggested';
 								//Calculate distance in each server place
 								serverPlace[i].distance = service.distanceCalculate(serverPlace[i].lat, serverPlace[i].lng, lat, lng);
 								serverPlaceArray.push(serverPlace[i]);

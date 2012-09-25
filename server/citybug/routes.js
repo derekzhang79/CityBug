@@ -23,4 +23,7 @@ module.exports = function(app, express){
 
 	//categories
 	app.get('/api/categories', api.categories);
+
+	//subscribe
+	app.get('/api/subscriptions', api.subscriptions);
 };
