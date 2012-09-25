@@ -415,7 +415,7 @@ exports.report = function(req, res) {
             }
 
             // have none of report
-            if (report.length == 0) {
+            if (report == null || report.length == 0) {
                 res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                 res.write('{ "reports":' + JSON.stringify(report) + '}');
                 res.end();
