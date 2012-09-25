@@ -22,7 +22,7 @@
 #define MAXIMUM_REPORT_LENGTH 256
 #define MAXIMUM_NOTE_LENGTH 1024
 #define VALIDATION_USERNAME_REGEXR @"^[a-zA-Z0-9ก-ฮเ-ไ]{1}[a-zA-Z0-9ก-๙]{2}[a-zA-Z0-9ก-๙ _]*"
-#define VALIDATION_TITLE_REGEXR @"^[a-zA-Z0-9ก-ฮเ-ไ]{1}[a-zA-Z0-9ก-๙]{2}[a-zA-Z0-9ก-๙ _]*"
+#define VALIDATION_TITLE_REGEXR @"^\w.*(?<=^|>)[^><]+?(?=<|$)"
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Title

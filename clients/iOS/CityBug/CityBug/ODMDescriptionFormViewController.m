@@ -17,6 +17,7 @@
 @implementation ODMDescriptionFormViewController {
     NSMutableDictionary *entryDict;
     ODMPlace *selectedPlace;
+    CLLocationManager *_locationManager;
 }
 
 @synthesize bugImage;
@@ -25,11 +26,13 @@
 {
     [super viewDidLoad];
     self.bugImageView.image = self.bugImage;
+    
+    [self startGatheringLocation];
 }
 
 - (void)viewDidUnload
 {
-    [self setBugImageView:nil];
+    [self stopGatheringLocation];
     [super viewDidUnload];
 }
 
@@ -113,11 +116,11 @@
         
         //
         // Report's location
-        //
+        // 
         
         // Retrieve location from NSUserDefault
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        CLLocation *location = (CLLocation *)[userDefault objectForKey:USER_CURRENT_LOCATION];
+        CLLocation *location = [_locationManager location];
+        
         if (location != nil && location.horizontalAccuracy <= MINIMUN_ACCURACY_DISTANCE && location.verticalAccuracy <= MINIMUN_ACCURACY_DISTANCE) {
             //
             // Location services are enable and
@@ -134,9 +137,6 @@
                 //
                 report.latitude = report.place.latitude;
                 report.longitude = report.place.longitude;
-                
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CityBug", @"CityBug") message:@"Use location from foursquare" delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
-                [alertView show];
                 
             } else {
                 //
@@ -221,5 +221,37 @@
 {
     [self resignFirstResponder];
 }
+
+#pragma mark - LocationManager
+
+- (BOOL)startGatheringLocation
+{
+    if (![CLLocationManager locationServicesEnabled]) {
+        UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"CityBug" message:NSLocalizedString(REQUIRE_LOCATION_SERVICES_TEXT, REQUIRE_LOCATION_SERVICES_TEXT) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
+        [locationAlert show];
+        return NO;
+    }
+    
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.delegate = self;
+        _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    }
+    
+    [_locationManager startUpdatingLocation];
+    
+    return YES;
+}
+
+- (BOOL)stopGatheringLocation
+{
+    if (_locationManager) {
+        [_locationManager stopUpdatingLocation];
+        return YES;
+    }
+    
+    return NO;
+}
+
 
 @end

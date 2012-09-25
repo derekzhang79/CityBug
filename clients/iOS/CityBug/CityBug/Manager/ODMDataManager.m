@@ -155,10 +155,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (ODMUser *)currentUser
 {
-#if DEBUG_HAS_SIGNED_IN
-    return [ODMUser newUser:@"user" email:@"user@citybug.com" password:@"qwer4321"];
-#endif
-    return nil;
+    return [ODMUser newUser:@"admin" email:@"user@citybug.com" password:@"qwer4321"];
 }
 
 #pragma mark - REPORT
@@ -178,7 +175,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
     report.user = [self currentUser];
     
-    ODMUser *admin = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
+    ODMUser *admin = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"qwer4321"];
     if (!admin) {
         *error = [NSError errorWithDomain:@"User does not exist" code:5001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:@"description", @"Must sign-in before create a new report", nil]];
         return;
@@ -231,7 +228,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         // However finally, we must use Basic Authentication method
         // which contains HTTPHeader(Authentication) for autherize to
         // citybug back-end instead.
-        [queryParams setObject:@"user" forKey:@"username"];
+        [queryParams setObject:@"admin" forKey:@"username"];
         [queryParams setObject:@"qwer4321" forKey:@"password"];
     }
     
@@ -260,18 +257,16 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (NSArray *)reportsWithParameters:(NSDictionary *)params error:(NSError **)error
 {
-    if (![self currentUser]) {
-        
-        NSString *resourcePath = [@"/api/reports" stringByAppendingQueryParameters:params];
-        
-        [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
-            loader.onDidLoadObjects = ^(NSArray *objects){
-                reports_ = [NSArray arrayWithArray:objects];
-                
-                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationReportsLoadingFinish object:reports_];
-            };
-        }];
-    }
+
+    NSString *resourcePath = [@"/api/reports" stringByAppendingQueryParameters:params];
+    
+    [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
+        loader.onDidLoadObjects = ^(NSArray *objects){
+            reports_ = [NSArray arrayWithArray:objects];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationReportsLoadingFinish object:reports_];
+        };
+    }];
     
     return reports_;
 }
@@ -351,34 +346,12 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 #pragma mark - CLLocationManager
 
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    ODMLog(@"Change loc status %i", status);
-}
-
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    [self updateQueryParameterFromLocation:[[locations lastObject] coordinate]];
-    
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    CLLocation *location = [locations lastObject];
-    [userDefault setObject:location forKey:USER_CURRENT_LOCATION];
-    [userDefault synchronize];
-    
-    ODMLog(@"QueryParameter just updated by location events %@", queryParams);
-}
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"CityBug" message:@"Unable to gather your current location" delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
-    [locationAlert show];
-    
-    ODMLog(@"LocationManager did fail with error %@", error);
-}
-
-- (void)locationManagerDidResumeLocationUpdates:(CLLocationManager *)manager
-{
-    // Add indicator activity
+//    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+//    CLLocation *location = [locations lastObject];
+//    [userDefault setObject:location forKey:USER_CURRENT_LOCATION];
+//    [userDefault synchronize];
 }
 
 @end

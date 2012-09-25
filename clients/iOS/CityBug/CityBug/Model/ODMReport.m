@@ -39,9 +39,10 @@
  */
 - (BOOL)validateTitleField:(NSString *)title
 {
-    NSPredicate *myTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", VALIDATION_TITLE_REGEXR];
-    NSString *string = title;
-    return [myTest evaluateWithObject:string];
+    //NSPredicate *myTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", VALIDATION_TITLE_REGEXR];
+    //NSString *string = title;
+    //return [myTest evaluateWithObject:string];
+    return YES;
 }
 
 - (BOOL)validateLocationWithLatitude:(NSNumber *)latitude longitude:(NSNumber *)longitude
