@@ -160,6 +160,23 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     }];
 }
 
+
+- (void)postComment:(ODMComment *)comment
+{
+    RKParams *reportParams = [RKParams params];
+    
+    ODMUser *user = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
+    comment.user = user;
+    [[RKObjectManager sharedManager] postObject:comment usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        
+        [reportParams setValue:[comment text] forParam:@"text"];
+        [reportParams setValue:[comment.user username] forParam:@"username"];
+
+        loader.params = reportParams;
+    }];
+}
+
 - (NSArray *)reports
 {
     if (1) {

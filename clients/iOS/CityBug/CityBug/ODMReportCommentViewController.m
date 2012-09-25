@@ -7,6 +7,8 @@
 //
 
 #import "ODMReportCommentViewController.h"
+#import "ODMDataManager.h"
+#import "ODMComment.h"
 
 @interface ODMReportCommentViewController ()
 
@@ -56,6 +58,9 @@
     if ([self.delegate respondsToSelector:@selector(updateComment:)]) {
         [self.delegate updateComment:self.CommentTextField.text];
     }
+    ODMComment *comment = [[ODMComment alloc] init];
+//    [[ODMDataManager sharedInstance] post:comment];
+    
 }
 
 @end

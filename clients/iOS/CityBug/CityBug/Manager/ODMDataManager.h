@@ -9,6 +9,7 @@
 #import "ODMReport.h"
 #import "ODMCategory.h"
 #import "ODMPlace.h"
+#import "ODMComment.h"
 
 // Report
 extern NSString *ODMDataManagerNotificationReportsLoadingFinish;
@@ -39,7 +40,10 @@ extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
  * Post New Report
  */
 - (void)postNewReport:(ODMReport *)report;
-
+/*
+ * Post Comment
+ */
+- (void)postComment:(ODMComment *)comment;
 
 /*
  * Places
