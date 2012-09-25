@@ -32,7 +32,7 @@ exports.index = function(req, res){
             }); 
             
             var user = new model.User();
-            user.username = 'qwerty';
+            user.username = 'user';
             user.password = '1234';
             user.email = '123@ggg.com';
             user.created_at = new Date();
@@ -53,30 +53,22 @@ exports.index = function(req, res){
     // add Mock up category
     model.Category.find({} , function(err,allCategory) { 
         if (err || allCategory == null || allCategory.length < 1) {
-            var cat1 = new model.Category();
-            cat1.title = 'cat1';
-            cat1.last_modified = new Date();
-            cat1.created_at = new Date();
-            var cat2 = new model.Category();
-            cat2.title = 'cat2';
-            cat2.last_modified = new Date();
-            cat2.created_at = new Date();
-            cat1.save(function (err){
-                if (err) {
-                    console.log(err);
-                    // do something
-                } else {
-                    console.log('cat1' + cat1);
-                }
-            }); 
-            cat2.save(function (err){
-                if (err) {
-                    console.log(err);
-                    // do something
-                } else {
-                    console.log('cat2' + cat2);
-                }
-            }); 
+
+            var catTitles = ['ไฟฟ้า','ประปา','ถนน','ขนส่งมวลชน','ชุมชน','สาธารณสมบัติ','อื่นๆ'];
+            for (i in catTitles) {
+                var cat1 = new model.Category();
+                cat1.title = catTitles[i];
+                cat1.last_modified = new Date();
+                cat1.created_at = new Date();
+                cat1.save(function (err){
+                    if (err) {
+                        console.log(err);
+                        // do something
+                    } else {
+                        console.log('Saved cat' + cat1);
+                    }
+                }); 
+            }
         }
     });
 
@@ -262,10 +254,9 @@ exports.index = function(req, res){
                         };
                         if (maxQueryCount == queryCount && maxQueryCount != 0) {
 
-                            // implement sort here //
-                            //                     //
-                            //                     //
-                            /////////////////////////
+                            new_report = new_report.sort(function(a, b) {
+                                return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
+                            });
 
                             res.render('index.jade',{title: 'City bug',report: new_report});
                         }
@@ -273,6 +264,9 @@ exports.index = function(req, res){
                 });   
             }
             if (maxQueryCount == 0) {
+                new_report = new_report.sort(function(a, b) {
+                    return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
+                });
                 res.render('index.jade',{title: 'City bug',report: new_report});
             };
     });

@@ -105,7 +105,7 @@ function getAllReports(queryString, callbackFunction) {
     // create custom json because relation database that 
     // report can get comment, but comment can get only _id 
     // so we query user in comment and make a new json
-    
+    // return have 3, none of report, report with comment, report without comment
     var new_report = [];
     var queryCount = 0;
     var maxQueryCount = 0;
@@ -204,6 +204,11 @@ function getAllReports(queryString, callbackFunction) {
                     });
                 });   
             }
+            //Sorted by last_modified
+            new_report = new_report.sort(function(a, b) {
+                return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
+            });
+            
             // none of comment in any report
             if (maxQueryCount == 0) {
                 callbackFunction(new_report);
@@ -375,6 +380,7 @@ exports.report = function(req, res) {
     // report can get comment, but comment can get only _id 
     // so we query user in comment and make a new json
     // Query all report with all attribute
+    // return have 3, none of report, report with comment, report without comment
     var new_report = [];
     var queryCount = 0;
     var maxQueryCount = 0;
@@ -532,7 +538,9 @@ exports.report_post = function(req, res) {
     //Find User from username
     model.User.findOne({username: req.body.username }, function(err,user) {   
         if (user == null) {
-            res.redirect('/');
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('Not get username from client');
+            res.end();
             return;
         };
         // Set user to Report
@@ -591,7 +599,7 @@ exports.report_post = function(req, res) {
                     var newPlace = new model.Place();
                     newPlace.id_foursquare = req.body.place_id;       
                     newPlace.title = req.body.place_title;         
-                    newPlace.lat = req.body.place_lat;
+                    newPlace.lat = req.body.place_lat;                   
                     newPlace.lng = req.body.place_lng;
                     newPlace.last_modified = new Date();
                     newPlace.created_at = new Date();
@@ -618,7 +626,7 @@ exports.report_post = function(req, res) {
                                 } else {
                                     console.log('Error !'+ err);
                                     res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                                    res.write("Canot add new comment, save failed");
+                                    res.write("Can not add new comment, save failed");
                                     res.end();
                                 }
                             });

@@ -93,10 +93,6 @@
                             -   report['categories'].forEach(function(cat){
                                 -   allCat = allCat + cat.title + ", "
                             -   });
-                            -   var comments = "";
-                            -   report['comments'].forEach(function(comment){
-                                -   comments = comments + comment.user.username + ' c: ' + comment.text + ', ';
-                            -   });
 
                             tr
                                 td= report['title']
@@ -113,7 +109,7 @@
                                 th= report['place']
                                 th= report['imin_count']
                                 th= report['imins']
-                                th= comments
+                                th= report['comments']
                                 td= report['last_modified']
                                 td= report['created_at']
                         - })
