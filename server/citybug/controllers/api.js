@@ -101,7 +101,7 @@ exports.all_reports = function(req, res) {
 };
 
 function getAllReports(queryString, callbackFunction) {
-        // Query all report with all attribute
+    // Query all report with all attribute
     // create custom json because relation database that 
     // report can get comment, but comment can get only _id 
     // so we query user in comment and make a new json
@@ -216,12 +216,51 @@ function getCurrentUserID(tmp) {
     return '505c0e2451a3f4ab11000003';
 }
 
+function sortReportByDistance(report, currentLat, currentLng, callbackFunction) {
+    //sort by distance
+    for ( i in report ) {
+        if (report[i].place == null) {
+            report[i].place = new model.Place();
+        }
+        report[i].place.distance = service.distanceCalculate(currentLat, currentLng, report[i].lat, report[i].lng);
+        console.log("distance > " + i + " => "+ report[i].place.distance);
+    }
+    //ใช้ตัวแปร distance จาก place 
+    report = report.sort(function(a, b) {
+        if (a.place.distance < b.place.distance) { return -1; }
+        if (a.place.distance > b.place.distance) { return  1; }
+        return 0;
+    });
+
+    callbackFunction(report);
+}
+
+function responseReportsJSONToClient(res, report, maxNumber) {
+    var resultReports;
+    if (report != null && report.length > maxNumber) 
+        resultReports = report.slice(0,maxNumber);
+    else
+        resultReports = report;
+
+    //Response to client
+    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+    res.write('{ "reports":' + JSON.stringify(resultReports) + '}');
+    res.end();
+    return;
+}
+
 // GET /api/reports >> get list of reports
 exports.reports = function(req, res) {
     console.log('Get report list');
 
     var currentLat = req.query.lat;
     var currentLng = req.query.lng;
+
+    if (currentLat != null && currentLng != null) {
+        console.log("get location from request lat:"+ currentLat +" lng:" + currentLng);
+    } else {
+        console.log("not get location from request");
+    }
 
     var maxNumber = 30;
 
@@ -233,78 +272,35 @@ exports.reports = function(req, res) {
 
     model.User.findOne( { $and: [ { username: currentUsername }, { password: currentPassword } ] } , function(err,currentUser) { 
         if (err ) {
-            console.log("Can not find user id with error"+ err);
-        }
-        else if (err || currentUser == null || currentUser == undefined  || isSignInWithUser(currentUser) == false ) {
-            console.log("Can not find user at /api/reports");
+            console.log("Can not find username:"+ currentUsername+" with error:"+ err);
+        } 
 
-            getAllReports({}, function(report){
-                if (err) { 
-                    console.log(err);
-                    return;
-                } else if (report == null) {
-                    //Response to client
-                    console.log("report is null");
-                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.write('{ "reports":' + JSON.stringify(report) + '}');
-                    res.end();
-                    return;
-                }
-
-                //ถ้า USER ไม่ sign in และมี lat lng จะแสดง feed โดยเรียงลำดับตามระยะห่าง เทียบกับ report.lat lng (30อันแรก)
-                if ( currentLat != null && currentLng != null ) {
-                    console.log("Not signin & current lat ="+ currentLat+" lng = "+ currentLng);
-                    //sort by distance
-                    for ( i in report ) {
-                        if (report[i].place == null) {
-                            report[i].place = new model.Place();
-                        }
-                        report[i].place.distance = service.distanceCalculate(currentLat, currentLng, report[i].lat, report[i].lng);
-                        console.log("distance > " + i + " => "+ report[i].place.distance);
-                    }
-                    //ใช้ตัวแปร distance จาก place 
-                    report = report.sort(function(a, b) {
-                        if (a.place.distance < b.place.distance) { return -1; }
-                        if (a.place.distance > b.place.distance) { return  1; }
-                        return 0;
-                    });
-                
-                }
-                //ถ้า USER ไม่ sign in และไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน 
-                else if ( currentLat == null || currentLng == null ) {
-                    console.log("Not signin & current lat lng is null");
-                    report = report.sort(function(a, b) {
-                        return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
-                    });
-                }
-
-                //Get only first 30 sorted reports
-                var resultReports;
-                if (report != null && report.length > maxNumber) 
-                    resultReports = report.slice(0,maxNumber);
-                else
-                    resultReports = report;
-
-                //Response to client
-                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                res.write('{ "reports":' + JSON.stringify(resultReports) + '}');
-                res.end();
-                return;
-            });
-        } else if ( currentUser != null && isSignInWithUser(currentUser) == true ) {
-            //ถ้า USER sign in จะแสดง feed โดยเรียงลำดับตามเวลาที่แก้ไขล่าสุด และ แสดงเฉพาะสถานที่(place) ที่ถูก subscribe เท่านั้น 
+        //ถ้า USER sign in และ subscription ไม่เป็น null จะแสดง feed โดยเรียงลำดับตามเวลาที่แก้ไขล่าสุด และ แสดงเฉพาะสถานที่(place) ที่ถูก subscribe เท่านั้น 
+        else if ( currentUser != null && isSignInWithUser(currentUser) == true ) {
             console.log("logged in with user "+ currentUser);
             model.Subscription.find({user: currentUser}, function(err,subscribes) { 
                 if (err || subscribes == null || subscribes.length < 1) {
-                    // ถ้า User sign in แล้ว แต่ไม่ได้ subscribe ใครเลย และมี location จะแสดง feed โดยเรียงลำดับตามระยะห่าง และเอาแค่ 30 อัน แรก แต่ถ้าไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน
                     console.log("Can not find subscription with error "+ err);
+                    getAllReports({}, function(report){
+                        // ถ้า User sign in แล้ว แต่ไม่ได้ subscribe ใครเลย และมี location จะแสดง feed โดยเรียงลำดับตามระยะห่าง และเอาแค่ 30 อัน แรก
+                        if (currentLng != null && currentLat != null) {
+                            //sort by distance
+                            sortReportByDistance(report, currentLat, currentLng, function(sortedReport){
+                                responseReportsJSONToClient(res, sortedReport,maxNumber);
+                                return;
+                            });
+                        }
+                        // ถ้า User sign in แล้ว แต่ไม่ได้ subscribe ใครเลย และไม่มี location จะแสดง feed โดยเรียงลำดับตาม วันที่แก้ไข และเอาแค่ 30 อัน แรก 
+                        else {
+                            responseReportsJSONToClient(res, report,maxNumber);
+                            return;
+                        }
+                    });
 
-                    //Response to client
-                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.write('Can not find subscription');
-                    res.end();
-
-                } else {
+                } else { //have subscription
+                    console.log("Can find subscription");
+                    // ถ้า User sign in แล้ว มี subscribe แต่ถ้าไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน
+                    
                     // create query where subscribe.user._id = "user._id"
                     var query = {};
                     query["$or"] = [];
@@ -326,26 +322,41 @@ exports.reports = function(req, res) {
                         if (err) { 
                             console.log("can not find report with error "+err);
                         }
-                        report = report.sort(function(a, b) {
-                            return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
-                        });
 
-                        //Get only first maxNumber sorted places
-                        var resultReports;
-                        if (report != null && report.length > maxNumber) 
-                            resultReports = report.slice(0,maxNumber);
-                        else
-                            resultReports = report;
-
-                        //Response to client
-                        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                        res.write('{ "reports":' + JSON.stringify(resultReports) + '}');
-                        res.end();
+                        responseReportsJSONToClient(res, report,maxNumber);
+                        return;
                     });
                 }
             });
-                
         } 
+
+        else if (err || currentUser == null || currentUser == undefined  || isSignInWithUser(currentUser) == false ) {
+            console.log("Not signed in user >> Can not find user at /api/reports");
+
+            getAllReports({}, function(report){
+                if (err || report == null) { 
+                    console.log(err);
+                    console.log("report is null");
+                    responseReportsJSONToClient(res, report,maxNumber);
+                    return;
+                }
+
+                //ถ้า USER ไม่ sign in และมี lat lng จะแสดง feed โดยเรียงลำดับตามระยะห่าง เทียบกับ report.lat lng (30อันแรก)
+                if ( currentLat != null && currentLng != null ) {
+                    console.log("Not signin & current lat ="+ currentLat+" lng = "+ currentLng);
+
+                    //sort by distance
+                    sortReportByDistance(report, currentLat, currentLng, function(sortedReport){
+                        responseReportsJSONToClient(res, sortedReport,maxNumber);
+                        return;
+                    });
+
+                } else {
+                     responseReportsJSONToClient(res, report,maxNumber);
+                    return;
+                }
+            });
+        }
     });
 };
 
