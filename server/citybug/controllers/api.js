@@ -204,6 +204,11 @@ function getAllReports(queryString, callbackFunction) {
                     });
                 });   
             }
+            //Sorted by last_modified
+            new_report = new_report.sort(function(a, b) {
+                return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
+            });
+            
             // none of comment in any report
             if (maxQueryCount == 0) {
                 callbackFunction(new_report);
