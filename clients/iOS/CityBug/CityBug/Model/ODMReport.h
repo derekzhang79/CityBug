@@ -6,9 +6,9 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-@class ODMPlace, ODMUser, ODMCategory;
+#import "ODMPlace.h"
+#import "ODMUser.h"
+#import "ODMCategory.h"
 
 @interface ODMReport : NSObject {
     NSArray  *_categories;

@@ -15,6 +15,7 @@ module.exports = function (mongoose) {
 		, lat 				: Number
 		, lng 				: Number
 		, distance			: Number
+		, type 				: String 		//suggested,additional
 		, last_modified		: Date
 		, created_at		: Date
 	});

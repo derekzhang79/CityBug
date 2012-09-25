@@ -8,6 +8,7 @@
 
 #import "ODMDescriptionFormViewController.h"
 #import "ODMDataManager.h"
+
 #import "ODMReport.h"
 
 #import <CoreLocation/CoreLocation.h>
@@ -16,6 +17,7 @@
 @implementation ODMDescriptionFormViewController {
     NSMutableDictionary *entryDict;
     ODMPlace *selectedPlace;
+    CLLocationManager *_locationManager;
 }
 
 @synthesize bugImage;
@@ -24,11 +26,13 @@
 {
     [super viewDidLoad];
     self.bugImageView.image = self.bugImage;
+    
+    [self startGatheringLocation];
 }
 
 - (void)viewDidUnload
 {
-    [self setBugImageView:nil];
+    [self stopGatheringLocation];
     [super viewDidUnload];
 }
 
@@ -81,18 +85,7 @@
         isValid = [report validateValue:&note forKey:@"note" error:&error];
         if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
-        report.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
-        report.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
-        error = nil;
-        
-        id latitude = report.latitude;
-        isValid = [report validateValue:&latitude forKey:@"latitude" error:&error];
-        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
-        
-        id longitude = report.longitude;
-        isValid = [report validateValue:&longitude forKey:@"longitude" error:&error];
-        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
-        
+        // Attach report photo through HTTP POST protocol
         report.fullImageData = self.bugImage;
         report.thumbnailImageData = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
         
@@ -100,12 +93,85 @@
         ODMCategory *category = [ODMCategory categoryWithTitle:self.categoryLabel.text];
         report.categories = [NSArray arrayWithObject:category];
         
-        // Add place to report by associated object
-        ODMPlace *place = selectedPlace;
-        report.place = place;
+        //
+        // Place's location
+        //
         
-        // Call DataManager with new report
-        [[ODMDataManager sharedInstance] postNewReport:report];
+        // Add place to report by associated object
+        // For validate issue, ARC is not allowed
+        // to send object without autorelease
+        // so declare new variable to pass object
+        // with autorelease variable
+        ODMPlace *place = selectedPlace;
+        
+        // assign to report
+        error = nil;
+        report.place = place;
+        isValid = [report validateValue:&place forKey:@"place" error:&error];
+        if (!place) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CityBug", @"CityBug") message:@"Local location services are enable" delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
+            
+            [alertView show];
+        }
+        
+        //
+        // Report's location
+        // 
+        
+        // Retrieve location from NSUserDefault
+        CLLocation *location = [_locationManager location];
+        
+        if (location != nil && location.horizontalAccuracy <= MINIMUN_ACCURACY_DISTANCE && location.verticalAccuracy <= MINIMUN_ACCURACY_DISTANCE) {
+            //
+            // Location services are enable and
+            // already has detected current location
+            //
+            report.latitude = @(location.coordinate.latitude);
+            report.longitude = @(location.coordinate.longitude);
+            
+        } else {
+            if (place) {
+                //
+                // Worst case
+                // We use place's location from provider(foursquare)
+                //
+                report.latitude = report.place.latitude;
+                report.longitude = report.place.longitude;
+                
+            } else {
+                //
+                // Location Services are disable
+                //
+                error = [NSError errorWithDomain:LOCATION_INVALID_TEXT code:3002 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(LOCATION_INVALID_DESCRIPTION_TEXT, LOCATION_INVALID_DESCRIPTION_TEXT), nil]];
+                
+                @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+            }
+        }
+        
+        //
+        // Validate Latitude
+        //
+        error = nil;
+        id latitude = report.latitude;
+        isValid = [report validateValue:&latitude forKey:@"latitude" error:&error];
+        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        
+        //
+        // Validate Longitude
+        //
+        id longitude = report.longitude;
+        isValid = [report validateValue:&longitude forKey:@"longitude" error:&error];
+        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        
+        //
+        // Post Report
+        //
+        if (error) {
+            @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        } else {
+            // Call DataManager with new report
+            [[ODMDataManager sharedInstance] postNewReport:report error:&error];
+        }
     }
     @catch (NSException *exception) {
         
@@ -155,5 +221,37 @@
 {
     [self resignFirstResponder];
 }
+
+#pragma mark - LocationManager
+
+- (BOOL)startGatheringLocation
+{
+    if (![CLLocationManager locationServicesEnabled]) {
+        UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"CityBug" message:NSLocalizedString(REQUIRE_LOCATION_SERVICES_TEXT, REQUIRE_LOCATION_SERVICES_TEXT) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
+        [locationAlert show];
+        return NO;
+    }
+    
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.delegate = self;
+        _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    }
+    
+    [_locationManager startUpdatingLocation];
+    
+    return YES;
+}
+
+- (BOOL)stopGatheringLocation
+{
+    if (_locationManager) {
+        [_locationManager stopUpdatingLocation];
+        return YES;
+    }
+    
+    return NO;
+}
+
 
 @end

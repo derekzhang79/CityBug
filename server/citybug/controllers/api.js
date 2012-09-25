@@ -10,6 +10,24 @@ exports.add = function(req, res){
     });
 };
 
+exports.subscriptions = function(req, res){
+
+    model.Subscription.find({}, function(err,docs) {
+        if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write("Cannot get subscription");
+            res.end();
+            return;
+        } else {
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "subscriptions":' + JSON.stringify(docs) + '}');
+            res.end();
+            return;
+        }
+    });
+    
+};
+
 exports.comment_post = function(req, res) {
     var url = req.url;
     // reg localhost:3003/api/report/505c1671ae45f73d0d000006/comment --> 505c1671ae45f73d0d000006
@@ -101,11 +119,11 @@ exports.all_reports = function(req, res) {
 };
 
 function getAllReports(queryString, callbackFunction) {
-        // Query all report with all attribute
+    // Query all report with all attribute
     // create custom json because relation database that 
     // report can get comment, but comment can get only _id 
     // so we query user in comment and make a new json
-    
+    // return have 3, none of report, report with comment, report without comment
     var new_report = [];
     var queryCount = 0;
     var maxQueryCount = 0;
@@ -204,6 +222,11 @@ function getAllReports(queryString, callbackFunction) {
                     });
                 });   
             }
+            //Sorted by last_modified
+            new_report = new_report.sort(function(a, b) {
+                return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
+            });
+            
             // none of comment in any report
             if (maxQueryCount == 0) {
                 callbackFunction(new_report);
@@ -220,12 +243,51 @@ function getCurrentUserID(tmp) {
     return '505c0e2451a3f4ab11000003';
 }
 
+function sortReportByDistance(report, currentLat, currentLng, callbackFunction) {
+    //sort by distance
+    for ( i in report ) {
+        if (report[i].place == null) {
+            report[i].place = new model.Place();
+        }
+        report[i].place.distance = service.distanceCalculate(currentLat, currentLng, report[i].lat, report[i].lng);
+        console.log("distance > " + i + " => "+ report[i].place.distance);
+    }
+    //ใช้ตัวแปร distance จาก place 
+    report = report.sort(function(a, b) {
+        if (a.place.distance < b.place.distance) { return -1; }
+        if (a.place.distance > b.place.distance) { return  1; }
+        return 0;
+    });
+
+    callbackFunction(report);
+}
+
+function responseReportsJSONToClient(res, report, maxNumber) {
+    var resultReports;
+    if (report != null && report.length > maxNumber) 
+        resultReports = report.slice(0,maxNumber);
+    else
+        resultReports = report;
+
+    //Response to client
+    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+    res.write('{ "reports":' + JSON.stringify(resultReports) + '}');
+    res.end();
+    return;
+}
+
 // GET /api/reports >> get list of reports
 exports.reports = function(req, res) {
     console.log('Get report list');
 
     var currentLat = req.query.lat;
     var currentLng = req.query.lng;
+
+    if (currentLat != null && currentLng != null) {
+        console.log("get location from request lat:"+ currentLat +" lng:" + currentLng);
+    } else {
+        console.log("not get location from request");
+    }
 
     var maxNumber = 30;
 
@@ -237,78 +299,35 @@ exports.reports = function(req, res) {
 
     model.User.findOne( { $and: [ { username: currentUsername }, { password: currentPassword } ] } , function(err,currentUser) { 
         if (err ) {
-            console.log("Can not find user id with error"+ err);
-        }
-        else if (err || currentUser == null || currentUser == undefined  || isSignInWithUser(currentUser) == false ) {
-            console.log("Can not find user at /api/reports");
+            console.log("Can not find username:"+ currentUsername+" with error:"+ err);
+        } 
 
-            getAllReports({}, function(report){
-                if (err) { 
-                    console.log(err);
-                    return;
-                } else if (report == null) {
-                    //Response to client
-                    console.log("report is null");
-                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.write('{ "reports":' + JSON.stringify(report) + '}');
-                    res.end();
-                    return;
-                }
-
-                //ถ้า USER ไม่ sign in และมี lat lng จะแสดง feed โดยเรียงลำดับตามระยะห่าง เทียบกับ report.lat lng (30อันแรก)
-                if ( currentLat != null && currentLng != null ) {
-                    console.log("Not signin & current lat ="+ currentLat+" lng = "+ currentLng);
-                    //sort by distance
-                    for ( i in report ) {
-                        if (report[i].place == null) {
-                            report[i].place = new model.Place();
-                        }
-                        report[i].place.distance = service.distanceCalculate(currentLat, currentLng, report[i].lat, report[i].lng);
-                        console.log("distance > " + i + " => "+ report[i].place.distance);
-                    }
-                    //ใช้ตัวแปร distance จาก place 
-                    report = report.sort(function(a, b) {
-                        if (a.place.distance < b.place.distance) { return -1; }
-                        if (a.place.distance > b.place.distance) { return  1; }
-                        return 0;
-                    });
-                
-                }
-                //ถ้า USER ไม่ sign in และไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน 
-                else if ( currentLat == null || currentLng == null ) {
-                    console.log("Not signin & current lat lng is null");
-                    report = report.sort(function(a, b) {
-                        return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
-                    });
-                }
-
-                //Get only first 30 sorted reports
-                var resultReports;
-                if (report != null && report.length > maxNumber) 
-                    resultReports = report.slice(0,maxNumber);
-                else
-                    resultReports = report;
-
-                //Response to client
-                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                res.write('{ "reports":' + JSON.stringify(resultReports) + '}');
-                res.end();
-                return;
-            });
-        } else if ( currentUser != null && isSignInWithUser(currentUser) == true ) {
-            //ถ้า USER sign in จะแสดง feed โดยเรียงลำดับตามเวลาที่แก้ไขล่าสุด และ แสดงเฉพาะสถานที่(place) ที่ถูก subscribe เท่านั้น 
+        //ถ้า USER sign in และ subscription ไม่เป็น null จะแสดง feed โดยเรียงลำดับตามเวลาที่แก้ไขล่าสุด และ แสดงเฉพาะสถานที่(place) ที่ถูก subscribe เท่านั้น 
+        else if ( currentUser != null && isSignInWithUser(currentUser) == true ) {
             console.log("logged in with user "+ currentUser);
             model.Subscription.find({user: currentUser}, function(err,subscribes) { 
                 if (err || subscribes == null || subscribes.length < 1) {
-                    // ถ้า User sign in แล้ว แต่ไม่ได้ subscribe ใครเลย และมี location จะแสดง feed โดยเรียงลำดับตามระยะห่าง และเอาแค่ 30 อัน แรก แต่ถ้าไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน
                     console.log("Can not find subscription with error "+ err);
+                    getAllReports({}, function(report){
+                        // ถ้า User sign in แล้ว แต่ไม่ได้ subscribe ใครเลย และมี location จะแสดง feed โดยเรียงลำดับตามระยะห่าง และเอาแค่ 30 อัน แรก
+                        if (currentLng != null && currentLat != null) {
+                            //sort by distance
+                            sortReportByDistance(report, currentLat, currentLng, function(sortedReport){
+                                responseReportsJSONToClient(res, sortedReport,maxNumber);
+                                return;
+                            });
+                        }
+                        // ถ้า User sign in แล้ว แต่ไม่ได้ subscribe ใครเลย และไม่มี location จะแสดง feed โดยเรียงลำดับตาม วันที่แก้ไข และเอาแค่ 30 อัน แรก 
+                        else {
+                            responseReportsJSONToClient(res, report,maxNumber);
+                            return;
+                        }
+                    });
 
-                    //Response to client
-                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.write('Can not find subscription');
-                    res.end();
-
-                } else {
+                } else { //have subscription
+                    console.log("Can find subscription");
+                    // ถ้า User sign in แล้ว มี subscribe แต่ถ้าไม่มี location service จะแสดงตามลำดับเวลาที่แก้ไขล่าสุด 30 อัน
+                    
                     // create query where subscribe.user._id = "user._id"
                     var query = {};
                     query["$or"] = [];
@@ -330,26 +349,41 @@ exports.reports = function(req, res) {
                         if (err) { 
                             console.log("can not find report with error "+err);
                         }
-                        report = report.sort(function(a, b) {
-                            return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
-                        });
 
-                        //Get only first maxNumber sorted places
-                        var resultReports;
-                        if (report != null && report.length > maxNumber) 
-                            resultReports = report.slice(0,maxNumber);
-                        else
-                            resultReports = report;
-
-                        //Response to client
-                        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                        res.write('{ "reports":' + JSON.stringify(resultReports) + '}');
-                        res.end();
+                        responseReportsJSONToClient(res, report,maxNumber);
+                        return;
                     });
                 }
             });
-                
         } 
+
+        else if (err || currentUser == null || currentUser == undefined  || isSignInWithUser(currentUser) == false ) {
+            console.log("Not signed in user >> Can not find user at /api/reports");
+
+            getAllReports({}, function(report){
+                if (err || report == null) { 
+                    console.log(err);
+                    console.log("report is null");
+                    responseReportsJSONToClient(res, report,maxNumber);
+                    return;
+                }
+
+                //ถ้า USER ไม่ sign in และมี lat lng จะแสดง feed โดยเรียงลำดับตามระยะห่าง เทียบกับ report.lat lng (30อันแรก)
+                if ( currentLat != null && currentLng != null ) {
+                    console.log("Not signin & current lat ="+ currentLat+" lng = "+ currentLng);
+
+                    //sort by distance
+                    sortReportByDistance(report, currentLat, currentLng, function(sortedReport){
+                        responseReportsJSONToClient(res, sortedReport,maxNumber);
+                        return;
+                    });
+
+                } else {
+                     responseReportsJSONToClient(res, report,maxNumber);
+                    return;
+                }
+            });
+        }
     });
 };
 
@@ -364,6 +398,7 @@ exports.report = function(req, res) {
     // report can get comment, but comment can get only _id 
     // so we query user in comment and make a new json
     // Query all report with all attribute
+    // return have 3, none of report, report with comment, report without comment
     var new_report = [];
     var queryCount = 0;
     var maxQueryCount = 0;
@@ -521,13 +556,22 @@ exports.report_post = function(req, res) {
     //Find User from username
     model.User.findOne({username: req.body.username }, function(err,user) {   
         if (user == null) {
-            res.redirect('/');
+            // delete temp upload
+            var tmp_path = req.files.thumbnail_image.path;
+            fs.unlink(tmp_path, function() {
+                console.log('Delete temporary file');
+            });
+            var tmp_path = req.files.full_image.path;
+            fs.unlink(tmp_path, function() {
+                console.log('Delete temporary file');
+            });
+
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.end();
             return;
         };
         // Set user to Report
         report.user = user._id;
-
-        // model.Category.find({ $or : [ { title : 'cat1' } , { title : 'cat2' } ] } , function(err,catArray) { 
 
         //Find Category from request
         var query = {};
@@ -561,13 +605,11 @@ exports.report_post = function(req, res) {
                         if (!err){
                             console.log('Success! with ' + report);
                             res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write('{ "reports":' + JSON.stringify(report) + '}');
                             res.end();
                             
                         } else {
                             console.log('Error !'+ err);
                             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write("Canot add new report, save failed");
                             res.end();
                         }
                     });
@@ -580,7 +622,7 @@ exports.report_post = function(req, res) {
                     var newPlace = new model.Place();
                     newPlace.id_foursquare = req.body.place_id;       
                     newPlace.title = req.body.place_title;         
-                    newPlace.lat = req.body.place_lat;
+                    newPlace.lat = req.body.place_lat;                   
                     newPlace.lng = req.body.place_lng;
                     newPlace.last_modified = new Date();
                     newPlace.created_at = new Date();
@@ -589,7 +631,6 @@ exports.report_post = function(req, res) {
                         if (err) {
                             console.log(err);
                             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write('Canot add new comment, save place failed');
                             res.end();
                         } else {
                             console.log('>>> Saved place' + newPlace);
@@ -601,13 +642,11 @@ exports.report_post = function(req, res) {
                                 if (!err){
                                     console.log('Success! with ' + report);
                                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                                    res.write('{ "reports":' + JSON.stringify(report) + '}');
                                     res.end();
                                     
                                 } else {
                                     console.log('Error !'+ err);
                                     res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                                    res.write("Canot add new comment, save failed");
                                     res.end();
                                 }
                             });
@@ -618,51 +657,52 @@ exports.report_post = function(req, res) {
 
             });
         });
+        // make directory
+        fs.mkdirParent("./public/images/report/");
+        
+        //save picture to /public/images/report/:id
+        if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
+            // get the temporary location of the file : ./uploads
+            var tmp_path = req.files.thumbnail_image.path;
+            // set where the file should actually exists - in this case it is in the "images" directory
+            var thumbnail_image_path = './public' + thumbnail_image_short_path;
+            // move the file from the temporary location to the intended location
+            fs.rename(tmp_path, thumbnail_image_path, function(err) {
+                if (err) throw err;
+                // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+                fs.unlink(tmp_path, function() {
+                    if (err) throw err;
+                        console.log('File uploaded to: ' + thumbnail_image_path + ' - ' + req.files.thumbnail_image.size + ' bytes');
+                });
+            });        
+        } else {
+            // delete temporary file : ./upload
+            var tmp_path = req.files.thumbnail_image.path;
+            fs.unlink(tmp_path, function() {
+                console.log('Delete temporary file');
+            });
+        }
+
+        // do the same thing
+        if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
+            var tmp_path = req.files.full_image.path;
+            var full_image_path = './public' + full_image_short_path;
+            fs.rename(tmp_path, full_image_path, function(err) {
+                if (err) throw err;
+                fs.unlink(tmp_path, function() {
+                    if (err) throw err;
+                        console.log('File uploaded to: ' + full_image_path + ' - ' + req.files.full_image.size + ' bytes');
+                });
+            });
+        } else {
+            var tmp_path = req.files.full_image.path;
+            fs.unlink(tmp_path, function() {
+                console.log('Delete temporary file');
+            });
+        }
+
     });
 
-    // make directory
-    fs.mkdirParent("./public/images/report/");
-    
-    //save picture to /public/images/report/:id
-    if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
-        // get the temporary location of the file : ./uploads
-        var tmp_path = req.files.thumbnail_image.path;
-        // set where the file should actually exists - in this case it is in the "images" directory
-        var thumbnail_image_path = './public' + thumbnail_image_short_path;
-        // move the file from the temporary location to the intended location
-        fs.rename(tmp_path, thumbnail_image_path, function(err) {
-            if (err) throw err;
-            // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-            fs.unlink(tmp_path, function() {
-                if (err) throw err;
-                    console.log('File uploaded to: ' + thumbnail_image_path + ' - ' + req.files.thumbnail_image.size + ' bytes');
-            });
-        });        
-    } else {
-        // delete temporary file : ./upload
-        var tmp_path = req.files.thumbnail_image.path;
-        fs.unlink(tmp_path, function() {
-            console.log('Delete temporary file');
-        });
-    }
-
-    // do the same thing
-    if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
-        var tmp_path = req.files.full_image.path;
-        var full_image_path = './public' + full_image_short_path;
-        fs.rename(tmp_path, full_image_path, function(err) {
-            if (err) throw err;
-            fs.unlink(tmp_path, function() {
-                if (err) throw err;
-                    console.log('File uploaded to: ' + full_image_path + ' - ' + req.files.full_image.size + ' bytes');
-            });
-        });
-    } else {
-        var tmp_path = req.files.full_image.path;
-        fs.unlink(tmp_path, function() {
-            console.log('Delete temporary file');
-        });
-    }
 };
 
 // GET /api/categories >> get list of categories
@@ -670,12 +710,15 @@ exports.categories = function(req, res) {
     model.Category.find({}, function(err,docs) {
         if (err) {
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write("Canot get categories");
+            res.write("Cannot get categories");
             res.end();
+            return;
+        } else {
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "categories":' + JSON.stringify(docs) + '}');
+            res.end();
+            return;
         }
-        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-        res.write('{ "categories":' + JSON.stringify(docs) + '}');
-        res.end();
     });
 }
 

@@ -13,12 +13,12 @@ module.exports = {
             "__v": 0
         },
         {
-            "distance": 10.20127270187,
+            "distance": 0.1,
             "type": "suggested",
             "last_modified": "2012-09-21T08:41:13.446Z",
             "created_at": "2012-09-21T08:41:13.446Z",
-            "lng": 453.67,
-            "lat": 122.34,
+            "lng": -73.98428,
+            "lat": 40.7209,
             "id_foursquare": "mockupplaceid",
             "title": "สวนดอกจ้า",
             "_id": "505c28296b3c8f8d15000001",
