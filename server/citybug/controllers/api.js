@@ -547,16 +547,13 @@ exports.report_post = function(req, res) {
             fs.unlink(tmp_path, function() {
                 console.log('Delete temporary file');
             });
-            
+
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write('Not get username from client');
             res.end();
             return;
         };
         // Set user to Report
         report.user = user._id;
-
-        // model.Category.find({ $or : [ { title : 'cat1' } , { title : 'cat2' } ] } , function(err,catArray) { 
 
         //Find Category from request
         var query = {};
@@ -590,13 +587,11 @@ exports.report_post = function(req, res) {
                         if (!err){
                             console.log('Success! with ' + report);
                             res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write('{ "reports":' + JSON.stringify(report) + '}');
                             res.end();
                             
                         } else {
                             console.log('Error !'+ err);
                             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write("Canot add new report, save failed");
                             res.end();
                         }
                     });
@@ -618,7 +613,6 @@ exports.report_post = function(req, res) {
                         if (err) {
                             console.log(err);
                             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write('Canot add new comment, save place failed');
                             res.end();
                         } else {
                             console.log('>>> Saved place' + newPlace);
@@ -630,13 +624,11 @@ exports.report_post = function(req, res) {
                                 if (!err){
                                     console.log('Success! with ' + report);
                                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                                    res.write('{ "reports":' + JSON.stringify(report) + '}');
                                     res.end();
                                     
                                 } else {
                                     console.log('Error !'+ err);
                                     res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                                    res.write("Can not add new comment, save failed");
                                     res.end();
                                 }
                             });
