@@ -260,7 +260,7 @@ exports.index = function(req, res){
                         if (isQueryComment || isQueryImins) {
                             queryCount++;
                         };
-                        if (maxQueryCount == queryCount) {
+                        if (maxQueryCount == queryCount && maxQueryCount != 0) {
 
                             // implement sort here //
                             //                     //
@@ -272,6 +272,9 @@ exports.index = function(req, res){
                     });
                 });   
             }
+            if (maxQueryCount == 0) {
+                res.render('index.jade',{title: 'City bug',report: new_report});
+            };
     });
 };
 

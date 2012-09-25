@@ -8,6 +8,7 @@
 
 #import "ODMDescriptionFormViewController.h"
 #import "ODMDataManager.h"
+
 #import "ODMReport.h"
 
 #import <CoreLocation/CoreLocation.h>
@@ -81,18 +82,7 @@
         isValid = [report validateValue:&note forKey:@"note" error:&error];
         if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
-        report.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
-        report.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
-        error = nil;
-        
-        id latitude = report.latitude;
-        isValid = [report validateValue:&latitude forKey:@"latitude" error:&error];
-        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
-        
-        id longitude = report.longitude;
-        isValid = [report validateValue:&longitude forKey:@"longitude" error:&error];
-        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
-        
+        // Attach report photo through HTTP POST protocol
         report.fullImageData = self.bugImage;
         report.thumbnailImageData = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
         
@@ -100,12 +90,58 @@
         ODMCategory *category = [ODMCategory categoryWithTitle:self.categoryLabel.text];
         report.categories = [NSArray arrayWithObject:category];
         
+        //
+        // Place's location
+        //
+        
         // Add place to report by associated object
+        // For validate issue, ARC is not allowed
+        // to send object without autorelease
+        // so declare new variable to pass object
+        // with autorelease variable
         ODMPlace *place = selectedPlace;
+        
+        // assign to report
+        error = nil;
         report.place = place;
+        isValid = [report validateValue:&place forKey:@"place" error:&error];
+        if (!place) {
+            error = [NSError errorWithDomain:PLACE_IS_REQUIRED_FIELD_TEXT code:2001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([ODMReport class]), self, @"description", NSLocalizedString(PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT, PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT), nil]];
+            
+            @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        }
+        
+        //
+        // Report's location
+        //
+        
+        // Retrieve location from NSUserDefault
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        CLLocation *location = (CLLocation *)[userDefault objectForKey:USER_CURRENT_LOCATION];
+        
+        report.latitude = @(location.coordinate.latitude);
+        report.longitude = @(location.coordinate.longitude);
+        
+        // Validate Latitude
+        error = nil;
+        id latitude = report.latitude;
+        isValid = [report validateValue:&latitude forKey:@"latitude" error:&error];
+        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        
+        // Validate Longitude
+        id longitude = report.longitude;
+        isValid = [report validateValue:&longitude forKey:@"longitude" error:&error];
+        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        
+        //
+        // Post Report
+        //
         
         // Call DataManager with new report
-        [[ODMDataManager sharedInstance] postNewReport:report];
+        [[ODMDataManager sharedInstance] postNewReport:report error:&error];
+        if (error) {
+            @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        }
     }
     @catch (NSException *exception) {
         

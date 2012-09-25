@@ -7,11 +7,7 @@
 //
 
 #import "ODMDataManager.h"
-
 #import "ODMReport.h"
-#import "ODMCategory.h"
-#import "ODMPlace.h"
-#import "ODMUser.h"
 
 static ODMDataManager *sharedDataManager = nil;
 
@@ -24,14 +20,20 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 NSString *ODMDataManagerNotificationPlacesLoadingFinish;
 NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
+#define MINIMUN_ACCURACY_DISTANCE 100
+
 @interface ODMDataManager(Accessor)
 /*
  * Read write access only DataManager
  */
 @property (nonatomic, readwrite, strong) NSArray *categories, *reports, *places;
+
+@property (nonatomic, readwrite, strong) CLLocationManager *locationManager;
 @end
 
-@implementation ODMDataManager
+@implementation ODMDataManager {
+    NSMutableDictionary *queryParams;
+}
 
 #pragma mark - Initialize
 
@@ -55,8 +57,8 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         // RestKit setup
         //
         serviceObjectManager = [RKObjectManager managerWithBaseURLString:BASE_URL];
-        serviceObjectManager.client.username = @"admin";
-        serviceObjectManager.client.password = @"1q2w3e4r";
+        serviceObjectManager.client.username = [[self currentUser] username];
+        serviceObjectManager.client.password = [[self currentUser] password];
 //        serviceObjectManager.client.authenticationType = RKRequestAuthenticationTypeHTTPBasic;
         serviceObjectManager.client.defaultHTTPEncoding = NSUTF8StringEncoding;
         
@@ -122,16 +124,67 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     return sharedDataManager;
 }
 
+- (BOOL)startGatheringLocation
+{
+    if (![CLLocationManager locationServicesEnabled]) {
+        UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"CityBug" message:NSLocalizedString(REQUIRE_LOCATION_SERVICES_TEXT, REQUIRE_LOCATION_SERVICES_TEXT) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
+        [locationAlert show];
+        return NO;
+    }
+    
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.delegate = self;
+        _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    }
+    
+    [_locationManager startUpdatingLocation];
+    
+    return YES;
+}
+
+- (BOOL)stopGatheringLocation
+{
+    if (_locationManager) {
+        [_locationManager stopUpdatingLocation];
+        return YES;
+    }
+    
+    return NO;
+}
+
+#pragma mark - USER
+
+- (ODMUser *)currentUser
+{
+#if DEBUG_HAS_SIGNED_IN
+    return [ODMUser newUser:@"user" email:@"user@citybug.com" password:@"qwer4321"];
+#endif
+    return nil;
+}
+
+#pragma mark - REPORT
+
 /*
  * CREATE REPORT
  * HTTP POST
  */
 - (void)postNewReport:(ODMReport *)report
 {
+    [self postNewReport:report error:NULL];
+}
+
+- (void)postNewReport:(ODMReport *)report error:(NSError **)error
+{
     RKParams *reportParams = [RKParams params];
+
+    report.user = [self currentUser];
     
     ODMUser *admin = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
-    report.user = admin;
+    if (!admin) {
+        *error = [NSError errorWithDomain:@"User does not exist" code:5001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:@"description", @"Must sign-in before create a new report", nil]];
+        return;
+    }
     
     [[RKObjectManager sharedManager] postObject:report usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
@@ -155,15 +208,65 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         
         [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
         [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
-    
+        
         loader.params = reportParams;
     }];
 }
 
+/**
+ * Update Query parameters
+ * For getting contents in recent activity view
+ */
+- (NSMutableDictionary *)buildingQueryParameters
+{
+    if (!queryParams) {
+        queryParams = [NSMutableDictionary new];
+        [queryParams setObject:@30 forKey:@"limit"];
+    }
+    
+    // Check whether current user has signed in
+    if ([self currentUser]) {
+        
+        // DEBUG MODE (Helping Mode)
+        // We add username and password as query parameters,
+        // so that server-side can easily parse and debug as well.
+        // However finally, we must use Basic Authentication method
+        // which contains HTTPHeader(Authentication) for autherize to
+        // citybug back-end instead.
+        [queryParams setObject:@"user" forKey:@"username"];
+        [queryParams setObject:@"qwer4321" forKey:@"password"];
+    }
+    
+    if ([self startGatheringLocation]) {
+        // Location services are enable
+        [self updateQueryParameterFromLocation:self.locationManager.location.coordinate];
+        
+        if (self.locationManager.location.horizontalAccuracy < MINIMUN_ACCURACY_DISTANCE && self.locationManager.location.verticalAccuracy < MINIMUN_ACCURACY_DISTANCE && MIN(self.locationManager.location.horizontalAccuracy, 0) == 0 && MIN(self.locationManager.location.verticalAccuracy, 0) == 0) {
+            [self stopGatheringLocation];
+        }
+    }
+    
+    return queryParams;
+}
+
+- (void)updateQueryParameterFromLocation:(CLLocationCoordinate2D)loc
+{
+    [queryParams setObject:@(loc.latitude) forKey:@"lat"];
+    [queryParams setObject:@(loc.longitude) forKey:@"lng"];
+}
+
 - (NSArray *)reports
 {
-    if (1) {
-        [serviceObjectManager loadObjectsAtResourcePath:@"/api/reports" usingBlock:^(RKObjectLoader *loader){
+    return [self reportsWithParameters:[self buildingQueryParameters] error:NULL];
+}
+
+- (NSArray *)reportsWithParameters:(NSDictionary *)params error:(NSError **)error
+{
+    if (![self currentUser]) {
+        
+        NSString *resourcePath = [@"/api/reports" stringByAppendingQueryParameters:params];
+        
+        [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
             loader.onDidLoadObjects = ^(NSArray *objects){
                 reports_ = [NSArray arrayWithArray:objects];
                 
@@ -203,12 +306,11 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
  */
 - (NSArray *)places
 {
-    ODMLog(@"place called");
     if (!places_) {
         
-        NSDictionary *queryParams = [NSDictionary dictionaryWithKeysAndObjects:@"lat", @"10.33023",
+        NSDictionary *qp = [NSDictionary dictionaryWithKeysAndObjects:@"lat", @"10.33023",
                                      @"lng", @"133.324523", nil];
-        NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:queryParams];
+        NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:qp];
         
         [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
             loader.onDidLoadObjects = ^(NSArray *objects){
@@ -246,6 +348,39 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
 {
     RKLogError(@"!!!!!!!!!!!!!!!!!!!! Loader Error %@", error);
+}
+
+
+#pragma mark - CLLocationManager
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    ODMLog(@"Change loc status %i", status);
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    [self updateQueryParameterFromLocation:[[locations lastObject] coordinate]];
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    CLLocation *location = [locations lastObject];
+    [userDefault setObject:location forKey:USER_CURRENT_LOCATION];
+    [userDefault synchronize];
+    
+    ODMLog(@"QueryParameter just updated by location events %@", queryParams);
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"CityBug" message:@"Unable to gather your current location" delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
+    [locationAlert show];
+    
+    ODMLog(@"LocationManager did fail with error %@", error);
+}
+
+- (void)locationManagerDidResumeLocationUpdates:(CLLocationManager *)manager
+{
+    // Add indicator activity
 }
 
 @end

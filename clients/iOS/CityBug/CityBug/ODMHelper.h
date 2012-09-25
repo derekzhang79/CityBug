@@ -6,8 +6,10 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-//#define BASE_URL @"http://127.0.0.1:3003"
-#define BASE_URL @"http://54.251.32.49:3003"
+#define BASE_URL @"http://127.0.0.1:3003"
+//#define BASE_URL @"http://54.251.32.49:3003"
+
+#define DEBUG_HAS_SIGNED_IN NO
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 #define DATE_FORMAT @"yyyy-MM-dd HH:mm:ss"
@@ -41,9 +43,26 @@
 
 #define LOCATION_VALUE_INVALID_TEXT @"Latitude/Longitude error"
 #define LOCATION_VALUE_INVALID_DESCRIPTION_TEXT @"Invalid latitude or longitude value. Latitude should valid in range (-90,90) and longitude should valid in range (-180, 180)"
+
+#define REQUIRE_LOCATION_SERVICES_TEXT @"Require location servcies"
+
+#define PLACE_IS_REQUIRED_FIELD_TEXT @"Require place"
+#define PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT @"Please select a place for this report"
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define USER_CURRENT_LOCATION @"currentLocation"
 
 /*
  * ODMLog
  */
 #define ODMLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+// Report
+extern NSString *ODMDataManagerNotificationReportsLoadingFinish;
+extern NSString *ODMDataManagerNotificationReportsLoadingFail;
+// Category
+extern NSString *ODMDataManagerNotificationCategoriesLoadingFinish;
+extern NSString *ODMDataManagerNotificationCategoriesLoadingFail;
+// Place
+extern NSString *ODMDataManagerNotificationPlacesLoadingFinish;
+extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
