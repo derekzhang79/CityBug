@@ -72,6 +72,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [reportMapping mapKeyPath:@"lng" toAttribute:@"longitude"];
         [reportMapping mapKeyPath:@"imin_count" toAttribute:@"iminCount"];
         [reportMapping mapKeyPath:@"last_modified" toAttribute:@"lastModified"];
+        [reportMapping mapKeyPath:@"_id" toAttribute:@"uid"];
         [serviceObjectManager.mappingProvider addObjectMapping:reportMapping];
         
         RKObjectMapping *categoryMapping = [RKObjectMapping mappingForClass:[ODMCategory class]];
@@ -108,6 +109,8 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         // Routing
         [serviceObjectManager.router routeClass:[ODMReport class] toResourcePath:@"/api/reports" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMCategory class] toResourcePath:@"/api/categories" forMethod:RKRequestMethodGET];
+        [serviceObjectManager.router routeClass:[ODMComment class] toResourcePath:@"/api/report/:reportID/comment" forMethod:RKRequestMethodPOST];
+        
     }
     return self;
 }
@@ -204,9 +207,29 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
         [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
         
+        loader.defaultHTTPEncoding = NSUTF8StringEncoding;
         loader.params = reportParams;
     }];
 }
+
+
+
+- (void)postComment:(ODMComment *)comment
+{
+    RKParams *reportParams = [RKParams params];
+    
+    ODMUser *user = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
+    comment.user = user;
+    [[RKObjectManager sharedManager] postObject:comment usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        
+        [reportParams setValue:[comment text] forParam:@"text"];
+        [reportParams setValue:[comment.user username] forParam:@"username"];
+
+        loader.params = reportParams;
+    }];
+}
+
 
 /**
  * Update Query parameters

@@ -7,7 +7,10 @@
 //
 #import <CoreLocation/CoreLocation.h>
 
+#import "ODMComment.h"
+
 @class ODMReport, ODMUser;
+
 
 @interface ODMDataManager : NSObject <RKObjectLoaderDelegate, CLLocationManagerDelegate> {
     RKObjectManager *serviceObjectManager;
@@ -31,11 +34,16 @@
  */
 - (void)postNewReport:(ODMReport *)report;
 - (void)postNewReport:(ODMReport *)report error:(NSError **)error;
+/*
+ * Post Comment
+ */
+- (void)postComment:(ODMComment *)comment;
 
 /*
  * Get Reports by user and query parameters
  */
 - (NSArray *)reportsWithParameters:(NSDictionary *)params error:(NSError **)error;
+
 
 /*
  * Places

@@ -120,7 +120,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="backgroundView" destination="tyr-5M-EPf" id="dOX-gf-4Aw"/>
-                                    <segue destination="hVw-3B-e3E" kind="push" id="Pp2-5S-3c0"/>
+                                    <segue destination="hVw-3B-e3E" kind="push" identifier="gotoViewSegue" id="Pp2-5S-3c0"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -147,7 +147,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oXn-Nc-CEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3313" y="-1454"/>
+            <point key="canvasLocation" x="-3440" y="-1701"/>
         </scene>
         <!--Category List View Controller - Choose Category-->
         <scene sceneID="HJI-4P-vLE">
@@ -498,7 +498,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4fD-nf-WHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2843" y="-941"/>
+            <point key="canvasLocation" x="-2587" y="-1059"/>
         </scene>
         <!--Place Form View Controller - Choose a place-->
         <scene sceneID="OxR-pm-25R">
@@ -577,8 +577,8 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="w4q-v6-ZkC">
-                                <rect key="frame" x="100" y="20" width="200" height="156"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="w4q-v6-ZkC">
+                                <rect key="frame" x="100" y="20" width="200" height="200"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="1yA-gS-RlI">
@@ -601,7 +601,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="note" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" id="wLs-f5-4U9">
-                                        <rect key="frame" x="0.0" y="0.0" width="196" height="41"/>
+                                        <rect key="frame" x="0.0" y="1" width="196" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -651,7 +651,7 @@
                                 </state>
                                 <connections>
                                     <action selector="addCommentButtonTapped:" destination="hVw-3B-e3E" eventType="touchUpInside" id="uOw-z8-Cpo"/>
-                                    <segue destination="FJn-l2-olo" kind="push" id="ktX-nv-qpI"/>
+                                    <segue destination="FJn-l2-olo" kind="push" identifier="commentSegue" id="ktX-nv-qpI"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -661,10 +661,12 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="CommentLabel" destination="1hZ-sr-W2p" id="8bO-mO-NQq"/>
+                        <outlet property="reportImageView" destination="w4q-v6-ZkC" id="Vn1-oL-oHC"/>
+                        <outlet property="titleLabel" destination="wLs-f5-4U9" id="JUc-6R-A3S"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-3019" y="-1758"/>
+            <point key="canvasLocation" x="-2843" y="-1748"/>
         </scene>
         <!--Report Comment View Controller - Comment-->
         <scene sceneID="SJS-Ph-jrE">
@@ -675,11 +677,11 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" minimumFontSize="17" id="1U9-Nn-fei">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="bezel" minimumFontSize="17" id="1U9-Nn-fei">
                                 <rect key="frame" x="25" y="20" width="275" height="162"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 <connections>
                                     <outlet property="delegate" destination="FJn-l2-olo" id="2Oj-vX-rEa"/>
                                 </connections>
@@ -687,10 +689,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Comment" id="wW4-LB-Oyy"/>
+                    <navigationItem key="navigationItem" title="Comment" id="wW4-LB-Oyy">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="jpe-7b-Ewl">
+                            <connections>
+                                <action selector="DoneButtonTapped:" destination="FJn-l2-olo" id="j1L-Zp-KOX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="CommentTextField" destination="1U9-Nn-fei" id="tc2-9x-HTK"/>
+                    </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-2650" y="-1758"/>
+            <point key="canvasLocation" x="-2346" y="-1748"/>
         </scene>
         <!--Report Detail View Controller-->
         <scene sceneID="REk-kj-CYP">

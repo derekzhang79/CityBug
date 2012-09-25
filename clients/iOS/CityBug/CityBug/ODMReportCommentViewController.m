@@ -7,6 +7,8 @@
 //
 
 #import "ODMReportCommentViewController.h"
+#import "ODMDataManager.h"
+#import "ODMComment.h"
 
 @interface ODMReportCommentViewController ()
 
@@ -42,7 +44,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-
 #pragma mark - UITextField Delegate Methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -56,6 +57,7 @@
     if ([self.delegate respondsToSelector:@selector(updateComment:)]) {
         [self.delegate updateComment:self.CommentTextField.text];
     }
+    
 }
 
 @end

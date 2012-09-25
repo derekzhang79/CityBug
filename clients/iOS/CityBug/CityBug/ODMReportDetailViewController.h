@@ -7,10 +7,11 @@
 //
 
 #import "ODMReportCommentViewController.h"
+#import "ODMReport.h"
 
 @interface ODMReportDetailViewController : UIViewController<UITextFieldDelegate, ODMReportCommentDelegate>
 
-@property (weak, nonatomic) NSDictionary *entry;
+@property (weak, nonatomic) ODMReport *entry;
 @property (weak, nonatomic) IBOutlet UIImageView *reportImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;

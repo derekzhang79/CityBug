@@ -11,6 +11,7 @@
 		985F49F0160B2D1B00D642D0 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49EF160B2D1B00D642D0 /* ImageIO.framework */; };
 		985F49F2160B2EEB00D642D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49F1160B2EEB00D642D0 /* CoreLocation.framework */; };
 		98690050160F55EB0086CEAC /* ODMReportDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9869004F160F55EB0086CEAC /* ODMReportDetailViewController.m */; };
+		98968ADB1611A70400AB9900 /* ODMComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 98968ADA1611A70400AB9900 /* ODMComment.m */; };
 		CE16A299160ACE4100396033 /* cat1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE16A292160ACE4100396033 /* cat1.png */; };
 		CE16A29A160ACE4100396033 /* 6.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A293160ACE4100396033 /* 6.jpeg */; };
 		CE16A29B160ACE4100396033 /* 5.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A294160ACE4100396033 /* 5.jpeg */; };
@@ -124,6 +125,8 @@
 		985F49F1160B2EEB00D642D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9869004E160F55EB0086CEAC /* ODMReportDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMReportDetailViewController.h; path = CityBug/ODMReportDetailViewController.h; sourceTree = SOURCE_ROOT; };
 		9869004F160F55EB0086CEAC /* ODMReportDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMReportDetailViewController.m; path = CityBug/ODMReportDetailViewController.m; sourceTree = SOURCE_ROOT; };
+		98968AD91611A70400AB9900 /* ODMComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMComment.h; sourceTree = "<group>"; };
+		98968ADA1611A70400AB9900 /* ODMComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMComment.m; sourceTree = "<group>"; };
 		CE16A292160ACE4100396033 /* cat1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cat1.png; path = CityBug/images/Prototype/cat1.png; sourceTree = SOURCE_ROOT; };
 		CE16A293160ACE4100396033 /* 6.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 6.jpeg; path = CityBug/images/Prototype/6.jpeg; sourceTree = SOURCE_ROOT; };
 		CE16A294160ACE4100396033 /* 5.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 5.jpeg; path = CityBug/images/Prototype/5.jpeg; sourceTree = SOURCE_ROOT; };
@@ -357,6 +360,8 @@
 				CE16A2DC160B07D500396033 /* ODMPlace.m */,
 				CE16A332160B32EE00396033 /* ODMUser.h */,
 				CE16A333160B32EE00396033 /* ODMUser.m */,
+				98968AD91611A70400AB9900 /* ODMComment.h */,
+				98968ADA1611A70400AB9900 /* ODMComment.m */,
 			);
 			name = Model;
 			path = CityBug/Model;
@@ -704,6 +709,7 @@
 				CE314D3F161056BD00CB7820 /* UIButton+WebCache.m in Sources */,
 				CE314D40161056BD00CB7820 /* UIImageView+WebCache.m in Sources */,
 				CE314D881610727200CB7820 /* ODMReportCommentViewController.m in Sources */,
+				98968ADB1611A70400AB9900 /* ODMComment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
