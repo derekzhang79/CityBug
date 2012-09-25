@@ -538,7 +538,9 @@ exports.report_post = function(req, res) {
     //Find User from username
     model.User.findOne({username: req.body.username }, function(err,user) {   
         if (user == null) {
-            res.redirect('/');
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('Not get username from client');
+            res.end();
             return;
         };
         // Set user to Report
@@ -624,7 +626,7 @@ exports.report_post = function(req, res) {
                                 } else {
                                     console.log('Error !'+ err);
                                     res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                                    res.write("Canot add new comment, save failed");
+                                    res.write("Can not add new comment, save failed");
                                     res.end();
                                 }
                             });
