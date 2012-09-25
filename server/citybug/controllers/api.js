@@ -126,7 +126,6 @@ function getAllReports(queryString, callbackFunction) {
                 return;
             };
 
-
             // find max comment, imin
             // find need to do before query
             for (r in report) {
@@ -191,7 +190,8 @@ function getAllReports(queryString, callbackFunction) {
                         if (isQueryComment || isQueryImins) {
                             queryCount++;
                         };
-                        if (maxQueryCount == queryCount) {
+                        // have comment in any report
+                        if (maxQueryCount == queryCount && maxQueryCount != 0) {
 
                             //Sorted by last_modified
                             new_report = new_report.sort(function(a, b) {
@@ -204,6 +204,10 @@ function getAllReports(queryString, callbackFunction) {
                     });
                 });   
             }
+            // none of comment in any report
+            if (maxQueryCount == 0) {
+                callbackFunction(new_report);
+            };
     });
 }
 
@@ -235,7 +239,7 @@ exports.reports = function(req, res) {
         if (err ) {
             console.log("Can not find user id with error"+ err);
         }
-        else if (currentUser == null || currentUser == undefined  || isSignInWithUser(currentUser) == false ) {
+        else if (err || currentUser == null || currentUser == undefined  || isSignInWithUser(currentUser) == false ) {
             console.log("Can not find user at /api/reports");
 
             getAllReports({}, function(report){
@@ -330,7 +334,7 @@ exports.reports = function(req, res) {
                             return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
                         });
 
-                        //Get only first 30 sorted places
+                        //Get only first maxNumber sorted places
                         var resultReports;
                         if (report != null && report.length > maxNumber) 
                             resultReports = report.slice(0,maxNumber);
@@ -380,6 +384,7 @@ exports.report = function(req, res) {
                 res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                 res.write('{ "reports":' + JSON.stringify(report) + '}');
                 res.end();
+                return;
             };
 
 
@@ -442,7 +447,8 @@ exports.report = function(req, res) {
                     if (isQueryComment || isQueryImins) {
                         queryCount++;
                     };
-                    if (maxQueryCount == queryCount) {
+                    // have comment in report
+                    if (maxQueryCount == queryCount && maxQueryCount != 0) {
 
                         res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                         res.write('{ "reports":' + JSON.stringify(new_report) + '}');
@@ -450,7 +456,12 @@ exports.report = function(req, res) {
                     }
                 });
             });   
-        
+        // none of comment in report
+        if (maxQueryCount == 0) {
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "reports":' + JSON.stringify(new_report) + '}');
+            res.end();
+        };
     });
 };
 
@@ -494,7 +505,6 @@ exports.report_post = function(req, res) {
         var thumbnail_image_extension = req.files.thumbnail_image.type.match( /[^\/]+\/?$/ );
         var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_extension;
         report.thumbnail_image = thumbnail_image_short_path;
-        console.log('noooooooo');
     };
     if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
         var full_image_extension = req.files.full_image.type.match( /[^\/]+\/?$/ );
@@ -580,6 +590,7 @@ exports.report_post = function(req, res) {
                             console.log(err);
                             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
                             res.write('Canot add new comment, save place failed');
+                            res.end();
                         } else {
                             console.log('>>> Saved place' + newPlace);
                             report.place = newPlace._id;
