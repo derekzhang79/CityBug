@@ -8,6 +8,8 @@
 
 #import "ODMReportDetailViewController.h"
 
+#import "UIImageView+WebCache.h"
+
 @implementation ODMReportDetailViewController {
     int numberOfComment;
     NSMutableDictionary *commentDict;
@@ -23,20 +25,25 @@
 
 - (void)reloadData
 {
-//    double latitude = [[self.entry objectForKey:@"latitude"] doubleValue];
-//    double longitude = [[self.entry objectForKey:@"longitude"] doubleValue];
-    double latitude = 134.567;
-    double longitude = 98.111;
+  
+    double latitude = [[self.entry latitude] doubleValue];
+    double longitude = [[self.entry longitude] doubleValue];
     NSString *location;
     
     if (latitude > 0 && longitude > 0) {
         location = [NSString stringWithFormat:@"%1.3f, %1.3f", latitude, longitude];
+        NSLog(@"location %@", location);
     } else {
         location = @"";
     }
 
-    self.titleLabel.text = @"Biscuit brownie caramels apple pie wafer";
+    self.titleLabel.text = [self.entry title];
     self.locationLabel.text = location;
+    NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.entry fullImage]]];
+    ODMLog(@"report URL %@",[reportURL absoluteString]);
+    [self.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
+
+    
 
 }
 
@@ -88,5 +95,6 @@
     }
 }
 - (IBAction)addCommentButtonTapped:(id)sender {
+    
 }
 @end

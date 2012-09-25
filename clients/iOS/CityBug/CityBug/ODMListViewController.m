@@ -230,8 +230,10 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     }
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
         ODMReportDetailViewController *DetailViewController = (ODMReportDetailViewController *) segue.destinationViewController;
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
-        DetailViewController.entry = [datasource objectAtIndex:indexPath.row];
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
+        NSDictionary *temp = [datasource objectAtIndex:selectedIndexPath.row];
+        NSLog(@"temp %@", temp);
+        DetailViewController.entry = [datasource objectAtIndex:selectedIndexPath.row];
     }
 }
 
