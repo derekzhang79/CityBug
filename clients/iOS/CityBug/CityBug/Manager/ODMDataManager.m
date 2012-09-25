@@ -72,6 +72,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [reportMapping mapKeyPath:@"lng" toAttribute:@"longitude"];
         [reportMapping mapKeyPath:@"imin_count" toAttribute:@"iminCount"];
         [reportMapping mapKeyPath:@"last_modified" toAttribute:@"lastModified"];
+        [reportMapping mapKeyPath:@"_id" toAttribute:@"uid"];
         [serviceObjectManager.mappingProvider addObjectMapping:reportMapping];
         
         RKObjectMapping *categoryMapping = [RKObjectMapping mappingForClass:[ODMCategory class]];
@@ -108,6 +109,8 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         // Routing
         [serviceObjectManager.router routeClass:[ODMReport class] toResourcePath:@"/api/reports" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMCategory class] toResourcePath:@"/api/categories" forMethod:RKRequestMethodGET];
+        [serviceObjectManager.router routeClass:[ODMComment class] toResourcePath:@"/api/report/:reportID/comment" forMethod:RKRequestMethodPOST];
+        
     }
     return self;
 }
@@ -132,7 +135,8 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     
     ODMUser *admin = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
     report.user = admin;
-    
+  
+
     [[RKObjectManager sharedManager] postObject:report usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
         

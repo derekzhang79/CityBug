@@ -9,6 +9,7 @@
 #import "ODMReportDetailViewController.h"
 
 #import "UIImageView+WebCache.h"
+#import "ODMDataManager.h"
 
 @implementation ODMReportDetailViewController {
     int numberOfComment;
@@ -80,10 +81,12 @@
 - (void)updateComment:(NSString *)comment
 {
     NSLog(@"Comment %@", comment);
-    [commentDict setObject:comment forKey:@"comment"];
-    [commentDict setObject:@"Plloy" forKey:@"user"];
-    [commentArray addObject:commentDict];
+
     self.CommentLabel.text = comment;
+    ODMComment *commentObject = [[ODMComment alloc] init];
+    [commentObject setText:comment];
+    [commentObject setReportID:self.entry.uid];
+    [[ODMDataManager sharedInstance] postComment:commentObject];
     
 }
 

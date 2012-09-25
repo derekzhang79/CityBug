@@ -44,7 +44,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-
 #pragma mark - UITextField Delegate Methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -58,9 +57,6 @@
     if ([self.delegate respondsToSelector:@selector(updateComment:)]) {
         [self.delegate updateComment:self.CommentTextField.text];
     }
-    ODMComment *comment = [[ODMComment alloc] init];
-    [comment setText:self.CommentTextField.text];
-    [[ODMDataManager sharedInstance] postComment:comment];
     
 }
 
