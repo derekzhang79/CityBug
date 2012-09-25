@@ -126,7 +126,6 @@ function getAllReports(queryString, callbackFunction) {
                 return;
             };
 
-
             // find max comment, imin
             // find need to do before query
             for (r in report) {
@@ -191,7 +190,8 @@ function getAllReports(queryString, callbackFunction) {
                         if (isQueryComment || isQueryImins) {
                             queryCount++;
                         };
-                        if (maxQueryCount == queryCount) {
+                        // have comment in any report
+                        if (maxQueryCount == queryCount && maxQueryCount != 0) {
 
                             //Sorted by last_modified
                             new_report = new_report.sort(function(a, b) {
@@ -204,6 +204,10 @@ function getAllReports(queryString, callbackFunction) {
                     });
                 });   
             }
+            // none of comment in any report
+            if (maxQueryCount == 0) {
+                callbackFunction(new_report);
+            };
     });
 }
 
@@ -443,7 +447,8 @@ exports.report = function(req, res) {
                     if (isQueryComment || isQueryImins) {
                         queryCount++;
                     };
-                    if (maxQueryCount == queryCount) {
+                    // have comment in report
+                    if (maxQueryCount == queryCount && maxQueryCount != 0) {
 
                         res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                         res.write('{ "reports":' + JSON.stringify(new_report) + '}');
@@ -451,7 +456,12 @@ exports.report = function(req, res) {
                     }
                 });
             });   
-        
+        // none of comment in report
+        if (maxQueryCount == 0) {
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "reports":' + JSON.stringify(new_report) + '}');
+            res.end();
+        };
     });
 };
 
