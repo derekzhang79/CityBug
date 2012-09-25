@@ -546,7 +546,6 @@ exports.report_post = function(req, res) {
         var full_image_short_path = "/images/report/" + report._id + "." + full_image_extension;
         report.full_image = full_image_short_path;
     };
-
 /*
     , categories        : [{ type: Schema.Types.ObjectId, ref: 'Category' }]
     , user              : { type: Schema.Types.ObjectId, ref: 'User' }
@@ -579,9 +578,14 @@ exports.report_post = function(req, res) {
         for (cat in req.body.categories) {
             query["$or"].push({"title":req.body.categories[cat]});
         }
+        var x = req.body.categories;
+        var r = /\\u([\d\w]{4})/gi;
 
+        x = x.replace(r, function (match, grp) {
+        return String.fromCharCode(parseInt(grp, 16)); } );
+        x = x.split('"');
         //Category can not add from client
-        model.Category.find(query, function(err,catTitleFromClient) { 
+        model.Category.find({title: x[1]}, function(err,catTitleFromClient) { 
           
             if (!err && catTitleFromClient != null) {
                 for (i in catTitleFromClient ) {
@@ -591,7 +595,6 @@ exports.report_post = function(req, res) {
                 }
             } else {
                 console.log('err' + err);
-
             }
 
             model.Place.findOne({id_foursquare: req.body.place_id }, function(err,place) {   
