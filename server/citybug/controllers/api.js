@@ -105,7 +105,7 @@ function getAllReports(queryString, callbackFunction) {
     // create custom json because relation database that 
     // report can get comment, but comment can get only _id 
     // so we query user in comment and make a new json
-    
+    // return have 3, none of report, report with comment, report without comment
     var new_report = [];
     var queryCount = 0;
     var maxQueryCount = 0;
@@ -380,6 +380,7 @@ exports.report = function(req, res) {
     // report can get comment, but comment can get only _id 
     // so we query user in comment and make a new json
     // Query all report with all attribute
+    // return have 3, none of report, report with comment, report without comment
     var new_report = [];
     var queryCount = 0;
     var maxQueryCount = 0;
@@ -596,7 +597,7 @@ exports.report_post = function(req, res) {
                     var newPlace = new model.Place();
                     newPlace.id_foursquare = req.body.place_id;       
                     newPlace.title = req.body.place_title;         
-                    newPlace.lat = req.body.place_lat;
+                    newPlace.lat = req.body.place_lat;                   
                     newPlace.lng = req.body.place_lng;
                     newPlace.last_modified = new Date();
                     newPlace.created_at = new Date();
