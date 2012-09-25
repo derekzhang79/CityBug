@@ -49,7 +49,7 @@
     userLabel.text = [[report user] username];
 
     UILabel *placeLabel = (UILabel *)[self viewWithTag:PLACE_VIEW_TAG];
-    ODMLog(@"place %@ | %@", report.place, report.place.title);
+    
     placeLabel.text = [[report place] title];
     
     UILabel *iminCountLabel = (UILabel *)[self viewWithTag:IMIN_VIEW_TAG];
