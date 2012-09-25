@@ -12,7 +12,7 @@
 #import "ODMPlaceFormViewController.h"
 
 
-@interface ODMDescriptionFormViewController : UITableViewController <UITextViewDelegate, UITextFieldDelegate, ODMCategoryListDelegate, ODMPlaceFormDelegate, UIScrollViewDelegate>
+@interface ODMDescriptionFormViewController : UITableViewController <UITextViewDelegate, UITextFieldDelegate, ODMCategoryListDelegate, ODMPlaceFormDelegate, UIScrollViewDelegate, CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;
 
