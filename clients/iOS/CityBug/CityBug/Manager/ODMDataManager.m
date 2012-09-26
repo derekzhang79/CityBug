@@ -159,7 +159,12 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (ODMUser *)currentUser
 {
-    return [ODMUser newUser:@"admin" email:@"admin@citybug.com" password:@"qwer4321"];
+    NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    NSString *currentEmail = [[NSUserDefaults standardUserDefaults] stringForKey:@"email"];
+    
+//    return [ODMUser newUser:@"admin" email:@"admin@citybug.com" password:@"qwer4321"];
+    return [ODMUser newUser:currentUsername email:currentEmail password:currentPassword];
 }
 
 #pragma mark - REPORT
@@ -216,7 +221,13 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 {
     RKParams *reportParams = [RKParams params];
     
-    ODMUser *user = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
+    NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    NSString *currentEmail = [[NSUserDefaults standardUserDefaults] stringForKey:@"email"];
+    
+//    ODMUser *user = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
+    ODMUser *user = [ODMUser newUser:currentUsername email:currentEmail password:currentPassword];
+    
     comment.user = user;
     [[RKObjectManager sharedManager] postObject:comment usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
@@ -249,8 +260,15 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         // However finally, we must use Basic Authentication method
         // which contains HTTPHeader(Authentication) for autherize to
         // citybug back-end instead.
-        [queryParams setObject:@"admin" forKey:@"username"];
-        [queryParams setObject:@"qwer4321" forKey:@"password"];
+        
+        NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+        NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+        
+//        [queryParams setObject:@"admin" forKey:@"username"];
+//        [queryParams setObject:@"qwer4321" forKey:@"password"];
+        [queryParams setObject:currentUsername forKey:@"username"];
+        [queryParams setObject:currentPassword forKey:@"password"];
+
     }
     
     if ([self startGatheringLocation]) {

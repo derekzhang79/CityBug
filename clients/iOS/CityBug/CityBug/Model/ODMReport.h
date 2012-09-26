@@ -11,7 +11,7 @@
 #import "ODMCategory.h"
 
 @interface ODMReport : NSObject {
-    NSArray  *_categories;
+    NSArray  *_categories, *_comments;
     NSNumber *_latitude, *_longitude, *_iminCount;
     NSString *_title, *_note, *_uid, *_thumbnailImage, *_fullImage;;
     UIImage  *_thumbnailImageData, *_fullImageData;
@@ -23,7 +23,7 @@
 
 @property (nonatomic, strong) NSString *title, *note, *uid, *thumbnailImage, *fullImage;
 @property (nonatomic, strong) NSNumber *latitude, *longitude, *iminCount;
-@property (nonatomic, strong) NSArray *categories;
+@property (nonatomic, strong) NSArray *categories, *comments;
 @property (nonatomic, strong) UIImage *thumbnailImageData, *fullImageData;
 @property (nonatomic, strong) ODMPlace *place;
 @property (nonatomic, strong) ODMUser *user;
