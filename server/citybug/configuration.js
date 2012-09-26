@@ -1,19 +1,17 @@
-var connect = require('express/node_modules/connect'),
-	MemoryStore = connect.middleware.session.MemoryStore;
-module.exports = function(app, express){
+module.exports = function(app, express, passport, flash){
 	app.configure(function(){
 	    app.set('views', __dirname + '/views');
 	    app.set('view engine', 'jade');
+		app.use(express.logger());
 	    app.use(express.bodyParser({uploadDir:'./uploads'}));
 	    app.use(express.methodOverride());
-	    app.use(app.router);
 	    app.use(express.static(__dirname + '/public'));
 	    app.use(express.cookieParser());
-  		app.use(express.session({
-      		secret: 'secret'
-    		, key: 'express.sid'
-    		, store: store = new MemoryStore()
-  		}));
+  		app.use(express.session({ secret: 'keyboard cat' }));
+		app.use(flash());
+		app.use(passport.initialize());
+		app.use(passport.session());
+		app.use(app.router);
 	});
 
 	app.configure('development', function(){
