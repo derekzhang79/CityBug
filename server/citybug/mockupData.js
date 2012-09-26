@@ -562,3 +562,33 @@ var places = [
         "id_foursquare": "3fd66200f964a52025e51ee3"
     }
 ]
+var report = [
+    {
+            "created_at": "2012-09-25T09:35:27.341Z",
+            "imin_count": 0,
+            "is_resolved": false,
+            "last_modified": "2012-09-25T09:35:27.341Z",
+            "lat": 37.785834,
+            "lng": -122.406417,
+            "note": "ไม่มีการเตือนภัยที่ไหนเลย",
+            "place": "4ada58f4f964a520a52121e3",
+            "title": "แผ่นดินไหว ถนนพัง",
+            "imins": [],
+            "comments": [],
+            "categories": []
+    },{
+            "created_at": "2012-09-25T09:35:27.341Z",
+            "imin_count": 0,
+            "is_resolved": false,
+            "last_modified": "2012-09-25T09:35:27.341Z",
+            "lat": 37.785834,
+            "lng": -122.406417,
+            "note": "น้ำไหลมาเรื่อยๆตั้งแต่เย็นแล้ว",
+            "place": "4ada58f4f964a520a52121e3",
+            "title": "น้ำท่วม แย่แล้ว",
+            "imins": [],
+            "comments": [],
+            "categories": []
+    }]
+
+
