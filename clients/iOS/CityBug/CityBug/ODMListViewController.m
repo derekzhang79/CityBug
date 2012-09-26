@@ -45,6 +45,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     
     NSUInteger cooldownReloadButton;
     NSTimer *cooldownTimer;
+    
+    NSMutableArray *notificationCacheArray;
 }
 
 @synthesize location;
@@ -59,12 +61,18 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     notifierView.timeOnScreen = 2.0;
     
     [notifierView showInWindow:self.view.window];
-
+    
+    [notificationCacheArray addObject:notifierView];
 }
 
 - (void)pushMessageToStatusBar:(NSString *)text afterDelay:(NSTimeInterval)delay
 {
     [self performSelector:@selector(pushMessageToStatusBar:) withObject:text afterDelay:delay];
+}
+
+- (void)didHideNotifierView:(FDStatusBarNotifierView *)notifierView
+{
+    [notificationCacheArray removeObject:notifierView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -77,6 +85,15 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     [super viewDidAppear:animated];
     
     [[ODMDataManager sharedInstance] reports];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    for (FDStatusBarNotifierView *view in notificationCacheArray)
+        [view hide];
+    
 }
 
 - (void)viewDidLoad
@@ -109,6 +126,10 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     [self.tableView reloadData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
+    
+    // Cache for notification bar on top
+    // use for switch to other pages
+    notificationCacheArray = [NSMutableArray new];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

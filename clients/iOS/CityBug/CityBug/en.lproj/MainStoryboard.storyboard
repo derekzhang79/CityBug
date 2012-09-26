@@ -779,14 +779,14 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <items>
                                             <barButtonItem style="plain" id="bHM-Vx-SLS">
-                                                <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="Rep-ve-Cds">
+                                                <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" id="Rep-ve-Cds">
                                                     <rect key="frame" x="12" y="7" width="234" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </barButtonItem>
-                                            <barButtonItem title="Send" id="CA6-fk-V3m">
+                                            <barButtonItem title="Send" style="done" id="CA6-fk-V3m">
                                                 <connections>
                                                     <action selector="addCommentButtonTapped:" destination="7od-Vb-NtW" id="o64-pG-3IV"/>
                                                 </connections>
@@ -808,6 +808,7 @@
                         <outlet property="lastModifiedLabel" destination="kjV-aY-zkv" id="Z3q-Jx-bes"/>
                         <outlet property="locationLabel" destination="d9N-cs-xUo" id="hwh-t1-rWA"/>
                         <outlet property="noteLabel" destination="khP-1V-NP0" id="iZd-yx-kEe"/>
+                        <outlet property="reportImageView" destination="y5X-vt-R2U" id="0Ej-cT-BUM"/>
                         <outlet property="tableView" destination="ZK2-Wd-azg" id="uyA-Vq-Gp0"/>
                         <outlet property="titleLabel" destination="Yxx-y6-fYB" id="d8f-Su-ZKy"/>
                         <outlet property="userLabel" destination="qJR-sA-Gv0" id="HbX-SS-VG0"/>

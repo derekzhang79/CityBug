@@ -18,20 +18,39 @@
 
 - (void)reloadData
 {
+    self.titleLabel.text = self.report.title;
+    self.userLabel.text = self.report.user.username;
+    self.lastModifiedLabel.text = [self.report.lastModified stringWithHumanizedTimeDifference];
+    self.iminLabel.text = [NSString stringWithFormat:@"%i",self.report.iminCount.intValue];
+    self.locationLabel.text = self.report.place.title;
+    self.noteLabel.text = self.report.note;
     
+    // Report Image
+    NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report fullImage]]];
+    [self.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
+    
+    // Avatar Image
+    NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report.user uid]]];
+    [self.avatarImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-//    ODMReportCommentViewController *reportComment = [[ODMReportCommentViewController alloc] init];
-//    reportComment.delegate = self;
+    [self reloadData];
+    
+    // Show or hide keyboard notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCommentForm:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCommentForm:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (BOOL)resignFirstResponder
 {
     [self.commentTextField resignFirstResponder];
+    
+    [self hideCommentForm:nil];
     
     return [super resignFirstResponder];
 }
@@ -46,6 +65,8 @@
 - (void)setReport:(ODMReport *)report
 {
     _report = report;
+    
+    [self reloadData];
 }
 
 #pragma mark - FormField Delegate
@@ -72,7 +93,7 @@
 
 - (IBAction)addCommentButtonTapped:(id)sender
 {
-    
+    [self resignFirstResponder];
 }
 
 #pragma mark - UIScrollView
@@ -82,16 +103,36 @@
     [self resignFirstResponder];
 }
 
+- (void)showCommentForm:(NSNotification *)notification
+{
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    [UIView animateWithDuration:0.3f animations:^{
+        
+        CGRect newFrame = self.commentFormView.frame;
+        newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height - keyboardSize.height;
+        self.commentFormView.frame = newFrame;
+    }];
+}
+
+- (void)hideCommentForm:(NSNotification *)notification
+{
+    [UIView animateWithDuration:0.3f animations:^{
+        
+        CGRect newFrame = self.commentFormView.frame;
+        newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height;
+        self.commentFormView.frame = newFrame;
+    }];
+}
+
 #pragma mark - UITableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return [self.report.comments count];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // [self.report.comments count]
     return 1;
 }
 
@@ -104,12 +145,10 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     }
     
-//    ODMComment *comment = [self.report.comments objectAtIndex:indexPath.row];
-//    cell.textLabel.text = [self.report.user username];
-//    cell.detailTextLabel.text = [comment text];
+    ODMComment *comment = [self.report.comments objectAtIndex:indexPath.row];
+    cell.textLabel.text = [self.report.user username];
+    cell.detailTextLabel.text = [comment text];
     
-    cell.textLabel.text = @"admin";
-    cell.detailTextLabel.text = @"qqqqwwwweeeerrr";
     return cell;
 }
 

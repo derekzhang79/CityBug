@@ -22,7 +22,7 @@
 - (id)initWithMessage:(NSString *)message delegate:(id /*<StatusBarNotifierViewDelegate>*/)delegate;
 
 - (void)showInWindow:(UIWindow *)window;
-
+- (void)hide;
 @end
 
 
