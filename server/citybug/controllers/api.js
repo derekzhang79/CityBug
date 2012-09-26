@@ -354,6 +354,7 @@ exports.reports = function(req, res) {
                     // create query where subscribe.user._id = "user._id"
                     var query = {};
                     query["$or"] = [];
+                    query["$or"].push({"user":currentUser._id}); //check report.user is current user feed
                     for (i in subscribes) {
                         console.log(i + " subscribes >> "+ subscribes[i]);
                         if (subscribes[i].place != null && subscribes[i].place != undefined) {
