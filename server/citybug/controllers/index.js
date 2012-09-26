@@ -71,6 +71,37 @@ exports.index = function(req, res){
         }
     });
 
+    //id of opendream BKK
+    model.Place.findOne({id_foursquare: '4b0e2fdcf964a520bb5523e3'}, function (err, opendreamPlace) {
+        console.log("qqq");
+        if (opendreamPlace != null && !err) {
+            console.log("qqqqqqqqq");
+            model.User.find({} , function(errUser,allUser) { 
+
+                model.Subscription.find({} , function(errSub,allSub) { 
+                    if (!errUser && (errSub || allSub == null || allSub.length < 3)) {
+                        for (i in allUser) {
+                            var sub = new model.Subscription();
+                            sub.place = opendreamPlace;
+                            sub.user = allUser[i];
+                            sub.created_at = new Date();
+                            sub.last_modified = new Date();
+                            sub.save(function (err){
+                                if (err) {
+                                    console.log(err);
+                                    // do something
+                                } else {
+                                    console.log('saved sub' + sub);
+                                }
+                            }); 
+                        }
+                    }
+                });
+                
+            });
+        }
+    });
+
     // add Mock up category
     model.Category.find({} , function(err,allCategory) { 
         if (err || allCategory == null || allCategory.length < 1) {
