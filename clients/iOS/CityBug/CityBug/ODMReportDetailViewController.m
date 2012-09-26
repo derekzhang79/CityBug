@@ -16,41 +16,34 @@
     NSArray *commentArray;
 }
 
-@synthesize reportImageView;
-@synthesize titleLabel;
-@synthesize locationLabel;
-@synthesize CommentLabel;
+#import "NSDate+HumanizedTime.h"
 
+#import "ODMDataManager.h"
 
+@implementation ODMReportDetailViewController
 
 - (void)reloadData
 {
-  
-    double latitude = [[self.entry latitude] doubleValue];
-    double longitude = [[self.entry longitude] doubleValue];
-    NSString *location;
+    self.titleLabel.text = self.report.title;
+    self.userLabel.text = self.report.user.username;
+    self.lastModifiedLabel.text = [self.report.lastModified stringWithHumanizedTimeDifference];
+    self.iminLabel.text = [NSString stringWithFormat:@"%i",self.report.iminCount.intValue];
+    self.locationLabel.text = self.report.place.title;
+    self.noteLabel.text = self.report.note;
     
-    if (latitude > 0 && longitude > 0) {
-        location = [NSString stringWithFormat:@"%1.3f, %1.3f", latitude, longitude];
-        NSLog(@"location %@", location);
-    } else {
-        location = @"";
-    }
-
-    self.titleLabel.text = [self.entry title];
-    self.locationLabel.text = location;
-    NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.entry fullImage]]];
-    ODMLog(@"report URL %@",[reportURL absoluteString]);
+    // Report Image
+    NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report fullImage]]];
     [self.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
-
     
-
+    // Avatar Image
+    NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report.user uid]]];
+    [self.avatarImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    numberOfComment = 0;
+    
     [self reloadData];
     ODMReportCommentViewController *reportComment = [[ODMReportCommentViewController alloc] init];
     reportComment.delegate = self;
@@ -59,16 +52,21 @@
     if (!commentArray) {
         commentArray = [NSArray new];
     }
+
+    // Show or hide keyboard notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCommentForm:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCommentForm:) name:UIKeyboardWillHideNotification object:nil];
+
 }
 
-- (void)viewDidUnload
+- (BOOL)resignFirstResponder
 {
-
-    [self setLocationLabel:nil];
-    [self setReportImageView:nil];
-    [self setTitleLabel:nil];
-    [self setCommentLabel:nil];
-    [super viewDidUnload];
+    [self.commentTextField resignFirstResponder];
+    
+    [self hideCommentForm:nil];
+    
+    return [super resignFirstResponder];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -76,19 +74,29 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - Datasource
+
+- (void)setReport:(ODMReport *)report
+{
+    _report = report;
+    
+    [self reloadData];
+}
+
 #pragma mark - FormField Delegate
 
 - (void)updateComment:(NSString *)comment
 {
-    NSLog(@"Comment %@", comment);
-
-    self.CommentLabel.text = comment;
+    self.commentLabel.text = comment;
+ 
     ODMComment *commentObject = [[ODMComment alloc] init];
+    
     [commentObject setText:comment];
     [commentObject setReportID:self.entry.uid];
     [self.entry addComment:commentObject];
     [[ODMDataManager sharedInstance] postComment:commentObject];
     
+    [[ODMDataManager sharedInstance] postComment:commentObject];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -98,7 +106,66 @@
         commentVC.delegate = self;
     }
 }
-- (IBAction)addCommentButtonTapped:(id)sender {
-    
+
+- (IBAction)addCommentButtonTapped:(id)sender
+{
+    [self resignFirstResponder];
 }
+
+#pragma mark - UIScrollView
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self resignFirstResponder];
+}
+
+- (void)showCommentForm:(NSNotification *)notification
+{
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    [UIView animateWithDuration:0.3f animations:^{
+        
+        CGRect newFrame = self.commentFormView.frame;
+        newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height - keyboardSize.height;
+        self.commentFormView.frame = newFrame;
+    }];
+}
+
+- (void)hideCommentForm:(NSNotification *)notification
+{
+    [UIView animateWithDuration:0.3f animations:^{
+        
+        CGRect newFrame = self.commentFormView.frame;
+        newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height;
+        self.commentFormView.frame = newFrame;
+    }];
+}
+
+#pragma mark - UITableView
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.report.comments count];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"CommentCellIdentifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+    }
+    
+    ODMComment *comment = [self.report.comments objectAtIndex:indexPath.row];
+    cell.textLabel.text = [self.report.user username];
+    cell.detailTextLabel.text = [comment text];
+    
+    return cell;
+}
+
 @end

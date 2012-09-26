@@ -9,7 +9,7 @@
 //#define BASE_URL @"http://127.0.0.1:3003"
 #define BASE_URL @"http://54.251.32.49:3003"
 
-#define DEBUG_HAS_SIGNED_IN NO
+#define DEBUG_HAS_SIGNED_IN YES
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 #define DATE_FORMAT @"yyyy-MM-dd HH:mm:ss"
@@ -52,7 +52,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define USER_CURRENT_LOCATION @"currentLocation"
-#define MINIMUN_ACCURACY_DISTANCE 100
+#define MINIMUN_ACCURACY_DISTANCE 50
 
 /*
  * ODMLog
@@ -68,3 +68,7 @@ extern NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 // Place
 extern NSString *ODMDataManagerNotificationPlacesLoadingFinish;
 extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
+
+// Form
+extern NSString *ODMDataManagerDidPostingReportFinish;
+extern NSString *ODMDataManagerDidPostingReportUpload;

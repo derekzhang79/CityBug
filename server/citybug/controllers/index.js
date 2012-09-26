@@ -16,6 +16,7 @@ exports.index = function(req, res){
     //add mockup user 
     model.User.find({} , function(err,allUser) { 
         if (err || allUser == null || allUser.length < 1) {
+
             var user2 = new model.User();
             user2.username = 'admin';
             user2.password = 'qwer4321';
@@ -47,6 +48,57 @@ exports.index = function(req, res){
             }); 
 
             
+        } else if (err || allUser == null || allUser.length < 1 || (allUser != null && allUser.length < 3)) {
+            var ODusername = ['anusorn', 'anyarat', 'apirak', 'arthit', 'chatchai', 'chongsawad', 'nattapol', 'nat', 'nawaporn', 'nirut', 'nutchaya', 'nut', 'panudate', 'panu', 'patcharaporn', 'patipat', 'pirapa', 'polawat', 'prathan', 'sarocha', 'siriwat', 'supatjaree', 'tawee', 'teerapong', 'teerarat', 'thanyawan', 'tarongpong', 'thawatchai', 'twin', 'veerapong', 'wasan', 'pui'];
+            var ODpassword = '1234';
+
+            for (i in ODusername) {
+                var ODuser = new model.User();
+                ODuser.username = ODusername[i];
+                ODuser.password = ODpassword;
+                ODuser.email = ODusername[i]+'@opendream.co.th';
+                ODuser.created_at = new Date();
+                ODuser.last_modified = new Date();
+                ODuser.save(function (err){
+                    if (err) {
+                        console.log(err);
+                        // do something
+                    } else {
+                        console.log('saved user' + ODuser);
+                    }
+                }); 
+            }
+        }
+    });
+
+    //id of opendream BKK
+    model.Place.findOne({id_foursquare: '4b0e2fdcf964a520bb5523e3'}, function (err, opendreamPlace) {
+        console.log("qqq");
+        if (opendreamPlace != null && !err) {
+            console.log("qqqqqqqqq");
+            model.User.find({} , function(errUser,allUser) { 
+
+                model.Subscription.find({} , function(errSub,allSub) { 
+                    if (!errUser && (errSub || allSub == null || allSub.length < 3)) {
+                        for (i in allUser) {
+                            var sub = new model.Subscription();
+                            sub.place = opendreamPlace;
+                            sub.user = allUser[i];
+                            sub.created_at = new Date();
+                            sub.last_modified = new Date();
+                            sub.save(function (err){
+                                if (err) {
+                                    console.log(err);
+                                    // do something
+                                } else {
+                                    console.log('saved sub' + sub);
+                                }
+                            }); 
+                        }
+                    }
+                });
+                
+            });
         }
     });
 

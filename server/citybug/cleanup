@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+mongo citybug --eval "db.dropDatabase();" sampleData.js

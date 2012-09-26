@@ -12,7 +12,10 @@ exports.add = function(req, res){
 
 exports.subscriptions = function(req, res){
 
-    model.Subscription.find({}, function(err,docs) {
+    model.Subscription.find({})
+        .populate('place')
+        .populate('user','username email thumbnail_image')
+        .exec(function (err, docs) {
         if (err) {
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
             res.write("Cannot get subscription");
@@ -27,6 +30,26 @@ exports.subscriptions = function(req, res){
     });
     
 };
+
+exports.users = function(req, res){
+
+    model.User.find({}) //, {username:1, password:1, email:1, created_at:1, last_modified:1})
+        .exec(function (err, docs) {
+        if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write("Can not get user");
+            res.end();
+            return;
+        } else {
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "users":' + JSON.stringify(docs) + '}');
+            res.end();
+            return;
+        }
+    });
+    
+};
+
 
 exports.comment_post = function(req, res) {
     var url = req.url;
@@ -331,6 +354,7 @@ exports.reports = function(req, res) {
                     // create query where subscribe.user._id = "user._id"
                     var query = {};
                     query["$or"] = [];
+                    query["$or"].push({"user":currentUser._id}); //check report.user is current user feed
                     for (i in subscribes) {
                         console.log(i + " subscribes >> "+ subscribes[i]);
                         if (subscribes[i].place != null && subscribes[i].place != undefined) {
@@ -415,7 +439,7 @@ exports.report = function(req, res) {
             }
 
             // have none of report
-            if (report.length == 0) {
+            if (report == null || report.length == 0) {
                 res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                 res.write('{ "reports":' + JSON.stringify(report) + '}');
                 res.end();
@@ -527,6 +551,11 @@ exports.report_post = function(req, res) {
     
     var thumbnail_image_type = req.files.thumbnail_image.type.split("/");
     var full_image_type = req.files.full_image.type.split("/");
+
+    console.log("unicode of received title = ");
+    for (i in req.body.title) {
+        console.log(i + ">> "+ req.body.title.charCodeAt(i));
+    }
     report.title = req.body.title;
     report.lat = req.body.lat;
     report.lng = req.body.lng;
@@ -546,7 +575,6 @@ exports.report_post = function(req, res) {
         var full_image_short_path = "/images/report/" + report._id + "." + full_image_extension;
         report.full_image = full_image_short_path;
     };
-
 /*
     , categories        : [{ type: Schema.Types.ObjectId, ref: 'Category' }]
     , user              : { type: Schema.Types.ObjectId, ref: 'User' }
@@ -579,9 +607,14 @@ exports.report_post = function(req, res) {
         for (cat in req.body.categories) {
             query["$or"].push({"title":req.body.categories[cat]});
         }
+        var x = req.body.categories;
+        var r = /\\u([\d\w]{4})/gi;
 
+        x = x.replace(r, function (match, grp) {
+        return String.fromCharCode(parseInt(grp, 16)); } );
+        x = x.split('"');
         //Category can not add from client
-        model.Category.find(query, function(err,catTitleFromClient) { 
+        model.Category.find({title: x[1]}, function(err,catTitleFromClient) { 
           
             if (!err && catTitleFromClient != null) {
                 for (i in catTitleFromClient ) {
@@ -591,7 +624,6 @@ exports.report_post = function(req, res) {
                 }
             } else {
                 console.log('err' + err);
-
             }
 
             model.Place.findOne({id_foursquare: req.body.place_id }, function(err,place) {   

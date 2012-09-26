@@ -20,7 +20,6 @@
     
         location = [NSString stringWithFormat:@"%1.3f, %1.3f", latitude, longitude];
     
-    
 //    NSString *imagePath = [BASE_URL stringByAppendingString:[self.entry objectForKey:@"full_image"]];
 //    [self.bugImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"process"]];
     self.descTextView.text = [self.entry objectForKey:@"title"];

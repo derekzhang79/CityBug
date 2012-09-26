@@ -43,6 +43,11 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     ALAssetsLibraryAccessFailureBlock failureblock;
     ALAssetsLibrary *assetsLib;
     CLLocation *location;
+    
+    NSUInteger cooldownReloadButton;
+    NSTimer *cooldownTimer;
+    
+    NSMutableArray *notificationCacheArray;
 }
 
 @synthesize location;
@@ -50,9 +55,46 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 #pragma mark - View's Life Cycle
 
--(void)viewWillAppear:(BOOL)animated
+- (void)pushMessageToStatusBar:(NSString *)text
+{
+    FDStatusBarNotifierView *notifierView = [[FDStatusBarNotifierView alloc] initWithMessage:text delegate:self];
+    notifierView.userInteractionEnabled = YES;
+    notifierView.timeOnScreen = 2.0;
+    
+    [notifierView showInWindow:self.view.window];
+    
+    [notificationCacheArray addObject:notifierView];
+}
+
+- (void)pushMessageToStatusBar:(NSString *)text afterDelay:(NSTimeInterval)delay
+{
+    [self performSelector:@selector(pushMessageToStatusBar:) withObject:text afterDelay:delay];
+}
+
+- (void)didHideNotifierView:(FDStatusBarNotifierView *)notifierView
+{
+    [notificationCacheArray removeObject:notifierView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [[ODMDataManager sharedInstance] reports];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    for (FDStatusBarNotifierView *view in notificationCacheArray)
+        [view hide];
+    
 }
 
 - (void)viewDidLoad
@@ -85,6 +127,10 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     [self.tableView reloadData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
+    
+    // Cache for notification bar on top
+    // use for switch to other pages
+    notificationCacheArray = [NSMutableArray new];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -94,9 +140,20 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 - (void)updateReports:(NSNotification *)notification
 {
+    NSUInteger oldItemsCount = [datasource count];
     datasource = (NSArray *)[notification object];
     
     [self.tableView reloadData];
+    
+    int diff = abs([datasource count] - oldItemsCount);
+    NSString *message = diff == 0 ?
+                [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"There has no", @"There has no"), NSLocalizedString(@"new reports", @"new reports")]
+                : [NSString stringWithFormat:@"%@ %i %@", NSLocalizedString(@"There has", @"There has"), diff, NSLocalizedString(@"new reports", @"new reports")];
+
+    
+    [self pushMessageToStatusBar:message afterDelay:2.0];
+    
+    ODMLog(@"update reports [%i]", [datasource count]);
 }
 
 #pragma mark - Table view data source
@@ -125,29 +182,16 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     return cell;
 }
 
-#pragma mark -
+#pragma mark - REPORT
 
-- (IBAction)createNewReport:(id)sender
+- (void)cooldownButton
 {
-    // POST report to server
-    ODMReport *report = [[ODMReport alloc] init];
-    report.title = @"สวัสดี ABVZX asdf;lk";
-    report.note = @"กกกกกกกกกกกกไไไไไไไกกก __#$%@#$%@$#$^@$%^% ขขขขขขขข";
-    report.latitude = @13.791343;
-    report.longitude = @100.587473;
-    report.fullImageData = [UIImage imageNamed:@"1.jpeg"];
-    report.thumbnailImageData = [UIImage imageWithCGImage:[UIImage imageNamed:@"1.jpeg"].CGImage scale:0.25 orientation:[UIImage imageNamed:@"1.jpeg"].imageOrientation];
+    cooldownReloadButton -= 1;
     
-    // Add categories to report by associated object
-    ODMCategory *category = [ODMCategory categoryWithTitle:@"หมวดหมู่"];
-    report.categories = [NSArray arrayWithObject:category];
-    
-    // Add place to report by associated object
-    ODMPlace *place = [ODMPlace placeWithTitle:@"Opendream" latitude:report.latitude longitude:report.longitude uid:@"505a8ef3cea52e3676000001" type:@"suggested"];
-    report.place = place;
-    
-    // Call DataManager with new report
-    [[ODMDataManager sharedInstance] postNewReport:report];
+    if (cooldownReloadButton == 0) {
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+        [cooldownTimer invalidate];
+    }
 }
 
 - (IBAction)addButtonTapped:(id)sender
@@ -159,14 +203,17 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
                                              otherButtonTitles:@"Camera", @"Existing Photo", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     [actionSheet showInView:self.view];
-
 }
 
 - (IBAction)refreshButtonTapped:(id)sender
 {
     [[ODMDataManager sharedInstance] reports];
-
-    [self.tableView reloadData];
+    
+    [self pushMessageToStatusBar:NSLocalizedString(@"Fetching new reports", @"Fetching new reports")];
+    
+    cooldownReloadButton = 3;
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    cooldownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cooldownButton) userInfo:nil repeats:YES];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -228,12 +275,14 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
         
     }
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
-        ODMReportDetailViewController *DetailViewController = (ODMReportDetailViewController *) segue.destinationViewController;
+        
+        ODMReportDetailViewController *detailViewController = (ODMReportDetailViewController *) segue.destinationViewController;
+
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
         ODMReport *temp = [datasource objectAtIndex:selectedIndexPath.row];
         NSLog(@"**** %@", [temp comment]);
-        DetailViewController.entry = [datasource objectAtIndex:selectedIndexPath.row];
-        
+        detailViewController.report = [datasource objectAtIndex:selectedIndexPath.row];
+
     }
 }
 

@@ -36,6 +36,13 @@
     [super viewDidUnload];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self resignFirstResponder];
+}
+
 - (IBAction)doneButtonTapped:(id)sender
 {
     if ([self createNewReport])
@@ -65,6 +72,7 @@
 
 - (BOOL)createNewReport
 {
+    [self resignFirstResponder];
     // POST report to server
     @try {
         
@@ -72,11 +80,8 @@
         report.title = self.titleTextField.text;
         NSError *error = nil;
         
-        id title = report.title;
-        BOOL isValid = [report validateValue:&title forKey:@"title" error:&error];
-        
-        ODMLog(@"error %@ : description %@", error, [[error userInfo] objectForKey:@"description"]);
-        
+        NSString *title = report.title;
+        BOOL isValid = [report validateValue:&title forKey:@"title" error:&error];        
         if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
         report.note = self.noteTextField.text;
@@ -87,7 +92,7 @@
         
         // Attach report photo through HTTP POST protocol
         report.fullImageData = self.bugImage;
-        report.thumbnailImageData = [UIImage imageWithCGImage:self.bugImage.CGImage scale:0.25 orientation:self.bugImage.imageOrientation];
+        report.thumbnailImageData = [UIImage imageWithCGImage:self.bugImage.CGImage scale:50 orientation:self.bugImage.imageOrientation];
         
         // Add categories to report by associated object
         ODMCategory *category = [ODMCategory categoryWithTitle:self.categoryLabel.text];
@@ -108,11 +113,8 @@
         error = nil;
         report.place = place;
         isValid = [report validateValue:&place forKey:@"place" error:&error];
-        if (!place) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CityBug", @"CityBug") message:@"Local location services are enable" delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
-            
-            [alertView show];
-        }
+        if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        
         
         //
         // Report's location
@@ -193,7 +195,7 @@
 {
     self.categoryLabel.text = category;
     
-    ODMLog(@"Update Category %@", category);
+    [self.tableView reloadData];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -212,7 +214,7 @@
     selectedPlace = place;
     self.localtionLabel.text = [place title];
     
-    ODMLog(@"Update Place %@", [place title]);
+    [self.tableView reloadData];
 }
 
 #pragma mark - TABLEVIEW

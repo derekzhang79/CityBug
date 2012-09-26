@@ -57,8 +57,9 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         serviceObjectManager = [RKObjectManager managerWithBaseURLString:BASE_URL];
         serviceObjectManager.client.username = [[self currentUser] username];
         serviceObjectManager.client.password = [[self currentUser] password];
-//        serviceObjectManager.client.authenticationType = RKRequestAuthenticationTypeHTTPBasic;
+        serviceObjectManager.client.authenticationType = RKRequestAuthenticationTypeHTTPBasic;
         serviceObjectManager.client.defaultHTTPEncoding = NSUTF8StringEncoding;
+        serviceObjectManager.client.cachePolicy = RKRequestCachePolicyNone;
         
         //
         // Object Mapping
@@ -173,7 +174,12 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (ODMUser *)currentUser
 {
-    return [ODMUser newUser:@"admin" email:@"user@citybug.com" password:@"qwer4321"];
+    NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    NSString *currentEmail = [[NSUserDefaults standardUserDefaults] stringForKey:@"email"];
+    
+//    return [ODMUser newUser:@"admin" email:@"admin@citybug.com" password:@"qwer4321"];
+    return [ODMUser newUser:currentUsername email:currentEmail password:currentPassword];
 }
 
 #pragma mark - REPORT
@@ -193,8 +199,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
     report.user = [self currentUser];
     
-    ODMUser *admin = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"qwer4321"];
-    if (!admin) {
+    if (!report.user) {
         *error = [NSError errorWithDomain:@"User does not exist" code:5001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:@"description", @"Must sign-in before create a new report", nil]];
         return;
     }
@@ -217,25 +222,32 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [reportParams setValue:catItems forParam:@"categories"];
         
         NSData *fullImageData = UIImageJPEGRepresentation(report.fullImageData, 1);
-        NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImageData, 1);
+        NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImageData, 0);
         
         [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
         [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
         
+        loader.defaultHTTPEncoding = NSUTF8StringEncoding;
         loader.params = reportParams;
     }];
 }
-
 
 /*
  * ADDING A COMMENT
  * HTTP POST
  */
+
 - (void)postComment:(ODMComment *)comment
 {
     RKParams *reportParams = [RKParams params];
     
-    ODMUser *user = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
+    NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+    NSString *currentEmail = [[NSUserDefaults standardUserDefaults] stringForKey:@"email"];
+    
+//    ODMUser *user = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"1234qwer"];
+    ODMUser *user = [ODMUser newUser:currentUsername email:currentEmail password:currentPassword];
+    
     comment.user = user;
     [[RKObjectManager sharedManager] postObject:comment usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
@@ -260,7 +272,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     }
     
     // Check whether current user has signed in
-    if ([self currentUser]) {
+    if ([self currentUser] && DEBUG_HAS_SIGNED_IN) {
         
         // DEBUG MODE (Helping Mode)
         // We add username and password as query parameters,
@@ -268,8 +280,15 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         // However finally, we must use Basic Authentication method
         // which contains HTTPHeader(Authentication) for autherize to
         // citybug back-end instead.
-        [queryParams setObject:@"admin" forKey:@"username"];
-        [queryParams setObject:@"qwer4321" forKey:@"password"];
+        
+        NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+        NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+        
+//        [queryParams setObject:@"admin" forKey:@"username"];
+//        [queryParams setObject:@"qwer4321" forKey:@"password"];
+        [queryParams setObject:currentUsername forKey:@"username"];
+        [queryParams setObject:currentPassword forKey:@"password"];
+
     }
     
     if ([self startGatheringLocation]) {
@@ -302,7 +321,10 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     
     [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
         loader.onDidLoadObjects = ^(NSArray *objects){
-            reports_ = [NSArray arrayWithArray:objects];
+            
+            NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"lastModified" ascending:NO];
+            
+            reports_ = [objects sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sort1, nil]];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationReportsLoadingFinish object:reports_];
         };
@@ -323,18 +345,15 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
  */
 - (NSArray *)categories
 {
-    if (!categories_) {
-        
-        [serviceObjectManager loadObjectsAtResourcePath:@"/api/categories" usingBlock:^(RKObjectLoader *loader){
-            //loader.objectMapping = [serviceObjectManager.mappingProvider serializationMappingForClass:[ODMCategory class]];
-            loader.onDidLoadObjects = ^(NSArray *objects){
-                categories_ = [NSArray arrayWithArray:objects];
-                
-                // Post notification with category array
-                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCategoriesLoadingFinish object:categories_];
-            };
-        }];
-    }
+    [serviceObjectManager loadObjectsAtResourcePath:@"/api/categories" usingBlock:^(RKObjectLoader *loader){
+        //loader.objectMapping = [serviceObjectManager.mappingProvider serializationMappingForClass:[ODMCategory class]];
+        loader.onDidLoadObjects = ^(NSArray *objects){
+            categories_ = [NSArray arrayWithArray:objects];
+            
+            // Post notification with category array
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCategoriesLoadingFinish object:categories_];
+        };
+    }];
     
     return categories_;
 }
@@ -347,8 +366,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 {
     if (!places_) {
         
-        NSDictionary *qp = [NSDictionary dictionaryWithKeysAndObjects:@"lat", @"10.33023",
-                                     @"lng", @"133.324523", nil];
+        NSDictionary *qp = [NSDictionary dictionaryWithKeysAndObjects:@"lat", @"13.791151366451", @"lng", @"100.5881877233988", nil];
         NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:qp];
         
         [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
@@ -382,6 +400,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObject:(id)object
 {
     RKLogError(@"******* SUCCESSFULLY SEND %@", object);
+    
 }
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
