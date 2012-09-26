@@ -187,6 +187,7 @@ CityBug Project (Beta v.1.0)
 		
 		/api/report/[id]
 	* Response (will update later 18/09/2012)
+	
 				{
 				    "reports": [
 				        {
