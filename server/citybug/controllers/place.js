@@ -14,6 +14,25 @@ var CLIENT_ID = KEYS.CLIENT_ID;
 var CLIENT_SECRET = KEYS.CLIENT_SECRET;
 var REDIRECT_URI = KEYS.HOST;
 
+exports.places = function(req, res){
+
+    model.Place.find({})
+        .exec(function (err, docs) {
+        if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write("Can not get place");
+            res.end();
+            return;
+        } else {
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "places":' + JSON.stringify(docs) + '}');
+            res.end();
+            return;
+        }
+    });
+    
+};
+
 exports.place_search = function(req, res){
 
     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});

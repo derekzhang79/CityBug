@@ -20,10 +20,14 @@ module.exports = function(app, express){
 	//place
 	app.get('/callback_place_search', place.callback_place_search);
 	app.get('/api/place/search', place.place_search)
+	app.get('/api/places', place.places)
 
 	//categories
 	app.get('/api/categories', api.categories);
 
 	//subscribe
 	app.get('/api/subscriptions', api.subscriptions);
+
+	//user
+	app.get('/api/users', api.users);
 };

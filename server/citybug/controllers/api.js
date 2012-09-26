@@ -12,7 +12,10 @@ exports.add = function(req, res){
 
 exports.subscriptions = function(req, res){
 
-    model.Subscription.find({}, function(err,docs) {
+    model.Subscription.find({})
+        .populate('place')
+        .populate('user','username email thumbnail_image')
+        .exec(function (err, docs) {
         if (err) {
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
             res.write("Cannot get subscription");
@@ -27,6 +30,26 @@ exports.subscriptions = function(req, res){
     });
     
 };
+
+exports.users = function(req, res){
+
+    model.User.find({})
+        .exec(function (err, docs) {
+        if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write("Can not get user");
+            res.end();
+            return;
+        } else {
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "users":' + JSON.stringify(docs) + '}');
+            res.end();
+            return;
+        }
+    });
+    
+};
+
 
 exports.comment_post = function(req, res) {
     var url = req.url;
