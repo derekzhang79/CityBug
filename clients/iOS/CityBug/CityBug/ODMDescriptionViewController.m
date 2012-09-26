@@ -18,11 +18,7 @@
     double longitude = [[self.entry objectForKey:@"longitude"] doubleValue];
     NSString *location;
     
-    if (latitude > 0 && longitude > 0) {
         location = [NSString stringWithFormat:@"%1.3f, %1.3f", latitude, longitude];
-    } else {
-        location = @"";
-    }
     
     
 //    NSString *imagePath = [BASE_URL stringByAppendingString:[self.entry objectForKey:@"full_image"]];

@@ -20,6 +20,7 @@
 #import "ODMActivityFeedViewCell.h"
 #import "ODMDataManager.h"
 #import "ODMReport.h"
+#import "ODMComment.h"
 
 #define kSceenSize self.parentViewController.view.frame.size
 #define CAMERA_SCALAR 1.32
@@ -229,9 +230,10 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
         ODMReportDetailViewController *DetailViewController = (ODMReportDetailViewController *) segue.destinationViewController;
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
-        NSDictionary *temp = [datasource objectAtIndex:selectedIndexPath.row];
-        NSLog(@"temp %@", temp);
+        ODMReport *temp = [datasource objectAtIndex:selectedIndexPath.row];
+        NSLog(@"**** %@", [temp comment]);
         DetailViewController.entry = [datasource objectAtIndex:selectedIndexPath.row];
+        
     }
 }
 

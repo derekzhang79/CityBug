@@ -9,6 +9,7 @@
 #import "ODMPlace.h"
 #import "ODMUser.h"
 #import "ODMCategory.h"
+#import "ODMComment.h"
 
 @interface ODMReport : NSObject {
     NSArray  *_categories;
@@ -27,6 +28,8 @@
 @property (nonatomic, strong) UIImage *thumbnailImageData, *fullImageData;
 @property (nonatomic, strong) ODMPlace *place;
 @property (nonatomic, strong) ODMUser *user;
+@property (nonatomic, strong) ODMComment *comment;
+@property (nonatomic, strong) NSMutableArray *comments;
 
 @property (nonatomic, strong) NSDate *lastModified;
 
@@ -40,4 +43,6 @@
  * otherwise, use pattern "<imin>'re in"
  */
 - (NSString *)iminString;
+
+- (void)addComment:(ODMComment *) comment;
 @end

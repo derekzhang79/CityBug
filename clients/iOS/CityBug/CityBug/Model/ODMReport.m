@@ -15,6 +15,7 @@
     if (self = [super init]) {
         _title = title;
         _note = note;
+        self.comments = [NSMutableArray new];
     }
     return self;
 }
@@ -32,6 +33,11 @@
         return [NSString stringWithFormat:@"%i's in", self.iminCount.intValue];
     }
     return [NSString stringWithFormat:@"%i're in", self.iminCount.intValue];
+}
+
+- (void)addComment:(ODMComment *) comment
+{
+    [self.comments addObject:comment];
 }
 
 /*

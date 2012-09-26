@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) ODMUser *user;
 @property (nonatomic, strong) NSString *reportID;
+@property (nonatomic, strong) NSDate *lastModified;
 
 @end

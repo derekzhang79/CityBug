@@ -13,8 +13,7 @@
 
 @implementation ODMReportDetailViewController {
     int numberOfComment;
-    NSMutableDictionary *commentDict;
-    NSMutableArray *commentArray;
+    NSArray *commentArray;
 }
 
 @synthesize reportImageView;
@@ -55,8 +54,11 @@
     [self reloadData];
     ODMReportCommentViewController *reportComment = [[ODMReportCommentViewController alloc] init];
     reportComment.delegate = self;
-    commentDict = [[NSMutableDictionary alloc] init];
-    commentArray = [[NSMutableArray alloc] init];
+    commentArray = [[ODMDataManager sharedInstance] reports];
+    
+    if (!commentArray) {
+        commentArray = [NSArray new];
+    }
 }
 
 - (void)viewDidUnload
@@ -84,6 +86,7 @@
     ODMComment *commentObject = [[ODMComment alloc] init];
     [commentObject setText:comment];
     [commentObject setReportID:self.entry.uid];
+    [self.entry addComment:commentObject];
     [[ODMDataManager sharedInstance] postComment:commentObject];
     
 }

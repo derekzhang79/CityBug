@@ -89,22 +89,37 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [userMapping mapAttributes:@"username", @"email", @"password", nil];
         [userMapping mapKeyPath:@"_id" toAttribute:@"uid"];
         
+        RKObjectMapping *commentMapping = [RKObjectMapping mappingForClass:[ODMComment class]];
+        [commentMapping mapKeyPath:@"text" toAttribute:@"text"];
+        [commentMapping mapKeyPath:@"_id" toAttribute:@"reportID"];
+        [commentMapping mapKeyPath:@"last_modified" toAttribute:@"lastModified"];
+        
+        
+        
+        
         // Mapping Relation
         // [reportMapping mapKeyPath:@"categories" toRelationship:@"categories" withMapping:categoryMapping];
         [reportMapping mapRelationship:@"categories" withMapping:categoryMapping];
         [reportMapping mapRelationship:@"place" withMapping:placeMapping];
         [reportMapping mapRelationship:@"user" withMapping:userMapping];
+        [reportMapping mapRelationship:@"comment" withMapping:commentMapping];
+        [commentMapping mapRelationship:@"user" withMapping:userMapping];
+        
+        // Configuration using helper methods
+        [reportMapping hasMany:@"comments" withMapping:commentMapping];
         
         [serviceObjectManager.mappingProvider setMapping:reportMapping forKeyPath:@"reports"];
         [serviceObjectManager.mappingProvider setMapping:categoryMapping forKeyPath:@"categories"];
         [serviceObjectManager.mappingProvider setMapping:placeMapping forKeyPath:@"places"];
         [serviceObjectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
+        [serviceObjectManager.mappingProvider setMapping:commentMapping forKeyPath:@"comments"];
         
         // Serialization
         [serviceObjectManager.mappingProvider setSerializationMapping:[reportMapping inverseMapping] forClass:[ODMReport class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:categoryMapping forClass:[ODMCategory class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:placeMapping forClass:[ODMPlace class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:userMapping forClass:[ODMUser class]];
+        [serviceObjectManager.mappingProvider setSerializationMapping:commentMapping forClass:[ODMComment class]];
         
         // Routing
         [serviceObjectManager.router routeClass:[ODMReport class] toResourcePath:@"/api/reports" forMethod:RKRequestMethodPOST];
@@ -212,7 +227,10 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 }
 
 
-
+/*
+ * ADDING A COMMENT
+ * HTTP POST
+ */
 - (void)postComment:(ODMComment *)comment
 {
     RKParams *reportParams = [RKParams params];
@@ -291,6 +309,12 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     }];
     
     return reports_;
+}
+
+
+- (NSArray *)comment
+{
+    return [self reportsWithParameters:[self buildingQueryParameters] error:NULL];
 }
 
 #pragma mark - CATEGORY
