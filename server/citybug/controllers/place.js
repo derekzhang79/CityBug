@@ -7,8 +7,7 @@ var sys = require('sys'),
 express = require('express'),
 assert = require('assert');
 
-var FOURSQ = require('../foursquare'),
-	KEYS = require('../key');
+var KEYS = require('../key');
 
 var CLIENT_ID = KEYS.CLIENT_ID;
 var CLIENT_SECRET = KEYS.CLIENT_SECRET;
