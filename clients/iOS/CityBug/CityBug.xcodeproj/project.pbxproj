@@ -22,6 +22,7 @@
 		CE16A2A2160AF8B400396033 /* ODMPlaceFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE16A2A1160AF8B400396033 /* ODMPlaceFormViewController.m */; };
 		CE16A2DD160B07D500396033 /* ODMPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = CE16A2DC160B07D500396033 /* ODMPlace.m */; };
 		CE16A334160B32EE00396033 /* ODMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CE16A333160B32EE00396033 /* ODMUser.m */; };
+		CE1B85B016120CDA0040951C /* FDStatusBarNotifierView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1B85AF16120CDA0040951C /* FDStatusBarNotifierView.m */; };
 		CE314D18161016B600CB7820 /* ODMActivityFeedViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE314D17161016B600CB7820 /* ODMActivityFeedViewCell.m */; };
 		CE314D221610548700CB7820 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE314D1B1610548700CB7820 /* Localizable.strings */; };
 		CE314D231610548700CB7820 /* NSDate+HumanizedTime.m in Sources */ = {isa = PBXBuildFile; fileRef = CE314D1F1610548700CB7820 /* NSDate+HumanizedTime.m */; };
@@ -140,6 +141,8 @@
 		CE16A2DC160B07D500396033 /* ODMPlace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMPlace.m; sourceTree = "<group>"; };
 		CE16A332160B32EE00396033 /* ODMUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMUser.h; sourceTree = "<group>"; };
 		CE16A333160B32EE00396033 /* ODMUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMUser.m; sourceTree = "<group>"; };
+		CE1B85AE16120CDA0040951C /* FDStatusBarNotifierView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDStatusBarNotifierView.h; sourceTree = "<group>"; };
+		CE1B85AF16120CDA0040951C /* FDStatusBarNotifierView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDStatusBarNotifierView.m; sourceTree = "<group>"; };
 		CE314D16161016B600CB7820 /* ODMActivityFeedViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMActivityFeedViewCell.h; path = CityBug/View/ODMActivityFeedViewCell.h; sourceTree = SOURCE_ROOT; };
 		CE314D17161016B600CB7820 /* ODMActivityFeedViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMActivityFeedViewCell.m; path = CityBug/View/ODMActivityFeedViewCell.m; sourceTree = SOURCE_ROOT; };
 		CE314D1C1610548700CB7820 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -288,6 +291,16 @@
 			name = prototype;
 			sourceTree = "<group>";
 		};
+		CE1B85AD16120CDA0040951C /* FDStatusBarNotifierView */ = {
+			isa = PBXGroup;
+			children = (
+				CE1B85AE16120CDA0040951C /* FDStatusBarNotifierView.h */,
+				CE1B85AF16120CDA0040951C /* FDStatusBarNotifierView.m */,
+			);
+			name = FDStatusBarNotifierView;
+			path = Vendor/FDStatusBarNotifierView;
+			sourceTree = "<group>";
+		};
 		CE314D19161016BA00CB7820 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,6 +401,7 @@
 		CEB10E90160376F10041B3B8 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				CE1B85AD16120CDA0040951C /* FDStatusBarNotifierView */,
 				CE314D24161056BD00CB7820 /* SDWebImage */,
 				CE314D1A1610548700CB7820 /* SEHumanizedTime */,
 				CEF8C2FB1609747D008871D4 /* RestKit.xcodeproj */,
@@ -710,6 +724,7 @@
 				CE314D40161056BD00CB7820 /* UIImageView+WebCache.m in Sources */,
 				CE314D881610727200CB7820 /* ODMReportCommentViewController.m in Sources */,
 				98968ADB1611A70400AB9900 /* ODMComment.m in Sources */,
+				CE1B85B016120CDA0040951C /* FDStatusBarNotifierView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -771,8 +786,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -794,8 +809,6 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -808,8 +821,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -825,8 +838,6 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -835,16 +846,16 @@
 		CEEE607115FDEDFB00324883 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Patipat Susumpow (A6UFV79794)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Patipat Susumpow (A6UFV79794)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CityBug/CityBug-Prefix.pch";
 				INFOPLIST_FILE = "CityBug/CityBug-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = CityBug;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "95538F86-1D7E-41E3-A2F4-B9ED2EE48786";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "95538F86-1D7E-41E3-A2F4-B9ED2EE48786";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

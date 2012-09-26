@@ -26,7 +26,6 @@
 
 - (void)reloadData
 {
-  
     double latitude = [[self.entry latitude] doubleValue];
     double longitude = [[self.entry longitude] doubleValue];
     NSString *location;

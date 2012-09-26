@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2549" systemVersion="12C54" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="tet-i1-BY7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C54" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="tet-i1-BY7">
     <dependencies>
-        <deployment defaultVersion="1296" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1498"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
     <scenes>
         <!--List View Controller - CityBug-->
@@ -571,7 +571,6 @@
         <!--Report Detail View Controller - Report Detail-->
         <scene sceneID="7mA-T6-M8I">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JPn-si-kQD" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="hVw-3B-e3E" customClass="ODMReportDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="p2M-OK-eRX">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
@@ -665,13 +664,13 @@
                         <outlet property="titleLabel" destination="wLs-f5-4U9" id="JUc-6R-A3S"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JPn-si-kQD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2843" y="-1748"/>
         </scene>
         <!--Report Comment View Controller - Comment-->
         <scene sceneID="SJS-Ph-jrE">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="g9H-kQ-F35" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="FJn-l2-olo" customClass="ODMReportCommentViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8oa-lM-1QT">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
@@ -700,6 +699,7 @@
                         <outlet property="CommentTextField" destination="1U9-Nn-fei" id="tc2-9x-HTK"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g9H-kQ-F35" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2346" y="-1748"/>
         </scene>

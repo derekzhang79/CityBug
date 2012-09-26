@@ -59,7 +59,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         serviceObjectManager.client.password = [[self currentUser] password];
         serviceObjectManager.client.authenticationType = RKRequestAuthenticationTypeHTTPBasic;
         serviceObjectManager.client.defaultHTTPEncoding = NSUTF8StringEncoding;
-        serviceObjectManager.client.cachePolicy = RKRequestCachePolicyEnabled;
+        serviceObjectManager.client.cachePolicy = RKRequestCachePolicyNone;
         
         //
         // Object Mapping
@@ -159,7 +159,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (ODMUser *)currentUser
 {
-    return [ODMUser newUser:@"admin" email:@"user@citybug.com" password:@"qwer4321"];
+    return [ODMUser newUser:@"admin" email:@"admin@citybug.com" password:@"qwer4321"];
 }
 
 #pragma mark - REPORT
@@ -179,8 +179,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
     report.user = [self currentUser];
     
-    ODMUser *admin = [ODMUser newUser:@"admin" email:@"admin@opendream.co.th" password:@"qwer4321"];
-    if (!admin) {
+    if (!report.user) {
         *error = [NSError errorWithDomain:@"User does not exist" code:5001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:@"description", @"Must sign-in before create a new report", nil]];
         return;
     }
@@ -203,7 +202,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [reportParams setValue:catItems forParam:@"categories"];
         
         NSData *fullImageData = UIImageJPEGRepresentation(report.fullImageData, 1);
-        NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImageData, 1);
+        NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImageData, 0);
         
         [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
         [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
@@ -212,8 +211,6 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         loader.params = reportParams;
     }];
 }
-
-
 
 - (void)postComment:(ODMComment *)comment
 {
@@ -304,18 +301,15 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
  */
 - (NSArray *)categories
 {
-    if (!categories_) {
-        
-        [serviceObjectManager loadObjectsAtResourcePath:@"/api/categories" usingBlock:^(RKObjectLoader *loader){
-            //loader.objectMapping = [serviceObjectManager.mappingProvider serializationMappingForClass:[ODMCategory class]];
-            loader.onDidLoadObjects = ^(NSArray *objects){
-                categories_ = [NSArray arrayWithArray:objects];
-                
-                // Post notification with category array
-                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCategoriesLoadingFinish object:categories_];
-            };
-        }];
-    }
+    [serviceObjectManager loadObjectsAtResourcePath:@"/api/categories" usingBlock:^(RKObjectLoader *loader){
+        //loader.objectMapping = [serviceObjectManager.mappingProvider serializationMappingForClass:[ODMCategory class]];
+        loader.onDidLoadObjects = ^(NSArray *objects){
+            categories_ = [NSArray arrayWithArray:objects];
+            
+            // Post notification with category array
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCategoriesLoadingFinish object:categories_];
+        };
+    }];
     
     return categories_;
 }
@@ -363,6 +357,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObject:(id)object
 {
     RKLogError(@"******* SUCCESSFULLY SEND %@", object);
+    
 }
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error

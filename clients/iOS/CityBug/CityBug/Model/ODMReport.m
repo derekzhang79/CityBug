@@ -104,7 +104,8 @@
             return NO;
         }
         
-    } else */if ([key isEqualToString:@"note"]) {
+    } else */
+    if ([key isEqualToString:@"note"]) {
         if ([*value length] > MAXIMUM_REPORT_LENGTH) {
             *error = [NSError errorWithDomain:LONG_LENGTH_STRING_ERROR_DOMAIN code:1004 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(LONG_LENGTH_STRING_ERROR_DESCRIPTION_TEXT, LONG_LENGTH_STRING_ERROR_DESCRIPTION_TEXT), nil]];
             return NO;
@@ -126,7 +127,7 @@
             return NO;
         }
     } else if ([key isEqualToString:@"place"]) {
-        if (!value) {
+        if (*value == NULL) {
             *error = [NSError errorWithDomain:PLACE_IS_REQUIRED_FIELD_TEXT code:3001 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT, PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT), nil]];
             return NO;
         }
