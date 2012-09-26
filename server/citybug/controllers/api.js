@@ -550,6 +550,11 @@ exports.report_post = function(req, res) {
     
     var thumbnail_image_type = req.files.thumbnail_image.type.split("/");
     var full_image_type = req.files.full_image.type.split("/");
+
+    console.log("unicode of received title = ");
+    for (i in req.body.title) {
+        console.log(i + ">> "+ req.body.title.charCodeAt(i));
+    }
     report.title = req.body.title;
     report.lat = req.body.lat;
     report.lng = req.body.lng;
