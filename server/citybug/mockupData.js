@@ -561,8 +561,8 @@ var places = [
         "title": "Il Bagatto",
         "id_foursquare": "3fd66200f964a52025e51ee3"
     }
-]
-var report = [
+];
+var reports = [
     {
             "created_at": "2012-09-25T09:35:27.341Z",
             "imin_count": 0,
@@ -580,7 +580,7 @@ var report = [
             "created_at": "2012-09-25T09:35:27.341Z",
             "imin_count": 0,
             "is_resolved": false,
-            "last_modified": "2012-09-25T09:35:27.341Z",
+            "last_modified": "2012-02-25T09:35:27.341Z",
             "lat": 37.785834,
             "lng": -122.406417,
             "note": "น้ำไหลมาเรื่อยๆตั้งแต่เย็นแล้ว",
@@ -589,6 +589,38 @@ var report = [
             "imins": [],
             "comments": [],
             "categories": []
-    }]
+    },{
+            "created_at": "2012-09-25T09:35:27.341Z",
+            "imin_count": 0,
+            "is_resolved": false,
+            "last_modified": "2012-01-25T09:35:27.341Z",
+            "lat": 37.785834,
+            "lng": -122.406417,
+            "note": "กระต่ายวิ่งกันเต็มเลย",
+            "place": "4b32ca69f964a520fe1325e3",
+            "title": "ฟ้าถล่ม",
+            "imins": [],
+            "comments": [],
+            "categories": []
+    }];
+
+var comments = [
+    {
+            "created_at": "2012-09-25T09:35:27.341Z",
+            "last_modified": "2012-01-25T09:35:27.341Z",
+            "text": "กระทืบ แอมอิน 1001 ที"
+    },{
+            "created_at": "2012-09-25T09:35:27.341Z",
+            "last_modified": "2012-01-25T09:35:27.341Z",
+            "text": "บ้านผมไฟดับเลย"
+    },{
+            "created_at": "2012-09-25T09:35:27.341Z",
+            "last_modified": "2012-01-25T09:35:27.341Z",
+            "text": "ผมอยู่แถวนั้นเหมือนกัน"
+    },{
+            "created_at": "2012-09-25T09:35:27.341Z",
+            "last_modified": "2012-01-25T09:35:27.341Z",
+            "text": "เห็นใจอ่ะ เราอยู้เมืองนอกเลยไม่เจอ"
+    }];
 
 
