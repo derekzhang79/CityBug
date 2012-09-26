@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F9C7B461613144000B7FC95 /* ODMSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C7B451613144000B7FC95 /* ODMSignInViewController.m */; };
 		985F49EE160B2D1000D642D0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */; };
 		985F49F0160B2D1B00D642D0 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49EF160B2D1B00D642D0 /* ImageIO.framework */; };
 		985F49F2160B2EEB00D642D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49F1160B2EEB00D642D0 /* CoreLocation.framework */; };
@@ -121,6 +122,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7F9C7B441613144000B7FC95 /* ODMSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMSignInViewController.h; path = CityBug/ODMSignInViewController.h; sourceTree = SOURCE_ROOT; };
+		7F9C7B451613144000B7FC95 /* ODMSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMSignInViewController.m; path = CityBug/ODMSignInViewController.m; sourceTree = SOURCE_ROOT; };
 		985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		985F49EF160B2D1B00D642D0 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		985F49F1160B2EEB00D642D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -462,6 +465,8 @@
 				CEB10E2D160374B90041B3B8 /* Model */,
 				CEB10E3D160374CC0041B3B8 /* ODMListViewController.h */,
 				CEB10E39160374CC0041B3B8 /* ODMListViewController.m */,
+				7F9C7B441613144000B7FC95 /* ODMSignInViewController.h */,
+				7F9C7B451613144000B7FC95 /* ODMSignInViewController.m */,
 				CEB10E3A160374CC0041B3B8 /* ODMDescriptionViewController.h */,
 				CEB10E3B160374CC0041B3B8 /* ODMDescriptionViewController.m */,
 				CEB10E3F160374CC0041B3B8 /* ODMDescriptionFormViewController.h */,
@@ -725,6 +730,7 @@
 				CE314D881610727200CB7820 /* ODMReportCommentViewController.m in Sources */,
 				98968ADB1611A70400AB9900 /* ODMComment.m in Sources */,
 				CE1B85B016120CDA0040951C /* FDStatusBarNotifierView.m in Sources */,
+				7F9C7B461613144000B7FC95 /* ODMSignInViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
