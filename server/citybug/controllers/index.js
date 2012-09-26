@@ -16,6 +16,7 @@ exports.index = function(req, res){
     //add mockup user 
     model.User.find({} , function(err,allUser) { 
         if (err || allUser == null || allUser.length < 1) {
+
             var user2 = new model.User();
             user2.username = 'admin';
             user2.password = 'qwer4321';
@@ -47,6 +48,26 @@ exports.index = function(req, res){
             }); 
 
             
+        } else if (err || allUser == null || allUser.length < 1 || (allUser != null && allUser.length < 3)) {
+            var ODusername = ['anusorn', 'anyarat', 'apirak', 'arthit', 'chatchai', 'chongsawad', 'nattapol', 'nat', 'nawaporn', 'nirut', 'nutchaya', 'nut', 'panudate', 'panu', 'patcharaporn', 'patipat', 'pirapa', 'polawat', 'prathan', 'sarocha', 'siriwat', 'supatjaree', 'tawee', 'teerapong', 'teerarat', 'thanyawan', 'tarongpong', 'thawatchai', 'twin', 'veerapong', 'wasan', 'pui'];
+            var ODpassword = '1234';
+
+            for (i in ODusername) {
+                var ODuser = new model.User();
+                ODuser.username = ODusername[i];
+                ODuser.password = ODpassword;
+                ODuser.email = ODusername[i]+'@opendream.co.th';
+                ODuser.created_at = new Date();
+                ODuser.last_modified = new Date();
+                ODuser.save(function (err){
+                    if (err) {
+                        console.log(err);
+                        // do something
+                    } else {
+                        console.log('saved user' + ODuser);
+                    }
+                }); 
+            }
         }
     });
 

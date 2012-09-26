@@ -33,7 +33,7 @@ exports.subscriptions = function(req, res){
 
 exports.users = function(req, res){
 
-    model.User.find({})
+    model.User.find({}) //, {username:1, password:1, email:1, created_at:1, last_modified:1})
         .exec(function (err, docs) {
         if (err) {
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});

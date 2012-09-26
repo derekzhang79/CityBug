@@ -1,18 +1,245 @@
 var nowDate = new Date();
 var catItems = ['ไฟฟ้า','ประปา','ถนน','ขนส่งมวลชน','ชุมชน','สาธารณสมบัติ','อื่นๆ'];
-var users = [{
-    "username": "admin",
-    "password": "qwer4321",
-    "email": "admin@citybug.in.th",
-    "created_at": "2012-09-21T09:39:52.921Z",
-    "last_modified": "2012-09-21T09:39:52.921Z"
-},{
-    "username": "user",
-    "password": "qwer4321",
-    "email": "user@citybug.in.th",
-    "created_at": "2012-09-21T09:39:52.921Z",
-    "last_modified": "2012-09-21T09:39:52.921Z"
-}];
+var users = [
+                {
+                    "username": "admin",
+                    "password": "qwer4321",
+                    "email": "admin@citybug.in.th",
+                    "created_at": "2012-09-21T09:39:52.921Z",
+                    "last_modified": "2012-09-21T09:39:52.921Z"
+                },
+                {
+                    "username": "user",
+                    "password": "qwer4321",
+                    "email": "user@citybug.in.th",
+                    "created_at": "2012-09-21T09:39:52.921Z",
+                    "last_modified": "2012-09-21T09:39:52.921Z"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.503Z",
+                    "created_at": "2012-09-26T09:58:09.503Z",
+                    "email": "anyarat@opendream.co.th",
+                    "password": "1234",
+                    "username": "anyarat"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.503Z",
+                    "created_at": "2012-09-26T09:58:09.503Z",
+                    "email": "apirak@opendream.co.th",
+                    "password": "1234",
+                    "username": "apirak"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.503Z",
+                    "created_at": "2012-09-26T09:58:09.503Z",
+                    "email": "anusorn@opendream.co.th",
+                    "password": "1234",
+                    "username": "anusorn"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.503Z",
+                    "created_at": "2012-09-26T09:58:09.503Z",
+                    "email": "arthit@opendream.co.th",
+                    "password": "1234",
+                    "username": "arthit"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.504Z",
+                    "created_at": "2012-09-26T09:58:09.504Z",
+                    "email": "chatchai@opendream.co.th",
+                    "password": "1234",
+                    "username": "chatchai"                
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.504Z",
+                    "created_at": "2012-09-26T09:58:09.504Z",
+                    "email": "chongsawad@opendream.co.th",
+                    "password": "1234",
+                    "username": "chongsawad"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.504Z",
+                    "created_at": "2012-09-26T09:58:09.504Z",
+                    "email": "nattapol@opendream.co.th",
+                    "password": "1234",
+                    "username": "nattapol"                
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.505Z",
+                    "created_at": "2012-09-26T09:58:09.505Z",
+                    "email": "nat@opendream.co.th",
+                    "password": "1234",
+                    "username": "nat"                
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.505Z",
+                    "created_at": "2012-09-26T09:58:09.505Z",
+                    "email": "nawaporn@opendream.co.th",
+                    "password": "1234",
+                    "username": "nawaporn"                
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.506Z",
+                    "created_at": "2012-09-26T09:58:09.506Z",
+                    "email": "nirut@opendream.co.th",
+                    "password": "1234",
+                    "username": "nirut"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.506Z",
+                    "created_at": "2012-09-26T09:58:09.506Z",
+                    "email": "nutchaya@opendream.co.th",
+                    "password": "1234",
+                    "username": "nutchaya"                
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.507Z",
+                    "created_at": "2012-09-26T09:58:09.507Z",
+                    "email": "nut@opendream.co.th",
+                    "password": "1234",
+                    "username": "nut"                
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.507Z",
+                    "created_at": "2012-09-26T09:58:09.507Z",
+                    "email": "panudate@opendream.co.th",
+                    "password": "1234",
+                    "username": "panudate"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.508Z",
+                    "created_at": "2012-09-26T09:58:09.508Z",
+                    "email": "panu@opendream.co.th",
+                    "password": "1234",
+                    "username": "panu"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.508Z",
+                    "created_at": "2012-09-26T09:58:09.508Z",
+                    "email": "patcharaporn@opendream.co.th",
+                    "password": "1234",
+                    "username": "patcharaporn"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.508Z",
+                    "created_at": "2012-09-26T09:58:09.508Z",
+                    "email": "patipat@opendream.co.th",
+                    "password": "1234",
+                    "username": "patipat"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.508Z",
+                    "created_at": "2012-09-26T09:58:09.508Z",
+                    "email": "pirapa@opendream.co.th",
+                    "password": "1234",
+                    "username": "pirapa"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.509Z",
+                    "created_at": "2012-09-26T09:58:09.509Z",
+                    "email": "polawat@opendream.co.th",
+                    "password": "1234",
+                    "username": "polawat"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.509Z",
+                    "created_at": "2012-09-26T09:58:09.509Z",
+                    "email": "prathan@opendream.co.th",
+                    "password": "1234",
+                    "username": "prathan"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.510Z",
+                    "created_at": "2012-09-26T09:58:09.509Z",
+                    "email": "sarocha@opendream.co.th",
+                    "password": "1234",
+                    "username": "sarocha"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.510Z",
+                    "created_at": "2012-09-26T09:58:09.510Z",
+                    "email": "siriwat@opendream.co.th",
+                    "password": "1234",
+                    "username": "siriwat"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.510Z",
+                    "created_at": "2012-09-26T09:58:09.510Z",
+                    "email": "supatjaree@opendream.co.th",
+                    "password": "1234",
+                    "username": "supatjaree"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.511Z",
+                    "created_at": "2012-09-26T09:58:09.511Z",
+                    "email": "tawee@opendream.co.th",
+                    "password": "1234",
+                    "username": "tawee"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.511Z",
+                    "created_at": "2012-09-26T09:58:09.511Z",
+                    "email": "teerapong@opendream.co.th",
+                    "password": "1234",
+                    "username": "teerapong"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.511Z",
+                    "created_at": "2012-09-26T09:58:09.511Z",
+                    "email": "teerarat@opendream.co.th",
+                    "password": "1234",
+                    "username": "teerarat"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.512Z",
+                    "created_at": "2012-09-26T09:58:09.512Z",
+                    "email": "thanyawan@opendream.co.th",
+                    "password": "1234",
+                    "username": "thanyawan"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.512Z",
+                    "created_at": "2012-09-26T09:58:09.512Z",
+                    "email": "tarongpong@opendream.co.th",
+                    "password": "1234",
+                    "username": "tarongpong"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.514Z",
+                    "created_at": "2012-09-26T09:58:09.513Z",
+                    "email": "thawatchai@opendream.co.th",
+                    "password": "1234",
+                    "username": "thawatchai"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.516Z",
+                    "created_at": "2012-09-26T09:58:09.516Z",
+                    "email": "twin@opendream.co.th",
+                    "password": "1234",
+                    "username": "twin"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.516Z",
+                    "created_at": "2012-09-26T09:58:09.516Z",
+                    "email": "veerapong@opendream.co.th",
+                    "password": "1234",
+                    "username": "veerapong"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.517Z",
+                    "created_at": "2012-09-26T09:58:09.517Z",
+                    "email": "wasan@opendream.co.th",
+                    "password": "1234",
+                    "username": "wasan"
+                },
+                {
+                    "last_modified": "2012-09-26T09:58:09.517Z",
+                    "created_at": "2012-09-26T09:58:09.517Z",
+                    "email": "pui@opendream.co.th",
+                    "password": "1234",
+                    "username": "pui"
+                }
+            ];
 var places = [
     {
         "distance": 0.07444324802004024,
