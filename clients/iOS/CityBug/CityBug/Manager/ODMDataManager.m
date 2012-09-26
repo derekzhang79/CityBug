@@ -322,8 +322,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 {
     if (!places_) {
         
-        NSDictionary *qp = [NSDictionary dictionaryWithKeysAndObjects:@"lat", @"10.33023",
-                                     @"lng", @"133.324523", nil];
+        NSDictionary *qp = [NSDictionary dictionaryWithKeysAndObjects:@"lat", @"13.791151366451", @"lng", @"100.5881877233988", nil];
         NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:qp];
         
         [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
