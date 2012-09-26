@@ -181,6 +181,77 @@ CityBug Project (Beta v.1.0)
 	* HTTP Method - POST
 	* Login required - YES
 
+* list
+	
+	เรียกใช้เพื่อแสดง feed ของ report นั้นๆ
+		
+		/api/report/[id]
+	* Response (will update later 18/09/2012)
+	
+				{
+				    "reports": [
+				        {
+				            "user": {
+				                "email": "admin@citybug.in.th",
+				                "username": "admin",
+				                "_id": "50617a63b345825eb9000001"
+				            },
+				            "_id": "506262ade9d05a37bf000004",
+				            "comments": [
+				                {
+				                    "created_at": "2012-09-26T02:08:23.478Z",
+				                    "last_modified": "2012-09-26T02:08:23.478Z",
+				                    "report": "506262ade9d05a37bf000004",
+				                    "user": {
+				                        "email": "admin@citybug.in.th",
+				                        "username": "admin",
+				                        "_id": "50617a63b345825eb9000001"
+				                    },
+				                    "text": "ป่าหายไปหนึ่งในหนึ่ง(หายหมดเลย)",
+				                    "_id": "50626397e9d05a37bf000007",
+				                    "__v": 0
+				                },
+				                {
+				                    "created_at": "2012-09-26T02:08:31.519Z",
+				                    "last_modified": "2012-09-26T02:08:31.519Z",
+				                    "report": "506262ade9d05a37bf000004",
+				                    "user": {
+				                        "email": "admin@citybug.in.th",
+				                        "username": "admin",
+				                        "_id": "50617a63b345825eb9000001"
+				                    },
+				                    "text": "ตอผุด",
+				                    "_id": "5062639fe9d05a37bf000008",
+				                    "__v": 0
+				                }
+				            ],
+				            "title": "น้ำป่าไหลหลาก",
+				            "lat": 10,
+				            "lng": 11.111,
+				            "note": "ต้นไม้หายหมด",
+				            "full_image": "/images/report/506262ade9d05a37bf000004.png",
+				            "thumbnail_image": "/images/report/506262ade9d05a37bf000004_thumbnail.png",
+				            "is_resolved": false,
+				            "categories": [],
+				            "place": {
+				                "created_at": "2012-09-25T09:33:29.784Z",
+				                "last_modified": "2012-09-25T09:33:29.784Z",
+				                "lng": -73.98427,
+				                "lat": 40.720658,
+				                "title": "the living theater",
+				                "id_foursquare": "4ada58f4f964a520a52121e3",
+				                "_id": "50617a69b345825eb900000b",
+				                "__v": 0
+				            },
+				            "imins": [],
+				            "last_modified": "2012-09-26T02:04:29.818Z",
+				            "created_at": "2012-09-26T02:04:29.818Z"
+				        }
+				    ]
+				}
+	* HTTP Method - GET
+	* Login required - NO
+
 ## LIKE (a.k.a "I'm in")
 
 * I'm in
