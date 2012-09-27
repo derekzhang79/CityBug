@@ -15,15 +15,15 @@ module.exports = function(app, express){
 	app.get('/', controller.index);
 
 	//report
-	app.get('/add', api.add);
+	app.get('/add',ensureAuthenticated, api.add);
 	app.get('/api/reports', api.reports);
-	app.post('/api/reports', api.report_post);
+	app.post('/api/reports',ensureAuthenticated, api.report_post);
 	app.get('/api/report/*', api.report);
 	app.get('/api/reports/all', api.all_reports);
 
 	//comment
 	app.get('/add_comment', api.add_comment);
-	app.post('/api/report/*/comment', ensureAuthenticated, api.comment_post);
+	app.post('/api/report/*/comment', ensureAuthenticated,api.comment_post);
 
 	//place
 	app.get('/callback_place_search', place.callback_place_search);
@@ -43,6 +43,8 @@ module.exports = function(app, express){
 	app.get('/login', auth.login);
 	app.get('/logout', auth.logout);
 	app.post('/api/login', auth.login_post);
+	app.post('/api/logout', auth.logout);
+	app.get('/test_login', testAuthenticated, auth.test_login);
 };
 
 // Passport session setup.
@@ -51,23 +53,23 @@ module.exports = function(app, express){
 //   this will be as simple as storing the user ID when serializing, and finding
 //   the user by ID when deserializing.
 passport.serializeUser(function(user, done) {
-  done(null, user._id);
+	done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-  findById(id, function (err, user) {
-    done(err, user);
-  });
+	findById(id, function (err, user) {
+		done(err, user);
+	});
 });
 
 function findById(id, fn) {
-  model.User.findOne({ _id: id }, function (err, user) {
-      if (user && !err) {
-   		fn(null, user);
-      } else {
-    	fn(new Error('User ' + id + ' does not exist'));
-      }
-    });
+	model.User.findOne({ _id: id }, function (err, user) {
+		if (user && !err) {
+			fn(null, user);
+		} else {
+			fn(new Error('User ' + id + ' does not exist'));
+		}
+	});
 }
 
 // Use the LocalStrategy within Passport.
@@ -76,18 +78,20 @@ function findById(id, fn) {
 //   with a user object.  In the real world, this would query a database;
 //   however, in this example we are using a baked-in set of users.
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-    model.User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Unknown user' });
-      }
-      if (user.password != password) {
-        return done(null, false, { message: 'Invalid password' });
-      }
-      return done(null, user);
-    });
-  }
+	function(username, password, done) {
+		model.User.findOne({ username: username }, function (err, user) {
+		if (err) {
+			return done(err);
+		}
+		if (!user) {
+			return done(null, false, { message: 'Unknown user' });
+		}
+		if (user.password != password) {
+			return done(null, false, { message: 'Invalid password' });
+		}
+			return done(null, user);
+		});
+	}
 ));
 
 // Simple route middleware to ensure user is authenticated.
@@ -96,6 +100,16 @@ passport.use(new LocalStrategy(
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/')
+	if (req.isAuthenticated()) { 
+		return next(); 
+	}
+	res.writeHead(401, { 'Content-Type' : 'application/json;charset=utf-8'});
+	res.end();
+}
+
+function testAuthenticated(req, res, next) {
+	if (req.isAuthenticated()) { 
+		return next(); 
+	}
+	res.render('test_login.jade',{title:'City bug', text:'Please login', user:''});
 }
