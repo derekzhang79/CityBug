@@ -594,7 +594,7 @@ exports.report_post = function(req, res) {
                 console.log('Delete temporary file');
             });
 
-            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.writeHead(401, { 'Content-Type' : 'application/json;charset=utf-8'});
             res.end();
             return;
         };
