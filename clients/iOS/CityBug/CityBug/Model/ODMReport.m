@@ -37,7 +37,7 @@
 
 - (void)addComment:(ODMComment *) comment
 {
-    [self.comments addObject:comment];
+    // [self.comments addObject:comment];
 }
 
 /*

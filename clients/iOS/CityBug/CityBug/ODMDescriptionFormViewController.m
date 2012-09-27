@@ -12,12 +12,13 @@
 #import "ODMReport.h"
 
 #import <CoreLocation/CoreLocation.h>
-
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @implementation ODMDescriptionFormViewController {
     NSMutableDictionary *entryDict;
     ODMPlace *selectedPlace;
     CLLocationManager *_locationManager;
+    CLLocation *_location;
 }
 
 @synthesize bugImage;
@@ -131,23 +132,28 @@
             report.latitude = @(location.coordinate.latitude);
             report.longitude = @(location.coordinate.longitude);
             
+        } else if (self.pictureLocation.coordinate.latitude && self.pictureLocation.coordinate.longitude) {
+            //
+            // Get location from picture
+            //
+            report.latitude = @(self.pictureLocation.coordinate.latitude);
+            report.longitude = @(self.pictureLocation.coordinate.longitude);
+            
+        } else if (place) {
+            //
+            // Worst case
+            // We use place's location from provider(foursquare)
+            //
+            report.latitude = report.place.latitude;
+            report.longitude = report.place.longitude;
+            
         } else {
-            if (place) {
-                //
-                // Worst case
-                // We use place's location from provider(foursquare)
-                //
-                report.latitude = report.place.latitude;
-                report.longitude = report.place.longitude;
-                
-            } else {
-                //
-                // Location Services are disable
-                //
-                error = [NSError errorWithDomain:LOCATION_INVALID_TEXT code:3002 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(LOCATION_INVALID_DESCRIPTION_TEXT, LOCATION_INVALID_DESCRIPTION_TEXT), nil]];
-                
-                @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
-            }
+            //
+            // Location Services are disable
+            //
+            error = [NSError errorWithDomain:LOCATION_INVALID_TEXT code:3002 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(LOCATION_INVALID_DESCRIPTION_TEXT, LOCATION_INVALID_DESCRIPTION_TEXT), nil]];
+            
+            @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         }
         
         //

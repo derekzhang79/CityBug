@@ -1,14 +1,15 @@
 
 var express = require('express'),
 	connect = require('express/node_modules/connect'),
-	parseCookie = connect.utils.parseCookie,
-    MemoryStore = connect.middleware.session.MemoryStore,
-    store;
+	passport = require('passport'),
+	flash = require('connect-flash'),
+	util = require('util'),
+	LocalStrategy = require('passport-local').Strategy;
 var app = module.exports = express.createServer();
 var sio = require('socket.io');
 
 // Configuration
-require('./configuration')(app, express);
+require('./configuration')(app, express, passport, flash);
 require('./routes')(app, express);
 
 // Open App socket
