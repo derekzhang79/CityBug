@@ -120,6 +120,9 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [self resignFirstResponder];
+    [self.actView setHidden:YES];
+    [self.guideView setHidden:YES];
+    [self.noResultView setHidden:YES];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -231,20 +234,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super viewDidUnload];
-}
-
-@end
-
-
-@implementation UISearchBar(CustomCancelResponder)
-
-- (BOOL)resignFirstResponder
-{
-    BOOL resigned = [super resignFirstResponder];
-    
-    [[self performSelector:@selector(cancelButton)] setEnabled:YES];
-    
-    return resigned;
 }
 
 @end

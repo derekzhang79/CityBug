@@ -10,7 +10,7 @@
 #import "ODMReport.h"
 #import "ODMComment.h"
 
-@interface ODMReportDetailViewController : UIViewController <UITextFieldDelegate, ODMReportCommentDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface ODMReportDetailViewController : UIViewController <UITextFieldDelegate, ODMReportCommentDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate> {
     
     UITableView *_tableView;
     
@@ -26,13 +26,12 @@
  * View
  */
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-
+@property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 
 /*
  * Accessory
  */
-@property (weak, nonatomic) IBOutlet UIView *commentFormView;
+@property (weak, nonatomic) IBOutlet UIView *commentFormView, *infoView;
 @property (weak, nonatomic) IBOutlet UIImageView *reportImageView, *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel, *locationLabel, *commentLabel, *iminLabel, *userLabel, *lastModifiedLabel, *noteLabel;
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;

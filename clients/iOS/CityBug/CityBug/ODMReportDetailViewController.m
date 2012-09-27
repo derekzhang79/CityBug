@@ -17,6 +17,8 @@
 
 #import <MapKit/MapKit.h>
 
+#define ROW_HEIGHT 44
+
 @implementation ODMReportDetailViewController
 
 
@@ -37,8 +39,8 @@
     // Avatar Image
     NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report.user uid]]];
     [self.avatarImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
-    [self setTableViewSize];
-
+    
+    [self calculateContentSizeForScrollView];
 }
 
 -(void)setTableViewSize
@@ -64,7 +66,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCommentForm:) name:UIKeyboardWillShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCommentForm:) name:UIKeyboardWillHideNotification object:nil];
-
+    
+    [self calculateContentSizeForScrollView];
 }
 
 - (BOOL)resignFirstResponder
@@ -83,6 +86,44 @@
 
 #pragma mark - Datasource
 
+- (void)calculateContentSizeForScrollView
+{
+    //
+    // Comments Height
+    //
+    NSUInteger numberOfComments = self.report.comments.count;
+    CGSize commentsSize = CGSizeMake(self.tableView.bounds.size.width, numberOfComments * ROW_HEIGHT);
+    
+    //
+    // Note height
+    //
+    CGSize noteSize = [self.noteLabel.text sizeWithFont:[UIFont systemFontOfSize:14.f] forWidth:self.noteLabel.bounds.size.width lineBreakMode:UILineBreakModeWordWrap];
+    self.noteLabel.frame = CGRectMake(self.noteLabel.frame.origin.x, self.noteLabel.frame.origin.y, noteSize.width, noteSize.height);
+    
+    CGRect infoFrame = self.infoView.frame;
+    
+    // Value from Storyboard
+    CGFloat defaultNoteLabelHeight = 22;
+    CGFloat defaultInfoViewHeight = 322;
+    CGFloat spaceBetweenInfoAndNote = 15;
+    
+    if (abs(self.noteLabel.frame.size.height - defaultNoteLabelHeight) > 0) {
+        infoFrame.size.height = defaultInfoViewHeight + self.noteLabel.frame.size.height;
+    } else {
+        infoFrame.size.height = defaultInfoViewHeight;
+    }
+    
+    //
+    // Combine
+    //
+    CGRect contentFrame = self.scrollView.frame;
+    contentFrame.size.height = infoFrame.size.height + spaceBetweenInfoAndNote + commentsSize.height;
+    
+    //
+    //
+    //
+    self.scrollView.contentSize = CGSizeMake(contentFrame.size.width, contentFrame.size.height);
+}
 - (void)setReport:(ODMReport *)report
 {
     _report = report;
@@ -135,27 +176,35 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self resignFirstResponder];
+//    [self resignFirstResponder];
 }
 
 - (void)showCommentForm:(NSNotification *)notification
 {
-    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    [UIView animateWithDuration:0.3f animations:^{
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    
+    double animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView animateWithDuration:animationDuration animations:^{
         
         CGRect newFrame = self.commentFormView.frame;
         newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height - keyboardSize.height;
         self.commentFormView.frame = newFrame;
+        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0);
+        [self.scrollView setContentInset:edgeInsets];
     }];
+    
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.bounds.size.height, 1, 1) animated:YES];
 }
 
 - (void)hideCommentForm:(NSNotification *)notification
 {
-    [UIView animateWithDuration:0.3f animations:^{
+    double animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView animateWithDuration:animationDuration animations:^{
         
         CGRect newFrame = self.commentFormView.frame;
         newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height;
         self.commentFormView.frame = newFrame;
+        [self.scrollView setContentInset:UIEdgeInsetsZero];
     }];
 }
 
@@ -188,7 +237,8 @@
     return cell;
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return ROW_HEIGHT;
 }
 @end

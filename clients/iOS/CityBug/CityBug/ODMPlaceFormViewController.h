@@ -41,7 +41,3 @@
 - (void)didSelectPlace:(ODMPlace *)place;
 
 @end
-
-@interface UISearchBar(CustomCancelResponder)
-- (BOOL)resignFirstResponder;
-@end
