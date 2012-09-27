@@ -11,6 +11,8 @@ CityBug Project (Beta v.1.0)
 * Feed
 	
 	ใช้สำหรับแสดง feed ของ user ใดๆ เฉพาะสถานที่ที่ผู้ใช้ subscribe เอาไว้ 
+		
+		/api/reports
 
 	* INPUT : User / Location / Subscription 
 	* OUTPUT : sort by last modified / sort by location / show only subscribed post
@@ -21,8 +23,6 @@ CityBug Project (Beta v.1.0)
 		* Signed In & No Location & No Subscription >>  user's feed & sort by last modified 
 		* Not Signed In & Location >> sort by location
 		* Not Signed In & No Location  >>  sort by last modified 
-
-		/api/reports
 
 	* [lat] - double
 	* [lng] - double
