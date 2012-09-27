@@ -11,9 +11,21 @@ CityBug Project (Beta v.1.0)
 * Feed
 	
 	ใช้สำหรับแสดง feed ของ user ใดๆ เฉพาะสถานที่ที่ผู้ใช้ subscribe เอาไว้ 
+
+	INPUT : User / Location / Subscription 
+	OUTPUT : sort by last modified / sort by location / show only subscribed post
+
+	Signed In & Location & Subscription >> user's feed & sort by last modified & show only subscribed post
+	Signed In & Location & No Subscription >> user's feed & sort by location
+	Signed In & No Location & Subscription >>  user's feed & sort by last modified & show only subscribed post 
+	Signed In & No Location & No Subscription >>  user's feed & sort by last modified 
+	Not Signed In & Location >> sort by location
+	Not Signed In & No Location  >>  sort by last modified 
 	
 		/api/reports
-	
+		
+	* [lat] - double
+	* [lng] - double
 	* [startDate] - เริ่มจากวันที่ ("yyyy-MM-dd HH:mm:ss")
 	* [endDate] - สิ้นสุดวันที่ ("yyyy-MM-dd HH:mm:ss")
 	* [limit] - number
@@ -277,59 +289,128 @@ CityBug Project (Beta v.1.0)
 	* [text] - string
 	* [lat] - double
 	* [lng] - double
-	* [limit] - default is 30 (foursqure using 50)
+	* [limit] - default is 30 (foursquare using 50)
 	* [username] - string (หากเป็นการค้นหาสถานที่ใกล้เคียง ให้ระบุ username เพื่อค้นหาจากสถานที่ใน CityBug ก่อน โดยจำเป็นต้องใช้ text ควบคู่ด้วย) 
 	* HTTP Method - GET
 	* Login required - NO
 
 
 				{
-					"places" : [
-						{
-							"suggest_places": [
-								{
-									"title":"สุทธิสาร",
-									"lat":12.4,
-									"lng":28.323,
-									"_id":"505ac6a025aad95080000001"
-								},	
-								{
-									"title":"อารียาแมนดารีน่า",
-									"lat":10.987,
-									"lng":90.07877,
-									"_id":"505ac6a025aad95080000002"
-								},
-								{
-									"title":"โอเพ่นดรีม",
-									"lat":67.999,
-									"lng":32.545,
-									"_id":"505ac6a025aad95080000003"
-								}
-							]
-						},
-						{
-							"additional_places": [
-								{
-									"title":"14 กันยา",
-									"lat":13.4,
-									"lng":29.333
-									"id":"4bf58dd8d48988d143941737"
-								},	
-								{
-									"title":"ลาดพร้าว 64",
-									"lat":12.987,
-									"lng":30.0001
-									"id":"4bf58dd8d48988d143941736"
-								},
-								{
-									"title":"แยกปราบเซียน",
-									"lat":17.1234,
-									"lng":17.4321
-									"id":"4bf58dd8d48988d143941735"
-								}
-							]
-						}
-					]
+				    "places": [
+				        {
+				            "distance": 573.957270641795,
+				            "type": "suggested",
+				            "created_at": "2012-09-26T11:14:46.226Z",
+				            "last_modified": "2012-09-26T11:14:46.226Z",
+				            "lng": 100.5882775783539,
+				            "lat": 13.79115507139444,
+				            "title": "Opendream (โอเพ่นดรีม)",
+				            "id_foursquare": "4b0e2fdcf964a520bb5523e3",
+				            "_id": "5062e3a67ceca86a1b000040",
+				            "__v": 0
+				        },
+				        {
+				            "distance": 11098.824523639349,
+				            "type": "suggested",
+				            "created_at": "2012-09-25T08:57:51.018Z",
+				            "last_modified": "2012-09-25T08:57:51.018Z",
+				            "lng": 40.7209,
+				            "lat": -73.98428,
+				            "title": "สวนดอกจ้า",
+				            "id_foursquare": "mockupplaceid",
+				            "_id": "5061720f8a1b2f8012000008",
+				            "__v": 0
+				        },
+				        {
+				            "distance": 11098.829948544852,
+				            "type": "suggested",
+				            "created_at": "2012-09-25T08:55:37.905Z",
+				            "last_modified": "2012-09-25T08:55:37.905Z",
+				            "lng": 40.720658,
+				            "lat": -73.98427,
+				            "title": "the living theater",
+				            "id_foursquare": "4ada58f4f964a520a52121e3",
+				            "_id": "506171898a1b2f8012000006",
+				            "__v": 0
+				        },
+				        {
+				            "created_at": "2012-09-27T06:50:53.689Z",
+				            "last_modified": "2012-09-27T06:50:53.689Z",
+				            "lng": 98.931842,
+				            "lat": 18.702243,
+				            "type": "additional",
+				            "distance": 12,
+				            "title": "Rimping Supermarket Kad Farang",
+				            "id_foursquare": "5016581be4b034c3e0ffc4e0",
+				            "_id": "5063f74d596ed4ba1f000040"
+				        },
+				        {
+				            "created_at": "2012-09-27T06:50:53.690Z",
+				            "last_modified": "2012-09-27T06:50:53.690Z",
+				            "lng": 98.931801,
+				            "lat": 18.702001,
+				            "type": "additional",
+				            "distance": 25,
+				            "title": "ร้านอาหารลานทะเล (สด)",
+				            "id_foursquare": "4f0ecf77e4b09cff0124e90a",
+				            "_id": "5063f74d596ed4ba1f000041"
+				        },
+				        {
+				            "created_at": "2012-09-27T06:50:53.690Z",
+				            "last_modified": "2012-09-27T06:50:53.690Z",
+				            "lng": 98.93209408898043,
+				            "lat": 18.702113063963708,
+				            "type": "additional",
+				            "distance": 40,
+				            "title": "Ye Olde English Pub",
+				            "id_foursquare": "4ecfa05fd3e3521ce4afa244",
+				            "_id": "5063f74d596ed4ba1f000044"
+				        },
+				        {
+				            "created_at": "2012-09-27T06:50:53.691Z",
+				            "last_modified": "2012-09-27T06:50:53.691Z",
+				            "lng": 98.932136,
+				            "lat": 18.702232,
+				            "type": "additional",
+				            "distance": 42,
+				            "title": "Rosewood @ Kad Farang",
+				            "id_foursquare": "4cd4f55ba5b346884e4c8b50",
+				            "_id": "5063f74d596ed4ba1f000047"
+				        },
+				        {
+				            "created_at": "2012-09-27T06:50:53.801Z",
+				            "last_modified": "2012-09-27T06:50:53.801Z",
+				            "lng": 98.93215,
+				            "lat": 18.702265,
+				            "type": "additional",
+				            "distance": 44,
+				            "title": "RoSEwoOD.. กาดฝรั่ง ",
+				            "id_foursquare": "4eb62590469073bbc679d39e",
+				            "_id": "5063f74d596ed4ba1f00004a"
+				        },
+				        {
+				            "created_at": "2012-09-27T06:50:53.804Z",
+				            "last_modified": "2012-09-27T06:50:53.804Z",
+				            "lng": 98.932203,
+				            "lat": 18.702104,
+				            "type": "additional",
+				            "distance": 51,
+				            "title": "Kiean Sushi",
+				            "id_foursquare": "4b8cfcf0f964a52050e332e3",
+				            "_id": "5063f74d596ed4ba1f000057"
+				        },
+				        {
+				            "created_at": "2012-09-27T06:50:53.690Z",
+				            "last_modified": "2012-09-27T06:50:53.690Z",
+				            "lng": 98.93156582638261,
+				            "lat": 18.7017658226588,
+				            "type": "additional",
+				            "distance": 53,
+				            "title": "กาดฝรั่ง",
+				            "id_foursquare": "4b8cfc69f964a5203ce332e3",
+				            "_id": "5063f74d596ed4ba1f000042"
+				        }
+				    ]
 				}
 
 * view
