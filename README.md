@@ -12,18 +12,18 @@ CityBug Project (Beta v.1.0)
 	
 	ใช้สำหรับแสดง feed ของ user ใดๆ เฉพาะสถานที่ที่ผู้ใช้ subscribe เอาไว้ 
 
-	INPUT : User / Location / Subscription 
-	OUTPUT : sort by last modified / sort by location / show only subscribed post
+	* INPUT : User / Location / Subscription 
+	* OUTPUT : sort by last modified / sort by location / show only subscribed post
 
-	Signed In & Location & Subscription >> user's feed & sort by last modified & show only subscribed post
-	Signed In & Location & No Subscription >> user's feed & sort by location
-	Signed In & No Location & Subscription >>  user's feed & sort by last modified & show only subscribed post 
-	Signed In & No Location & No Subscription >>  user's feed & sort by last modified 
-	Not Signed In & Location >> sort by location
-	Not Signed In & No Location  >>  sort by last modified 
+		* Signed In & Location & Subscription >> user's feed & sort by last modified & show only subscribed post
+		* Signed In & Location & No Subscription >> user's feed & sort by location
+		* Signed In & No Location & Subscription >>  user's feed & sort by last modified & show only subscribed post 
+		* Signed In & No Location & No Subscription >>  user's feed & sort by last modified 
+		* Not Signed In & Location >> sort by location
+		* Not Signed In & No Location  >>  sort by last modified 
 	
 		/api/reports
-		
+
 	* [lat] - double
 	* [lng] - double
 	* [startDate] - เริ่มจากวันที่ ("yyyy-MM-dd HH:mm:ss")
