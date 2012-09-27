@@ -87,7 +87,9 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [placeMapping mapKeyPath:@"type" toAttribute:@"type"];
 
         RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[ODMUser class]];
-        [userMapping mapAttributes:@"username", @"email", @"password", nil];
+        [userMapping mapKeyPath:@"username" toAttribute:@"username"];
+        [userMapping mapKeyPath:@"password" toAttribute:@"password"];
+        [userMapping mapKeyPath:@"email" toAttribute:@"email"];
         [userMapping mapKeyPath:@"_id" toAttribute:@"uid"];
         
         RKObjectMapping *commentMapping = [RKObjectMapping mappingForClass:[ODMComment class]];
@@ -126,7 +128,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [serviceObjectManager.router routeClass:[ODMReport class] toResourcePath:@"/api/reports" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMCategory class] toResourcePath:@"/api/categories" forMethod:RKRequestMethodGET];
         [serviceObjectManager.router routeClass:[ODMComment class] toResourcePath:@"/api/report/:reportID/comment" forMethod:RKRequestMethodPOST];
-        
+        [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_in" forMethod:RKRequestMethodPOST ];
     }
     return self;
 }
@@ -180,6 +182,25 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     
 //    return [ODMUser newUser:@"admin" email:@"admin@citybug.com" password:@"qwer4321"];
     return [ODMUser newUser:currentUsername email:currentEmail password:currentPassword];
+}
+
+- (void)signInWithCityBug:(ODMUser *)user
+{
+    [self singInWithCityBug:user error:NULL];
+}
+
+- (void)singInWithCityBug:(ODMUser *)user error:(NSError **)error
+{
+    RKParams *reportParams = [RKParams params];
+    
+    [[RKObjectManager sharedManager] postObject:user usingBlock:^(RKObjectLoader *loader){
+        [reportParams setValue:[user username] forParam:@"username"];
+        [reportParams setValue:[user password] forParam:@"password"];
+        loader.delegate = self;
+        loader.defaultHTTPEncoding = NSUTF8StringEncoding;
+        loader.params = reportParams;
+    }];
+
 }
 
 #pragma mark - REPORT
@@ -405,6 +426,18 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
 {
+    switch ([[objectLoader response] statusCode]) {
+        case 401:{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oh!" message:@"wrong username or password" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        case 500:{
+        }
+            break;
+            
+        default:
+            break;
+    }
     RKLogError(@"!!!!!!!!!!!!!!!!!!!! Loader Error %@", error);
 }
 
