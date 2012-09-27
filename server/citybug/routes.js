@@ -15,15 +15,18 @@ module.exports = function(app, express){
 	app.get('/', controller.index);
 
 	//report
-	app.get('/add',ensureAuthenticated, api.add);
+	// app.get('/add',ensureAuthenticated, api.add);
+	app.get('/add', api.add);
 	app.get('/api/reports', api.reports);
-	app.post('/api/reports',ensureAuthenticated, api.report_post);
+	app.post('/api/reports', api.report_post);
+	// app.post('/api/reports',ensureAuthenticated, api.report_post);
 	app.get('/api/report/*', api.report);
 	app.get('/api/reports/all', api.all_reports);
 
 	//comment
 	app.get('/add_comment', api.add_comment);
-	app.post('/api/report/*/comment', ensureAuthenticated,api.comment_post);
+	// app.post('/api/report/*/comment', ensureAuthenticated,api.comment_post);
+	app.post('/api/report/*/comment',api.comment_post);
 
 	//place
 	app.get('/callback_place_search', place.callback_place_search);
