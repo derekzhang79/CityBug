@@ -21,7 +21,7 @@ CityBug Project (Beta v.1.0)
 		* Signed In & No Location & No Subscription >>  user's feed & sort by last modified 
 		* Not Signed In & Location >> sort by location
 		* Not Signed In & No Location  >>  sort by last modified 
-	
+
 		/api/reports
 
 	* [lat] - double
