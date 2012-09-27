@@ -842,9 +842,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="soM-5z-8Xe" appends="YES" id="j7Z-nd-tOK"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="mgc-N0-D30"/>
                     <connections>
