@@ -72,18 +72,20 @@ exports.place_search = function(req, res){
 
 		//ถ้า  GET /api/place/search? ไม่ได้ส่ง lat lng และ queryText มา จะ return server place แบบ sort by alphabet
 		if ((lat == null || lng == null) && queryText == null) {
+			console.log("lat lng text is null!");
 			serverPlace = serverPlace.sort(function(a, b) { 
 			 	a.type = 'suggested';
 			 	b.type = 'suggested';
 				var ret = 0;
-				a = a.toLowerCase();
-				b = b.toLowerCase();
-				if(a > b) 
+				var aCompare = a.title.toLowerCase();
+				var bCompare = b.title.toLowerCase();
+				if(aCompare > bCompare) 
 					ret = 1;
-				if(a < b) 
+				if(aCompare < bCompare) 
 					ret = -1; 
 				return ret;
 			});
+			//---------------------------------------- Send response ----------------------------------
 			res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
 			res.write('{ "places":'+ JSON.stringify( serverPlace.slice(0,30) ) + ' }');
 		    res.end();
@@ -91,9 +93,13 @@ exports.place_search = function(req, res){
 		} 
 		//ถ้า  GET /api/place/search? ไม่ได้ส่ง lat lng แต่ส่ง queryText มา จะ return server place แบบ search ตาม text แล้ว
 		else if ((lat == null || lng == null) && queryText != null) {
+			console.log("lat lng is null but text is not null!");
 			var serverPlaceFilterdByQueryTextArray = [];
-			var queryString = '/' + queryText + '/i';
-			console.log("queryString = " + queryString);
+
+			//remove '\' to avoid crash of regex
+			queryText = queryText.replace(/\\/g, '');
+			console.log("new query text = "+queryText);
+			var queryString = new RegExp(queryText, 'i');
 
 			//Get only place that have query text
 			for (i in serverPlace) {
@@ -104,11 +110,11 @@ exports.place_search = function(req, res){
 			}
 			//Sort server place by index of query text
 			serverPlaceFilterdByQueryTextArray = serverPlaceFilterdByQueryTextArray.sort(function(a, b) {
-				if (a..title.search(queryString) < b..title.search(queryString)) { return -1; }
-				if (a..title.search(queryString) > b..title.search(queryString)) { return  1; }
+				if (a.title.search(queryString) < b.title.search(queryString)) { return -1; }
+				if (a.title.search(queryString) > b.title.search(queryString)) { return  1; }
 				return 0;
 			});
-
+			//---------------------------------------- Send response ----------------------------------
 			res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
 			res.write('{ "places":'+ JSON.stringify( serverPlaceFilterdByQueryTextArray.slice(0,30) ) + ' }');
 		    res.end();
@@ -116,6 +122,7 @@ exports.place_search = function(req, res){
 		}
 		//ถ้า GET /api/place/search? ส่ง latและlng ส่วน query text ส่งมาหรือไม่ก็ได้ จะต้อง return server places + 4sq places แบบเรียงตาม distance
 		else {
+			console.log("lat lng (text) is not null!");
 	        var serverPlaceArray = [];
 			for (i in serverPlace) {
 				serverPlace[i].type = 'suggested';
@@ -199,6 +206,7 @@ exports.place_search = function(req, res){
 				    return;
 
 				} else {
+					//---------------------------------------- Send response ----------------------------------
 					res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
 					res.write('{ "places":'+ JSON.stringify(thirtyServerPlaceArray) + ' }');
 				    res.end();
