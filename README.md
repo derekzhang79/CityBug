@@ -364,6 +364,9 @@ CityBug Project (Beta v.1.0)
 		 /api/user/sign_in
 	* HTTP Method - POST
 	* Login required - NO
+	* Response Status
+		* 200 - OK
+		* 401 - Failed 
 
 * sign out
 	
@@ -376,3 +379,5 @@ CityBug Project (Beta v.1.0)
 * reports
 	
 		 /api/report/:username
+	* Response Status
+		* 200 - OK
