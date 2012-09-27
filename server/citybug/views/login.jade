@@ -1,0 +1,27 @@
+.container
+    .content
+        header.page-header
+            h1 City Bug
+                small.subtitle bug around the world
+            h2
+                <a href="/">Back</a>    
+        script
+
+            var socket = io.connect();
+            socket.on('connect', function () {
+            });
+            function sendMessage() {
+                socket.emit('user message');
+            }
+        form(action='/api/login', method='post')
+            fieldset
+                label(for="username") Username
+                .input
+                    input(type='text', id='username', name='username', value='admin')
+                label(for="password") Password
+                .input
+                    input(type='text', id='password', name='password', value='qwer4321')
+                
+            fieldset
+                .actions
+                    input(type='submit', value="Save", onclick='sendMessage()')
