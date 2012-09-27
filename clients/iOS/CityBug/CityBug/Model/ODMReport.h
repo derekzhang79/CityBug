@@ -29,7 +29,6 @@
 @property (nonatomic, strong) ODMPlace *place;
 @property (nonatomic, strong) ODMUser *user;
 @property (nonatomic, strong) ODMComment *comment;
-@property (nonatomic, strong) NSMutableArray *comments;
 
 @property (nonatomic, strong) NSDate *lastModified;
 
