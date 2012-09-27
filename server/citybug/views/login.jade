@@ -13,7 +13,7 @@
             function sendMessage() {
                 socket.emit('user message');
             }
-        form(action='/api/login', method='post')
+        form(action='/api/user/sign_in', method='post')
             fieldset
                 label(for="username") Username
                 .input

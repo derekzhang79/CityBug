@@ -46,7 +46,7 @@ module.exports = function(app, express){
 	app.get('/login', auth.login);
 	app.get('/logout', auth.logout);
 	app.post('/api/user/sign_in', auth.login_post);
-	app.post('/api/user/sign_out', auth.logout);
+	app.get('/api/user/sign_out', auth.logout);
 	app.get('/test_login', testAuthenticated, auth.test_login);
 };
 
