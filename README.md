@@ -187,7 +187,7 @@ CityBug Project (Beta v.1.0)
 		
 		/api/report/[id]
 	* Response (will update later 18/09/2012)
-	
+
 				{
 				    "reports": [
 				        {
@@ -362,11 +362,13 @@ CityBug Project (Beta v.1.0)
 * sign in
 	
 		 /api/user/sign_in
+	* HTTP Method - POST
+	* Login required - NO
 
 * sign out
 	
 		 /api/user/sign_out
-
+	* HTTP Method - GET
 * subscribes
 	
 		 /api/user/:username/subscribes
