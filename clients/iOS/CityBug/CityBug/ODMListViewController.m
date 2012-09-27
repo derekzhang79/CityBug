@@ -271,8 +271,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     if ([segue.identifier isEqualToString:gotoFormSegue]) {
         ODMDescriptionFormViewController *formViewController = (ODMDescriptionFormViewController *) segue.destinationViewController;
         formViewController.bugImage = imageToSave;
-        formViewController.location = self.location;
-        
+        formViewController.pictureLocation = self.location;
     }
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
         

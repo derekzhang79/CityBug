@@ -11,14 +11,11 @@
 #import "UIImageView+WebCache.h"
 #import "ODMDataManager.h"
 
-@implementation ODMReportDetailViewController {
-    int numberOfComment;
-    NSArray *commentArray;
-}
-
 #import "NSDate+HumanizedTime.h"
 
 #import "ODMDataManager.h"
+
+#import <MapKit/MapKit.h>
 
 @implementation ODMReportDetailViewController
 
@@ -45,13 +42,9 @@
     [super viewDidLoad];
     
     [self reloadData];
+    
     ODMReportCommentViewController *reportComment = [[ODMReportCommentViewController alloc] init];
     reportComment.delegate = self;
-    commentArray = [[ODMDataManager sharedInstance] reports];
-    
-    if (!commentArray) {
-        commentArray = [NSArray new];
-    }
 
     // Show or hide keyboard notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCommentForm:) name:UIKeyboardWillShowNotification object:nil];
@@ -90,11 +83,10 @@
     self.commentLabel.text = comment;
  
     ODMComment *commentObject = [[ODMComment alloc] init];
-    
+
     [commentObject setText:comment];
-    [commentObject setReportID:self.entry.uid];
-    [self.entry addComment:commentObject];
-    [[ODMDataManager sharedInstance] postComment:commentObject];
+    [commentObject setReportID:self.report.uid];
+//    [self.entry addComment:commentObject];
     
     [[ODMDataManager sharedInstance] postComment:commentObject];
 }
@@ -104,6 +96,13 @@
     if ([segue.identifier isEqualToString:@"commentSegue"]) {
         ODMReportCommentViewController *commentVC = segue.destinationViewController;
         commentVC.delegate = self;
+    } else if ([segue.identifier isEqualToString:@"reportMapSegue"]) {
+        UIViewController *vc = segue.destinationViewController;
+        UILabel *locationLabel = (UILabel *)[vc.view viewWithTag:6110];
+        locationLabel.text = [self.report.place title];
+        MKMapView *mapView = (MKMapView *)[vc.view viewWithTag:6111];
+        [mapView setCenterCoordinate:CLLocationCoordinate2DMake(self.report.latitude.doubleValue, self.report.longitude.doubleValue) animated:NO];
+        
     }
 }
 
