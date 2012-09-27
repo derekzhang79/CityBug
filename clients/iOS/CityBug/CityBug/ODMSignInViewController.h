@@ -6,11 +6,11 @@
 //  Copyright (c) 2555 opendream. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 @interface ODMSignInViewController : UIViewController
 {
-    IBOutlet UITextField *passwordTextField;
-    IBOutlet UITextField *usernameTextField;
+    IBOutlet UITextField *passwordTextField, *usernameTextField;
 }
+
+- (IBAction)magicSignIn:(id)sender;
+
 @end

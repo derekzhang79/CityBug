@@ -44,6 +44,17 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (IBAction)magicSignIn:(id)sender
+{
+    usernameTextField.text = @"admin";
+    passwordTextField.text = @"qwer4321";
+    
+    [self signInButtonAction:nil];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@"admin@citybug.in.th" forKey:@"email"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (IBAction)signInButtonAction:(id)sender
 {
     NSLog(@" >> %@ %@ %@ %@", usernameTextField.text, passwordTextField.text , usernameTextField, passwordTextField);

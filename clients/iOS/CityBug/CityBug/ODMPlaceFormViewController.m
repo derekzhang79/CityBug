@@ -14,11 +14,12 @@
     NSIndexPath *selectedIndexPath;
     NSUInteger cooldownSearchCount;
     NSArray *_filteredDatasoruce;
+    UIView *_loadingView;
 }
 
 - (NSArray *)arrayForTableView:(UITableView *)tableView
 {
-    if ([tableView isEqual:self.searchDisplayController.searchResultsTableView]) {
+    if (self.isActive) {
         return _filteredDatasoruce;
     }
     return self.datasource;
@@ -103,26 +104,51 @@
     }
 }
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    [self resignFirstResponder];
+    [self setActive:YES];
+    
+    [self.actView setHidden:NO];
+    [self.guideView setHidden:NO];
 }
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
-    if (searchText.length >= LOCATION_SEARCH_THRESHOLD && cooldownSearchCount == 0) {
-        NSDictionary *params = [NSDictionary dictionaryWithObject:searchText forKey:@"text"];
-    
-        [[ODMDataManager sharedInstance] placesWithQueryParams:params];
-        
-        cooldownSearchCount = COOLDOWN_SEARCH_INTERVAL;
-        [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(cooldownSearch:) userInfo:nil repeats:YES];
-    }
+    [self.guideView setHidden:YES];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [self reloadData];
+    [self resignFirstResponder];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    [self.actView setHidden:NO];
+    [self.guideView setHidden:YES];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObject:searchBar.text forKey:@"text"];
+    
+    [[ODMDataManager sharedInstance] placesWithQueryParams:params];
+}
+
+/*
+ * Actve flag
+ * Use to determine state of a search view
+ */
+- (void)setActive:(BOOL)active
+{
+    // show Cancel button with animation
+    [self.searchBar setShowsCancelButton:active animated:YES];
+    // hide navigation bar
+    [self.navigationController setNavigationBarHidden:active animated:YES];
+    // show guide view
+    [self.guideView setHidden:!active];
+    
+    _isActive = active;
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - VIEW
@@ -132,9 +158,15 @@
     if ([[notification object] isKindOfClass:[NSArray class]]) {
         
         _datasource = [NSArray arrayWithArray:[notification object]];
+        
+        if (!self.isActive) {
+            [self.noResultView setHidden:_datasource.count > 0 ? YES : NO];
+            [self.actView setHidden:YES];
+            [self.guideView setHidden:YES];
+            
+            [self.tableView reloadData];
+        }
     }
-    
-    [self.tableView reloadData];
 }
 
 - (void)updatePlacesSearchingNotification:(NSNotification *)notification
@@ -142,25 +174,41 @@
     if ([[notification object] isKindOfClass:[NSArray class]]) {
         
         _filteredDatasoruce = [NSArray arrayWithArray:[notification object]];
+        
+        if (self.isActive) {
+            if (_filteredDatasoruce.count > 0) {
+                [self.noResultView setHidden:YES];
+                [self.searchBar resignFirstResponder];
+            } else {
+                [self.noResultView setHidden:NO];
+                [self.searchBar becomeFirstResponder];
+            }
+            
+            [self.actView setHidden:YES];
+            [self.guideView setHidden:YES];
+            
+            [self.tableView reloadData];
+        }
     }
-    
-    [self.searchDisplayController.searchResultsTableView reloadData];
 }
 
 - (BOOL)resignFirstResponder
-{
-    [self.searchDisplayController.searchBar resignFirstResponder];
+{    
+    [self setActive:NO];
     
-    return YES;
+    [self.searchBar resignFirstResponder];
+    
+    return [super resignFirstResponder];
 }
 
 - (void)reloadData
 {
     _datasource = [[ODMDataManager sharedInstance] places];
-    _filteredDatasoruce = _datasource;
+    _filteredDatasoruce = [NSArray new];
     
-    [self.searchDisplayController.searchResultsTableView reloadData];
-    [self.tableView reloadData];
+    // show loading view and also make sure to guideView should be hidden
+    [self.actView setHidden:NO];
+    [self.guideView setHidden:YES];
 }
 
 - (void)viewDidLoad
@@ -178,11 +226,25 @@
     [self reloadData];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidUnload
 {
-    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [self reloadData];
+    [super viewDidUnload];
+}
+
+@end
+
+
+@implementation UISearchBar(CustomCancelResponder)
+
+- (BOOL)resignFirstResponder
+{
+    BOOL resigned = [super resignFirstResponder];
+    
+    [[self performSelector:@selector(cancelButton)] setEnabled:YES];
+    
+    return resigned;
 }
 
 @end

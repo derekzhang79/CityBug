@@ -12,16 +12,26 @@
 
 @class ODMPlace;
 
-@interface ODMPlaceFormViewController : UITableViewController <UISearchBarDelegate> {
+@interface ODMPlaceFormViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,UISearchBarDelegate> {
 
     __unsafe_unretained id <ODMPlaceFormDelegate> _delegate;
     
+    BOOL _isActive;
     NSArray *_datasource;
+    
+    __weak UITableView *_tableView;
+    __weak UISearchBar *_searchBar;
 }
 
 @property (unsafe_unretained) id <ODMPlaceFormDelegate> delegate;
 
 @property (nonatomic, readonly, strong) NSArray *datasource;
+
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, weak) IBOutlet UIView *actView, *guideView, *noResultView;
+
+@property (nonatomic, assign, setter = setActive:) BOOL isActive;
 
 @end
 
@@ -30,4 +40,8 @@
 
 - (void)didSelectPlace:(ODMPlace *)place;
 
+@end
+
+@interface UISearchBar(CustomCancelResponder)
+- (BOOL)resignFirstResponder;
 @end
