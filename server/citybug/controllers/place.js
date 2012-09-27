@@ -71,7 +71,6 @@ exports.place_search = function(req, res){
     		//------------------------ Manage 4sq places ---------------------------------
 			var itemArray = venues.response.venues;;
 			var foursquarePlaceArray = [];
-			var foursquarePlaceIDArray = [];
 
 			for (i in itemArray) {
 				//Create place object from 4sq data
@@ -86,7 +85,6 @@ exports.place_search = function(req, res){
 				newPlace.created_at = new Date();
 
 				foursquarePlaceArray.push(newPlace);
-				foursquarePlaceIDArray.push(itemArray[i].id);
 			}
 
 			//Sort 4sq place by distance
@@ -128,13 +126,18 @@ exports.place_search = function(req, res){
 
 				console.log("Get place from server "+thirtyServerPlaceArray.length + " places");						
 
-				// Remove duplicate place from 4sq place (at variable name "foursquarePlaceArray")
+				// Remove duplicate place from 4sq place (at variable name "placeArray")
+				var foursquarePlaceIDArray = [];
+				for (count in foursquarePlaceArray) {
+					foursquarePlaceIDArray.push(foursquarePlaceArray[count].id_foursquare);
+				}
+
 				for (j in serverPlaceArray) {
 					var tmpID = serverPlaceArray[j].id_foursquare;
 					if (foursquarePlaceIDArray.indexOf(tmpID) != -1) {
 						var index = foursquarePlaceIDArray.indexOf(tmpID);
 						foursquarePlaceIDArray.splice(index, 1);  //remove object at index
-						foursquarePlaceArray.splice(index, 1);
+						foursquarePlaceArray.splice(index, 1);  //remove object at index
 					}
 				}
 
