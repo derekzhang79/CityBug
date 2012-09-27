@@ -35,6 +35,16 @@
     // Avatar Image
     NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report.user uid]]];
     [self.avatarImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
+    [self setTableViewSize];
+}
+
+-(void)setTableViewSize
+{
+    CGRect tvframe = [self.tableView frame];
+    [self.tableView setFrame:CGRectMake(tvframe.origin.x,
+                                   tvframe.origin.y,
+                                   tvframe.size.width,
+                                   44 * [self.report.comments count])];
 }
 
 - (void)viewDidLoad
