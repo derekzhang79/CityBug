@@ -7,6 +7,8 @@
 //
 
 #import "ODMSignInViewController.h"
+#import "ODMDataManager.h"
+#import "ODMUser.h"
 
 @interface ODMSignInViewController ()
 
@@ -49,6 +51,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No username or password!" message:@"Please fill in username and password" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
         [alert show];
     } else {
+        
         NSString *email = [NSString stringWithFormat:@"%@@opendream.co.th", usernameTextField.text];
         [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:@"username"];
         [[NSUserDefaults standardUserDefaults] setObject:passwordTextField.text forKey:@"password"];
@@ -57,6 +60,12 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [self performSegueWithIdentifier:@"presentListSeque" sender:self];
+        NSError *error = nil;
+        ODMUser *user = [[ODMUser alloc] init];
+        user.username = usernameTextField.text;
+        user.password = passwordTextField.text;
+        [[ODMDataManager sharedInstance] singInWithCityBug:user error:&error];
+        
     }
 }
 

@@ -54,4 +54,6 @@
  * CurrentUser
  */
 - (ODMUser *)currentUser;
+- (void)singInWithCityBug:(ODMUser *)user;
+- (void)singInWithCityBug:(ODMUser *)user error:(NSError **)error;
 @end

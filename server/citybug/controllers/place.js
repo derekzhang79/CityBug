@@ -34,6 +34,35 @@ exports.places = function(req, res){
     
 };
 
+function filteredPlacesByQueryTextCompatibility(places, queryText) {
+	var placeFilterdByQueryTextArray = [];
+
+	//remove '\' to avoid crash of regex
+	queryText = queryText.replace(/\\/g, '');
+	console.log("new query text = "+queryText);
+	var queryString = new RegExp(queryText, 'i');
+
+	//Get only place that have query text
+	for (i in places) {
+		places[i].type = 'suggested';
+		if (places[i].title.search(queryString) != -1) {
+			placeFilterdByQueryTextArray.push(places[i]);
+		}
+	}
+	//Sort server place by index of query text
+	placeFilterdByQueryTextArray = placeFilterdByQueryTextArray.sort(function(a, b) {
+		if (a.title.search(queryString) < b.title.search(queryString)) { 
+			return -1; 
+		}
+		if (a.title.search(queryString) > b.title.search(queryString)) { 
+			return  1; 
+		}
+		return 0;
+	});
+
+	return placeFilterdByQueryTextArray;
+}
+
 /*
 foursquare.getVenues(params, function(error, venues) {  
     if (!error) {  
@@ -94,26 +123,10 @@ exports.place_search = function(req, res){
 		//ถ้า  GET /api/place/search? ไม่ได้ส่ง lat lng แต่ส่ง queryText มา จะ return server place แบบ search ตาม text แล้ว
 		else if ((lat == null || lng == null) && queryText != null) {
 			console.log("lat lng is null but text is not null!");
-			var serverPlaceFilterdByQueryTextArray = [];
 
-			//remove '\' to avoid crash of regex
-			queryText = queryText.replace(/\\/g, '');
-			console.log("new query text = "+queryText);
-			var queryString = new RegExp(queryText, 'i');
-
-			//Get only place that have query text
-			for (i in serverPlace) {
-				serverPlace[i].type = 'suggested';
-				if (serverPlace[i].title.search(queryString) != -1) {
-					serverPlaceFilterdByQueryTextArray.push(serverPlace[i]);
-				}
-			}
-			//Sort server place by index of query text
-			serverPlaceFilterdByQueryTextArray = serverPlaceFilterdByQueryTextArray.sort(function(a, b) {
-				if (a.title.search(queryString) < b.title.search(queryString)) { return -1; }
-				if (a.title.search(queryString) > b.title.search(queryString)) { return  1; }
-				return 0;
-			});
+			// Filtered places by query text compatibility
+			var serverPlaceFilterdByQueryTextArray = filteredPlacesByQueryTextCompatibility(serverPlace, queryText);
+			
 			//---------------------------------------- Send response ----------------------------------
 			res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
 			res.write('{ "places":'+ JSON.stringify( serverPlaceFilterdByQueryTextArray.slice(0,30) ) + ' }');
@@ -121,6 +134,7 @@ exports.place_search = function(req, res){
 		    return;
 		}
 		//ถ้า GET /api/place/search? ส่ง latและlng ส่วน query text ส่งมาหรือไม่ก็ได้ จะต้อง return server places + 4sq places แบบเรียงตาม distance
+		//ถ้าส่ง query text มาด้วย ต้อง filtered ตาม text ด้วย
 		else {
 			console.log("lat lng (text) is not null!");
 	        var serverPlaceArray = [];
@@ -138,8 +152,16 @@ exports.place_search = function(req, res){
 				return 0;
 			});
 
+			// Filtered places by query text compatibility
+			var serverPlaceFilterdByQueryTextArray;
+			if (queryText != null) {
+				serverPlaceFilterdByQueryTextArray = filteredPlacesByQueryTextCompatibility(serverPlaceArray, queryText);
+			} else {
+				serverPlaceFilterdByQueryTextArray = serverPlaceArray;
+			}
+
 			//Get only first 30 sorted places
-			var thirtyServerPlaceArray = serverPlaceArray.slice(0,30);
+			var thirtyServerPlaceArray = serverPlaceFilterdByQueryTextArray.slice(0,30);
 			console.log("Get place from server "+thirtyServerPlaceArray.length + " places");
 
 			//------------------------ Manage 4sq places ---------------------------------
