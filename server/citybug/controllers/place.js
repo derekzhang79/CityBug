@@ -15,7 +15,6 @@ var REDIRECT_URI = KEYS.HOST;
 
 var foursquare = (require('foursquarevenues'))(CLIENT_ID, CLIENT_SECRET); 
 
-
 exports.places = function(req, res){
 
     model.Place.find({})
@@ -129,13 +128,13 @@ exports.place_search = function(req, res){
 
 				console.log("Get place from server "+thirtyServerPlaceArray.length + " places");						
 
-				// Remove duplicate place from 4sq place (at variable name "placeArray")
+				// Remove duplicate place from 4sq place (at variable name "foursquarePlaceArray")
 				for (j in serverPlaceArray) {
-					var tmpID = serverPlaceArray[i].id_foursquare;
+					var tmpID = serverPlaceArray[j].id_foursquare;
 					if (foursquarePlaceIDArray.indexOf(tmpID) != -1) {
 						var index = foursquarePlaceIDArray.indexOf(tmpID);
-						foursquarePlaceIDArray = foursquarePlaceIDArray.splice(index, 1);  //remove object at index
-						foursquarePlaceArray = foursquarePlaceArray.splice(index, 1);
+						foursquarePlaceIDArray.splice(index, 1);  //remove object at index
+						foursquarePlaceArray.splice(index, 1);
 					}
 				}
 
