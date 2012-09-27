@@ -54,6 +54,11 @@
 #define USER_CURRENT_LOCATION @"currentLocation"
 #define MINIMUN_ACCURACY_DISTANCE 50
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define COOLDOWN_SEARCH_INTERVAL 3
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 /*
  * ODMLog
  */
@@ -67,6 +72,7 @@ extern NSString *ODMDataManagerNotificationCategoriesLoadingFinish;
 extern NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 // Place
 extern NSString *ODMDataManagerNotificationPlacesLoadingFinish;
+extern NSString *ODMDataManagerNotificationPlacesSearchingFinish;
 extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 // Form

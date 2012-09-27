@@ -37,7 +37,6 @@
 		CE314D40161056BD00CB7820 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CE314D38161056BD00CB7820 /* UIImageView+WebCache.m */; };
 		CE314D4D16105E8A00CB7820 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE314D4C16105E8A00CB7820 /* MapKit.framework */; };
 		CE314D881610727200CB7820 /* ODMReportCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE314D871610727200CB7820 /* ODMReportCommentViewController.m */; };
-		CE314D8C161076C500CB7820 /* bad.png in Resources */ = {isa = PBXBuildFile; fileRef = CE314D89161076C500CB7820 /* bad.png */; };
 		CE314D8D161076C500CB7820 /* geo.png in Resources */ = {isa = PBXBuildFile; fileRef = CE314D8A161076C500CB7820 /* geo.png */; };
 		CE314D8E161076C500CB7820 /* in.png in Resources */ = {isa = PBXBuildFile; fileRef = CE314D8B161076C500CB7820 /* in.png */; };
 		CE314DC3160C231A00D01C8F /* ODMDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CE314DC2160C231A00D01C8F /* ODMDataManagerTest.m */; };
@@ -177,7 +176,6 @@
 		CE314D4C16105E8A00CB7820 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		CE314D861610727200CB7820 /* ODMReportCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMReportCommentViewController.h; path = CityBug/ODMReportCommentViewController.h; sourceTree = SOURCE_ROOT; };
 		CE314D871610727200CB7820 /* ODMReportCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMReportCommentViewController.m; path = CityBug/ODMReportCommentViewController.m; sourceTree = SOURCE_ROOT; };
-		CE314D89161076C500CB7820 /* bad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bad.png; path = CityBug/images/Prototype/bad.png; sourceTree = SOURCE_ROOT; };
 		CE314D8A161076C500CB7820 /* geo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = geo.png; path = CityBug/images/Prototype/geo.png; sourceTree = SOURCE_ROOT; };
 		CE314D8B161076C500CB7820 /* in.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = in.png; path = CityBug/images/Prototype/in.png; sourceTree = SOURCE_ROOT; };
 		CE314DC1160C231A00D01C8F /* ODMDataManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMDataManagerTest.h; sourceTree = "<group>"; };
@@ -277,7 +275,6 @@
 		98675A0815FDFD9900B34785 /* prototype */ = {
 			isa = PBXGroup;
 			children = (
-				CE314D89161076C500CB7820 /* bad.png */,
 				CE314D8A161076C500CB7820 /* geo.png */,
 				CE314D8B161076C500CB7820 /* in.png */,
 				CE16A292160ACE4100396033 /* cat1.png */,
@@ -664,7 +661,6 @@
 				CE16A29E160ACE4100396033 /* 2.jpeg in Resources */,
 				CE16A29F160ACE4100396033 /* 1.jpeg in Resources */,
 				CE314D221610548700CB7820 /* Localizable.strings in Resources */,
-				CE314D8C161076C500CB7820 /* bad.png in Resources */,
 				CE314D8D161076C500CB7820 /* geo.png in Resources */,
 				CE314D8E161076C500CB7820 /* in.png in Resources */,
 			);

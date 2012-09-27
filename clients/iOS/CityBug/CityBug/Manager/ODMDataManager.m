@@ -18,6 +18,7 @@ NSString *ODMDataManagerNotificationCategoriesLoadingFinish;
 NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 
 NSString *ODMDataManagerNotificationPlacesLoadingFinish;
+NSString *ODMDataManagerNotificationPlacesSearchingFinish;
 NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 @interface ODMDataManager(Accessor)
@@ -50,6 +51,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         
         ODMDataManagerNotificationPlacesLoadingFinish = @"ODMDataManagerNotificationPlacesLoadingFinish";
         ODMDataManagerNotificationPlacesLoadingFail = @"ODMDataManagerNotificationPlacesLoadingFail";
+        ODMDataManagerNotificationPlacesSearchingFinish = @"ODMDataManagerNotificationPlacesSearchingFinish";
         
         //
         // RestKit setup
@@ -96,9 +98,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [commentMapping mapKeyPath:@"text" toAttribute:@"text"];
         [commentMapping mapKeyPath:@"_id" toAttribute:@"reportID"];
         [commentMapping mapKeyPath:@"last_modified" toAttribute:@"lastModified"];
-        
-        
-        
+
         
         // Mapping Relation
         // [reportMapping mapKeyPath:@"categories" toRelationship:@"categories" withMapping:categoryMapping];
@@ -230,7 +230,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         
         [reportParams setValue:[report title] forParam:@"title"];
         [reportParams setValue:[report note] forParam:@"note"];
-        [reportParams setValue:[report latitude]   forParam:@"lat"];
+        [reportParams setValue:[report latitude] forParam:@"lat"];
         [reportParams setValue:[report longitude] forParam:@"lng"];
         [reportParams setValue:[report.user username] forParam:@"username"];
         
@@ -324,10 +324,16 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     return queryParams;
 }
 
+- (NSMutableDictionary *)buildingQueryParametersWithLocation:(CLLocationCoordinate2D)coordinate withParams:(NSMutableDictionary *)params
+{
+    [params setObject:@(coordinate.latitude) forKey:@"lat"];
+    [params setObject:@(coordinate.longitude) forKey:@"lng"];
+    return params;
+}
+
 - (void)updateQueryParameterFromLocation:(CLLocationCoordinate2D)loc
 {
-    [queryParams setObject:@(loc.latitude) forKey:@"lat"];
-    [queryParams setObject:@(loc.longitude) forKey:@"lng"];
+    [self buildingQueryParametersWithLocation:loc withParams:queryParams];
 }
 
 - (NSArray *)reports
@@ -385,35 +391,50 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
  */
 - (NSArray *)places
 {
-    if (!places_) {
-        
-        NSDictionary *qp = [NSDictionary dictionaryWithKeysAndObjects:@"lat", @"13.791151366451", @"lng", @"100.5881877233988", nil];
-        NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:qp];
-        
-        [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
-            loader.onDidLoadObjects = ^(NSArray *objects){
-                places_ = [objects sectionsGroupedByKeyPath:@"type"];
-                
-                // Post notification with category array
-                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlacesLoadingFinish object:places_];
-            };
-        }];
-    }
+    NSMutableDictionary *paramDict = [NSMutableDictionary new];
     
-    return places_;
-}
-
-- (void)placesWithQueryParams:(NSDictionary *)params
-{
-    NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:params];
+    paramDict = [self buildingQueryParametersWithLocation:self.locationManager.location.coordinate withParams:paramDict];
+    
+    NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:paramDict];
+    
+    ODMLog(@"query parameters %@", resourcePath);
+    
     [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
         loader.onDidLoadObjects = ^(NSArray *objects){
+            ODMLog(@"result places %i", [objects count]);
+            
             places_ = [objects sectionsGroupedByKeyPath:@"type"];
             
             // Post notification with category array
             [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlacesLoadingFinish object:places_];
         };
     }];
+    
+    return places_;
+}
+
+- (NSArray *)placesWithQueryParams:(NSDictionary *)params
+{
+    NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
+    
+    paramDict = [self buildingQueryParametersWithLocation:self.locationManager.location.coordinate withParams:paramDict];
+    
+    NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:paramDict];
+    
+    ODMLog(@"query parameters %@", resourcePath);
+    
+    [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
+        loader.onDidLoadObjects = ^(NSArray *objects){
+            _filterdPlaces = [objects sectionsGroupedByKeyPath:@"type"];
+            
+            ODMLog(@"result places %i", [objects count]);
+            
+            // Post notification with category array
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlacesSearchingFinish object:_filterdPlaces];
+        };
+    }];
+    
+    return _filterdPlaces;
 }
 
 #pragma mark - RKObjectLoader Delegate

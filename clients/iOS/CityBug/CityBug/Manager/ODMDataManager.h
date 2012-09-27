@@ -15,7 +15,7 @@
 @interface ODMDataManager : NSObject <RKObjectLoaderDelegate, CLLocationManagerDelegate> {
     RKObjectManager *serviceObjectManager;
     
-    NSArray *reports_, *categories_, *places_;
+    NSArray *reports_, *categories_, *places_, *_filterdPlaces;
     
     CLLocationManager *_locationManager;
 }
@@ -48,7 +48,7 @@
 /*
  * Places
  */
-- (void)placesWithQueryParams:(NSDictionary *)params;
+- (NSArray *)placesWithQueryParams:(NSDictionary *)params;
 
 /*
  * CurrentUser

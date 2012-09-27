@@ -12,6 +12,16 @@
 
 @implementation ODMPlaceFormViewController {
     NSIndexPath *selectedIndexPath;
+    NSUInteger cooldownSearchCount;
+    NSArray *_filteredDatasoruce;
+}
+
+- (NSArray *)arrayForTableView:(UITableView *)tableView
+{
+    if ([tableView isEqual:self.searchDisplayController.searchResultsTableView]) {
+        return _filteredDatasoruce;
+    }
+    return self.datasource;
 }
 
 - (NSString *)keyForSection:(NSUInteger)section
@@ -27,9 +37,9 @@
     return nil;
 }
 
-- (ODMPlace *)placeFromIndexPath:(NSIndexPath *)indexPath
+- (ODMPlace *)placeFromIndexPath:(NSIndexPath *)indexPath forTableView:(UITableView *)tableView
 {
-    NSArray *sections = [self.datasource objectAtIndex:indexPath.section];
+    NSArray *sections = [[self arrayForTableView:tableView] objectAtIndex:indexPath.section];
     return [sections objectAtIndex:indexPath.row];
 }
 
@@ -37,21 +47,21 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.datasource count];
+    return [[self arrayForTableView:tableView] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self.datasource count] == 0) return 0;
+    if ([[self arrayForTableView:tableView] count] == 0) return 0;
     
-    NSArray *sectionItems = [self.datasource objectAtIndex:section];
+    NSArray *sectionItems = [[self arrayForTableView:tableView] objectAtIndex:section];
     return [sectionItems count];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
     if ([self.delegate respondsToSelector:@selector(didSelectPlace:)]) {
-        [self.delegate didSelectPlace:[self placeFromIndexPath:indexPath]];
+        [self.delegate didSelectPlace:[self placeFromIndexPath:indexPath forTableView:tableView]];
     }
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -79,12 +89,19 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-    cell.textLabel.text = [(ODMPlace *)[self placeFromIndexPath:indexPath] title];
+    cell.textLabel.text = [(ODMPlace *)[self placeFromIndexPath:indexPath forTableView:tableView] title];
     
     return cell;
 }
 
 #pragma mark - SEARCH
+
+- (void)cooldownSearch:(NSTimer *)timer
+{
+    if (--cooldownSearchCount == 0) {
+        [timer invalidate];
+    }
+}
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
@@ -93,10 +110,13 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if (searchText.length >= LOCATION_SEARCH_THRESHOLD) {
-        NSDictionary *params = [NSDictionary dictionaryWithObject:searchText forKey:@"title"];
+    if (searchText.length >= LOCATION_SEARCH_THRESHOLD && cooldownSearchCount == 0) {
+        NSDictionary *params = [NSDictionary dictionaryWithObject:searchText forKey:@"text"];
     
         [[ODMDataManager sharedInstance] placesWithQueryParams:params];
+        
+        cooldownSearchCount = COOLDOWN_SEARCH_INTERVAL;
+        [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(cooldownSearch:) userInfo:nil repeats:YES];
     }
 }
 
@@ -117,6 +137,16 @@
     [self.tableView reloadData];
 }
 
+- (void)updatePlacesSearchingNotification:(NSNotification *)notification
+{
+    if ([[notification object] isKindOfClass:[NSArray class]]) {
+        
+        _filteredDatasoruce = [NSArray arrayWithArray:[notification object]];
+    }
+    
+    [self.searchDisplayController.searchResultsTableView reloadData];
+}
+
 - (BOOL)resignFirstResponder
 {
     [self.searchDisplayController.searchBar resignFirstResponder];
@@ -127,7 +157,9 @@
 - (void)reloadData
 {
     _datasource = [[ODMDataManager sharedInstance] places];
+    _filteredDatasoruce = _datasource;
     
+    [self.searchDisplayController.searchResultsTableView reloadData];
     [self.tableView reloadData];
 }
 
@@ -139,6 +171,17 @@
                                              selector:@selector(updatePlacesNotification:)
                                                  name:ODMDataManagerNotificationPlacesLoadingFinish
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updatePlacesSearchingNotification:)
+                                                 name:ODMDataManagerNotificationPlacesSearchingFinish
+                                               object:nil];
+    [self reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
     [self reloadData];
 }
 
