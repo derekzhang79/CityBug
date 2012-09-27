@@ -8,6 +8,7 @@
 
 #import "ODMReportCommentViewController.h"
 #import "ODMReport.h"
+#import "ODMComment.h"
 
 @interface ODMReportDetailViewController : UIViewController <UITextFieldDelegate, ODMReportCommentDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate> {
     
@@ -25,6 +26,8 @@
  * View
  */
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
 
 /*
  * Accessory

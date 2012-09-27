@@ -19,6 +19,8 @@
 
 @implementation ODMReportDetailViewController
 
+
+
 - (void)reloadData
 {
     self.titleLabel.text = self.report.title;
@@ -36,15 +38,15 @@
     NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report.user uid]]];
     [self.avatarImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
     [self setTableViewSize];
+
 }
 
 -(void)setTableViewSize
 {
-    CGRect tvframe = [self.tableView frame];
-    [self.tableView setFrame:CGRectMake(tvframe.origin.x,
-                                   tvframe.origin.y,
-                                   tvframe.size.width,
-                                   44 * [self.report.comments count])];
+    CGRect tvFrame = [self.tableView frame];
+
+    [self.tableView setFrame:CGRectMake(tvFrame.origin.x, tvFrame.origin.y, tvFrame.size.width, 44 * [self.report.comments count])];
+    [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, 44 * [self.report.comments count] + self.scrollView.frame.size.height)];
 }
 
 - (void)viewDidLoad
@@ -55,6 +57,8 @@
     
     ODMReportCommentViewController *reportComment = [[ODMReportCommentViewController alloc] init];
     reportComment.delegate = self;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
 
     // Show or hide keyboard notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCommentForm:) name:UIKeyboardWillShowNotification object:nil];
@@ -119,6 +123,12 @@
 - (IBAction)addCommentButtonTapped:(id)sender
 {
     [self resignFirstResponder];
+    ODMComment *commentObject = [[ODMComment alloc] init];
+    
+    [commentObject setText:self.commentTextField.text];
+    [commentObject setReportID:self.report.uid];
+    
+    [[ODMDataManager sharedInstance] postComment:commentObject];
 }
 
 #pragma mark - UIScrollView
@@ -153,6 +163,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"%d", [self.report.comments count]);
     return [self.report.comments count];
 }
 
@@ -177,4 +188,7 @@
     return cell;
 }
 
+- (void)viewDidUnload {
+    [super viewDidUnload];
+}
 @end
