@@ -56,11 +56,14 @@ exports.place_search = function(req, res){
 
 	var lat = req.query.lat;
 	var lng = req.query.lng;
+	var queryText = req.query.text;
 
 	console.log("get request param >> "+ JSON.stringify(req.query));
 	var params = {  
-	    "ll": lat + "," + lng  
+	    "ll": lat + "," + lng,
+	    "query": queryText
 	};
+	console.log(params.ll + "====" + params.query);
 	console.log("parameters = "+JSON.stringify(params));
 
 
