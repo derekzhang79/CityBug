@@ -247,7 +247,7 @@
     self.backView.alpha = 0;
     self.backView.hidden = NO;
     [UIView animateWithDuration:animationDuration animations:^{
-        self.backView.alpha = animationDuration;
+        self.backView.alpha = 0.0015;
         
         CGRect newFrame = self.commentFormView.frame;
         newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height - keyboardSize.height;
