@@ -66,7 +66,7 @@
     self.lastModifiedLabel.text = [self.report.lastModified stringWithHumanizedTimeDifference];
     self.iminLabel.text = [NSString stringWithFormat:@"%i",self.report.iminCount.intValue];
     self.locationLabel.text = [self.report.place title];
-    self.noteLabel.text = [NSString stringWithFormat:@"%@ || %@ || %@ || %@", [self.report note],[self.report note],[self.report note],[self.report note]];
+    self.noteLabel.text = [NSString stringWithFormat:@"%@", [self.report note]];
     
     // Report Image
     NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report fullImage]]];
