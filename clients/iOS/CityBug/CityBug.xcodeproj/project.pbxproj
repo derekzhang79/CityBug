@@ -462,6 +462,8 @@
 				CEB10E2D160374B90041B3B8 /* Model */,
 				CEB10E3D160374CC0041B3B8 /* ODMListViewController.h */,
 				CEB10E39160374CC0041B3B8 /* ODMListViewController.m */,
+				9869004E160F55EB0086CEAC /* ODMReportDetailViewController.h */,
+				9869004F160F55EB0086CEAC /* ODMReportDetailViewController.m */,
 				7F9C7B441613144000B7FC95 /* ODMSignInViewController.h */,
 				7F9C7B451613144000B7FC95 /* ODMSignInViewController.m */,
 				CEB10E3A160374CC0041B3B8 /* ODMDescriptionViewController.h */,
@@ -476,8 +478,6 @@
 				CEB10E3E160374CC0041B3B8 /* ODMCategoryListViewController.m */,
 				CEB10E41160374CC0041B3B8 /* ODMFormFiedViewController.h */,
 				CEB10E44160374CC0041B3B8 /* ODMFormFiedViewController.m */,
-				9869004E160F55EB0086CEAC /* ODMReportDetailViewController.h */,
-				9869004F160F55EB0086CEAC /* ODMReportDetailViewController.m */,
 				CEEE604815FDEDFB00324883 /* Supporting Files */,
 			);
 			name = CityBug;

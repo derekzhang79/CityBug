@@ -23,6 +23,7 @@
 
 - (void)showInWindow:(UIWindow *)window;
 - (void)hide;
+- (void)hideWithAnimation:(BOOL)animated;
 @end
 
 

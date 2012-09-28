@@ -6,31 +6,67 @@
 //  Copyright (c) 2012 opendream. All rights reserved.
 //
 
-#import "ODMReportDetailViewController.h"
-
+#import <MapKit/MapKit.h>
 #import "UIImageView+WebCache.h"
-#import "ODMDataManager.h"
-
 #import "NSDate+HumanizedTime.h"
 
+#import "ODMReportDetailViewController.h"
 #import "ODMDataManager.h"
-
-#import <MapKit/MapKit.h>
 
 #define ROW_HEIGHT 44
 
-@implementation ODMReportDetailViewController
+@implementation ODMReportDetailViewController {
+    NSUInteger numberOfComments;
+    NSUInteger cooldownSendButton;
+}
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.title = NSLocalizedString(@"Report", @"Report");
+    
+    self.commentTextField.placeholder = NSLocalizedString(@"Enter comment here", @"Enter comment here");
+    // Show or hide keyboard notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCommentForm:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCommentForm:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incommingComments:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
+}
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self reloadData];
+}
+
+- (void)viewDidUnload
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [super viewDidUnload];
+}
+
+- (BOOL)resignFirstResponder
+{
+    [self.commentTextField resignFirstResponder];    
+    [self hideCommentForm:nil];
+    
+    return [super resignFirstResponder];
+}
+
+#pragma mark - Datasource
 
 - (void)reloadData
 {
-    self.titleLabel.text = self.report.title;
-    self.userLabel.text = self.report.user.username;
+    if (!self.report) return;
+    
+    self.titleLabel.text = [self.report title];
+    self.userLabel.text = [self.report.user username];
     self.lastModifiedLabel.text = [self.report.lastModified stringWithHumanizedTimeDifference];
     self.iminLabel.text = [NSString stringWithFormat:@"%i",self.report.iminCount.intValue];
-    self.locationLabel.text = self.report.place.title;
-    self.noteLabel.text = self.report.note;
+    self.locationLabel.text = [self.report.place title];
+    self.noteLabel.text = [NSString stringWithFormat:@"%@ || %@ || %@ || %@", [self.report note],[self.report note],[self.report note],[self.report note]];
     
     // Report Image
     NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report fullImage]]];
@@ -41,59 +77,21 @@
     [self.avatarImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
     
     [self calculateContentSizeForScrollView];
+    
+    [self.tableView reloadData];
 }
-
--(void)setTableViewSize
-{
-    CGRect tvFrame = [self.tableView frame];
-
-    [self.tableView setFrame:CGRectMake(tvFrame.origin.x, tvFrame.origin.y, tvFrame.size.width, 44 * [self.report.comments count])];
-    [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, 44 * [self.report.comments count] + self.scrollView.frame.size.height)];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    [self reloadData];
-    
-    ODMReportCommentViewController *reportComment = [[ODMReportCommentViewController alloc] init];
-    reportComment.delegate = self;
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-
-    // Show or hide keyboard notification
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCommentForm:) name:UIKeyboardWillShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCommentForm:) name:UIKeyboardWillHideNotification object:nil];
-    
-    [self calculateContentSizeForScrollView];
-}
-
-- (BOOL)resignFirstResponder
-{
-    [self.commentTextField resignFirstResponder];
-    
-    [self hideCommentForm:nil];
-    
-    return [super resignFirstResponder];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark - Datasource
 
 - (void)calculateContentSizeForScrollView
 {
+    if (!self.report) return;
+    
     //
     // Comments Height
     //
-    NSUInteger numberOfComments = self.report.comments.count;
+    CGRect tvFrame = [self.tableView frame];
+    numberOfComments = self.report.comments.count;
     CGSize commentsSize = CGSizeMake(self.tableView.bounds.size.width, numberOfComments * ROW_HEIGHT);
-    
+    [self.tableView setFrame:CGRectMake(tvFrame.origin.x, tvFrame.origin.y, tvFrame.size.width, ROW_HEIGHT * numberOfComments)];
     //
     // Note height
     //
@@ -120,64 +118,98 @@
     contentFrame.size.height = infoFrame.size.height + spaceBetweenInfoAndNote + commentsSize.height;
     
     //
-    //
+    // Scroll to bottom
     //
     self.scrollView.contentSize = CGSizeMake(contentFrame.size.width, contentFrame.size.height);
 }
+
 - (void)setReport:(ODMReport *)report
 {
+    ODMLog(@"set new report");
+    if (!report) return;
+    
     _report = report;
     
     [self reloadData];
 }
 
-#pragma mark - FormField Delegate
+#pragma mark - Notifications
+
+- (void)incommingComments:(NSNotification *)notification
+{
+    if ([[notification object] isKindOfClass:[NSArray class]]) {
+        NSArray *datasource = (NSArray *)[notification object];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid == %@", self.report.uid];
+        NSArray *filterByReport = [datasource filteredArrayUsingPredicate:predicate];
+        if ([filterByReport count] > 0) {
+            id obj = [filterByReport lastObject];
+            if ([obj isKindOfClass:[ODMReport class]]) {
+                _report = obj;
+            }
+            
+            int incomingComments = (self.report.comments.count - numberOfComments);
+            if (incomingComments > 0) {
+                NSString *newCommentsString = @"";
+                newCommentsString = (incomingComments == 1) ?
+                [NSString stringWithFormat:NSLocalizedString(@"New 1 comment", @"New 1 comment")] :
+                [NSString stringWithFormat:NSLocalizedString(@"New %i comments", @"New %i comments"), incomingComments];
+                
+                ODMLog(@"%@", newCommentsString);
+            }
+            [self reloadData];
+        }
+    }
+}
 
 - (void)updateComment:(NSString *)comment
 {
-    self.commentLabel.text = comment;
- 
-    ODMComment *commentObject = [[ODMComment alloc] init];
-
-    [commentObject setText:comment];
-    [commentObject setReportID:self.report.uid];
-//    [self.entry addComment:commentObject];
-    
-    [[ODMDataManager sharedInstance] postComment:commentObject];
+    // For beta version
+    // We enforce user to reload all contents from server
+    // Thus, we have to reload comments after
+    // reports has completely parsed
+    [[ODMDataManager sharedInstance] reports];
 }
+
+#pragma mark - FormField Delegate
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"commentSegue"]) {
-        ODMReportCommentViewController *commentVC = segue.destinationViewController;
-        commentVC.delegate = self;
-    } else if ([segue.identifier isEqualToString:@"reportMapSegue"]) {
-        UIViewController *vc = segue.destinationViewController;
-        UILabel *locationLabel = (UILabel *)[vc.view viewWithTag:6110];
-        locationLabel.text = [self.report.place title];
-        MKMapView *mapView = (MKMapView *)[vc.view viewWithTag:6111];
-        [mapView setCenterCoordinate:CLLocationCoordinate2DMake(self.report.latitude.doubleValue, self.report.longitude.doubleValue) animated:NO];
-        
+    if ([segue.identifier isEqualToString:@"reportMapSegue"]) {
+//        UIViewController *vc = segue.destinationViewController;
+//        UILabel *locationLabel = (UILabel *)[vc.view viewWithTag:6110];
+//        locationLabel.text = [self.report.place title];
+//        MKMapView *mapView = (MKMapView *)[vc.view viewWithTag:6111];
+//        [mapView setCenterCoordinate:CLLocationCoordinate2DMake(self.report.latitude.doubleValue, self.report.longitude.doubleValue) animated:NO];
+    }
+}
+
+- (void)cooldownSendAction:(NSTimer *)timer;
+{
+    if (--cooldownSendButton == 0) {
+        [timer invalidate];
+        [self.sendButton setEnabled:YES];
     }
 }
 
 - (IBAction)addCommentButtonTapped:(id)sender
 {
-    [self resignFirstResponder];
-    ODMComment *commentObject = [[ODMComment alloc] init];
+    if (!self.report) return;
     
+    [self resignFirstResponder];
+    
+    ODMComment *commentObject = [[ODMComment alloc] init];
     [commentObject setText:self.commentTextField.text];
     [commentObject setReportID:self.report.uid];
     
     [[ODMDataManager sharedInstance] postComment:commentObject];
+    
+    self.commentTextField.text = @"";
+    [self.sendButton setEnabled:NO];
+    cooldownSendButton = 3;
+    [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(cooldownSendAction:) userInfo:nil repeats:YES];
 }
 
 #pragma mark - UIScrollView
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-//    [self resignFirstResponder];
-}
 
 - (void)showCommentForm:(NSNotification *)notification
 {
@@ -189,11 +221,11 @@
         CGRect newFrame = self.commentFormView.frame;
         newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height - keyboardSize.height;
         self.commentFormView.frame = newFrame;
-        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0);
+        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, keyboardSize.height + self.commentFormView.frame.size.height , 0);
         [self.scrollView setContentInset:edgeInsets];
     }];
     
-    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.bounds.size.height, 1, 1) animated:YES];
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height, 1, 1) animated:YES];
 }
 
 - (void)hideCommentForm:(NSNotification *)notification
@@ -204,15 +236,17 @@
         CGRect newFrame = self.commentFormView.frame;
         newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height;
         self.commentFormView.frame = newFrame;
-        [self.scrollView setContentInset:UIEdgeInsetsZero];
+        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, self.commentFormView.frame.size.height , 0);
+        [self.scrollView setContentInset:edgeInsets];
     }];
+    
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height, 1, 1) animated:YES];
 }
 
 #pragma mark - UITableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%d", [self.report.comments count]);
     return [self.report.comments count];
 }
 
@@ -241,4 +275,5 @@
 {
     return ROW_HEIGHT;
 }
+
 @end

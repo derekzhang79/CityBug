@@ -7,7 +7,7 @@
 //
 
 #import "FDStatusBarNotifierView.h"
-
+#import <QuartzCore/QuartzCore.h>
 @interface FDStatusBarNotifierView ()
 
 @property (strong) UILabel *messageLabel;
@@ -199,6 +199,35 @@
                 [self removeFromSuperview];
             }
         }];
+    }
+}
+
+- (void)hideWithAnimation:(BOOL)animated
+{
+    if (animated) {
+        [self hide];
+    } else {
+        [self.layer removeAllAnimations];
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(willHideNotifierView:)])
+            [self.delegate willHideNotifierView:self];
+        if ([[UIDevice currentDevice] orientation] == UIDeviceOrientationPortrait) {
+            self.frame = CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.width, 20);
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didHideNotifierView:)])
+                [self.delegate didHideNotifierView:self];
+            
+            [self removeFromSuperview];
+        }
+        else {
+            self.frame = CGRectMake(0, 20, [UIScreen mainScreen].bounds.size.height, 20);
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+            
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didHideNotifierView:)])
+                [self.delegate didHideNotifierView:self];
+            
+            [self removeFromSuperview];
+        }
     }
 }
 

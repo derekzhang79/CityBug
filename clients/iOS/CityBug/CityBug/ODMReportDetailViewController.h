@@ -6,13 +6,11 @@
 //  Copyright (c) 2012 opendream. All rights reserved.
 //
 
-#import "ODMReportCommentViewController.h"
 #import "ODMReport.h"
-#import "ODMComment.h"
 
-@interface ODMReportDetailViewController : UIViewController <UITextFieldDelegate, ODMReportCommentDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate> {
+@interface ODMReportDetailViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate> {
     
-    UITableView *_tableView;
+    __weak UITableView *_tableView;
     
     ODMReport *_report;
 }
@@ -25,7 +23,7 @@
 /*
  * View
  */
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 
 /*
@@ -35,7 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *reportImageView, *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel, *locationLabel, *commentLabel, *iminLabel, *userLabel, *lastModifiedLabel, *noteLabel;
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
-
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sendButton;
 /*
  * Add comment
  */

@@ -6,14 +6,16 @@
 //  Copyright (c) 2012 opendream. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "ODMUser.h"
+@class ODMUser;
 
-@interface ODMComment : NSObject
+@interface ODMComment : NSObject {
+    NSString *_text, *_reportID;
+    NSDate *_lastModified;
+    ODMUser *_user;
+}
 
-@property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) ODMUser *user;
-@property (nonatomic, strong) NSString *reportID;
+@property (nonatomic, strong) NSString *text, *reportID;
 @property (nonatomic, strong) NSDate *lastModified;
+@property (nonatomic, strong) ODMUser *user;
 
 @end

@@ -28,13 +28,8 @@
 static NSString *gotoFormSegue = @"presentFormSegue";
 static NSString *gotoViewSegue = @"gotoViewSegue";
 
-@interface ODMListViewController () {
-    CLLocationManager *locationManager;
-}
-
-@end
-
 @implementation ODMListViewController {
+    CLLocationManager *locationManager;
     UIImage *imageToSave;
     UIImagePickerController *picker;
     NSArray *datasource;
@@ -45,9 +40,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     CLLocation *location;
     
     NSUInteger cooldownReloadButton;
-    NSTimer *cooldownTimer;
-    
-    NSMutableArray *notificationCacheArray;
+    NSInteger updatingCount;
 }
 
 @synthesize location;
@@ -55,52 +48,30 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 #pragma mark - View's Life Cycle
 
-- (void)pushMessageToStatusBar:(NSString *)text
-{
-    FDStatusBarNotifierView *notifierView = [[FDStatusBarNotifierView alloc] initWithMessage:text delegate:self];
-    notifierView.userInteractionEnabled = YES;
-    notifierView.timeOnScreen = 2.0;
-    
-    [notifierView showInWindow:self.view.window];
-    
-    [notificationCacheArray addObject:notifierView];
-}
-
-- (void)pushMessageToStatusBar:(NSString *)text afterDelay:(NSTimeInterval)delay
-{
-    [self performSelector:@selector(pushMessageToStatusBar:) withObject:text afterDelay:delay];
-}
-
-- (void)didHideNotifierView:(FDStatusBarNotifierView *)notifierView
-{
-    [notificationCacheArray removeObject:notifierView];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [[ODMDataManager sharedInstance] reports];
+//    updatingCount = 0;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
+    [super viewDidDisappear:animated];
     
-    for (FDStatusBarNotifierView *view in notificationCacheArray)
-        [view hide];
-    
+//    updatingCount = DATA_UPDATING_INTERVAL_IN_SECOND;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self setTitle:@"CityBug"];
+    
+    // Load data
+    datasource = [[ODMDataManager sharedInstance] reports];
+    if (!datasource) datasource = [NSArray new];
+    [self.tableView reloadData];
+    
     
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
@@ -118,19 +89,14 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
         self.location = nil;
     };
     
-    datasource = [[ODMDataManager sharedInstance] reports];
-    
-    if (!datasource) {
-        datasource = [NSArray new];
-    }
-    
-    [self.tableView reloadData];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
-    
-    // Cache for notification bar on top
-    // use for switch to other pages
-    notificationCacheArray = [NSMutableArray new];
+}
+
+- (void)viewDidUnload
+{
+    [locationManager stopUpdatingLocation];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -141,19 +107,20 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 - (void)updateReports:(NSNotification *)notification
 {
     NSUInteger oldItemsCount = [datasource count];
-    datasource = (NSArray *)[notification object];
     
-    [self.tableView reloadData];
-    
-    int diff = abs([datasource count] - oldItemsCount);
-    NSString *message = diff == 0 ?
-                [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"There has no", @"There has no"), NSLocalizedString(@"new reports", @"new reports")]
-                : [NSString stringWithFormat:@"%@ %i %@", NSLocalizedString(@"There has", @"There has"), diff, NSLocalizedString(@"new reports", @"new reports")];
-
-    
-    [self pushMessageToStatusBar:message afterDelay:2.0];
-    
-    ODMLog(@"update reports [%i]", [datasource count]);
+    if ([[notification object] isKindOfClass:[NSArray class]]) {
+        datasource = [NSArray arrayWithArray:[notification object]];
+        
+        [self.tableView reloadData];
+        
+        int diff = abs([datasource count] - oldItemsCount);
+        // [NSString stringWithFormat:NSLocalizedString(@"There has no", @"There has no"), NSLocalizedString(@"new reports", @"new reports")]
+        NSString *message = diff == 1 ?
+        [NSString stringWithFormat:NSLocalizedString(@"There has a new report", @"There has a new report")]
+                                  : [NSString stringWithFormat:NSLocalizedString(@"There have new %i reports", @"There have %i reports"),diff];
+        
+        ODMLog(@"%@ [%i]",message ,[datasource count]);
+    }
 }
 
 #pragma mark - Table view data source
@@ -172,25 +139,28 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 {
     static NSString *CellIdentifier = @"ReportCellIdentifier";
     ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];    
-    ODMReport *report = [datasource objectAtIndex:indexPath.row];
     
-    cell.report = report;
-    NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cell.report.thumbnailImage]];
-    
-    [cell.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
-    
+    if (cell && datasource.count > indexPath.row) {
+        
+        ODMReport *report = [datasource objectAtIndex:indexPath.row];
+        cell.report = report;
+        
+        // Image Cache
+        NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cell.report.thumbnailImage]];
+        [cell.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
+    }
     return cell;
 }
 
 #pragma mark - REPORT
 
-- (void)cooldownButton
+- (void)cooldownButtonAction:(NSTimer *)timer
 {
     cooldownReloadButton -= 1;
     
     if (cooldownReloadButton == 0) {
         self.navigationItem.leftBarButtonItem.enabled = YES;
-        [cooldownTimer invalidate];
+        [timer invalidate];
     }
 }
 
@@ -209,38 +179,41 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 {
     [[ODMDataManager sharedInstance] reports];
     
-    [self pushMessageToStatusBar:NSLocalizedString(@"Fetching new reports", @"Fetching new reports")];
+    ODMLog(@"%@",NSLocalizedString(@"Fetching new reports", @"Fetching new reports"));
     
     cooldownReloadButton = 3;
     self.navigationItem.leftBarButtonItem.enabled = NO;
-    cooldownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cooldownButton) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cooldownButtonAction:) userInfo:nil repeats:YES];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    picker =  [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    picker.allowsEditing = YES;
+    if (!picker) {
+        picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+    }
+    
     if (buttonIndex == 0 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         picker.wantsFullScreenLayout = YES;
         picker.cameraViewTransform = CGAffineTransformScale(picker.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);
         
-        [self presentModalViewController:picker animated:YES];
-        
     } else if (buttonIndex == 1 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentModalViewController:picker animated:YES];
+        
     }
+    [self presentModalViewController:picker animated:YES];
 }
-
 
 - (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerEditedImage];
 
-   
-    assetsLib = [[ALAssetsLibrary alloc] init];
+    if (!assetsLib) {
+        assetsLib = [[ALAssetsLibrary alloc] init];
+    }
+    
     if (aPicker.sourceType == UIImagePickerControllerSourceTypeCamera) {
         self.location = locationManager.location;
         
@@ -276,12 +249,13 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
         
         ODMReportDetailViewController *detailViewController = (ODMReportDetailViewController *) segue.destinationViewController;
-
+        
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
-        ODMReport *temp = [datasource objectAtIndex:selectedIndexPath.row];
-        NSLog(@"**** %@", [temp comment]);
-        detailViewController.report = [datasource objectAtIndex:selectedIndexPath.row];
 
+        if (datasource.count > selectedIndexPath.row) {
+            ODMReport *aReport = [datasource objectAtIndex:selectedIndexPath.row];
+            detailViewController.report = aReport;
+        }
     }
 }
 

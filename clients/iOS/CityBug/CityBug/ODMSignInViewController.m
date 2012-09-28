@@ -10,33 +10,14 @@
 #import "ODMDataManager.h"
 #import "ODMUser.h"
 
-@interface ODMSignInViewController ()
-
-@end
 
 @implementation ODMSignInViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
 
 - (void)viewDidUnload
 {
     usernameTextField = nil;
     passwordTextField = nil;
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -75,8 +56,7 @@
         ODMUser *user = [[ODMUser alloc] init];
         user.username = usernameTextField.text;
         user.password = passwordTextField.text;
-        [[ODMDataManager sharedInstance] singInWithCityBug:user error:&error];
-        
+        [[ODMDataManager sharedInstance] signInWithCityBug:user error:&error];
     }
 }
 
