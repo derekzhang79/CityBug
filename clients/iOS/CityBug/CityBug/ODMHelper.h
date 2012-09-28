@@ -53,7 +53,7 @@
 #define LOCATION_VALUE_INVALID_TEXT @"Latitude/Longitude error"
 #define LOCATION_VALUE_INVALID_DESCRIPTION_TEXT @"Invalid latitude or longitude value. Latitude should valid in range (-90,90) and longitude should valid in range (-180, 180)"
 
-#define REQUIRE_LOCATION_SERVICES_TEXT @"Require location servcies"
+#define REQUIRE_LOCATION_SERVICES_TEXT @"Require location services"
 
 #define PLACE_IS_REQUIRED_FIELD_TEXT @"Require place"
 #define PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT @"Please select a place for this report"
