@@ -786,7 +786,7 @@
                                                 <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <size key="shadowOffset" width="0.0" height="1"/>
                                             </label>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4404" contentMode="left" text="สวนดอกจ้า" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d9N-cs-xUo">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4404" contentMode="left" text="สวนดอกจ้า" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="d9N-cs-xUo">
                                                 <rect key="frame" x="145" y="270" width="155" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <gestureRecognizers/>
@@ -795,6 +795,9 @@
                                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <size key="shadowOffset" width="0.0" height="1"/>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="T6Y-gP-tje" appends="YES" id="Eid-Zf-MG6"/>
+                                                </connections>
                                             </label>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4405" contentMode="left" text="122're in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3lI-tY-MRH">
                                                 <rect key="frame" x="50" y="271" width="59" height="21"/>
@@ -936,6 +939,7 @@
                         <action selector="handleLongGesture:" destination="7od-Vb-NtW" id="LHJ-ki-Oxn"/>
                     </connections>
                 </pongPressGestureRecognizer>
+                <tapGestureRecognizer id="T6Y-gP-tje"/>
             </objects>
             <point key="canvasLocation" x="-2950" y="-2513"/>
         </scene>

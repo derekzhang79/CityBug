@@ -19,11 +19,8 @@
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;
-
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField, *noteTextField;
-
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel, *placeLabel, *localtionLabel;
-
 @property (weak, nonatomic) UIImage *bugImage;
 
 @property (strong, nonatomic) CLLocation *pictureLocation;
