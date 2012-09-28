@@ -124,20 +124,20 @@
         // Retrieve location from NSUserDefault
         CLLocation *location = [_locationManager location];
         
-        if (location != nil && location.horizontalAccuracy <= MINIMUN_ACCURACY_DISTANCE && location.verticalAccuracy <= MINIMUN_ACCURACY_DISTANCE) {
+        if (self.pictureLocation.coordinate.latitude && self.pictureLocation.coordinate.longitude) {
+            //
+            // Get location from picture
+            //
+            report.latitude = @(self.pictureLocation.coordinate.latitude);
+            report.longitude = @(self.pictureLocation.coordinate.longitude);
+            
+        } else if (location != nil && location.horizontalAccuracy <= MINIMUN_ACCURACY_DISTANCE && location.verticalAccuracy <= MINIMUN_ACCURACY_DISTANCE) {
             //
             // Location services are enable and
             // already has detected current location
             //
             report.latitude = @(location.coordinate.latitude);
             report.longitude = @(location.coordinate.longitude);
-            
-        } else if (self.pictureLocation.coordinate.latitude && self.pictureLocation.coordinate.longitude) {
-            //
-            // Get location from picture
-            //
-            report.latitude = @(self.pictureLocation.coordinate.latitude);
-            report.longitude = @(self.pictureLocation.coordinate.longitude);
             
         } else if (place) {
             //
