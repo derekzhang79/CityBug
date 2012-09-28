@@ -41,6 +41,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     
     NSUInteger cooldownReloadButton;
     NSInteger updatingCount;
+    
+    __weak ODMDescriptionFormViewController *_formViewController;
 }
 
 @synthesize location;
@@ -83,6 +85,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     resultblock = ^(ALAsset *myasset) {
         CLLocation *locationAsset = [myasset valueForProperty:ALAssetPropertyLocation];
         self.location = locationAsset;
+        [_formViewController setPictureLocation:locationAsset];
     };
     failureblock = ^(NSError *myerror) {
         NSLog(@"error while get Location from picture : %d - message: %s", errno, strerror(errno));
@@ -242,10 +245,21 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 #pragma mark - segue
 
+- (void)setFormViewController:(ODMDescriptionFormViewController *)vc
+{
+    _formViewController = vc;
+}
+
+- (ODMDescriptionFormViewController *)formViewController
+{
+    return _formViewController;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:gotoFormSegue]) {
         ODMDescriptionFormViewController *formViewController = (ODMDescriptionFormViewController *) segue.destinationViewController;
+        [self setFormViewController:formViewController];
         formViewController.bugImage = imageToSave;
         formViewController.pictureLocation = self.location;
     }
