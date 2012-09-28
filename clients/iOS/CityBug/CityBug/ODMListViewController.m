@@ -202,7 +202,10 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     } else if (buttonIndex == 1 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         
+    } else {
+        return;
     }
+    
     [self presentModalViewController:picker animated:YES];
 }
 
