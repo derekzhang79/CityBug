@@ -40,7 +40,7 @@
 
 // Comment
 #define COMMENT_INVALID_TEXT @"Comment does not valid."
-#define COMMENT_INVALID_REQUIRE_DESCRIPTION_TEXT @"Comment text must contain at least 2 characters"
+#define COMMENT_INVALID_REQUIRE_DESCRIPTION_TEXT @"Comment text must contain at least 3 characters"
 
 // Note
 #define LONG_LENGTH_STRING_ERROR_DOMAIN @"Title should be less than 1024 characters"
