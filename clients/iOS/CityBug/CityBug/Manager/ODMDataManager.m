@@ -283,9 +283,10 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     ODMUser *currentUser = [self currentUser];
     comment.user = currentUser;
     
+    *error = nil;
     NSString *commentText = comment.text;
     BOOL isValid = [comment validateValue:&commentText forKey:@"text" error:error];
-    if (!isValid || error) {
+    if (!isValid) {
         @throw [NSException exceptionWithName:[*error domain] reason:[[*error userInfo] objectForKey:@"description"] userInfo:nil];
     }
     
@@ -327,8 +328,6 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
         NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
         
-//        [queryParams setObject:@"admin" forKey:@"username"];
-//        [queryParams setObject:@"qwer4321" forKey:@"password"];
         [queryParams setObject:currentUsername forKey:@"username"];
         [queryParams setObject:currentPassword forKey:@"password"];
 
