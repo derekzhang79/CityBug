@@ -6,8 +6,8 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-//#define BASE_URL @"http://127.0.0.1:3003"
-#define BASE_URL @"http://54.251.32.49:3003"
+#define BASE_URL @"http://127.0.0.1:3003"
+//#define BASE_URL @"http://54.251.32.49:3003"
 
 #define DEBUG_HAS_SIGNED_IN YES
 
@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define LOCATION_SEARCH_THRESHOLD 3
-
+#define DATA_UPDATING_INTERVAL_IN_SECOND 3
 ////////////////////////////////////////////////////////////////////////////////////////////////
 #define MINIMUN_REPORT_LENGTH 4
 #define MAXIMUM_REPORT_LENGTH 256
@@ -54,6 +54,11 @@
 #define USER_CURRENT_LOCATION @"currentLocation"
 #define MINIMUN_ACCURACY_DISTANCE 50
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define COOLDOWN_SEARCH_INTERVAL 3
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 /*
  * ODMLog
  */
@@ -62,11 +67,15 @@
 // Report
 extern NSString *ODMDataManagerNotificationReportsLoadingFinish;
 extern NSString *ODMDataManagerNotificationReportsLoadingFail;
+// Comment
+extern NSString *ODMDataManagerNotificationCommentLoadingFinish;
+extern NSString *ODMDataManagerNotificationCommentLoadingFail;
 // Category
 extern NSString *ODMDataManagerNotificationCategoriesLoadingFinish;
 extern NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 // Place
 extern NSString *ODMDataManagerNotificationPlacesLoadingFinish;
+extern NSString *ODMDataManagerNotificationPlacesSearchingFinish;
 extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 // Form

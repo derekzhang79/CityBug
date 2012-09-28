@@ -10,4 +10,8 @@
 
 @implementation ODMComment
 
+- (BOOL)validateValue:(__autoreleasing id *)value forKey:(NSString *)key error:(NSError *__autoreleasing *)error
+{
+    return YES;
+}
 @end

@@ -112,4 +112,11 @@
                                                object:nil];
 }
 
+- (void)viewDidUnload
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [super viewDidUnload];
+}
+
 @end

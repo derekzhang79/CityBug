@@ -10,38 +10,30 @@
 #import "ODMDataManager.h"
 #import "ODMUser.h"
 
-@interface ODMSignInViewController ()
-
-@end
 
 @implementation ODMSignInViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
 
 - (void)viewDidUnload
 {
     usernameTextField = nil;
     passwordTextField = nil;
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (IBAction)magicSignIn:(id)sender
+{
+    usernameTextField.text = @"admin";
+    passwordTextField.text = @"qwer4321";
+    
+    [self signInButtonAction:nil];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@"admin@citybug.in.th" forKey:@"email"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (IBAction)signInButtonAction:(id)sender
@@ -64,8 +56,7 @@
         ODMUser *user = [[ODMUser alloc] init];
         user.username = usernameTextField.text;
         user.password = passwordTextField.text;
-        [[ODMDataManager sharedInstance] singInWithCityBug:user error:&error];
-        
+        [[ODMDataManager sharedInstance] signInWithCityBug:user error:&error];
     }
 }
 

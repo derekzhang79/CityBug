@@ -11,12 +11,13 @@
 
 @class ODMReport, ODMUser;
 
-
 @interface ODMDataManager : NSObject <RKObjectLoaderDelegate, CLLocationManagerDelegate> {
+@private
     RKObjectManager *serviceObjectManager;
     
-    NSArray *reports_, *categories_, *places_;
+    NSArray *_reports, *_categories, *_places, *_filterdPlaces;
     
+    NSMutableDictionary *queryParams;
     CLLocationManager *_locationManager;
 }
 
@@ -34,6 +35,7 @@
  */
 - (void)postNewReport:(ODMReport *)report;
 - (void)postNewReport:(ODMReport *)report error:(NSError **)error;
+
 /*
  * Post Comment
  */
@@ -48,12 +50,12 @@
 /*
  * Places
  */
-- (void)placesWithQueryParams:(NSDictionary *)params;
+- (NSArray *)placesWithQueryParams:(NSDictionary *)params;
 
 /*
  * CurrentUser
  */
 - (ODMUser *)currentUser;
-- (void)singInWithCityBug:(ODMUser *)user;
-- (void)singInWithCityBug:(ODMUser *)user error:(NSError **)error;
+- (void)signInWithCityBug:(ODMUser *)user;
+- (void)signInWithCityBug:(ODMUser *)user error:(NSError **)error;
 @end
