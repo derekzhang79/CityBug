@@ -793,9 +793,6 @@
                                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <size key="shadowOffset" width="0.0" height="1"/>
-                                                <connections>
-                                                    <outletCollection property="gestureRecognizers" destination="soM-5z-8Xe" appends="YES" id="abi-Yw-RE0"/>
-                                                </connections>
                                             </label>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4405" contentMode="left" text="122're in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3lI-tY-MRH">
                                                 <rect key="frame" x="50" y="271" width="59" height="21"/>
@@ -835,6 +832,7 @@
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ZK2-Wd-azg">
                                         <rect key="frame" x="20" y="337" width="280" height="142"/>
@@ -874,10 +872,16 @@
                                     </tableView>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <gestureRecognizers/>
                             </scrollView>
+                            <view hidden="YES" alpha="0.059999999999999998" contentMode="scaleToFill" id="wnN-W8-PUO" userLabel="BackView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                             <view contentMode="scaleToFill" id="qJv-1C-FV2" userLabel="commentView">
                                 <rect key="frame" x="0.0" y="372" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="xvy-ag-qYF">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -908,6 +912,7 @@
                     <navigationItem key="navigationItem" id="mgc-N0-D30"/>
                     <connections>
                         <outlet property="avatarImageView" destination="hxq-Ki-CgL" id="WLa-cZ-chT"/>
+                        <outlet property="backView" destination="wnN-W8-PUO" id="cLD-QY-wm8"/>
                         <outlet property="commentFormView" destination="qJv-1C-FV2" id="kaw-aV-FJv"/>
                         <outlet property="commentTextField" destination="Rep-ve-Cds" id="v1n-gO-KK5"/>
                         <outlet property="iminLabel" destination="3lI-tY-MRH" id="egk-WS-Poc"/>
@@ -924,11 +929,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JY3-7E-gpw" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="soM-5z-8Xe">
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.30000000000000004" id="yAJ-Sf-xS8">
                     <connections>
-                        <segue destination="v2E-Et-Kdp" kind="push" identifier="reportMapSegue" id="w2D-Wr-o9D"/>
+                        <action selector="handleLongGesture:" destination="7od-Vb-NtW" id="LHJ-ki-Oxn"/>
                     </connections>
-                </tapGestureRecognizer>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-2950" y="-2513"/>
         </scene>
@@ -984,6 +989,7 @@
             <relationships>
                 <relationship kind="action" name="addCommentButtonTapped:"/>
                 <relationship kind="outlet" name="avatarImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="backView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="commentFormView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="commentLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="commentTextField" candidateClass="UITextField"/>

@@ -85,7 +85,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     resultblock = ^(ALAsset *myasset) {
         CLLocation *locationAsset = [myasset valueForProperty:ALAssetPropertyLocation];
         self.location = locationAsset;
-        [_formViewController setPictureLocation:locationAsset];
+        _formViewController.pictureLocation = locationAsset;
     };
     failureblock = ^(NSError *myerror) {
         NSLog(@"error while get Location from picture : %d - message: %s", errno, strerror(errno));
