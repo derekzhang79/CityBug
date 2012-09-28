@@ -114,7 +114,6 @@
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
-    [self setActive:NO];    
     [self.guideView setHidden:YES];
 }
 
@@ -145,6 +144,7 @@
 {
     // show Cancel button with animation
     [self.searchBar setShowsCancelButton:active animated:YES];
+    
     // hide navigation bar
     [self.navigationController setNavigationBarHidden:active animated:YES];
     // show guide view
@@ -235,6 +235,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super viewDidUnload];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    // hide navigation bar
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 @end
