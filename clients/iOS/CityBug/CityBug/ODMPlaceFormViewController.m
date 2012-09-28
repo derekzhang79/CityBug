@@ -114,6 +114,7 @@
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
+    [self setActive:NO];    
     [self.guideView setHidden:YES];
 }
 
