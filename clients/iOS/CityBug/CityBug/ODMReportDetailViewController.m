@@ -196,17 +196,27 @@
     if (!self.report) return;
     
     [self resignFirstResponder];
-    
-    ODMComment *commentObject = [[ODMComment alloc] init];
-    [commentObject setText:self.commentTextField.text];
-    [commentObject setReportID:self.report.uid];
-    
-    [[ODMDataManager sharedInstance] postComment:commentObject];
-    
-    self.commentTextField.text = @"";
-    [self.sendButton setEnabled:NO];
-    cooldownSendButton = 3;
-    [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(cooldownSendAction:) userInfo:nil repeats:YES];
+    @try {
+        ODMComment *commentObject = [[ODMComment alloc] init];
+        [commentObject setText:self.commentTextField.text];
+        [commentObject setReportID:self.report.uid];
+        
+        NSError *error = nil;
+        [[ODMDataManager sharedInstance] postComment:commentObject withError:&error];
+        if (error) {
+            @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        }
+        
+        self.commentTextField.text = @"";
+        [self.sendButton setEnabled:NO];
+        cooldownSendButton = 3;
+        [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(cooldownSendAction:) userInfo:nil repeats:YES];
+    }
+    @catch (NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CityBug", @"CityBug") message:[exception reason] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
+        
+        [alertView show];
+    }
 }
 
 #pragma mark - UIScrollView
@@ -265,7 +275,7 @@
     }
     
     ODMComment *comment = [self.report.comments objectAtIndex:indexPath.row];
-    cell.textLabel.text = [self.report.user username];
+    cell.textLabel.text = [comment.user username];
     cell.detailTextLabel.text = [comment text];
     
     return cell;

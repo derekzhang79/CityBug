@@ -40,6 +40,7 @@
  * Post Comment
  */
 - (void)postComment:(ODMComment *)comment;
+- (void)postComment:(ODMComment *)comment withError:(NSError **)error;
 
 /*
  * Get Reports by user and query parameters
