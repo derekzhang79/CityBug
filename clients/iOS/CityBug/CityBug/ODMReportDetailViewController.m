@@ -63,6 +63,11 @@
     return [super resignFirstResponder];
 }
 
+- (void)handleTapGesture:(UIGestureRecognizer *)gesture
+{
+    [self resignFirstResponder];
+}
+
 #pragma mark - Datasource
 
 - (void)reloadData
