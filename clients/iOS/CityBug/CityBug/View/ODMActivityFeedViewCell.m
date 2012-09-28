@@ -21,6 +21,7 @@
 #define PLACE_VIEW_TAG CELL_VIEW_TAG+4
 #define IMIN_VIEW_TAG CELL_VIEW_TAG+5
 #define LAST_MODIFIED_TAG CELL_VIEW_TAG+6
+#define AMOUNT_COMMENT_TAG CELL_VIEW_TAG+7
 
 @implementation ODMActivityFeedViewCell
 
@@ -57,6 +58,9 @@
     
     UILabel *lastModifiedLabel = (UILabel *)[self viewWithTag:LAST_MODIFIED_TAG];
     lastModifiedLabel.text = [report.lastModified stringWithHumanizedTimeDifference];
+    
+    UILabel *commentLabel = (UILabel *)[self viewWithTag:AMOUNT_COMMENT_TAG];
+    commentLabel.text = [NSString stringWithFormat:@"%d", report.comments.count];
 
     _report = report;
 }

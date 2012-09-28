@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7F9C7B461613144000B7FC95 /* ODMSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C7B451613144000B7FC95 /* ODMSignInViewController.m */; };
+		982026AE1615B4CB009F47D7 /* comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 982026AD1615B4CB009F47D7 /* comment.png */; };
 		985F49EE160B2D1000D642D0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */; };
 		985F49F0160B2D1B00D642D0 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49EF160B2D1B00D642D0 /* ImageIO.framework */; };
 		985F49F2160B2EEB00D642D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49F1160B2EEB00D642D0 /* CoreLocation.framework */; };
@@ -123,6 +124,7 @@
 /* Begin PBXFileReference section */
 		7F9C7B441613144000B7FC95 /* ODMSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMSignInViewController.h; path = CityBug/ODMSignInViewController.h; sourceTree = SOURCE_ROOT; };
 		7F9C7B451613144000B7FC95 /* ODMSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMSignInViewController.m; path = CityBug/ODMSignInViewController.m; sourceTree = SOURCE_ROOT; };
+		982026AD1615B4CB009F47D7 /* comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = comment.png; path = CityBug/images/Prototype/comment.png; sourceTree = SOURCE_ROOT; };
 		985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		985F49EF160B2D1B00D642D0 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		985F49F1160B2EEB00D642D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -275,6 +277,7 @@
 		98675A0815FDFD9900B34785 /* prototype */ = {
 			isa = PBXGroup;
 			children = (
+				982026AD1615B4CB009F47D7 /* comment.png */,
 				CE314D8A161076C500CB7820 /* geo.png */,
 				CE314D8B161076C500CB7820 /* in.png */,
 				CE16A292160ACE4100396033 /* cat1.png */,
@@ -663,6 +666,7 @@
 				CE314D221610548700CB7820 /* Localizable.strings in Resources */,
 				CE314D8D161076C500CB7820 /* geo.png in Resources */,
 				CE314D8E161076C500CB7820 /* in.png in Resources */,
+				982026AE1615B4CB009F47D7 /* comment.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
