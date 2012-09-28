@@ -1,7 +1,9 @@
 var controller = require('./controllers/index'),
+	util = require('util'),
     api = require('./controllers/api'),
     place = require('./controllers/place'),
     auth = require('./controllers/authentication'),
+	passport = require('passport'),
 	service = require('./service');
 
 module.exports = function(app, express){
@@ -11,7 +13,7 @@ module.exports = function(app, express){
 	// app.get('/add',ensureAuthenticated, api.add);
 	app.get('/add', api.add);
 	app.get('/api/reports', api.reports);
-	app.post('/api/reports', api.report_post);
+	app.post('/api/reports', passport.authenticate('basic', { session: false }), api.report_post);
 	// app.post('/api/reports', auth.ensureAuthenticated, api.report_post);
 	app.get('/api/report/*', api.report);
 	app.get('/api/reports/all', api.all_reports);
@@ -38,8 +40,8 @@ module.exports = function(app, express){
 	//authenticated
 	app.get('/login', auth.login);
 	app.get('/logout', auth.logout);
-	app.post('/api/user/sign_in', auth.login_post);
+	app.post('/api/user/sign_in', passport.authenticate('basic', { session: false }), auth.login_post);
 	app.get('/api/user/sign_out', auth.logout);
-	app.get('/test_login', auth.testAuthenticated, auth.test_login);
+	app.get('/test_login', passport.authenticate('basic', { session: false }), auth.test_login);
 };
 

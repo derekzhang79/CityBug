@@ -2,6 +2,7 @@ var passport = require('passport'),
 	flash = require('connect-flash'),
 	util = require('util'),
 	LocalStrategy = require('passport-local').Strategy,
+	BasicStrategy = require('passport-http').BasicStrategy,
 	service = require('../service'),
 	model =  service.useModel('model');
 
@@ -10,7 +11,7 @@ exports.login_post = function(req, res, next) {
 	if (err) {
 		res.writeHead(401, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.end();
-		return next(err)
+		return next(err);
 	}
 	if (!user) {
 		req.flash('error', info.message);
@@ -38,9 +39,13 @@ exports.logout = function(req, res){
 	res.end();
 };
 
-exports.test_login = function(req, res){
+exports.test_login = function(req, res) {
 	res.render('test_login.jade',{title:'City bug', text:'login with user', user:req.user});
 };
+
+exports.basic = function(req, res) {
+
+}
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -67,11 +72,11 @@ function findById(id, fn) {
 	});
 }
 
+
 // Use the LocalStrategy within Passport.
 //   Strategies in passport require a `verify` function, which accept
 //   credentials (in this case, a username and password), and invoke a callback
-//   with a user object.  In the real world, this would query a database;
-//   however, in this example we are using a baked-in set of users.
+//   with a user object.
 passport.use(new LocalStrategy(
 	function(username, password, done) {
 		model.User.findOne({ username: username }, function (err, user) {
@@ -88,6 +93,29 @@ passport.use(new LocalStrategy(
 		});
 	}
 ));
+
+// Use the BasicStrategy within Passport.
+//   Strategies in Passport require a `verify` function, which accept
+//   credentials (in this case, a username and password), and invoke a callback
+//   with a user object.
+passport.use(new BasicStrategy({
+  },
+	function(username, password, done) {
+		model.User.findOne({ username: username }, function (err, user) {
+			if (err) {
+				return done(err);
+			}
+			if (!user) {
+				return done(null, false, { message: 'Unknown user' });
+			}
+			if (user.password != password) {
+				return done(null, false, { message: 'Invalid password' });
+			}
+			return done(null, user);
+		});
+	}
+));
+
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
