@@ -278,33 +278,30 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (void)postComment:(ODMComment *)comment withError:(NSError **)error
 {
-    @try {
-        RKParams *reportParams = [RKParams params];
-        
-        ODMUser *currentUser = [self currentUser];
-        comment.user = currentUser;
-        NSString *commentText = comment.text;
-        BOOL isValid = [currentUser validateValue:&commentText forKey:@"text" error:error];
-        if (!isValid || error) {
-            @throw [NSException exceptionWithName:[*error domain] reason:[[*error userInfo] objectForKey:@"description"] userInfo:nil];
-        }
-        
-        [[RKObjectManager sharedManager] postObject:comment usingBlock:^(RKObjectLoader *loader){
-            loader.delegate = self;
-            
-            [reportParams setValue:[comment text] forParam:@"text"];
-            [reportParams setValue:[comment.user username] forParam:@"username"];
-            
-            loader.onDidLoadObject = ^(id object) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCommentLoadingFinish object:object];
-            };
-            
-            loader.params = reportParams;
-        }];
+    RKParams *reportParams = [RKParams params];
+    
+    ODMUser *currentUser = [self currentUser];
+    comment.user = currentUser;
+    
+    *error = nil;
+    NSString *commentText = comment.text;
+    BOOL isValid = [comment validateValue:&commentText forKey:@"text" error:error];
+    if (!isValid) {
+        @throw [NSException exceptionWithName:[*error domain] reason:[[*error userInfo] objectForKey:@"description"] userInfo:nil];
     }
-    @catch (NSException *exception) {
-        ODMLog(@"Cannot Post Comment with object %@", comment);
-    }
+    
+    [[RKObjectManager sharedManager] postObject:comment usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        
+        [reportParams setValue:[comment text] forParam:@"text"];
+        [reportParams setValue:[comment.user username] forParam:@"username"];
+        
+        loader.onDidLoadObject = ^(id object) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCommentLoadingFinish object:object];
+        };
+        
+        loader.params = reportParams;
+    }];
 }
 
 /**
@@ -331,8 +328,6 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
         NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
         
-//        [queryParams setObject:@"admin" forKey:@"username"];
-//        [queryParams setObject:@"qwer4321" forKey:@"password"];
         [queryParams setObject:currentUsername forKey:@"username"];
         [queryParams setObject:currentPassword forKey:@"password"];
 

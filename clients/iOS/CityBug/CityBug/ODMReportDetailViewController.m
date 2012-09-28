@@ -66,7 +66,7 @@
     self.lastModifiedLabel.text = [self.report.lastModified stringWithHumanizedTimeDifference];
     self.iminLabel.text = [NSString stringWithFormat:@"%i",self.report.iminCount.intValue];
     self.locationLabel.text = [self.report.place title];
-    self.noteLabel.text = [NSString stringWithFormat:@"%@ || %@ || %@ || %@", [self.report note],[self.report note],[self.report note],[self.report note]];
+    self.noteLabel.text = [NSString stringWithFormat:@"%@", [self.report note]];
     
     // Report Image
     NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report fullImage]]];
@@ -92,6 +92,7 @@
     numberOfComments = self.report.comments.count;
     CGSize commentsSize = CGSizeMake(self.tableView.bounds.size.width, numberOfComments * ROW_HEIGHT);
     [self.tableView setFrame:CGRectMake(tvFrame.origin.x, tvFrame.origin.y, tvFrame.size.width, ROW_HEIGHT * numberOfComments)];
+    
     //
     // Note height
     //
@@ -155,8 +156,14 @@
                 [NSString stringWithFormat:NSLocalizedString(@"New %i comments", @"New %i comments"), incomingComments];
                 
                 ODMLog(@"%@", newCommentsString);
+                
             }
             [self reloadData];
+            
+            CGRect scrollRect = CGRectMake(0, self.scrollView.contentSize.height + self.commentFormView.frame.size.height, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+            [self.scrollView scrollRectToVisible:scrollRect animated:YES];
+            
+            ODMLog(@"Scroll to last %@", NSStringFromCGRect(scrollRect));
         }
     }
 }
@@ -196,17 +203,27 @@
     if (!self.report) return;
     
     [self resignFirstResponder];
-    
-    ODMComment *commentObject = [[ODMComment alloc] init];
-    [commentObject setText:self.commentTextField.text];
-    [commentObject setReportID:self.report.uid];
-    
-    [[ODMDataManager sharedInstance] postComment:commentObject];
-    
-    self.commentTextField.text = @"";
-    [self.sendButton setEnabled:NO];
-    cooldownSendButton = 3;
-    [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(cooldownSendAction:) userInfo:nil repeats:YES];
+    @try {
+        ODMComment *commentObject = [[ODMComment alloc] init];
+        [commentObject setText:self.commentTextField.text];
+        [commentObject setReportID:self.report.uid];
+        
+        NSError *error = nil;
+        [[ODMDataManager sharedInstance] postComment:commentObject withError:&error];
+        if (error) {
+            @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
+        }
+        
+        self.commentTextField.text = @"";
+        [self.sendButton setEnabled:NO];
+        cooldownSendButton = 3;
+        [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(cooldownSendAction:) userInfo:nil repeats:YES];
+    }
+    @catch (NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CityBug", @"CityBug") message:[exception reason] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
+        
+        [alertView show];
+    }
 }
 
 #pragma mark - UIScrollView
@@ -236,7 +253,7 @@
         CGRect newFrame = self.commentFormView.frame;
         newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height;
         self.commentFormView.frame = newFrame;
-        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, self.commentFormView.frame.size.height , 0);
+        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
         [self.scrollView setContentInset:edgeInsets];
     }];
     
@@ -265,7 +282,7 @@
     }
     
     ODMComment *comment = [self.report.comments objectAtIndex:indexPath.row];
-    cell.textLabel.text = [self.report.user username];
+    cell.textLabel.text = [comment.user username];
     cell.detailTextLabel.text = [comment text];
     
     return cell;

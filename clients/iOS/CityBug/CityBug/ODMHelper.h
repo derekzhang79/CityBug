@@ -20,6 +20,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 #define MINIMUN_REPORT_LENGTH 4
 #define MAXIMUM_REPORT_LENGTH 256
+
+#define MINIMUN_COMMENT_LENGTH 2
+#define MAXIMUM_COMMENT_LENGTH MAXIMUM_REPORT_LENGTH
+
 #define MAXIMUM_NOTE_LENGTH 1024
 #define VALIDATION_USERNAME_REGEXR @"^[a-zA-Z0-9ก-ฮเ-ไ]{1}[a-zA-Z0-9ก-๙]{2}[a-zA-Z0-9ก-๙ _]*"
 #define VALIDATION_TITLE_REGEXR @"^\w.*(?<=^|>)[^><]+?(?=<|$)"
@@ -34,9 +38,14 @@
 #define TITLE_LENGTH_INVALID_TEXT TITLE_INVALID_TEXT
 #define TITLE_LENGTH_INVALID_DESCRIPTION_TEXT @"Title should be less than 256 characters"
 
+// Comment
+#define COMMENT_INVALID_TEXT @"Comment does not valid."
+#define COMMENT_INVALID_REQUIRE_DESCRIPTION_TEXT @"Comment text must contain at least 3 characters"
+
 // Note
 #define LONG_LENGTH_STRING_ERROR_DOMAIN @"Title should be less than 1024 characters"
 #define LONG_LENGTH_STRING_ERROR_DESCRIPTION_TEXT LONG_LENGTH_STRING_ERROR_DOMAIN
+
 // Location
 #define LOCATION_INVALID_TEXT @"Location services Error"
 #define LOCATION_INVALID_DESCRIPTION_TEXT @"Location services could not acquire your location"
@@ -44,7 +53,7 @@
 #define LOCATION_VALUE_INVALID_TEXT @"Latitude/Longitude error"
 #define LOCATION_VALUE_INVALID_DESCRIPTION_TEXT @"Invalid latitude or longitude value. Latitude should valid in range (-90,90) and longitude should valid in range (-180, 180)"
 
-#define REQUIRE_LOCATION_SERVICES_TEXT @"Require location servcies"
+#define REQUIRE_LOCATION_SERVICES_TEXT @"Require location services"
 
 #define PLACE_IS_REQUIRED_FIELD_TEXT @"Require place"
 #define PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT @"Please select a place for this report"
