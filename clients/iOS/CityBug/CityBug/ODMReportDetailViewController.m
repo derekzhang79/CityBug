@@ -155,6 +155,11 @@
                 [NSString stringWithFormat:NSLocalizedString(@"New %i comments", @"New %i comments"), incomingComments];
                 
                 ODMLog(@"%@", newCommentsString);
+                
+                CGRect scrollRect = CGRectMake(0, self.scrollView.contentSize.height + self.commentFormView.frame.size.height, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+                [self.scrollView scrollRectToVisible:scrollRect animated:YES];
+                
+                ODMLog(@"Scroll to last %@", NSStringFromCGRect(scrollRect));
             }
             [self reloadData];
         }
@@ -246,7 +251,7 @@
         CGRect newFrame = self.commentFormView.frame;
         newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height;
         self.commentFormView.frame = newFrame;
-        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, self.commentFormView.frame.size.height , 0);
+        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
         [self.scrollView setContentInset:edgeInsets];
     }];
     
