@@ -21,8 +21,8 @@
 #define MINIMUN_REPORT_LENGTH 4
 #define MAXIMUM_REPORT_LENGTH 256
 
-#define MINIMUN_COMMENT_LENGTH 2
-#define MAXIMUM_COMMENT_LENGTH MAXIMUM_REPORT_LENGTH
+#define MINIMUM_COMMENT_LENGTH 2
+#define MAXIMUM_COMMENT_LENGTH 1024
 
 #define MAXIMUM_NOTE_LENGTH 1024
 #define VALIDATION_USERNAME_REGEXR @"^[a-zA-Z0-9ก-ฮเ-ไ]{1}[a-zA-Z0-9ก-๙]{2}[a-zA-Z0-9ก-๙ _]*"
@@ -36,11 +36,12 @@
 
 #define TITLE_INVALID_DESCRIPTION_TEXT @"Please use only letters (a-z, A-Z, ก-ฮ), numbers, periods or whitespace"
 #define TITLE_LENGTH_INVALID_TEXT TITLE_INVALID_TEXT
-#define TITLE_LENGTH_INVALID_DESCRIPTION_TEXT @"Title should be less than 256 characters"
+#define TITLE_LENGTH_INVALID_DESCRIPTION_TEXT @"Title must be less than 256 characters"
 
 // Comment
 #define COMMENT_INVALID_TEXT @"Comment does not valid."
-#define COMMENT_INVALID_REQUIRE_DESCRIPTION_TEXT @"Comment text must contain at least 3 characters"
+#define COMMENT_INVALID_SHORT_REQUIRE_DESCRIPTION_TEXT @"Comment text must contain at least 3 characters"
+#define COMMENT_INVALID_LONG_REQUIRE_DESCRIPTION_TEXT @"Comment text must be less than 1024 characters"
 
 // Note
 #define LONG_LENGTH_STRING_ERROR_DOMAIN @"Title should be less than 1024 characters"
