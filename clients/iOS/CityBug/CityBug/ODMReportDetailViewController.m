@@ -92,6 +92,7 @@
     numberOfComments = self.report.comments.count;
     CGSize commentsSize = CGSizeMake(self.tableView.bounds.size.width, numberOfComments * ROW_HEIGHT);
     [self.tableView setFrame:CGRectMake(tvFrame.origin.x, tvFrame.origin.y, tvFrame.size.width, ROW_HEIGHT * numberOfComments)];
+    
     //
     // Note height
     //
@@ -156,12 +157,13 @@
                 
                 ODMLog(@"%@", newCommentsString);
                 
-                CGRect scrollRect = CGRectMake(0, self.scrollView.contentSize.height + self.commentFormView.frame.size.height, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
-                [self.scrollView scrollRectToVisible:scrollRect animated:YES];
-                
-                ODMLog(@"Scroll to last %@", NSStringFromCGRect(scrollRect));
             }
             [self reloadData];
+            
+            CGRect scrollRect = CGRectMake(0, self.scrollView.contentSize.height + self.commentFormView.frame.size.height, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+            [self.scrollView scrollRectToVisible:scrollRect animated:YES];
+            
+            ODMLog(@"Scroll to last %@", NSStringFromCGRect(scrollRect));
         }
     }
 }
