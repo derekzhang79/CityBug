@@ -45,6 +45,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     __weak ODMDescriptionFormViewController *_formViewController;
 }
 
+@synthesize toolBar;
+
 @synthesize location;
 
 
@@ -68,6 +70,10 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 {
     [super viewDidLoad];
     [self setTitle:@"CityBug"];
+    
+    [self.parentViewController.view addSubview:self.toolBar];
+    CGRect rect = self.toolBar.frame;
+    self.toolBar.frame = CGRectMake(rect.origin.x, 416+22, rect.size.width, rect.size.height);
     
     // Load data
     datasource = [[ODMDataManager sharedInstance] reports];
@@ -99,6 +105,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 {
     [locationManager stopUpdatingLocation];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self setToolBar:nil];
     [super viewDidUnload];
 }
 
@@ -187,6 +194,9 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     cooldownReloadButton = 3;
     self.navigationItem.leftBarButtonItem.enabled = NO;
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cooldownButtonAction:) userInfo:nil repeats:YES];
+}
+
+- (IBAction)singInButtonTapped:(id)sender {
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

@@ -27,13 +27,15 @@
 
 - (IBAction)magicSignIn:(id)sender
 {
-    usernameTextField.text = @"admin";
-    passwordTextField.text = @"qwer4321";
+//    usernameTextField.text = @"admin";
+//    passwordTextField.text = @"qwer4321";
+//    
+//    [self signInButtonAction:nil];
+//    
+//    [[NSUserDefaults standardUserDefaults] setObject:@"admin@citybug.in.th" forKey:@"email"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [self signInButtonAction:nil];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:@"admin@citybug.in.th" forKey:@"email"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 - (IBAction)signInButtonAction:(id)sender
