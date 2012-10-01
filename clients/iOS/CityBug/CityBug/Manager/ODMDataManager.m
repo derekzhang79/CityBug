@@ -140,6 +140,8 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
         [serviceObjectManager.router routeClass:[ODMCategory class] toResourcePath:@"/api/categories" forMethod:RKRequestMethodGET];
         [serviceObjectManager.router routeClass:[ODMComment class] toResourcePath:@"/api/report/:reportID/comment" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_in" forMethod:RKRequestMethodPOST];
+        [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_up" forMethod:RKRequestMethodPOST];
+
         
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
         
