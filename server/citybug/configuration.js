@@ -6,11 +6,8 @@ module.exports = function(app, express, passport, flash){
 	    app.use(express.bodyParser({uploadDir:'./uploads'}));
 	    app.use(express.methodOverride());
 	    app.use(express.static(__dirname + '/public'));
-	    app.use(express.cookieParser());
-  		app.use(express.session({ secret: 'keyboard cat' }));
 		app.use(flash());
 		app.use(passport.initialize());
-		app.use(passport.session());
 		app.use(app.router);
 	});
 

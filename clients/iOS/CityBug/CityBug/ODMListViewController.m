@@ -22,6 +22,8 @@
 #import "ODMReport.h"
 #import "ODMComment.h"
 
+#import "ODMSignInViewController.h"
+
 #define kSceenSize self.parentViewController.view.frame.size
 #define CAMERA_SCALAR 1.32
 
@@ -51,6 +53,19 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 
 #pragma mark - View's Life Cycle
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
+    
+    if (isAuthen) {
+        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addButtonTapped:)]];
+    } else {
+        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]];
+    }
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -174,6 +189,12 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     }
 }
 
+- (IBAction)signInButtonTapped:(id)sender
+{
+    NSLog(@"present signin");
+    [self performSegueWithIdentifier:@"presentSignInModal" sender:self];
+}
+
 - (IBAction)addButtonTapped:(id)sender
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Source"
@@ -196,8 +217,6 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cooldownButtonAction:) userInfo:nil repeats:YES];
 }
 
-- (IBAction)singInButtonTapped:(id)sender {
-}
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {

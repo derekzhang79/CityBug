@@ -24,7 +24,10 @@ NSString *ODMDataManagerNotificationPlacesLoadingFinish;
 NSString *ODMDataManagerNotificationPlacesSearchingFinish;
 NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
+NSString *ODMDataManagerNotificationAuthenDidFinish;
+
 @interface ODMDataManager()
+
 /*
  * Read write access only DataManager
  */
@@ -57,6 +60,8 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         ODMDataManagerNotificationPlacesLoadingFinish = @"ODMDataManagerNotificationPlacesLoadingFinish";
         ODMDataManagerNotificationPlacesLoadingFail = @"ODMDataManagerNotificationPlacesLoadingFail";
         ODMDataManagerNotificationPlacesSearchingFinish = @"ODMDataManagerNotificationPlacesSearchingFinish";
+        
+        ODMDataManagerNotificationAuthenDidFinish = @"ODMDataManagerNotificationAuthenDidFinish";
         
         //
         // RestKit setup
@@ -136,8 +141,11 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [serviceObjectManager.router routeClass:[ODMComment class] toResourcePath:@"/api/report/:reportID/comment" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_in" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_up" forMethod:RKRequestMethodPOST];
+
         
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
+        
+        self.isAuthenticated = NO;
     }
     return self;
 }
@@ -200,6 +208,9 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (void)signInWithCityBug:(ODMUser *)user error:(NSError **)error
 {
+    serviceObjectManager.client.username = [[self currentUser] username];
+    serviceObjectManager.client.password = [[self currentUser] password];
+    
     RKParams *reportParams = [RKParams params];
     
     [[RKObjectManager sharedManager] postObject:user usingBlock:^(RKObjectLoader *loader){
@@ -461,6 +472,47 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 #pragma mark - RKObjectLoader Delegate
 
+- (void)request:(RKRequest *)request didReceiveResponse:(RKResponse *)response
+{
+    switch ([response statusCode]) {
+        case 200:{
+            if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"authenticated"]) {
+                // authen ok
+                self.isAuthenticated = YES;
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
+            } else if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"posted"]) {
+                // post ok
+            } else if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"commented"]) {
+                // comment ok
+            }
+        }
+            break;
+        case 400:{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bad request!" message:@"please contact develop team" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+            break;
+        case 401:{
+            // unauthen
+            self.isAuthenticated = NO;
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
+        }
+            break;
+        case 404:{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oh!" message:@"bad access" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+            break;
+        case 500:{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Server failed" message:@"Please try again in few minus" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObject:(id)object
 {
     RKLogError(@"******* SUCCESSFULLY SEND %@", object);
@@ -469,18 +521,6 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
 {
-    switch ([[objectLoader response] statusCode]) {
-        case 401:{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oh!" message:@"wrong username or password" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
-        }
-        case 500:{
-        }
-            break;
-            
-        default:
-            break;
-    }
     RKLogError(@"!!!!!!!!!!!!!!!!!!!! Loader Error %@", error);
 }
 

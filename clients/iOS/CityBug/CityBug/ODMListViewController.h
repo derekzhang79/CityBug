@@ -18,7 +18,7 @@
 
 - (IBAction)refreshButtonTapped:(id)sender;
 
-- (IBAction)singInButtonTapped:(id)sender;
+- (IBAction)signInButtonTapped:(id)sender;
 
 
 @end

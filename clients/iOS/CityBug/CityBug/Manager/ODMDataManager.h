@@ -25,6 +25,8 @@
 
 @property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places;
 
+@property (nonatomic, assign) BOOL isAuthenticated;
+
 /*
  * Singleton pattern
  */
@@ -59,4 +61,5 @@
 - (ODMUser *)currentUser;
 - (void)signInWithCityBug:(ODMUser *)user;
 - (void)signInWithCityBug:(ODMUser *)user error:(NSError **)error;
+
 @end
