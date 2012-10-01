@@ -1,5 +1,6 @@
 var environment = require('../environment'),
     service = require('../service'),
+    passport = require('passport'),
     model =  service.useModel('model'),
     http = require('http'),
     KEYS = require('../key');
@@ -66,8 +67,8 @@ exports.comment_post = function(req, res) {
         return;
     }
     
-    //Find User by username from request
-    model.User.findOne({username:req.body.username}, function (err, user){
+    //Find User by username from http basic
+    model.User.findOne({username:req.user.username}, function (err, user){
         //add comment
         if (err) {
             console.log(err);
@@ -301,7 +302,9 @@ function responseReportsJSONToClient(res, report, maxNumber) {
 
 // GET /api/reports >> get list of reports
 exports.reports = function(req, res) {
+
     console.log('Get report list');
+    console.log('Get user ' + req.user);
 
     var currentLat = req.query.lat;
     var currentLng = req.query.lng;
@@ -315,9 +318,16 @@ exports.reports = function(req, res) {
     var maxNumber = 30;
 
     // var currentUserID = getCurrentUserID(req.headers);
-    var currentUsername = req.query.username;
-    var currentPassword = req.query.password;
+    // var currentUsername = req.query.username;
+    // var currentPassword = req.query.password;
 
+    var currentUsername = '';
+    var currentPassword = '';
+
+    if (req.user != undefined && req.user != null) {
+        currentUsername = req.user.username;
+        currentPassword = req.user.password;
+    };
     // model.User.findOne({_id: currentUserID}, function(err,currentUser) { 
 
     model.User.findOne( { $and: [ { username: currentUsername }, { password: currentPassword } ] } , function(err,currentUser) { 
@@ -526,7 +536,6 @@ exports.report = function(req, res) {
 
 exports.report_post = function(req, res) {
     var fs = require('fs');
-
     // create directory
     var path = require('path');
     // functon create directory
@@ -582,7 +591,7 @@ exports.report_post = function(req, res) {
 */
 
     //Find User from username
-    model.User.findOne({username: req.body.username }, function(err,user) {   
+    model.User.findOne({username: req.user.username }, function(err,user) {   
         if (user == null) {
             // delete temp upload
             var tmp_path = req.files.thumbnail_image.path;

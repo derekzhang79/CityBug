@@ -12,8 +12,8 @@ module.exports = function(app, express){
 	//report
 	// app.get('/add',ensureAuthenticated, api.add);
 	app.get('/add', api.add);
-	app.get('/api/reports', api.reports);
-	app.post('/api/reports', passport.authenticate('basic', { session: false }), api.report_post);
+	app.get('/api/reports', auth.basic_auth_reports, api.reports);
+	app.post('/api/reports', auth.basic_auth, api.report_post);
 	// app.post('/api/reports', auth.ensureAuthenticated, api.report_post);
 	app.get('/api/report/*', api.report);
 	app.get('/api/reports/all', api.all_reports);
@@ -21,7 +21,7 @@ module.exports = function(app, express){
 	//comment
 	app.get('/add_comment', api.add_comment);
 	// app.post('/api/report/*/comment', auth.ensureAuthenticated, api.comment_post);
-	app.post('/api/report/*/comment',api.comment_post);
+	app.post('/api/report/*/comment', auth.basic_auth, api.comment_post);
 
 	//place
 	app.get('/callback_place_search', place.callback_place_search);
@@ -38,10 +38,10 @@ module.exports = function(app, express){
 	app.get('/api/users', api.users);
 
 	//authenticated
-	app.get('/login', auth.login);
+	app.get('/login', auth.basic_auth, auth.login);
 	app.get('/logout', auth.logout);
-	app.post('/api/user/sign_in', passport.authenticate('basic', { session: false }), auth.login_post);
+	app.post('/api/user/sign_in', auth.basic_auth, auth.login_post);
 	app.get('/api/user/sign_out', auth.logout);
-	app.get('/test_login', passport.authenticate('basic', { session: false }), auth.test_login);
+	app.get('/test_login', auth.basic_auth, auth.test_login);
 };
 

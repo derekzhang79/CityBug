@@ -1,20 +1,18 @@
 var passport = require('passport'),
 	flash = require('connect-flash'),
 	util = require('util'),
-	LocalStrategy = require('passport-local').Strategy,
 	BasicStrategy = require('passport-http').BasicStrategy,
 	service = require('../service'),
 	model =  service.useModel('model');
 
-exports.login_post = function(req, res, next) {
-	passport.authenticate('local', function(err, user, info) {
+exports.basic_auth = function(req, res, next) {
+	passport.authenticate('basic', function(err, user, info) {
 	if (err) {
-		res.writeHead(401, { 'Content-Type' : 'application/json;charset=utf-8'});
+		res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.end();
 		return next(err);
 	}
 	if (!user) {
-		req.flash('error', info.message);
 		res.writeHead(401, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.end();
 		return;
@@ -23,11 +21,37 @@ exports.login_post = function(req, res, next) {
 		if (err) { 
 			return next(err); 
 		}
-		res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-		res.end();
+		next();
+		return;
 		});
 	})(req, res, next);
-};
+}
+
+exports.basic_auth_reports = function(req, res, next) {
+	passport.authenticate('basic', function(err, user, info) {
+	if (err) {
+		res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+		res.end();
+		return next(err);
+	}
+	if (!user) {
+		next();
+		return;
+	}
+	req.logIn(user, function(err) {
+		if (err) { 
+			return next(err); 
+		}
+		next();
+		return;
+		});
+	})(req, res, next);
+}
+
+exports.login_post = function(req, res, next) {
+	res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+	res.end();
+}
 
 exports.login = function(req, res){
 	res.render('login.jade', {title:'City bug'});
@@ -44,14 +68,17 @@ exports.test_login = function(req, res) {
 };
 
 exports.basic = function(req, res) {
+	console.log('abc');
+	console.log('req ' + req.user.username);
 
+	res.end();
 }
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.  Typically,
 //   this will be as simple as storing the user ID when serializing, and finding
-//   the user by ID when deserializing.
+  // the user by ID when deserializing.
 passport.serializeUser(function(user, done) {
 	done(null, user._id);
 });
@@ -71,28 +98,6 @@ function findById(id, fn) {
 		}
 	});
 }
-
-
-// Use the LocalStrategy within Passport.
-//   Strategies in passport require a `verify` function, which accept
-//   credentials (in this case, a username and password), and invoke a callback
-//   with a user object.
-passport.use(new LocalStrategy(
-	function(username, password, done) {
-		model.User.findOne({ username: username }, function (err, user) {
-			if (err) {
-				return done(err);
-			}
-			if (!user) {
-				return done(null, false, { message: 'Unknown user' });
-			}
-			if (user.password != password) {
-				return done(null, false, { message: 'Invalid password' });
-			}
-			return done(null, user);
-		});
-	}
-));
 
 // Use the BasicStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
@@ -115,21 +120,6 @@ passport.use(new BasicStrategy({
 		});
 	}
 ));
-
-
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-exports.ensureAuthenticated = function(req, res, next) {
-	if (req.isAuthenticated()) { 
-		return next(); 
-	}
-	console.log('ensureAuthenticated error');
-	res.writeHead(401, { 'Content-Type' : 'application/json;charset=utf-8'});
-	res.end();
-}
 
 exports.testAuthenticated = function(req, res, next) {
 	if (req.isAuthenticated()) { 
