@@ -70,11 +70,8 @@
         
         
         NSError *error = nil;
-        ODMUser *user = [[ODMUser alloc] init];
         // use http basic send, nothing
-        user.username = @"";
-        user.password = @"";
-        [[ODMDataManager sharedInstance] signInWithCityBug:user error:&error];
+        [[ODMDataManager sharedInstance] signInCityBugUserWithError:&error];
         
         [indicator startAnimating];
         indicator.hidden = NO;
