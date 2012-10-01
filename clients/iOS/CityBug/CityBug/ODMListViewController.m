@@ -191,8 +191,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 - (IBAction)signInButtonTapped:(id)sender
 {
-    ODMSignInViewController *signInViewController = [[ODMSignInViewController alloc] init];
-    [self presentModalViewController:signInViewController animated:YES];
+    NSLog(@"present signin");
+    [self performSegueWithIdentifier:@"presentSignInModal" sender:self];
 }
 
 - (IBAction)addButtonTapped:(id)sender

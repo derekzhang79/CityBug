@@ -184,7 +184,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (BOOL)isAuthenticated
 {
-    return YES;
+    return NO;
 }
 
 - (ODMUser *)currentUser
