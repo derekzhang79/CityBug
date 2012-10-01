@@ -111,7 +111,7 @@ exports.comment_post = function(req, res) {
                                     res.write("Can not add new comment, save comments failed");
                                     res.end();
                                 } else {
-                                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'commented'});
                                     res.write(JSON.stringify(report));
                                     res.end();
                                 }
@@ -645,7 +645,7 @@ exports.report_post = function(req, res) {
                     report.save(function (err) {
                         if (!err){
                             console.log('Success! with ' + report);
-                            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'posted'});
                             res.end();
                             
                         } else {
@@ -682,7 +682,7 @@ exports.report_post = function(req, res) {
                             report.save(function (err) {
                                 if (!err){
                                     console.log('Success! with ' + report);
-                                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'posted'});
                                     res.end();
                                     
                                 } else {

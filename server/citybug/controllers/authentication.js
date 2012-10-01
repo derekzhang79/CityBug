@@ -51,7 +51,7 @@ exports.basic_auth_reports = function(req, res, next) {
 }
 
 exports.login_post = function(req, res, next) {
-	res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+	res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'authenticated'});
 	res.end();
 }
 

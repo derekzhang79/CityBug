@@ -464,8 +464,16 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 {
     switch ([response statusCode]) {
         case 200:{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Complete" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
+            if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"authenticated"]) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Complete" message:@"" delegate:self cancelButtonTitle:@"Authen OK" otherButtonTitles:nil, nil];
+                [alert show];
+            } else if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"posted"]) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Complete" message:@"" delegate:self cancelButtonTitle:@"post ok" otherButtonTitles:nil, nil];
+                [alert show];
+            } else if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"commented"]) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Complete" message:@"" delegate:self cancelButtonTitle:@"comment ok" otherButtonTitles:nil, nil];
+                [alert show];
+            }
         }
             break;
         case 400:{
