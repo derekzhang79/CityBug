@@ -24,7 +24,10 @@ NSString *ODMDataManagerNotificationPlacesLoadingFinish;
 NSString *ODMDataManagerNotificationPlacesSearchingFinish;
 NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
+NSString *ODMDataManagerNotificationAuthenDidFinish;
+
 @interface ODMDataManager()
+
 /*
  * Read write access only DataManager
  */
@@ -57,6 +60,8 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         ODMDataManagerNotificationPlacesLoadingFinish = @"ODMDataManagerNotificationPlacesLoadingFinish";
         ODMDataManagerNotificationPlacesLoadingFail = @"ODMDataManagerNotificationPlacesLoadingFail";
         ODMDataManagerNotificationPlacesSearchingFinish = @"ODMDataManagerNotificationPlacesSearchingFinish";
+        
+        ODMDataManagerNotificationAuthenDidFinish = @"ODMDataManagerNotificationAuthenDidFinish";
         
         //
         // RestKit setup
@@ -137,6 +142,8 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_in" forMethod:RKRequestMethodPOST];
         
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
+        
+        self.isAuthenticated = NO;
     }
     return self;
 }
@@ -182,11 +189,6 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 #pragma mark - USER
 
-- (BOOL)isAuthenticated
-{
-    return NO;
-}
-
 - (ODMUser *)currentUser
 {
     NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
@@ -204,6 +206,9 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 - (void)signInWithCityBug:(ODMUser *)user error:(NSError **)error
 {
+    serviceObjectManager.client.username = [[self currentUser] username];
+    serviceObjectManager.client.password = [[self currentUser] password];
+    
     RKParams *reportParams = [RKParams params];
     
     [[RKObjectManager sharedManager] postObject:user usingBlock:^(RKObjectLoader *loader){
@@ -470,14 +475,13 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
     switch ([response statusCode]) {
         case 200:{
             if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"authenticated"]) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Complete" message:@"" delegate:self cancelButtonTitle:@"Authen OK" otherButtonTitles:nil, nil];
-                [alert show];
+                // authen ok
+                self.isAuthenticated = YES;
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
             } else if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"posted"]) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Complete" message:@"" delegate:self cancelButtonTitle:@"post ok" otherButtonTitles:nil, nil];
-                [alert show];
+                // post ok
             } else if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"commented"]) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Complete" message:@"" delegate:self cancelButtonTitle:@"comment ok" otherButtonTitles:nil, nil];
-                [alert show];
+                // comment ok
             }
         }
             break;
@@ -487,8 +491,9 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         }
             break;
         case 401:{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hello anonymous" message:@"Please login" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
+            // unauthen
+            self.isAuthenticated = NO;
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
         }
             break;
         case 404:{

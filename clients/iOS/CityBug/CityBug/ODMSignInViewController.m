@@ -12,6 +12,21 @@
 
 
 @implementation ODMSignInViewController
+{
+    UIActivityIndicatorView *indicator;
+}
+- (void)viewDidLoad
+{
+    indicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(225, 115, 30, 30)];
+    [indicator setBackgroundColor:[UIColor clearColor]];
+    [indicator setActivityIndicatorViewStyle: UIActivityIndicatorViewStyleGray];
+    indicator.hidden = YES;
+
+    [self.view addSubview:indicator];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissPage:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
+}
 
 - (void)viewDidUnload
 {
@@ -53,13 +68,29 @@
         
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        [self performSegueWithIdentifier:@"presentListSeque" sender:self];
+        
         NSError *error = nil;
         ODMUser *user = [[ODMUser alloc] init];
         // use http basic send, nothing
         user.username = @"";
         user.password = @"";
         [[ODMDataManager sharedInstance] signInWithCityBug:user error:&error];
+        
+        [indicator startAnimating];
+        indicator.hidden = NO;
+    }
+}
+
+- (void)dismissPage:(id)sender
+{
+    [indicator stopAnimating];
+    indicator.hidden = YES;
+    
+    if ([[ODMDataManager sharedInstance] isAuthenticated] == NO) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not sign in" message:@"Wrong username and password combination! Please try again." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
+        [alert show];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

@@ -7,11 +7,13 @@ var passport = require('passport'),
 exports.basic_auth = function(req, res, next) {
 	passport.authenticate('basic', {session: false}, function(err, user, info) {
 	if (err) {
+		console.log("UNAUTHEN 2");
 		res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.end();
 		return next(err);
 	}
 	if (!user) {
+		console.log("UNAUTHEN");
 		res.writeHead(401, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.end();
 		return;
@@ -51,6 +53,7 @@ exports.basic_auth_reports = function(req, res, next) {
 }
 
 exports.login_post = function(req, res, next) {
+
 	res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'authenticated'});
 	res.end();
 }

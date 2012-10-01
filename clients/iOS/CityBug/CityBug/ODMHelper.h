@@ -91,3 +91,6 @@ extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
 // Form
 extern NSString *ODMDataManagerDidPostingReportFinish;
 extern NSString *ODMDataManagerDidPostingReportUpload;
+
+// Sign in
+extern NSString *ODMDataManagerNotificationAuthenDidFinish;
