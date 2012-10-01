@@ -22,6 +22,8 @@
 #import "ODMReport.h"
 #import "ODMComment.h"
 
+#import "ODMSignInViewController.h"
+
 #define kSceenSize self.parentViewController.view.frame.size
 #define CAMERA_SCALAR 1.32
 
@@ -49,6 +51,19 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 
 #pragma mark - View's Life Cycle
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
+    
+    if (isAuthen) {
+        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addButtonTapped:)]];
+    } else {
+        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]];
+    }
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -165,6 +180,12 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
         self.navigationItem.leftBarButtonItem.enabled = YES;
         [timer invalidate];
     }
+}
+
+- (IBAction)signInButtonTapped:(id)sender
+{
+    ODMSignInViewController *signInViewController = [[ODMSignInViewController alloc] init];
+    [self presentModalViewController:signInViewController animated:YES];
 }
 
 - (IBAction)addButtonTapped:(id)sender

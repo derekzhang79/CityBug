@@ -182,6 +182,11 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 #pragma mark - USER
 
+- (BOOL)isAuthenticated
+{
+    return YES;
+}
+
 - (ODMUser *)currentUser
 {
     NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
