@@ -1,19 +1,17 @@
 var passport = require('passport'),
-	flash = require('connect-flash'),
 	util = require('util'),
-	LocalStrategy = require('passport-local').Strategy,
+	BasicStrategy = require('passport-http').BasicStrategy,
 	service = require('../service'),
 	model =  service.useModel('model');
 
-exports.login_post = function(req, res, next) {
-	passport.authenticate('local', function(err, user, info) {
+exports.basic_auth = function(req, res, next) {
+	passport.authenticate('basic', {session: false}, function(err, user, info) {
 	if (err) {
-		res.writeHead(401, { 'Content-Type' : 'application/json;charset=utf-8'});
+		res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.end();
-		return next(err)
+		return next(err);
 	}
 	if (!user) {
-		req.flash('error', info.message);
 		res.writeHead(401, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.end();
 		return;
@@ -22,11 +20,40 @@ exports.login_post = function(req, res, next) {
 		if (err) { 
 			return next(err); 
 		}
-		res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-		res.end();
+		// call next function
+		next();
+		return;
 		});
 	})(req, res, next);
-};
+}
+
+exports.basic_auth_reports = function(req, res, next) {
+	passport.authenticate('basic', {session: false}, function(err, user, info) {
+	if (err) {
+		res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+		res.end();
+		return next(err);
+	}
+	if (!user) {
+		// auth with unsign in user
+		next();
+		return;
+	}
+	req.logIn(user, function(err) {
+		if (err) { 
+			return next(err); 
+		}
+		// auth with user
+		next();
+		return;
+		});
+	})(req, res, next);
+}
+
+exports.login_post = function(req, res, next) {
+	res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'authenticated'});
+	res.end();
+}
 
 exports.login = function(req, res){
 	res.render('login.jade', {title:'City bug'});
@@ -38,7 +65,7 @@ exports.logout = function(req, res){
 	res.end();
 };
 
-exports.test_login = function(req, res){
+exports.test_login = function(req, res) {
 	res.render('test_login.jade',{title:'City bug', text:'login with user', user:req.user});
 };
 
@@ -46,7 +73,7 @@ exports.test_login = function(req, res){
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.  Typically,
 //   this will be as simple as storing the user ID when serializing, and finding
-//   the user by ID when deserializing.
+  // the user by ID when deserializing.
 passport.serializeUser(function(user, done) {
 	done(null, user._id);
 });
@@ -67,12 +94,12 @@ function findById(id, fn) {
 	});
 }
 
-// Use the LocalStrategy within Passport.
-//   Strategies in passport require a `verify` function, which accept
+// Use the BasicStrategy within Passport.
+//   Strategies in Passport require a `verify` function, which accept
 //   credentials (in this case, a username and password), and invoke a callback
-//   with a user object.  In the real world, this would query a database;
-//   however, in this example we are using a baked-in set of users.
-passport.use(new LocalStrategy(
+//   with a user object.
+passport.use(new BasicStrategy({
+  },
 	function(username, password, done) {
 		model.User.findOne({ username: username }, function (err, user) {
 			if (err) {
@@ -88,24 +115,3 @@ passport.use(new LocalStrategy(
 		});
 	}
 ));
-
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-exports.ensureAuthenticated = function(req, res, next) {
-	if (req.isAuthenticated()) { 
-		return next(); 
-	}
-	console.log('ensureAuthenticated error');
-	res.writeHead(401, { 'Content-Type' : 'application/json;charset=utf-8'});
-	res.end();
-}
-
-exports.testAuthenticated = function(req, res, next) {
-	if (req.isAuthenticated()) { 
-		return next(); 
-	}
-	res.render('test_login.jade',{title:'City bug', text:'Please login', user:''});
-}
