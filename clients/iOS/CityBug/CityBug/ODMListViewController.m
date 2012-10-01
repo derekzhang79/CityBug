@@ -217,8 +217,6 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cooldownButtonAction:) userInfo:nil repeats:YES];
 }
 
-- (IBAction)singInButtonTapped:(id)sender {
-}
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
