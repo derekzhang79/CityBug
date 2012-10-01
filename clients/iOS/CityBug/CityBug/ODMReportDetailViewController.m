@@ -20,6 +20,8 @@
     NSUInteger cooldownSendButton;
 }
 
+#pragma mark - View LifeCycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -31,6 +33,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCommentForm:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incommingComments:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    [self.backView addGestureRecognizer:tapGesture];
+    
+    UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    [self.scrollView addGestureRecognizer:tapGesture2];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -53,6 +61,11 @@
     [self hideCommentForm:nil];
     
     return [super resignFirstResponder];
+}
+
+- (void)handleTapGesture:(UIGestureRecognizer *)gesture
+{
+    [self resignFirstResponder];
 }
 
 #pragma mark - Datasource
@@ -126,9 +139,7 @@
 
 - (void)setReport:(ODMReport *)report
 {
-    ODMLog(@"set new report");
     if (!report) return;
-    
     _report = report;
     
     [self reloadData];
@@ -231,9 +242,12 @@
 - (void)showCommentForm:(NSNotification *)notification
 {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    
     double animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    self.backView.alpha = 0;
+    self.backView.hidden = NO;
     [UIView animateWithDuration:animationDuration animations:^{
+        self.backView.alpha = 0.0015;
         
         CGRect newFrame = self.commentFormView.frame;
         newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height - keyboardSize.height;
@@ -248,13 +262,17 @@
 - (void)hideCommentForm:(NSNotification *)notification
 {
     double animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
     [UIView animateWithDuration:animationDuration animations:^{
+        self.backView.alpha = 0;
         
         CGRect newFrame = self.commentFormView.frame;
         newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height;
         self.commentFormView.frame = newFrame;
         UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
         [self.scrollView setContentInset:edgeInsets];
+    } completion:^(BOOL finished){
+        self.backView.hidden = YES;
     }];
     
     [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height, 1, 1) animated:YES];

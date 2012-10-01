@@ -16,12 +16,12 @@
 
 @implementation ODMDescriptionFormViewController {
     NSMutableDictionary *entryDict;
-    ODMPlace *selectedPlace;
+    
     CLLocationManager *_locationManager;
     CLLocation *_location;
-}
 
-@synthesize bugImage;
+    ODMPlace *selectedPlace;
+}
 
 - (void)viewDidLoad
 {
@@ -39,9 +39,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
-    
     [self resignFirstResponder];
+    [super viewWillDisappear:animated];
 }
 
 - (IBAction)doneButtonTapped:(id)sender
@@ -226,6 +225,11 @@
 #pragma mark - TABLEVIEW
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+//    [self resignFirstResponder];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self resignFirstResponder];
 }

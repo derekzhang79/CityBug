@@ -29,7 +29,7 @@
 /*
  * Accessory
  */
-@property (weak, nonatomic) IBOutlet UIView *commentFormView, *infoView;
+@property (weak, nonatomic) IBOutlet UIView *commentFormView, *infoView, *backView;;
 @property (weak, nonatomic) IBOutlet UIImageView *reportImageView, *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel, *locationLabel, *commentLabel, *iminLabel, *userLabel, *lastModifiedLabel, *noteLabel;
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
