@@ -12,9 +12,13 @@
 @interface ODMListViewController : UITableViewController<UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate>
 
 @property (strong, nonatomic) CLLocation *location;
+@property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 
 - (IBAction)addButtonTapped:(id)sender;
 
 - (IBAction)refreshButtonTapped:(id)sender;
+
+- (IBAction)singInButtonTapped:(id)sender;
+
 
 @end
