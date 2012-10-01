@@ -54,11 +54,11 @@
         [self performSegueWithIdentifier:@"presentListSeque" sender:self];
         NSError *error = nil;
         ODMUser *user = [[ODMUser alloc] init];
-        user.username = usernameTextField.text;
-        user.password = passwordTextField.text;
+        // use http basic send, nothing
+        user.username = @"";
+        user.password = @"";
         [[ODMDataManager sharedInstance] signInWithCityBug:user error:&error];
     }
 }
-
 
 @end

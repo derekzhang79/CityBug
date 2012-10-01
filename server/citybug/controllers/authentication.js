@@ -1,12 +1,11 @@
 var passport = require('passport'),
-	flash = require('connect-flash'),
 	util = require('util'),
 	BasicStrategy = require('passport-http').BasicStrategy,
 	service = require('../service'),
 	model =  service.useModel('model');
 
 exports.basic_auth = function(req, res, next) {
-	passport.authenticate('basic', function(err, user, info) {
+	passport.authenticate('basic', {session: false}, function(err, user, info) {
 	if (err) {
 		res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.end();
@@ -21,6 +20,7 @@ exports.basic_auth = function(req, res, next) {
 		if (err) { 
 			return next(err); 
 		}
+		// call next function
 		next();
 		return;
 		});
@@ -28,13 +28,14 @@ exports.basic_auth = function(req, res, next) {
 }
 
 exports.basic_auth_reports = function(req, res, next) {
-	passport.authenticate('basic', function(err, user, info) {
+	passport.authenticate('basic', {session: false}, function(err, user, info) {
 	if (err) {
 		res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.end();
 		return next(err);
 	}
 	if (!user) {
+		// auth with unsign in user
 		next();
 		return;
 	}
@@ -42,6 +43,7 @@ exports.basic_auth_reports = function(req, res, next) {
 		if (err) { 
 			return next(err); 
 		}
+		// auth with user
 		next();
 		return;
 		});
@@ -66,13 +68,6 @@ exports.logout = function(req, res){
 exports.test_login = function(req, res) {
 	res.render('test_login.jade',{title:'City bug', text:'login with user', user:req.user});
 };
-
-exports.basic = function(req, res) {
-	console.log('abc');
-	console.log('req ' + req.user.username);
-
-	res.end();
-}
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -120,10 +115,3 @@ passport.use(new BasicStrategy({
 		});
 	}
 ));
-
-exports.testAuthenticated = function(req, res, next) {
-	if (req.isAuthenticated()) { 
-		return next(); 
-	}
-	res.render('test_login.jade',{title:'City bug', text:'Please login', user:''});
-}

@@ -469,7 +469,7 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
         }
             break;
         case 400:{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bas request!" message:@"please contact develop team" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bad request!" message:@"please contact develop team" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             [alert show];
         }
             break;

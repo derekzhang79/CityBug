@@ -42,6 +42,6 @@ module.exports = function(app, express){
 	app.get('/logout', auth.logout);
 	app.post('/api/user/sign_in', auth.basic_auth, auth.login_post);
 	app.get('/api/user/sign_out', auth.logout);
-	app.get('/test_login', auth.basic_auth, auth.test_login);
+	app.get('/test_login', passport.authenticate('basic', { session: false }), auth.test_login);
 };
 
