@@ -172,10 +172,15 @@ exports.place_search = function(req, res){
 			console.log("parameters = "+JSON.stringify(params));
 
 			foursquare.getVenues(params, function(error, venues) {  
-			    if (!error && venues != null && venues.response != null && venues.response.venues != null) {  
-			        // console.log(JSON.stringify(venues.response.venues));
+		        // console.log(JSON.stringify(venues));
+		        if (!error && venues != null && venues.response != null && (venues.response.venues != null || (venues.response.groups != null && venues.response.groups.length > 0 && venues.response.groups[0].items != null))) { 
 		    		
-					var itemArray = venues.response.venues;;
+		    		var itemArray;
+		    		if (venues.response.venues != null) {
+						itemArray = venues.response.venues;
+					} else {
+						itemArray = venues.response.groups[0].items;
+					}
 					var foursquarePlaceArray = [];
 
 					for (i in itemArray) {
