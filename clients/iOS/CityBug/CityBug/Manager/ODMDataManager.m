@@ -199,21 +199,19 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
     return [ODMUser newUser:currentUsername email:currentEmail password:currentPassword];
 }
 
-- (void)signInWithCityBug:(ODMUser *)user
-{
-    [self signInWithCityBug:user error:NULL];
-}
-
-- (void)signInWithCityBug:(ODMUser *)user error:(NSError **)error
+- (void)signInCityBugUserWithError:(NSError **)error
 {
     serviceObjectManager.client.username = [[self currentUser] username];
     serviceObjectManager.client.password = [[self currentUser] password];
     
     RKParams *reportParams = [RKParams params];
     
+    ODMUser *user = [[ODMUser alloc] init];
+    
     [[RKObjectManager sharedManager] postObject:user usingBlock:^(RKObjectLoader *loader){
-        [reportParams setValue:[user username] forParam:@"username"];
-        [reportParams setValue:[user password] forParam:@"password"];
+        // user httpbasic no need to set user
+        // but set for restkit to mapping key and value
+        [reportParams setValue:@"" forParam:@"username"];
         loader.delegate = self;
         loader.defaultHTTPEncoding = NSUTF8StringEncoding;
         loader.params = reportParams;

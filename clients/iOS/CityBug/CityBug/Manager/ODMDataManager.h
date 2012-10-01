@@ -59,7 +59,6 @@
  * CurrentUser
  */
 - (ODMUser *)currentUser;
-- (void)signInWithCityBug:(ODMUser *)user;
-- (void)signInWithCityBug:(ODMUser *)user error:(NSError **)error;
+- (void)signInCityBugUserWithError:(NSError **)error;
 
 @end
