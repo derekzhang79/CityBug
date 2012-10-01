@@ -45,6 +45,14 @@
 {
     [super viewWillAppear:animated];
     
+    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
+    
+    if (isAuthen) {
+        self.commentFormView.hidden = NO;
+    } else {
+        self.commentFormView.hidden = YES;
+    }
+
     [self reloadData];
 }
 
