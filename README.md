@@ -134,6 +134,10 @@ CityBug Project (Beta v.1.0)
 	* [categories] - string
 	* HTTP Method - POST
 	* Login required - YES
+	* Response Status
+		* 200 - OK (text = 'posted')
+		* 401 - Unauthorized
+		* 500 - server failed 
 
 ## CATEGORY
 
@@ -164,10 +168,7 @@ CityBug Project (Beta v.1.0)
 				    ]
 				}
 	* Response Status
-		* 1000 - Unknown
-		* 1001 - OK
-		* 1002 - Time out
-		* 1003 - Failed 
+		* 200 - OK
 	* HTTP Method - GET
 	* Login required - NO
 
@@ -186,10 +187,9 @@ CityBug Project (Beta v.1.0)
 					"error": "invalid report identifier(report_id)"
 				}
 	* Response Status
-		* 2000 - Unknown
-		* 2001 - OK
-		* 2002 - Time out
-		* 2003 - Failed 
+		* 200 - OK (text = 'commented')
+		* 401 - Unauthorized
+		* 500 - server failed 
 	* HTTP Method - POST
 	* Login required - YES
 
@@ -438,7 +438,10 @@ CityBug Project (Beta v.1.0)
 	* [username] - string 
 	* [password] - string at least 8 characters
 	* HTTP Method - POST
-	* Login required - YES
+	* Login required - NO
+	* Response Status
+		* 200 - OK (text = 'registered')
+		* 500 - Server fail (text = 'user exit') 
 
 * sign in
 	
@@ -446,8 +449,8 @@ CityBug Project (Beta v.1.0)
 	* HTTP Method - POST
 	* Login required - NO
 	* Response Status
-		* 200 - OK
-		* 401 - Failed 
+		* 200 - OK (text = 'authenticated')
+		* 401 - Unauthorized 
 
 * sign out
 	
