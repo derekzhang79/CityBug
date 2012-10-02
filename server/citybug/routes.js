@@ -34,6 +34,7 @@ module.exports = function(app, express){
 
 	//subscribe
 	app.get('/api/subscriptions', api.subscriptions);
+	app.get('/api/subscriptions/*', api.subscriptions_username);
 
 	//user
 	app.get('/api/users', api.users);
