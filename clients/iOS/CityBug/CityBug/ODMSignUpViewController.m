@@ -36,6 +36,8 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(validateFromServerWithNotification:) name:ODMDataManagerNotificationSignUpDidFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissPage:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
+    
 }
 
 - (void)viewDidUnload
@@ -110,9 +112,26 @@
         }
         [alert show];
     } else {
-        [self.navigationController popViewControllerAnimated:YES];
+        //sign up complete!
+        
+        // Auto sign in
+        [[NSUserDefaults standardUserDefaults] setObject:userNameTextField.text forKey:@"username"];
+        [[NSUserDefaults standardUserDefaults] setObject:passwordTextField.text forKey:@"password"];
+        [[NSUserDefaults standardUserDefaults] setObject:emailTextField.text forKey:@"email"];
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        NSError *error = nil;
+        [[ODMDataManager sharedInstance] signInCityBugUserWithError:&error];
     }
 }
+
+- (void)dismissPage:(NSNotification *)notification
+{
+    // dismiss sign up page
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 - (BOOL)validateEmail:(NSString *)checkString
 {
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", VALIDATION_EMAIL_REGEXR];
