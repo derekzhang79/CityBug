@@ -132,14 +132,13 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
         [serviceObjectManager.mappingProvider setSerializationMapping:[reportMapping inverseMapping] forClass:[ODMReport class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:categoryMapping forClass:[ODMCategory class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:placeMapping forClass:[ODMPlace class]];
-        [serviceObjectManager.mappingProvider setSerializationMapping:userMapping forClass:[ODMUser class]];
+        [serviceObjectManager.mappingProvider setSerializationMapping:[userMapping inverseMapping] forClass:[ODMUser class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:commentMapping forClass:[ODMComment class]];
         
         // Routing
         [serviceObjectManager.router routeClass:[ODMReport class] toResourcePath:@"/api/reports" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMCategory class] toResourcePath:@"/api/categories" forMethod:RKRequestMethodGET];
         [serviceObjectManager.router routeClass:[ODMComment class] toResourcePath:@"/api/report/:reportID/comment" forMethod:RKRequestMethodPOST];
-//        [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_in" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_up" forMethod:RKRequestMethodPOST];
 
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
@@ -336,22 +335,15 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
 
 - (void)signUpNewUser:(ODMUser *)user withError:(NSError **)error
 {
-    RKParams *newUserParams = [RKParams params];
+//    RKParams *newUserParams = [RKParams params];
     
-    [[RKObjectManager sharedManager] postObject:newUserParams usingBlock:^(RKObjectLoader *loader){
+    [[RKObjectManager sharedManager] postObject:user usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
 
-        [newUserParams setValue:user.username forParam:@"username"];
-        [newUserParams setValue:user.password forParam:@"password"];
-        [newUserParams setValue:user.email forParam:@"email"];
-        
-        loader.defaultHTTPEncoding = NSUTF8StringEncoding;
-        
         loader.onDidLoadObject = ^(id object){
-            // force to reload all data
-            [[ODMDataManager sharedInstance] reports];
+            NSLog(@"YEAH!!");
         };
-        loader.params = newUserParams;
+
            }];
 }
 

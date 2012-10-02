@@ -7,6 +7,8 @@
 //
 
 #import "ODMSignUpViewController.h"
+#import "ODMDataManager.h"
+#import "ODMUser.h"
 
 @interface ODMSignUpViewController ()
 
@@ -55,5 +57,7 @@
 }
 
 - (IBAction)signUpButtonTapped:(id)sender {
+    ODMUser *newUser = [ODMUser newUser:userNameTextField.text email:emailTextField.text password:passwordTextField.text];
+    [[ODMDataManager sharedInstance] signUpNewUser:newUser];
 }
 @end
