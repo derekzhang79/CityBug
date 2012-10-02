@@ -23,14 +23,19 @@ exports.sign_up = function(req, res) {
 		return;
 	};
 
-	findUser(req.body.username, function(err, can_sign_up){
+	findUser(req.body.username, req.body.email, function(err, user_existed, email_existed){
 		if (err) {
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
             res.end();
-		} else if (!can_sign_up) {
+		} else if (user_existed) {
+			console.log("sign up username existed");
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'username existed'});
             res.end();
-		} else if (can_sign_up) {
+		} else if (email_existed) {
+			console.log("sign up email existed");
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'email existed'});
+            res.end();
+		} else if (user_existed == false && email_existed == false) {
 			var newUser = model.User();
 			newUser.username = req.body.username;
 			newUser.password = req.body.password;
@@ -49,14 +54,17 @@ exports.sign_up = function(req, res) {
 	});
 }
 
-function findUser(username, callbackFunction) {
-	model.User.findOne({username:username}, function(err, user){
-		if (err) {
-			callbackFunction(err, false);
-		} else if (user) {
-			callbackFunction(null, false);
-		} else if (!user) {
-			callbackFunction(null, true);
-		};
+function findUser(username, email, callbackFunction) {
+	model.User.findOne({username:username}, function(err, userWithUsername){
+		var userExisted = false, emailExisted = false;
+		if (userWithUsername != null) {
+			userExisted = true;
+		} 
+		model.User.findOne({email:email}, function(err, userWithEmail){
+			if (userWithEmail != null) {
+				emailExisted = true;
+			}
+			callbackFunction(err, userExisted, emailExisted); 
+		});
 	});
 }
