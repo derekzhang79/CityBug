@@ -9,6 +9,7 @@
 #import "ODMSignUpViewController.h"
 #import "ODMDataManager.h"
 #import "ODMUser.h"
+#import "ODMHelper.h"
 
 @interface ODMSignUpViewController ()
 
@@ -56,8 +57,73 @@
     return YES;
 }
 
-- (IBAction)signUpButtonTapped:(id)sender {
-    ODMUser *newUser = [ODMUser newUser:userNameTextField.text email:emailTextField.text password:passwordTextField.text];
-    [[ODMDataManager sharedInstance] signUpNewUser:newUser];
+- (BOOL)validateTextField
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    BOOL passValidate = YES;
+    if (![self validateUsername:userNameTextField.text]) {
+        passValidate = NO;
+        [alert setMessage:SIGN_UP_USERNAME_INVALID_TEXT];
+    } else if (![self validateUserLength:userNameTextField.text]) {
+        passValidate = NO;
+        [alert setMessage:SIGN_UP_USERNAME_INVALID_LENGTH];
+    } else if (![self validatePasswordLength:passwordTextField.text]) {
+        passValidate = NO;
+        [alert setMessage:SIGN_UP_PASSWORD_LENGTH];
+    } else if (![self validatePasswordLength:confirmPasswordTextField.text]) {
+        passValidate = NO;
+        [alert setMessage:SIGN_UP_PASSWORD_LENGTH];
+    }  else if (![self validatePassword:passwordTextField.text andConfirmPassword:confirmPasswordTextField.text]) {
+        passValidate = NO;
+        [alert setMessage:SIGN_UP_CONFIRM_PASSWORD_INVALID_TEXT];
+    } else if (![self validateEmail:emailTextField.text]) {
+        passValidate = NO;
+        [alert setMessage:SIGN_UP_EMAIL_INVALID_TEXT];
+    }
+    if (passValidate == NO) {
+        [alert show];
+    }
+    return passValidate;
+
 }
+
+- (IBAction)signUpButtonTapped:(id)sender
+{    
+    if ([self validateTextField]) {
+        // send request for registration
+        ODMUser *newUser = [ODMUser newUser:userNameTextField.text email:emailTextField.text password:passwordTextField.text];
+        [[ODMDataManager sharedInstance] signUpNewUser:newUser];
+    }
+}
+
+#pragma mark - validation
+
+- (BOOL)validateEmail:(NSString *)checkString
+{
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", VALIDATION_EMAIL_REGEXR];
+    return [emailTest evaluateWithObject:checkString];
+
+}
+
+- (BOOL)validateUsername:(NSString *)checkString
+{
+    NSPredicate *usernameTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", VALIDATION_USERNAME_REGEXR];
+    return [usernameTest evaluateWithObject:checkString];
+}
+
+- (BOOL)validatePassword:(NSString *)password andConfirmPassword:(NSString *)confirmPassword
+{
+    return [password isEqualToString:confirmPassword];
+}
+
+- (BOOL)validatePasswordLength:(NSString *)password
+{
+    return password.length >= MINIMUM_PASSWORD_LENGTH && password.length <= MAXIMUM_PASSWORD_LENGTH;
+}
+
+- (BOOL)validateUserLength:(NSString *)username
+{
+    return username.length >= MINIMUM_USER_LENGTH && username.length <= MAXIMUM_USER_LENGTH;
+}
+
 @end
