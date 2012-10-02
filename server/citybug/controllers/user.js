@@ -28,7 +28,7 @@ exports.sign_up = function(req, res) {
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
             res.end();
 		} else if (!can_sign_up) {
-            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'user exit'});
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'username existed'});
             res.end();
 		} else if (can_sign_up) {
 			var newUser = model.User();

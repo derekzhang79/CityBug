@@ -32,6 +32,30 @@ exports.subscriptions = function(req, res){
     
 };
 
+exports.reports_user = function(req, res) {
+    console.log('get user feed');
+    var url = req.url;
+    var username = url.match( /[^\/]+\/?$/ );
+    model.User.findOne({username: username}, function(err, user){
+        if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.end();
+            return;
+        } else if(!user) {
+            res.writeHead(404, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.end();
+            return;
+        } else {
+            getAllReports({}, function(reports){
+                console.log('user id ' + user._id);
+                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write('{ "reports":' + JSON.stringify(reports) + '}');
+                res.end();
+            });
+        }
+    });
+}
+
 exports.users = function(req, res){
 
     model.User.find({}) //, {username:1, password:1, email:1, created_at:1, last_modified:1})

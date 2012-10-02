@@ -441,7 +441,7 @@ CityBug Project (Beta v.1.0)
 	* Login required - NO
 	* Response Status
 		* 200 - OK (text = 'registered')
-		* 500 - Server fail (text = 'user exit', text = 'missing variable') 
+		* 500 - Server fail (text = 'username existed', text = 'missing variable') 
 
 * sign in
 	
