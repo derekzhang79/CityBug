@@ -11,18 +11,16 @@ module.exports = function(app, express){
 	app.get('/', controller.index);
 
 	//report
-	// app.get('/add',ensureAuthenticated, api.add);
 	app.get('/add', api.add);
+	app.get('/api/reports/*', api.reports_username);
+
 	app.get('/api/reports', auth.basic_auth_reports, api.reports);
-	app.get('/api/reports/*', auth.basic_auth_reports, api.reports_user);
 	app.post('/api/reports', auth.basic_auth, api.report_post);
-	// app.post('/api/reports', auth.ensureAuthenticated, api.report_post);
 	app.get('/api/report/*', api.report);
 	app.get('/api/reports/all', api.all_reports);
 
 	//comment
 	app.get('/add_comment', api.add_comment);
-	// app.post('/api/report/*/comment', auth.ensureAuthenticated, api.comment_post);
 	app.post('/api/report/*/comment', auth.basic_auth, api.comment_post);
 
 	//place

@@ -32,7 +32,7 @@ exports.subscriptions = function(req, res){
     
 };
 
-exports.reports_user = function(req, res) {
+exports.reports_username = function(req, res) {
     console.log('get user feed');
     var url = req.url;
     var username = url.match( /[^\/]+\/?$/ );
@@ -46,7 +46,7 @@ exports.reports_user = function(req, res) {
             res.end();
             return;
         } else {
-            getAllReports({}, function(reports){
+            getAllReports({user: user._id}, function(reports){
                 console.log('user id ' + user._id);
                 res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                 res.write('{ "reports":' + JSON.stringify(reports) + '}');
