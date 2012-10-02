@@ -139,8 +139,8 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
         [serviceObjectManager.router routeClass:[ODMReport class] toResourcePath:@"/api/reports" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMCategory class] toResourcePath:@"/api/categories" forMethod:RKRequestMethodGET];
         [serviceObjectManager.router routeClass:[ODMComment class] toResourcePath:@"/api/report/:reportID/comment" forMethod:RKRequestMethodPOST];
-        [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_in" forMethod:RKRequestMethodPOST];
-//        [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_up" forMethod:RKRequestMethodPOST];
+//        [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_in" forMethod:RKRequestMethodPOST];
+        [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_up" forMethod:RKRequestMethodPOST];
 
         
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
@@ -215,6 +215,9 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
         // but set for restkit to mapping key and value
         [reportParams setValue:@"" forParam:@"username"];
         loader.delegate = self;
+        [loader setMethod:RKRequestMethodPOST];
+        loader.resourcePath = @"/api/user/sign_in";
+        loader.objectMapping = [[RKObjectManager sharedManager].mappingProvider objectMappingForKeyPath:@"/api/user/sign_in"];
         loader.defaultHTTPEncoding = NSUTF8StringEncoding;
         loader.params = reportParams;
     }];
