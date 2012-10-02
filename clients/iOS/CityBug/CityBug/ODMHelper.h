@@ -25,8 +25,14 @@
 #define MAXIMUM_COMMENT_LENGTH 1024
 
 #define MAXIMUM_NOTE_LENGTH 1024
-#define VALIDATION_USERNAME_REGEXR @"^[a-zA-Z0-9ก-ฮเ-ไ]{1}[a-zA-Z0-9ก-๙]{2}[a-zA-Z0-9ก-๙ _]*"
+#define VALIDATION_TITLE_TEXT_REGEXR @"^[a-zA-Z0-9ก-ฮเ-ไ]{1}[a-zA-Z0-9ก-๙]{2}[a-zA-Z0-9ก-๙ _]*"
+#define VALIDATION_USERNAME_REGEXR @"^[a-zA-Z0-9]{1}[a-zA-Z0-9_.]*"
 #define VALIDATION_TITLE_REGEXR @"^\w.*(?<=^|>)[^><]+?(?=<|$)"
+#define VALIDATION_EMAIL_REGEXR @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+#define MINIMUM_USER_LENGTH 3
+#define MINIMUM_PASSWORD_LENGTH 6
+#define MAXIMUM_USER_LENGTH 16
+#define MAXIMUM_PASSWORD_LENGTH 16
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Title
@@ -44,7 +50,7 @@
 #define COMMENT_INVALID_LONG_REQUIRE_DESCRIPTION_TEXT @"Comment text must be less than 1024 characters"
 
 // Note
-#define LONG_LENGTH_STRING_ERROR_DOMAIN @"Title should be less than 1024 characters"
+#define LONG_LENGTH_STRING_ERROR_DOMAIN @"Title must be less than 1024 characters"
 #define LONG_LENGTH_STRING_ERROR_DESCRIPTION_TEXT LONG_LENGTH_STRING_ERROR_DOMAIN
 
 // Location
@@ -59,6 +65,14 @@
 #define PLACE_IS_REQUIRED_FIELD_TEXT @"Require place"
 #define PLACE_IS_REQUIRED_FIELD_DESCRIPTION_TEXT @"Please select a place for this report"
 
+// sign up
+
+#define SIGN_UP_USERNAME_INVALID_TEXT @"Username does not valid, please use only letters (a-z, A-Z), numbers, underscore or dot"
+#define SIGN_UP_USERNAME_INVALID_LENGTH @"Username must contain at least 3 characters and must be less than 16 characters"
+#define SIGN_UP_PASSWORD_LENGTH @"Password does not valid, password must contain at least 6 characters and must be less than 16 characters"
+
+#define SIGN_UP_EMAIL_INVALID_TEXT @"Email does not valid"
+#define SIGN_UP_CONFIRM_PASSWORD_INVALID_TEXT @"Password mismatch"
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define USER_CURRENT_LOCATION @"currentLocation"
