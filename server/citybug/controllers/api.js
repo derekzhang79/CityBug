@@ -274,7 +274,7 @@ function sortReportByDistance(report, currentLat, currentLng, callbackFunction) 
             report[i].place = new model.Place();
         }
         report[i].place.distance = service.distanceCalculate(currentLat, currentLng, report[i].lat, report[i].lng);
-        console.log("distance > " + i + " => "+ report[i].place.distance);
+        // console.log("distance > " + i + " => "+ report[i].place.distance);
     }
     //ใช้ตัวแปร distance จาก place 
     report = report.sort(function(a, b) {
@@ -560,11 +560,12 @@ exports.report_post = function(req, res) {
     
     var thumbnail_image_type = req.files.thumbnail_image.type.split("/");
     var full_image_type = req.files.full_image.type.split("/");
-
+    /*
     console.log("unicode of received title = ");
     for (i in req.body.title) {
         console.log(i + ">> "+ req.body.title.charCodeAt(i));
     }
+    */
     report.title = req.body.title;
     report.lat = req.body.lat;
     report.lng = req.body.lng;

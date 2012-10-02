@@ -125,9 +125,12 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
     
     if (isAuthen) {
-        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addButtonTapped:)]];
+        UIBarButtonItem *cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addButtonTapped:)];
+        UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOutButtonTapped)];
+        
+        [[self navigationItem] setRightBarButtonItems:[NSArray arrayWithObjects:cameraButton, signOutButton, nil] animated:NO];
     } else {
-        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]];
+        [[self navigationItem] setRightBarButtonItems:[NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]]];
     }
     
 }
@@ -190,6 +193,19 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
         self.navigationItem.leftBarButtonItem.enabled = YES;
         [timer invalidate];
     }
+}
+
+- (void)signOutButtonTapped
+{
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"password"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"email"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    NSError *error = nil;
+    // use http basic send, nothing
+    [[ODMDataManager sharedInstance] signInCityBugUserWithError:&error];
 }
 
 - (IBAction)signInButtonTapped:(id)sender
