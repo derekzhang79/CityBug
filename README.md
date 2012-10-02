@@ -434,7 +434,7 @@ CityBug Project (Beta v.1.0)
 ## USER
 * sign up
 	
-		 /api/user/create
+		 /api/user/sign_up
 	* [username] - string 
 	* [password] - string at least 8 characters
 	* HTTP Method - POST
