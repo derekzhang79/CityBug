@@ -329,6 +329,34 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
     }];
 }
 
+- (void)signUpNewUser:(ODMUser *)user
+{
+    [self signUpNewUser:user withError:NULL];
+}
+
+- (void)signUpNewUser:(ODMUser *)user withError:(NSError **)error
+{
+    RKParams *newUserParams = [RKParams params];
+    
+    [[RKObjectManager sharedManager] postObject:newUserParams usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+
+        [newUserParams setValue:user.username forParam:@"username"];
+        [newUserParams setValue:user.password forParam:@"password"];
+        [newUserParams setValue:user.email forParam:@"email"];
+        
+        loader.defaultHTTPEncoding = NSUTF8StringEncoding;
+        
+        loader.onDidLoadObject = ^(id object){
+            // force to reload all data
+            [[ODMDataManager sharedInstance] reports];
+        };
+        loader.params = newUserParams;
+           }];
+}
+
+
+
 /**
  * Update Query parameters
  * For getting contents in recent activity view

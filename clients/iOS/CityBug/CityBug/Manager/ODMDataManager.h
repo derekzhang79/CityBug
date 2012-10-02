@@ -49,6 +49,10 @@
  */
 - (NSArray *)reportsWithParameters:(NSDictionary *)params error:(NSError **)error;
 
+/*
+ * Sign Up New User
+ */
+- (void)signUpNewUser:(ODMUser *)user;
 
 /*
  * Places
