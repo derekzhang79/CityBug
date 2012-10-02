@@ -172,12 +172,12 @@ function getAllReports(queryString, callbackFunction) {
             // find need to do before query
             for (r in report) {
                 for (i in report[r].comments) {
-                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                    if (report[r].comments[i]._id != null && report[r].comments.length > 0) {
                         if (i == 0) {
                             maxQueryCount++;
                         };
                     }
-                    if (report[r].imins._id != undefined && report[r].imins.length > 0) {
+                    if (report[r].imins._id != null && report[r].imins.length > 0) {
                         if (i == 0) {
                             maxQueryCount++;
                         };
@@ -191,7 +191,7 @@ function getAllReports(queryString, callbackFunction) {
                 var query_comments = {};
                 query_comments["$or"] = [];
                 for (i in report[r].comments) {
-                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                    if (report[r].comments[i]._id != null && report[r].comments.length > 0) {
                         query_comments["$or"].push({"_id":report[r].comments[i]._id});
                     }
                 }
@@ -200,7 +200,7 @@ function getAllReports(queryString, callbackFunction) {
                 var query_imins = {};
                 query_imins["$or"] = [];
                 for (i in report[r].imins) {
-                    if (report[r].imins[i]._id != undefined && report[r].imins.length > 0) {
+                    if (report[r].imins[i]._id != null && report[r].imins.length > 0) {
                         query_imins["$or"].push({"_id":report[r].imins[i]._id});
                     }
                 }
@@ -460,12 +460,12 @@ exports.report = function(req, res) {
             // find max comment, imin
             // find need to do before query
             for (i in report.comments) {
-                if (report.comments[i]._id != undefined && report.comments.length > 0) {
+                if (report.comments[i]._id != null && report.comments.length > 0) {
                     if (i == 0) {
                         maxQueryCount++;
                     };
                 }
-                if (report.imins._id != undefined && report.imins.length > 0) {
+                if (report.imins._id != null && report.imins.length > 0) {
                     if (i == 0) {
                         maxQueryCount++;
                     };
@@ -476,7 +476,7 @@ exports.report = function(req, res) {
             var query_comments = {};
             query_comments["$or"] = [];
             for (i in report.comments) {
-                if (report.comments[i]._id != undefined && report.comments.length > 0) {
+                if (report.comments[i]._id != null && report.comments.length > 0) {
                     query_comments["$or"].push({"_id":report.comments[i]._id});
                 }
             }            
@@ -484,7 +484,7 @@ exports.report = function(req, res) {
             var query_imins = {};
             query_imins["$or"] = [];
             for (i in report.imins) {
-                if (report.imins[i]._id != undefined && report.imins.length > 0) {
+                if (report.imins[i]._id != null && report.imins.length > 0) {
                     query_imins["$or"].push({"_id":report.imins[i]._id});
                 }
             }
@@ -777,7 +777,7 @@ function queryListComment(query, r, callbackFunction) {
                 console.log('query comment ' + err);
                 return;
             }
-            if (comments != undefined && comments.length > 0) {
+            if (comments != null && comments.length > 0) {
                 callbackFunction(comments, r, true);                  
             } 
             return;
@@ -797,7 +797,7 @@ function queryListImin(query, r, callbackFunction) {
                 console.log('query imin' + err);
                 return;
             }
-            if (comments != undefined && comments.length > 0) {
+            if (comments != null && comments.length > 0) {
                 callbackFunction(imins, r, true);                  
             } 
             return;

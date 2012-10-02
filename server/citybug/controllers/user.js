@@ -17,7 +17,7 @@ exports.sign_out = function(req, res){
 exports.sign_up = function(req, res) {
 	console.log('sign up');
 
-	if (req.body.username == undefined || req.body.password == undefined || req.email == undefined) {
+	if (req.body.username == null || req.body.password == null || req.body.email == null) {
 		res.writeHead(500, { 'Content-Type' : 'application/json;/charset=utf-8', 'Text' : 'missing variable'});
 		res.end();
 		return;
