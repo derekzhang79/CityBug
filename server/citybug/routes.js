@@ -40,10 +40,10 @@ module.exports = function(app, express){
 	app.get('/api/users', api.users);
 
 	//authenticated
-	app.post('/api/user/sign_up', auth.basic_auth, user.sign_up);
+	app.post('/api/user/sign_up', user.sign_up);
 	app.post('/api/user/sign_in', auth.basic_auth, user.sign_in);
 	app.get('/api/user/sign_out', user.sign_out);
-	
+
 	app.get('/login', auth.basic_auth, auth.login);
 	app.get('/logout', auth.logout);
 	app.get('/test_login', passport.authenticate('basic', { session: false }), auth.test_login);
