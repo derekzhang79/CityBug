@@ -441,7 +441,7 @@ CityBug Project (Beta v.1.0)
 	* Login required - NO
 	* Response Status
 		* 200 - OK (text = 'registered')
-		* 500 - Server fail (text = 'user exit') 
+		* 500 - Server fail (text = 'user exit', text = 'missing variable') 
 
 * sign in
 	
@@ -456,6 +456,8 @@ CityBug Project (Beta v.1.0)
 	
 		 /api/user/sign_out
 	* HTTP Method - GET
+	* Response Status
+		* 200 - OK
 * subscribes
 	
 		 /api/user/:username/subscribes
