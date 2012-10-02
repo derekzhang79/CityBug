@@ -517,7 +517,7 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
 {
     switch ([response statusCode]) {
         case 200:{
-            if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"authenticated"]) {
+            if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:HEADER_TEXT_AUTHENTICATED]) {
                 // authen ok
                 self.isAuthenticated = YES;
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];

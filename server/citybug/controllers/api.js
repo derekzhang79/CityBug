@@ -32,6 +32,79 @@ exports.subscriptions = function(req, res){
     
 };
 
+exports.reports_username = function(req, res) {
+    console.log('get user feed');
+    var url = req.url;
+    var username = url.match( /[^\/]+\/?$/ );
+    model.User.findOne({username: username}, function(err, user){
+        if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.end();
+            return;
+        } else if(!user) {
+            res.writeHead(404, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.end();
+            return;
+        } else {
+            getAllReports({user: user._id}, function(reports){
+                console.log('user id ' + user._id);
+                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write('{ "reports":' + JSON.stringify(reports) + '}');
+                res.end();
+            });
+        }
+    });
+}
+
+exports.subscriptions_username = function(req, res){
+    var currentUsername = req.url.match( /[^\/]+\/?$/ );
+    console.log("get subscribed place of current Username =>>> "+ currentUsername);
+
+    // Find user by username
+    model.User.findOne({username: currentUsername}, function(errUser, currentUser){
+        if (errUser || currentUser == null) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write("Cannot get subscription of username "+ currentUsername);
+            res.end();
+            return;
+        }
+        // Find all subscriptions of user
+        model.Subscription.find({user: currentUser._id})
+        .populate('place')
+        .exec(function (err, subs) {
+            if (err) {
+                res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write("Cannot get subscription of username "+ currentUsername);
+                res.end();
+                return;
+            } else {
+                var placeArray = [];
+                //Get all places
+                for (i in subs) {
+                    placeArray.push(subs[i].place);
+                }
+                //Sort by title's alphabet
+                placeArray = placeArray.sort(function(a, b) { 
+                    var ret = 0;
+                    var aCompare = a.title.toLowerCase();
+                    var bCompare = b.title.toLowerCase();
+                    if(aCompare > bCompare) 
+                        ret = 1;
+                    if(aCompare < bCompare) 
+                        ret = -1; 
+                    return ret;
+                });
+
+                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                res.write('{ "places":' + JSON.stringify(placeArray) + '}');
+                res.end();
+                return;
+            }
+        });
+    });
+    
+};
+
 exports.users = function(req, res){
 
     model.User.find({}) //, {username:1, password:1, email:1, created_at:1, last_modified:1})
@@ -172,12 +245,12 @@ function getAllReports(queryString, callbackFunction) {
             // find need to do before query
             for (r in report) {
                 for (i in report[r].comments) {
-                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                    if (report[r].comments[i]._id != null && report[r].comments.length > 0) {
                         if (i == 0) {
                             maxQueryCount++;
                         };
                     }
-                    if (report[r].imins._id != undefined && report[r].imins.length > 0) {
+                    if (report[r].imins._id != null && report[r].imins.length > 0) {
                         if (i == 0) {
                             maxQueryCount++;
                         };
@@ -191,7 +264,7 @@ function getAllReports(queryString, callbackFunction) {
                 var query_comments = {};
                 query_comments["$or"] = [];
                 for (i in report[r].comments) {
-                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
+                    if (report[r].comments[i]._id != null && report[r].comments.length > 0) {
                         query_comments["$or"].push({"_id":report[r].comments[i]._id});
                     }
                 }
@@ -200,7 +273,7 @@ function getAllReports(queryString, callbackFunction) {
                 var query_imins = {};
                 query_imins["$or"] = [];
                 for (i in report[r].imins) {
-                    if (report[r].imins[i]._id != undefined && report[r].imins.length > 0) {
+                    if (report[r].imins[i]._id != null && report[r].imins.length > 0) {
                         query_imins["$or"].push({"_id":report[r].imins[i]._id});
                     }
                 }
@@ -460,12 +533,12 @@ exports.report = function(req, res) {
             // find max comment, imin
             // find need to do before query
             for (i in report.comments) {
-                if (report.comments[i]._id != undefined && report.comments.length > 0) {
+                if (report.comments[i]._id != null && report.comments.length > 0) {
                     if (i == 0) {
                         maxQueryCount++;
                     };
                 }
-                if (report.imins._id != undefined && report.imins.length > 0) {
+                if (report.imins._id != null && report.imins.length > 0) {
                     if (i == 0) {
                         maxQueryCount++;
                     };
@@ -476,7 +549,7 @@ exports.report = function(req, res) {
             var query_comments = {};
             query_comments["$or"] = [];
             for (i in report.comments) {
-                if (report.comments[i]._id != undefined && report.comments.length > 0) {
+                if (report.comments[i]._id != null && report.comments.length > 0) {
                     query_comments["$or"].push({"_id":report.comments[i]._id});
                 }
             }            
@@ -484,7 +557,7 @@ exports.report = function(req, res) {
             var query_imins = {};
             query_imins["$or"] = [];
             for (i in report.imins) {
-                if (report.imins[i]._id != undefined && report.imins.length > 0) {
+                if (report.imins[i]._id != null && report.imins.length > 0) {
                     query_imins["$or"].push({"_id":report.imins[i]._id});
                 }
             }
@@ -777,7 +850,7 @@ function queryListComment(query, r, callbackFunction) {
                 console.log('query comment ' + err);
                 return;
             }
-            if (comments != undefined && comments.length > 0) {
+            if (comments != null && comments.length > 0) {
                 callbackFunction(comments, r, true);                  
             } 
             return;
@@ -797,7 +870,7 @@ function queryListImin(query, r, callbackFunction) {
                 console.log('query imin' + err);
                 return;
             }
-            if (comments != undefined && comments.length > 0) {
+            if (comments != null && comments.length > 0) {
                 callbackFunction(imins, r, true);                  
             } 
             return;
