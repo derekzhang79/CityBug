@@ -142,10 +142,13 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
 //        [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_in" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_up" forMethod:RKRequestMethodPOST];
 
-        
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
         
-        self.isAuthenticated = NO;
+        
+        NSError *error = nil;
+        [self signInCityBugUserWithError:&error];
+        //        self.isAuthenticated = NO;
+        
     }
     return self;
 }
@@ -197,6 +200,15 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
     NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
     NSString *currentEmail = [[NSUserDefaults standardUserDefaults] stringForKey:@"email"];
     
+    if (currentUsername ==  nil) {
+        currentUsername = @"";
+    }
+    if (currentPassword ==  nil) {
+        currentPassword = @"";
+    }
+    if (currentEmail ==  nil) {
+        currentEmail = @"";
+    }
 //    return [ODMUser newUser:@"admin" email:@"admin@citybug.com" password:@"qwer4321"];
     return [ODMUser newUser:currentUsername email:currentEmail password:currentPassword];
 }
@@ -338,8 +350,8 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
         // which contains HTTPHeader(Authentication) for autherize to
         // citybug back-end instead.
         
-        NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-        NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
+        NSString *currentUsername = [[self currentUser] username];
+        NSString *currentPassword = [[self currentUser] password];
         
         [queryParams setObject:currentUsername forKey:@"username"];
         [queryParams setObject:currentPassword forKey:@"password"];

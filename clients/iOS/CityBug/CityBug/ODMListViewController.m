@@ -56,13 +56,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 {
     [super viewWillAppear:animated];
     
-    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
-    
-    if (isAuthen) {
-        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addButtonTapped:)]];
-    } else {
-        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]];
-    }
+    [self updatePage:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -108,6 +102,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     };
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
 }
 
 - (void)viewDidUnload
@@ -120,6 +116,20 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)updatePage:(NSNotification *)notification
+{
+    [[ODMDataManager sharedInstance] reports];
+    
+    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
+    
+    if (isAuthen) {
+        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addButtonTapped:)]];
+    } else {
+        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]];
+    }
+    
 }
 
 - (void)updateReports:(NSNotification *)notification
