@@ -25,6 +25,7 @@ NSString *ODMDataManagerNotificationPlacesSearchingFinish;
 NSString *ODMDataManagerNotificationPlacesLoadingFail;
 
 NSString *ODMDataManagerNotificationAuthenDidFinish;
+NSString *ODMDataManagerNotificationSignUpDidFinish;
 
 @interface ODMDataManager()
 
@@ -62,7 +63,7 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
         ODMDataManagerNotificationPlacesSearchingFinish = @"ODMDataManagerNotificationPlacesSearchingFinish";
         
         ODMDataManagerNotificationAuthenDidFinish = @"ODMDataManagerNotificationAuthenDidFinish";
-        
+        ODMDataManagerNotificationSignUpDidFinish = @"ODMDataManagerNotificationSignUpDidFinish";
         //
         // RestKit setup
         //
@@ -344,7 +345,7 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
             NSLog(@"YEAH!!");
         };
 
-           }];
+    }];
 }
 
 
@@ -507,16 +508,20 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
 
 - (void)request:(RKRequest *)request didReceiveResponse:(RKResponse *)response
 {
+    NSString *headerText = [[response allHeaderFields] objectForKey:@"Text"];
     switch ([response statusCode]) {
         case 200:{
-            if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:HEADER_TEXT_AUTHENTICATED]) {
+            if ([headerText isEqualToString:HEADER_TEXT_AUTHENTICATED]) {
                 // authen ok
                 self.isAuthenticated = YES;
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
-            } else if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"posted"]) {
+            } else if ([headerText isEqualToString:@"posted"]) {
                 // post ok
-            } else if ([[[response allHeaderFields] objectForKey:@"Text"] isEqualToString:@"commented"]) {
+            } else if ([headerText isEqualToString:@"commented"]) {
                 // comment ok
+            } else if ([headerText isEqualToString:HEADER_TEXT_SIGNUP_COMPLETE]) {
+                // sign up ok
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationSignUpDidFinish object:nil];
             }
         }
             break;
@@ -537,8 +542,16 @@ NSString *ODMDataManagerNotificationAuthenDidFinish;
         }
             break;
         case 500:{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Server failed" message:@"Please try again in few minus" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
+            // Server failed
+            
+            if ([headerText isEqualToString:HEADER_TEXT_USERNAME_EXISTED]) {
+                // sign up failed because username is existed
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationSignUpDidFinish object:HEADER_TEXT_USERNAME_EXISTED];
+                
+            }else if ([headerText isEqualToString:HEADER_TEXT_EMAIL_EXISTED]) {
+                // sign up failed because email is existed
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationSignUpDidFinish object:HEADER_TEXT_EMAIL_EXISTED];
+            }
         }
             break;
             

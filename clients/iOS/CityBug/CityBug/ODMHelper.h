@@ -6,8 +6,8 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-//#define BASE_URL @"http://127.0.0.1:3003"
-#define BASE_URL @"http://54.251.32.49:3003"
+#define BASE_URL @"http://127.0.0.1:3003"
+//#define BASE_URL @"http://54.251.32.49:3003"
 
 #define DEBUG_HAS_SIGNED_IN YES
 
@@ -73,6 +73,10 @@
 
 #define SIGN_UP_EMAIL_INVALID_TEXT @"Email does not valid"
 #define SIGN_UP_CONFIRM_PASSWORD_INVALID_TEXT @"Password mismatch"
+
+#define SIGN_UP_USERNAME_EXISTED @"Username is existed. Please try again"
+#define SIGN_UP_EMAIL_EXISTED @"Email is existed. Please try again"
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define USER_CURRENT_LOCATION @"currentLocation"
@@ -85,7 +89,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define HEADER_TEXT_AUTHENTICATED @"authenticated"
-
+#define HEADER_TEXT_USERNAME_EXISTED @"username existed"
+#define HEADER_TEXT_EMAIL_EXISTED @"email existed"
+#define HEADER_TEXT_SIGNUP_COMPLETE @"registered"
 /*
  * ODMLog
  */
@@ -111,3 +117,5 @@ extern NSString *ODMDataManagerDidPostingReportUpload;
 
 // Sign in
 extern NSString *ODMDataManagerNotificationAuthenDidFinish;
+// Sign up
+extern NSString *ODMDataManagerNotificationSignUpDidFinish;

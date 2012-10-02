@@ -34,6 +34,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(validateFromServerWithNotification:) name:ODMDataManagerNotificationSignUpDidFinish object:nil];
 }
 
 - (void)viewDidUnload
@@ -70,10 +72,7 @@
     } else if (![self validatePasswordLength:passwordTextField.text]) {
         passValidate = NO;
         [alert setMessage:SIGN_UP_PASSWORD_LENGTH];
-    } else if (![self validatePasswordLength:confirmPasswordTextField.text]) {
-        passValidate = NO;
-        [alert setMessage:SIGN_UP_PASSWORD_LENGTH];
-    }  else if (![self validatePassword:passwordTextField.text andConfirmPassword:confirmPasswordTextField.text]) {
+    } else if (![self validatePassword:passwordTextField.text andConfirmPassword:confirmPasswordTextField.text]) {
         passValidate = NO;
         [alert setMessage:SIGN_UP_CONFIRM_PASSWORD_INVALID_TEXT];
     } else if (![self validateEmail:emailTextField.text]) {
@@ -98,6 +97,22 @@
 
 #pragma mark - validation
 
+- (void)validateFromServerWithNotification:(NSNotification *)notification
+{
+    if ([notification.object isKindOfClass:[NSString class]]) {
+        NSString *result = notification.object;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning!" message:@"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
+        
+        if ([result isEqualToString:HEADER_TEXT_USERNAME_EXISTED]) {
+            [alert setMessage:SIGN_UP_USERNAME_EXISTED];
+        } else if ([result isEqualToString:HEADER_TEXT_EMAIL_EXISTED]) {
+            [alert setMessage:SIGN_UP_EMAIL_EXISTED];
+        }
+        [alert show];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 - (BOOL)validateEmail:(NSString *)checkString
 {
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", VALIDATION_EMAIL_REGEXR];

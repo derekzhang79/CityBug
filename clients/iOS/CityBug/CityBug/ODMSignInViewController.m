@@ -24,7 +24,6 @@
 
     [self.view addSubview:indicator];
     
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissPage:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
 }
 
