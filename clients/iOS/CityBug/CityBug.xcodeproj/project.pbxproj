@@ -14,6 +14,7 @@
 		985F49F2160B2EEB00D642D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49F1160B2EEB00D642D0 /* CoreLocation.framework */; };
 		98690050160F55EB0086CEAC /* ODMReportDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9869004F160F55EB0086CEAC /* ODMReportDetailViewController.m */; };
 		98968ADB1611A70400AB9900 /* ODMComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 98968ADA1611A70400AB9900 /* ODMComment.m */; };
+		98A4A9A7161ACC6D00541819 /* ODMSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A4A9A6161ACC6D00541819 /* ODMSignUpViewController.m */; };
 		CE16A299160ACE4100396033 /* cat1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE16A292160ACE4100396033 /* cat1.png */; };
 		CE16A29A160ACE4100396033 /* 6.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A293160ACE4100396033 /* 6.jpeg */; };
 		CE16A29B160ACE4100396033 /* 5.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CE16A294160ACE4100396033 /* 5.jpeg */; };
@@ -133,6 +134,8 @@
 		9869004F160F55EB0086CEAC /* ODMReportDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMReportDetailViewController.m; path = CityBug/ODMReportDetailViewController.m; sourceTree = SOURCE_ROOT; };
 		98968AD91611A70400AB9900 /* ODMComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMComment.h; sourceTree = "<group>"; };
 		98968ADA1611A70400AB9900 /* ODMComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMComment.m; sourceTree = "<group>"; };
+		98A4A9A5161ACC6D00541819 /* ODMSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMSignUpViewController.h; path = CityBug/ODMSignUpViewController.h; sourceTree = SOURCE_ROOT; };
+		98A4A9A6161ACC6D00541819 /* ODMSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMSignUpViewController.m; path = CityBug/ODMSignUpViewController.m; sourceTree = SOURCE_ROOT; };
 		CE16A292160ACE4100396033 /* cat1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cat1.png; path = CityBug/images/Prototype/cat1.png; sourceTree = SOURCE_ROOT; };
 		CE16A293160ACE4100396033 /* 6.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 6.jpeg; path = CityBug/images/Prototype/6.jpeg; sourceTree = SOURCE_ROOT; };
 		CE16A294160ACE4100396033 /* 5.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 5.jpeg; path = CityBug/images/Prototype/5.jpeg; sourceTree = SOURCE_ROOT; };
@@ -467,6 +470,8 @@
 				CE314D19161016BA00CB7820 /* View */,
 				CEB10E2D160374B90041B3B8 /* Model */,
 				CEB10E3D160374CC0041B3B8 /* ODMListViewController.h */,
+				98A4A9A5161ACC6D00541819 /* ODMSignUpViewController.h */,
+				98A4A9A6161ACC6D00541819 /* ODMSignUpViewController.m */,
 				CEB10E39160374CC0041B3B8 /* ODMListViewController.m */,
 				9869004E160F55EB0086CEAC /* ODMReportDetailViewController.h */,
 				9869004F160F55EB0086CEAC /* ODMReportDetailViewController.m */,
@@ -737,6 +742,7 @@
 				CE1B85B016120CDA0040951C /* FDStatusBarNotifierView.m in Sources */,
 				7F9C7B461613144000B7FC95 /* ODMSignInViewController.m in Sources */,
 				CE42C7F616159C5D00871591 /* ODMReportMapViewController.m in Sources */,
+				98A4A9A7161ACC6D00541819 /* ODMSignUpViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
