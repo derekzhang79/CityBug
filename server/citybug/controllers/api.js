@@ -36,7 +36,7 @@ exports.reports_username = function(req, res) {
     console.log('get user feed');
     var url = req.url;
     var username = url.match( /[^\/]+\/?$/ );
-    model.User.findOne({username: username}, function(err, user){
+    model.User.findOne({username: username}, {_id:1, username:1, email:1}, function(err, user){
         if (err) {
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
             res.end();
@@ -46,11 +46,18 @@ exports.reports_username = function(req, res) {
             res.end();
             return;
         } else {
-            getAllReports({user: user._id}, function(reports){
-                console.log('user id ' + user._id);
-                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                res.write('{ "reports":' + JSON.stringify(reports) + '}');
-                res.end();
+            model.Subscription.count({user: user._id}, function(err,subscription_count) {
+
+                getAllReports({user: user._id}, function(reports){
+                    var new_report = {};
+                    new_report["user"] = ({_id:user._id,username:user.username,email:user.email});
+                    new_report["subscribe_count"] = subscription_count;
+                    new_report["reports"] = reports;
+
+                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                    res.write(JSON.stringify(new_report));
+                    res.end();
+                });
             });
         }
     });
