@@ -113,7 +113,9 @@
         [alert show];
     } else {
         //sign up complete!
+        [self.navigationController popViewControllerAnimated:YES];
         
+        /*
         // Auto sign in
         [[NSUserDefaults standardUserDefaults] setObject:userNameTextField.text forKey:@"username"];
         [[NSUserDefaults standardUserDefaults] setObject:passwordTextField.text forKey:@"password"];
@@ -123,13 +125,16 @@
         
         NSError *error = nil;
         [[ODMDataManager sharedInstance] signInCityBugUserWithError:&error];
+         */
     }
 }
 
 - (void)dismissPage:(NSNotification *)notification
 {
+    /*
     // dismiss sign up page
     [self.navigationController popToRootViewControllerAnimated:YES];
+     */
 }
 
 - (BOOL)validateEmail:(NSString *)checkString
