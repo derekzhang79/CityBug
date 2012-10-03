@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface ODMUser : NSObject {
-    NSString *_email, *_username, *_uid, *_password;
+    NSString *_email, *_username, *_uid, *_password, *_thumbnailImage;
 }
 
-@property (nonatomic, strong) NSString *username, *email, *uid, *password;
+@property (nonatomic, strong) NSString *username, *email, *uid, *password, *thumbnailImage;
 
 + (ODMUser *)newUser:(NSString *)username email:(NSString *)email password:(NSString *)password;
 

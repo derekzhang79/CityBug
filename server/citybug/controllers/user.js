@@ -24,6 +24,7 @@ exports.user = function(req, res) {
 exports.sign_in = function(req, res) {
 	console.log('sign in');
 	res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'authenticated'});
+    res.write('{"user":' + JSON.stringify(req.user) + '}');
 	res.end();
 }
 

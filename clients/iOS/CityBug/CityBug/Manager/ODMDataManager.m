@@ -248,6 +248,14 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
         [loader setMethod:RKRequestMethodPOST];
         loader.resourcePath = @"/api/user/sign_in";
         loader.objectMapping = [[RKObjectManager sharedManager].mappingProvider objectMappingForKeyPath:@"/api/user/sign_in"];
+        loader.onDidLoadObject = ^(id object){
+            if (object != NULL) {
+                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"username"] forKey:@"username"];
+                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"password"] forKey:@"password"];
+                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"email"] forKey:@"email"];
+                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"thumbnailImage"] forKey:@"thumbnailImage"];
+            }
+        };
     }];
 
 }
@@ -272,6 +280,7 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
         
         loader.onDidLoadObject = ^(id object){
             NSLog(@"YEAH!!");
+            
         };
         
     }];
