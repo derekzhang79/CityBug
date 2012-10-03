@@ -37,6 +37,7 @@ module.exports = function(app, express){
 
 	//user
 	app.get('/api/users', api.users);
+	app.get('/api/user/*', user.user);
 
 	//authenticated
 	app.post('/api/user/sign_up', user.sign_up);
