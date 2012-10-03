@@ -50,12 +50,17 @@ exports.user_detail = function(req, res) {
 
                 getAllReports({user: user._id}, function(reports){
                     var new_report = {};
-                    new_report["user"] = ({_id:user._id,username:user.username,email:user.email});
-                    new_report["subscribe_count"] = subscription_count;
-                    new_report["reports"] = reports;
+                    new_report["user"] = {
+                        _id:user._id
+                        , username:user.username
+                        , email:user.email
+                        , thumbnail_image:user.thumbnail_image
+                        , subscription_count:subscription_count
+                        , reports:reports};
 
+                    console.log("Get user detail of "+username);
                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.write('{"user_detail":' + JSON.stringify(new_report) + '}');
+                    res.write(JSON.stringify(new_report));
                     res.end();
                 });
             });
