@@ -31,7 +31,7 @@
         _avatarImageView = (UIImageView *)[self viewWithTag:AVATAR_VIEW_TAG];
         _avatarImageView.image = [UIImage imageNamed:@"1.jpeg"];
         _reportImageView = (UIImageView *)[self viewWithTag:IMAGE_VIEW_TAG];
-        _reportImageView.image = [UIImage imageNamed:@"2.jpeg"];
+        _reportImageView.image = [UIImage imageNamed:@"bugs.jpeg"];
     }
     return self;
 }
