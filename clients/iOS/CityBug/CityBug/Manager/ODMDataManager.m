@@ -217,23 +217,37 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
 {
     serviceObjectManager.client.username = [[self currentUser] username];
     serviceObjectManager.client.password = [[self currentUser] password];
-    
-    RKParams *reportParams = [RKParams params];
-    
+
     ODMUser *user = [[ODMUser alloc] init];
     
     [[RKObjectManager sharedManager] postObject:user usingBlock:^(RKObjectLoader *loader){
         // user httpbasic no need to set user
-        // but set for restkit to mapping key and value
-        [reportParams setValue:@"" forParam:@"username"];
+        
         loader.delegate = self;
         [loader setMethod:RKRequestMethodPOST];
         loader.resourcePath = @"/api/user/sign_in";
         loader.objectMapping = [[RKObjectManager sharedManager].mappingProvider objectMappingForKeyPath:@"/api/user/sign_in"];
-        loader.defaultHTTPEncoding = NSUTF8StringEncoding;
-        loader.params = reportParams;
     }];
 
+}
+
+- (void)signUpNewUser:(ODMUser *)user
+{
+    [self signUpNewUser:user withError:NULL];
+}
+
+- (void)signUpNewUser:(ODMUser *)user withError:(NSError **)error
+{
+    //    RKParams *newUserParams = [RKParams params];
+    
+    [[RKObjectManager sharedManager] postObject:user usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        
+        loader.onDidLoadObject = ^(id object){
+            NSLog(@"YEAH!!");
+        };
+        
+    }];
 }
 
 #pragma mark - REPORT
@@ -328,27 +342,6 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
         loader.params = reportParams;
     }];
 }
-
-- (void)signUpNewUser:(ODMUser *)user
-{
-    [self signUpNewUser:user withError:NULL];
-}
-
-- (void)signUpNewUser:(ODMUser *)user withError:(NSError **)error
-{
-//    RKParams *newUserParams = [RKParams params];
-    
-    [[RKObjectManager sharedManager] postObject:user usingBlock:^(RKObjectLoader *loader){
-        loader.delegate = self;
-
-        loader.onDidLoadObject = ^(id object){
-            NSLog(@"YEAH!!");
-        };
-
-    }];
-}
-
-
 
 /**
  * Update Query parameters
