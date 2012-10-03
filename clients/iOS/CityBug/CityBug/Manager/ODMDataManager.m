@@ -27,6 +27,9 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 NSString *ODMDataManagerNotificationAuthenDidFinish;
 NSString *ODMDataManagerNotificationSignUpDidFinish;
 
+NSString *ODMDataManagerNotificationMyReportsLoadingFinish;
+NSString *ODMDataManagerNotificationMyReportsLoadingFail;
+
 @interface ODMDataManager()
 
 /*
@@ -64,6 +67,10 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
         
         ODMDataManagerNotificationAuthenDidFinish = @"ODMDataManagerNotificationAuthenDidFinish";
         ODMDataManagerNotificationSignUpDidFinish = @"ODMDataManagerNotificationSignUpDidFinish";
+        
+        
+        ODMDataManagerNotificationMyReportsLoadingFinish = @"ODMDataManagerNotificationMyReportsLoadingFinish";
+        ODMDataManagerNotificationMyReportsLoadingFail = @"ODMDataManagerNotificationMyReportsLoadingFail";
         //
         // RestKit setup
         //
@@ -130,6 +137,8 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
         [serviceObjectManager.mappingProvider addObjectMapping:reportMapping];
         
         // Serialization
+        //setSerializationMapping = server > mobile obj
+        //inverse map = สลับ key path กับ attribute
         [serviceObjectManager.mappingProvider setSerializationMapping:[reportMapping inverseMapping] forClass:[ODMReport class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:categoryMapping forClass:[ODMCategory class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:placeMapping forClass:[ODMPlace class]];
@@ -141,13 +150,12 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
         [serviceObjectManager.router routeClass:[ODMCategory class] toResourcePath:@"/api/categories" forMethod:RKRequestMethodGET];
         [serviceObjectManager.router routeClass:[ODMComment class] toResourcePath:@"/api/report/:reportID/comment" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_up" forMethod:RKRequestMethodPOST];
-
+        
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
         
-        
+        // check user when open application
         NSError *error = nil;
         [self signInCityBugUserWithError:&error];
-        //        self.isAuthenticated = NO;
         
     }
     return self;
@@ -400,6 +408,10 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
 {
     return [self reportsWithParameters:[self buildingQueryParameters] error:NULL];
 }
+- (NSArray *)myReports
+{
+    return [self reportsWithUsername:[[self currentUser] username] error:NULL];
+}
 
 - (NSArray *)reportsWithParameters:(NSDictionary *)params error:(NSError **)error
 {
@@ -420,6 +432,29 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
     return _reports;
 }
 
+- (NSArray *)reportsWithUsername:(NSString *)username
+{
+    return [self reportsWithUsername:username error:NULL];
+}
+
+- (NSArray *)reportsWithUsername:(NSString *)username error:(NSError **)error
+{
+    
+    NSString *resourcePath = [@"/api/reports" stringByAppendingPathComponent:username];
+    
+    [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
+        loader.onDidLoadObjects = ^(NSArray *objects){
+            
+            NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:NO];
+            
+            _myReports = [objects sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sort1, nil]];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationMyReportsLoadingFinish object:_myReports];
+        };
+    }];
+    
+    return _myReports;
+}
 
 - (NSArray *)comment
 {

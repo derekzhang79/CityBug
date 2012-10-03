@@ -8,8 +8,21 @@
 
 #import "ODMMyViewController.h"
 
-@interface ODMMyViewController ()
+#import "ODMDescriptionFormViewController.h"
+#import "ODMReportDetailViewController.h"
+#import "ODMDescriptionViewController.h"
 
+#import "UIImageView+WebCache.h"
+#import "ODMActivityFeedViewCell.h"
+#import "ODMDataManager.h"
+#import "ODMReport.h"
+#import "ODMComment.h"
+
+@interface ODMMyViewController ()
+{
+    NSArray *datasource;
+    
+}
 @end
 
 @implementation ODMMyViewController
@@ -30,7 +43,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    [self setTitle:@"Profile"];
+    
+    // Load data
+    datasource = [[ODMDataManager sharedInstance] myReports];
+    if (!datasource) datasource = [NSArray new];
+    [self.myReportTableView reloadData];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationMyReportsLoadingFinish object:nil];
 }
 
 - (void)viewDidUnload
@@ -48,6 +68,26 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)updateReports:(NSNotification *)notification
+{
+    NSUInteger oldItemsCount = [datasource count];
+    
+    if ([[notification object] isKindOfClass:[NSArray class]]) {
+        datasource = [NSArray arrayWithArray:[notification object]];
+        
+        [self.myReportTableView reloadData];
+        
+        int diff = abs([datasource count] - oldItemsCount);
+        // [NSString stringWithFormat:NSLocalizedString(@"There has no", @"There has no"), NSLocalizedString(@"new reports", @"new reports")]
+        NSString *message = diff == 1 ?
+        [NSString stringWithFormat:NSLocalizedString(@"There has a new report", @"There has a new report")]
+        : [NSString stringWithFormat:NSLocalizedString(@"There have new %i reports", @"There have %i reports"),diff];
+        
+        ODMLog(@"%@ [%i]",message ,[datasource count]);
+    }
+}
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -57,22 +97,24 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return [datasource count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"PlaceCellIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *CellIdentifier = @"ReportCellIdentifier";
+    ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
-    
+    if (cell && datasource.count > indexPath.row) {
+        
+        ODMReport *report = [datasource objectAtIndex:indexPath.row];
+        cell.report = report;
+        
+        // Image Cache
+        NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cell.report.thumbnailImage]];
+        [cell.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
+    }
     return cell;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-{
-    return @"My Report (3 report)";
 }
 
 @end
