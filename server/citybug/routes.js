@@ -12,6 +12,7 @@ module.exports = function(app, express){
 
 	//report
 	app.get('/add', api.add);
+	app.get('/api/reports/*', api.reports_username);
 
 	app.get('/api/reports', auth.basic_auth_reports, api.reports);
 	app.post('/api/reports', auth.basic_auth, api.report_post);
@@ -36,7 +37,6 @@ module.exports = function(app, express){
 
 	//user
 	app.get('/api/users', api.users);
-	app.get('/api/user/*', api.user_detail);
 
 	//authenticated
 	app.post('/api/user/sign_up', user.sign_up);

@@ -32,7 +32,7 @@ exports.subscriptions = function(req, res){
     
 };
 
-exports.user_detail = function(req, res) {
+exports.reports_username = function(req, res) {
     console.log('get user feed');
     var url = req.url;
     var username = url.match( /[^\/]+\/?$/ );
@@ -60,7 +60,8 @@ exports.user_detail = function(req, res) {
 
                     console.log("Get user detail of "+username);
                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.write(JSON.stringify(new_report));
+                    // res.write(JSON.stringify(new_report));
+                    res.write('{"reports":' + JSON.stringify(reports) + '}'); //return only array of reports
                     res.end();
                 });
             });
