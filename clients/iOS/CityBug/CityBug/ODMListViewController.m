@@ -211,7 +211,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 - (IBAction)signInButtonTapped:(id)sender
 {
     NSLog(@"present signin");
-    [self performSegueWithIdentifier:@"presentSignInModal" sender:self];
+    [self performSegueWithIdentifier:@"presentSignInPush" sender:self];
 }
 
 - (IBAction)addButtonTapped:(id)sender

@@ -542,6 +542,7 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
             if ([headerText isEqualToString:HEADER_TEXT_AUTHENTICATED]) {
                 // authen ok
                 self.isAuthenticated = YES;
+                [[NSUserDefaults standardUserDefaults] setBool:self.isAuthenticated forKey:@"isAuthenticated"];
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
             } else if ([headerText isEqualToString:@"posted"]) {
                 // post ok
@@ -561,6 +562,7 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
         case 401:{
             // unauthen
             self.isAuthenticated = NO;
+            [[NSUserDefaults standardUserDefaults] setBool:self.isAuthenticated forKey:@"isAuthenticated"];
             [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
         }
             break;

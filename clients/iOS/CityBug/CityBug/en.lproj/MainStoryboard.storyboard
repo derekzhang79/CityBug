@@ -169,6 +169,7 @@
                         <outlet property="myReportTableView" destination="XFv-fB-e8x" id="Bzz-Sm-nxu"/>
                         <outlet property="mySubcribeButton" destination="sRk-At-yKi" id="bXS-cr-xFG"/>
                         <outlet property="userNameLabel" destination="kxW-fb-tk6" id="tVi-4G-u0x"/>
+                        <segue destination="ULT-zB-p5m" kind="push" identifier="presentSignInPush" id="saj-g9-Vin"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yFN-gy-UUV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -327,7 +328,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="fLN-el-UYt" kind="push" identifier="presentFormSegue" id="W8R-9m-FS9"/>
-                        <segue destination="ULT-zB-p5m" kind="push" identifier="presentSignInModal" id="Gq7-kG-GUV"/>
+                        <segue destination="ULT-zB-p5m" kind="push" identifier="presentSignInPush" id="Gq7-kG-GUV"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oXn-Nc-CEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1288,11 +1289,11 @@
             </objects>
             <point key="canvasLocation" x="-4158" y="-1791"/>
         </scene>
-        <!--Navigation Controller - Item-->
+        <!--Navigation Controller - Profile-->
         <scene sceneID="fTD-Zs-6Tx">
             <objects>
                 <navigationController id="Fxa-Ia-Tis" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Gff-pj-M58"/>
+                    <tabBarItem key="tabBarItem" title="Profile" id="Gff-pj-M58"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mT5-Go-xJd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1416,6 +1417,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="gsY-8X-h2C"/>
-        <segue reference="Gq7-kG-GUV"/>
+        <segue reference="saj-g9-Vin"/>
     </inferredMetricsTieBreakers>
 </document>

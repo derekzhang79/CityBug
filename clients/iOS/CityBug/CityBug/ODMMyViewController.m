@@ -21,7 +21,9 @@
 @interface ODMMyViewController ()
 {
     NSArray *datasource;
+    UIBarButtonItem *signOutButton;
     
+    BOOL isAuthenOld;
 }
 @end
 
@@ -51,6 +53,10 @@
     [self.myReportTableView reloadData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationMyReportsLoadingFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
+    
+    signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOutButtonTapped)];
+
 }
 
 - (void)viewDidUnload
@@ -60,12 +66,36 @@
     [self setMySubcribeButton:nil];
     [self setMyReportTableView:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self updatePage:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)updatePage:(NSNotification *)notification
+{
+    [[ODMDataManager sharedInstance] myReports];
+    
+//    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
+//
+//    if (isAuthen == NO && isAuthen != isAuthenOld) {
+//        [self performSegueWithIdentifier:@"presentSignInPush" sender:self];
+//        [[self navigationItem] setRightBarButtonItem:nil animated:NO];
+//        [[self navigationItem] setLeftBarButtonItem:nil animated:NO];
+//
+//    } else {
+//        [[self navigationItem] setRightBarButtonItem:signOutButton animated:NO];
+//    }
+    [self.myReportTableView reloadData];
+//    isAuthenOld = isAuthen;    
 }
 
 - (void)updateReports:(NSNotification *)notification
@@ -87,6 +117,20 @@
     }
 }
 
+- (void)signOutButtonTapped
+{
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"password"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"email"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    NSError *error = nil;
+    // use http basic send, nothing
+    [[ODMDataManager sharedInstance] signInCityBugUserWithError:&error];
+    
+    [self updatePage:nil];
+}
 
 #pragma mark - Table view data source
 
