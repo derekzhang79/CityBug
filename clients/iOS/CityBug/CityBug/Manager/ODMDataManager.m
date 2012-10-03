@@ -30,6 +30,9 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
 NSString *ODMDataManagerNotificationMySubscriptionLoadingFinish;
 NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
 
+NSString *ODMDataManagerNotificationMyReportsLoadingFinish;
+NSString *ODMDataManagerNotificationMyReportsLoadingFail;
+
 
 @interface ODMDataManager()
 
@@ -71,6 +74,10 @@ NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
         
         ODMDataManagerNotificationMySubscriptionLoadingFinish = @"ODMDataManagerNotificationMySubscriptionLoadingFinish";
         ODMDataManagerNotificationMySubscriptionLoadingFail = @"ODMDataManagerNotificationMySubscriptionLoadingFail";
+        
+        ODMDataManagerNotificationMyReportsLoadingFinish = @"ODMDataManagerNotificationMyReportsLoadingFinish";
+        ODMDataManagerNotificationMyReportsLoadingFail = @"ODMDataManagerNotificationMyReportsLoadingFail";
+
         //
         // RestKit setup
         //
@@ -135,6 +142,8 @@ NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
         [serviceObjectManager.mappingProvider addObjectMapping:reportMapping];
         
         // Serialization
+        //setSerializationMapping = server > mobile obj
+        //inverse map = สลับ key path กับ attribute
         [serviceObjectManager.mappingProvider setSerializationMapping:[reportMapping inverseMapping] forClass:[ODMReport class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:categoryMapping forClass:[ODMCategory class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:placeMapping forClass:[ODMPlace class]];
@@ -146,13 +155,12 @@ NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
         [serviceObjectManager.router routeClass:[ODMCategory class] toResourcePath:@"/api/categories" forMethod:RKRequestMethodGET];
         [serviceObjectManager.router routeClass:[ODMComment class] toResourcePath:@"/api/report/:reportID/comment" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_up" forMethod:RKRequestMethodPOST];
-
+        
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
         
-        
+        // check user when open application
         NSError *error = nil;
         [self signInCityBugUserWithError:&error];
-        //        self.isAuthenticated = NO;
         
     }
     return self;
@@ -230,24 +238,20 @@ NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
 {
     serviceObjectManager.client.username = [[self currentUser] username];
     serviceObjectManager.client.password = [[self currentUser] password];
-    
-    RKParams *reportParams = [RKParams params];
-    
+
     ODMUser *user = [[ODMUser alloc] init];
     
     [[RKObjectManager sharedManager] postObject:user usingBlock:^(RKObjectLoader *loader){
         // user httpbasic no need to set user
-        // but set for restkit to mapping key and value
-        [reportParams setValue:@"" forParam:@"username"];
+        
         loader.delegate = self;
         [loader setMethod:RKRequestMethodPOST];
         loader.resourcePath = @"/api/user/sign_in";
         loader.objectMapping = [[RKObjectManager sharedManager].mappingProvider objectMappingForKeyPath:@"/api/user/sign_in"];
-        loader.defaultHTTPEncoding = NSUTF8StringEncoding;
-        loader.params = reportParams;
     }];
 
 }
+
 
 /*
  * SIGN UP NEW USER
@@ -423,6 +427,10 @@ NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
 {
     return [self reportsWithParameters:[self buildingQueryParameters] error:NULL];
 }
+- (NSArray *)myReports
+{
+    return [self reportsWithUsername:[[self currentUser] username] error:NULL];
+}
 
 - (NSArray *)reportsWithParameters:(NSDictionary *)params error:(NSError **)error
 {
@@ -443,6 +451,29 @@ NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
     return _reports;
 }
 
+- (NSArray *)reportsWithUsername:(NSString *)username
+{
+    return [self reportsWithUsername:username error:NULL];
+}
+
+- (NSArray *)reportsWithUsername:(NSString *)username error:(NSError **)error
+{
+    
+    NSString *resourcePath = [@"/api/reports" stringByAppendingPathComponent:username];
+    
+    [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
+        loader.onDidLoadObjects = ^(NSArray *objects){
+            
+            NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:NO];
+            
+            _myReports = [objects sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sort1, nil]];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationMyReportsLoadingFinish object:_myReports];
+        };
+    }];
+    
+    return _myReports;
+}
 
 - (NSArray *)comment
 {
@@ -554,6 +585,7 @@ NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
             if ([headerText isEqualToString:HEADER_TEXT_AUTHENTICATED]) {
                 // authen ok
                 self.isAuthenticated = YES;
+                [[NSUserDefaults standardUserDefaults] setBool:self.isAuthenticated forKey:@"isAuthenticated"];
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
             } else if ([headerText isEqualToString:@"posted"]) {
                 // post ok
@@ -573,6 +605,7 @@ NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
         case 401:{
             // unauthen
             self.isAuthenticated = NO;
+            [[NSUserDefaults standardUserDefaults] setBool:self.isAuthenticated forKey:@"isAuthenticated"];
             [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
         }
             break;

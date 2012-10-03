@@ -2,6 +2,25 @@ var environment = require('../environment'),
     service = require('../service'),
     model =  service.useModel('model');
 
+exports.user = function(req, res) {
+	console.log('get user');
+	var url = req.url;
+    var username = url.match( /[^\/]+\/?$/ );
+	model.User.findOne({username: username}, {_id:1, username:1, email:1, thumbnail_image:1, last_modified:1, created_at:1}, function(err, user) {
+		if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.end();
+		} else if(!user) {
+            res.writeHead(404, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.end();
+		} else if (user) {
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{"user":' + JSON.stringify(user) + '}');
+            res.end();
+		}
+	});
+}
+
 exports.sign_in = function(req, res) {
 	console.log('sign in');
 	res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'authenticated'});

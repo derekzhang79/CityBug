@@ -14,8 +14,8 @@
 @interface ODMDataManager : NSObject <RKObjectLoaderDelegate, CLLocationManagerDelegate> {
 @private
     RKObjectManager *serviceObjectManager;
-    
-    NSArray *_reports, *_categories, *_places, *_filterdPlaces, *_mySubscription;
+
+    NSArray *_reports, *_categories, *_places, *_filterdPlaces, *_mySubscription, *_myReports;
     
     NSMutableDictionary *queryParams;
     CLLocationManager *_locationManager;
@@ -23,8 +23,8 @@
 
 @property (nonatomic, readonly ,strong) CLLocationManager *locationManager;
 
-@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places, *mySubscription;
 
+@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places, *mySubscription, *myReports;
 @property (nonatomic, assign) BOOL isAuthenticated;
 
 /*
@@ -48,6 +48,11 @@
  * Get Reports by user and query parameters
  */
 - (NSArray *)reportsWithParameters:(NSDictionary *)params error:(NSError **)error;
+
+/*
+ * Get Reports by user and query parameters
+ */
+- (NSArray *)reportsWithUsername:(NSString *)username error:(NSError **)error;
 
 /*
  * Sign Up New User
