@@ -25,7 +25,7 @@
 #import "ODMSignInViewController.h"
 
 #define kSceenSize self.parentViewController.view.frame.size
-#define CAMERA_SCALAR 1.32
+#define CAMERA_SCALAR 1.0
 
 static NSString *gotoFormSegue = @"presentFormSegue";
 static NSString *gotoViewSegue = @"gotoViewSegue";
