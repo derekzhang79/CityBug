@@ -194,6 +194,9 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
 
 #pragma mark - USER
 
+/*
+ * GET CURRENTUSER, who is sign in now
+ */
 - (ODMUser *)currentUser
 {
     NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
@@ -213,6 +216,11 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
     return [ODMUser newUser:currentUsername email:currentEmail password:currentPassword];
 }
 
+
+/*
+ * SIGN IN
+ * HTTP POST
+ */
 - (void)signInCityBugUserWithError:(NSError **)error
 {
     serviceObjectManager.client.username = [[self currentUser] username];
@@ -234,6 +242,30 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
         loader.params = reportParams;
     }];
 
+}
+
+/*
+ * SIGN UP NEW USER
+ * HTTP POST
+ */
+
+- (void)signUpNewUser:(ODMUser *)user
+{
+    [self signUpNewUser:user withError:NULL];
+}
+
+- (void)signUpNewUser:(ODMUser *)user withError:(NSError **)error
+{
+    //    RKParams *newUserParams = [RKParams params];
+    
+    [[RKObjectManager sharedManager] postObject:user usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        
+        loader.onDidLoadObject = ^(id object){
+            NSLog(@"YEAH!!");
+        };
+        
+    }];
 }
 
 #pragma mark - REPORT
@@ -329,24 +361,7 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
     }];
 }
 
-- (void)signUpNewUser:(ODMUser *)user
-{
-    [self signUpNewUser:user withError:NULL];
-}
 
-- (void)signUpNewUser:(ODMUser *)user withError:(NSError **)error
-{
-//    RKParams *newUserParams = [RKParams params];
-    
-    [[RKObjectManager sharedManager] postObject:user usingBlock:^(RKObjectLoader *loader){
-        loader.delegate = self;
-
-        loader.onDidLoadObject = ^(id object){
-            NSLog(@"YEAH!!");
-        };
-
-    }];
-}
 
 
 
