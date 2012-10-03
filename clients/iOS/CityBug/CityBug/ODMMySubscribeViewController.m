@@ -8,6 +8,7 @@
 
 #import "ODMMySubscribeViewController.h"
 #import "ODMDataManager.h"
+#import "ODMPlace.h"
 
 @interface ODMMySubscribeViewController ()
 
@@ -16,6 +17,7 @@
 @implementation ODMMySubscribeViewController {
     NSArray *dataSource;
 }
+@synthesize tableView;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -40,6 +42,7 @@
 
 - (void)viewDidUnload
 {
+    [self setTableView:nil];
     [super viewDidUnload];
 }
 
@@ -54,6 +57,10 @@
 {
     if ([[notification object] isKindOfClass:[NSArray class]]) {
         dataSource = [NSArray arrayWithArray:notification.object];
+        [self.tableView reloadData];
+
+        NSLog(@"count %d", dataSource.count);
+        
     }
 }
 
@@ -66,15 +73,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"count %d", dataSource.count);
     return dataSource.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"PlaceCellIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    cell.detailTextLabel.text = [[dataSource objectAtIndex:indexPath.row] objectForKey:@"title"];
+    cell.textLabel.text = ((ODMPlace *)[dataSource objectAtIndex:indexPath.row]).title;
     
     return cell;
 }
