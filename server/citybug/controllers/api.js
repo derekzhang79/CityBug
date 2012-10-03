@@ -32,11 +32,11 @@ exports.subscriptions = function(req, res){
     
 };
 
-exports.reports_username = function(req, res) {
+exports.user_detail = function(req, res) {
     console.log('get user feed');
     var url = req.url;
     var username = url.match( /[^\/]+\/?$/ );
-    model.User.findOne({username: username}, {_id:1, username:1, email:1}, function(err, user){
+    model.User.findOne({username: username}, {_id:1, username:1, email:1, thumbnail_image:1}, function(err, user){
         if (err) {
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
             res.end();
@@ -55,7 +55,7 @@ exports.reports_username = function(req, res) {
                     new_report["reports"] = reports;
 
                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.write(JSON.stringify(new_report));
+                    res.write('{"user_detail":' + JSON.stringify(new_report) + '}');
                     res.end();
                 });
             });
