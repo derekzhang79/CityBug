@@ -15,7 +15,7 @@
 @private
     RKObjectManager *serviceObjectManager;
     
-    NSArray *_reports, *_categories, *_places, *_filterdPlaces;
+    NSArray *_reports, *_categories, *_places, *_filterdPlaces, *_mySubscription;
     
     NSMutableDictionary *queryParams;
     CLLocationManager *_locationManager;
@@ -23,7 +23,7 @@
 
 @property (nonatomic, readonly ,strong) CLLocationManager *locationManager;
 
-@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places;
+@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places, *mySubscription;
 
 @property (nonatomic, assign) BOOL isAuthenticated;
 
@@ -53,7 +53,10 @@
  * Sign Up New User
  */
 - (void)signUpNewUser:(ODMUser *)user;
-
+/*
+ * Places
+ */
+- (NSArray *)mySubscriptions;
 /*
  * Places
  */

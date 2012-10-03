@@ -110,6 +110,9 @@ extern NSString *ODMDataManagerNotificationCategoriesLoadingFail;
 extern NSString *ODMDataManagerNotificationPlacesLoadingFinish;
 extern NSString *ODMDataManagerNotificationPlacesSearchingFinish;
 extern NSString *ODMDataManagerNotificationPlacesLoadingFail;
+// My Subscription
+extern NSString *ODMDataManagerNotificationMySubscriptionLoadingFinish;
+extern NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
 
 // Form
 extern NSString *ODMDataManagerDidPostingReportFinish;

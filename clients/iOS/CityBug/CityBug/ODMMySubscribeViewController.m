@@ -7,12 +7,15 @@
 //
 
 #import "ODMMySubscribeViewController.h"
+#import "ODMDataManager.h"
 
 @interface ODMMySubscribeViewController ()
 
 @end
 
-@implementation ODMMySubscribeViewController
+@implementation ODMMySubscribeViewController {
+    NSArray *dataSource;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,24 +29,32 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateMySubscription:)
+                                                 name:ODMDataManagerNotificationMySubscriptionLoadingFinish
+                                               object:nil];
+    dataSource = [NSArray new];
+    dataSource = [[ODMDataManager sharedInstance] mySubscriptions];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void)viewWillDisappear:(BOOL)animated
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewWillDisappear:animated];
+    
+}
+
+- (void)updateMySubscription:(NSNotification *)notification
+{
+    if ([[notification object] isKindOfClass:[NSArray class]]) {
+        dataSource = [NSArray arrayWithArray:notification.object];
+    }
 }
 
 #pragma mark - Table view data source
@@ -55,7 +66,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -63,7 +74,7 @@
     static NSString *CellIdentifier = @"PlaceCellIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
+    cell.detailTextLabel.text = [[dataSource objectAtIndex:indexPath.row] objectForKey:@"title"];
     
     return cell;
 }

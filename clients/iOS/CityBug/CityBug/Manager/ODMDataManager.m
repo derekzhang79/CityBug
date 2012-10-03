@@ -27,6 +27,10 @@ NSString *ODMDataManagerNotificationPlacesLoadingFail;
 NSString *ODMDataManagerNotificationAuthenDidFinish;
 NSString *ODMDataManagerNotificationSignUpDidFinish;
 
+NSString *ODMDataManagerNotificationMySubscriptionLoadingFinish;
+NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
+
+
 @interface ODMDataManager()
 
 /*
@@ -64,6 +68,9 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
         
         ODMDataManagerNotificationAuthenDidFinish = @"ODMDataManagerNotificationAuthenDidFinish";
         ODMDataManagerNotificationSignUpDidFinish = @"ODMDataManagerNotificationSignUpDidFinish";
+        
+        ODMDataManagerNotificationMySubscriptionLoadingFinish = @"ODMDataManagerNotificationMySubscriptionLoadingFinish";
+        ODMDataManagerNotificationMySubscriptionLoadingFail = @"ODMDataManagerNotificationMySubscriptionLoadingFail";
         //
         // RestKit setup
         //
@@ -97,7 +104,7 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
         [placeMapping mapKeyPath:@"lng" toAttribute:@"longitude"];
         [placeMapping mapKeyPath:@"id_foursquare" toAttribute:@"uid"];
         [placeMapping mapKeyPath:@"type" toAttribute:@"type"];
-
+        
         RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[ODMUser class]];
         [userMapping mapKeyPath:@"username" toAttribute:@"username"];
         [userMapping mapKeyPath:@"password" toAttribute:@"password"];
@@ -111,8 +118,6 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
         
         
         // Mapping Relation
-        
-        // [reportMapping mapKeyPath:@"categories" toRelationship:@"categories" withMapping:categoryMapping];
         [reportMapping mapRelationship:@"categories" withMapping:categoryMapping];
         [reportMapping mapRelationship:@"place" withMapping:placeMapping];
         [reportMapping mapRelationship:@"user" withMapping:userMapping];
@@ -361,10 +366,6 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
     }];
 }
 
-
-
-
-
 /**
  * Update Query parameters
  * For getting contents in recent activity view
@@ -517,6 +518,30 @@ NSString *ODMDataManagerNotificationSignUpDidFinish;
     }];
     
     return _filterdPlaces;
+}
+
+- (NSArray *)mySubscriptions
+{
+    return [self mySubscriptionWithError:NULL];
+}
+
+- (NSArray *)mySubscriptionWithError:(NSError **)error
+{
+
+    NSString *resourcPath = [@"/api/subscriptions/" stringByAppendingString:[self currentUser].username];
+    NSLog(@"username %@", [self currentUser].username);
+    
+    [serviceObjectManager loadObjectsAtResourcePath:resourcPath usingBlock:^(RKObjectLoader *loader){
+        loader.onDidLoadObjects = ^(NSArray *objects){
+          // Post notification with category array
+            _mySubscription = objects;
+            
+            NSLog(@"-------------------------- On Load");
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationMySubscriptionLoadingFinish object:_mySubscription];
+        };
+    }];
+    
+    return _mySubscription;
 }
 
 #pragma mark - RKObjectLoader Delegate
