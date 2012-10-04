@@ -489,7 +489,7 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
     [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
         loader.onDidLoadObjects = ^(NSArray *objects){
             
-            NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:NO];
+            NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"lastModified" ascending:NO];
             
             _myReports = [objects sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sort1, nil]];
             
