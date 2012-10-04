@@ -92,7 +92,7 @@
 {    
     if ([self validateTextField]) {
         // send request for registration
-        ODMUser *newUser = [ODMUser newUser:userNameTextField.text email:emailTextField.text password:passwordTextField.text];
+        ODMUser *newUser = [ODMUser newUser:userNameTextField.text email:emailTextField.text password:passwordTextField.text thumbnailImage:@""];
         [[ODMDataManager sharedInstance] signUpNewUser:newUser];
     }
 }

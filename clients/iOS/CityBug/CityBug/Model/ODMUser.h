@@ -14,6 +14,6 @@
 
 @property (nonatomic, strong) NSString *username, *email, *uid, *password, *thumbnailImage;
 
-+ (ODMUser *)newUser:(NSString *)username email:(NSString *)email password:(NSString *)password;
++ (ODMUser *)newUser:(NSString *)username email:(NSString *)email password:(NSString *)password thumbnailImage:(NSString *)thumbnailImage;
 
 @end

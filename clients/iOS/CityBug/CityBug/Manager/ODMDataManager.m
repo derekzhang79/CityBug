@@ -215,6 +215,7 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
     NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
     NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
     NSString *currentEmail = [[NSUserDefaults standardUserDefaults] stringForKey:@"email"];
+    NSString *currentThumbnail = [[NSUserDefaults standardUserDefaults] stringArrayForKey:@"thumbnailImage"];
     
     if (currentUsername ==  nil) {
         currentUsername = @"";
@@ -225,10 +226,25 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
     if (currentEmail ==  nil) {
         currentEmail = @"";
     }
+    if (currentThumbnail ==  nil) {
+        currentThumbnail = @"";
+    }
 //    return [ODMUser newUser:@"admin" email:@"admin@citybug.com" password:@"qwer4321"];
-    return [ODMUser newUser:currentUsername email:currentEmail password:currentPassword];
+    return [ODMUser newUser:currentUsername email:currentEmail password:currentPassword thumbnailImage:currentThumbnail];
 }
 
+- (void)signOut
+{
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"password"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"email"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"thumbnailImage"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    NSError *error = nil;
+    // use http basic authen
+    [[ODMDataManager sharedInstance] signInCityBugUserWithError:&error];}
 
 /*
  * SIGN IN

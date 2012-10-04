@@ -197,15 +197,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 - (void)signOutButtonTapped
 {
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"username"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"password"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"email"];
-    
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    NSError *error = nil;
-    // use http basic send, nothing
-    [[ODMDataManager sharedInstance] signInCityBugUserWithError:&error];
+    [[ODMDataManager sharedInstance] signOut];
 }
 
 - (IBAction)signInButtonTapped:(id)sender
