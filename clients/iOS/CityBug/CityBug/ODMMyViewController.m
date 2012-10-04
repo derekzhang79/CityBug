@@ -101,7 +101,9 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 //        [[self navigationItem] setRightBarButtonItem:signOutButton animated:NO];
 //    }
     [self.myReportTableView reloadData];
-//    isAuthenOld = isAuthen;    
+//    isAuthenOld = isAuthen;
+    
+    [self.actView setHidden:NO];
 }
 
 - (void)updateReports:(NSNotification *)notification
@@ -121,12 +123,26 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
         
         ODMLog(@"%@ [%i]",message ,[datasource count]);
     }
+    
+    [self.actView setHidden:YES];
+    if ([datasource count] == 0) {
+        [self.noResultView setHidden:NO];
+        [self.myReportTableView setBounces:NO];
+    } else {
+        [self.noResultView setHidden:YES];
+        [self.myReportTableView setBounces:YES];
+    }
 }
 
 - (void)signOutButtonTapped
 {
     [[ODMDataManager sharedInstance] signOut];
     [self updatePage:nil];
+}
+
+- (IBAction)goToPost:(id)sender
+{
+    
 }
 
 #pragma mark - Table view data source
@@ -145,7 +161,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 {
     static NSString *CellIdentifier = @"ReportCellIdentifier";
     ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
+        
     if (cell && datasource.count > indexPath.row) {
         
         ODMReport *report = [datasource objectAtIndex:indexPath.row];

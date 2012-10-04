@@ -251,6 +251,7 @@
 {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     double animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    CGFloat statusBarHeight = 10;
     
     self.backView.alpha = 0;
     self.backView.hidden = NO;
@@ -258,8 +259,13 @@
         self.backView.alpha = 0.0015;
         
         CGRect newFrame = self.commentFormView.frame;
-        newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height - keyboardSize.height;
+        NSLog(@"keyboard size : %f", keyboardSize.height);
+        NSLog(@"all : %f", self.view.frame.size.height);
+        NSLog(@"comment view  : %f", self.parentViewController.view.frame.size.height);
+        
+        newFrame.origin.y = self.parentViewController.view.frame.size.height - statusBarHeight - self.commentFormView.frame.size.height - keyboardSize.height;
         self.commentFormView.frame = newFrame;
+        
         UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, keyboardSize.height + self.commentFormView.frame.size.height , 0);
         [self.scrollView setContentInset:edgeInsets];
     }];
