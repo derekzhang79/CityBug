@@ -103,7 +103,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     [self.myReportTableView reloadData];
 //    isAuthenOld = isAuthen;
     
-
+    [self.actView setHidden:NO];
 }
 
 - (void)updateReports:(NSNotification *)notification
@@ -124,10 +124,13 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
         ODMLog(@"%@ [%i]",message ,[datasource count]);
     }
     
+    [self.actView setHidden:YES];
     if ([datasource count] == 0) {
         [self.noResultView setHidden:NO];
+        [self.myReportTableView setBounces:NO];
     } else {
         [self.noResultView setHidden:YES];
+        [self.myReportTableView setBounces:YES];
     }
 }
 
@@ -135,6 +138,11 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 {
     [[ODMDataManager sharedInstance] signOut];
     [self updatePage:nil];
+}
+
+- (IBAction)goToPost:(id)sender
+{
+    
 }
 
 #pragma mark - Table view data source

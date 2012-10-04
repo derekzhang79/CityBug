@@ -13,6 +13,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *emailLabel;
 @property (weak, nonatomic) IBOutlet UIButton *mySubcribeButton;
 @property (weak, nonatomic) IBOutlet UITableView *myReportTableView;
-@property (nonatomic, weak) IBOutlet UIView *noResultView;
+@property (nonatomic, weak) IBOutlet UIView *noResultView, *actView;
+
+- (IBAction)goToPost:(id)sender;
 
 @end
