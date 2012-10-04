@@ -101,7 +101,9 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 //        [[self navigationItem] setRightBarButtonItem:signOutButton animated:NO];
 //    }
     [self.myReportTableView reloadData];
-//    isAuthenOld = isAuthen;    
+//    isAuthenOld = isAuthen;
+    
+
 }
 
 - (void)updateReports:(NSNotification *)notification
@@ -120,6 +122,12 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
         : [NSString stringWithFormat:NSLocalizedString(@"There have new %i reports", @"There have %i reports"),diff];
         
         ODMLog(@"%@ [%i]",message ,[datasource count]);
+    }
+    
+    if ([datasource count] == 0) {
+        [self.noResultView setHidden:NO];
+    } else {
+        [self.noResultView setHidden:YES];
     }
 }
 
@@ -145,7 +153,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 {
     static NSString *CellIdentifier = @"ReportCellIdentifier";
     ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
+        
     if (cell && datasource.count > indexPath.row) {
         
         ODMReport *report = [datasource objectAtIndex:indexPath.row];
