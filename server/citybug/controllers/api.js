@@ -32,6 +32,7 @@ exports.subscriptions = function(req, res){
     
 };
 
+//GET report by username
 exports.reports_username = function(req, res) {
     console.log('get user feed');
     var url = req.url;
@@ -66,6 +67,25 @@ exports.reports_username = function(req, res) {
                 });
             });
         }
+    });
+}
+
+//GET reports by id_foursquare
+exports.reports_place = function(req, res) {
+    var url = req.url;
+    var currentId4sq = url.match( /[^\/]+\/?$/ );
+    console.log('get place feed from '+ url);
+    model.Place.findOne({id_foursquare: currentId4sq}, function(err, place) {
+        if (err || place == null) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.end();
+            return;
+        }
+        getAllReports({place: place}, function(reports){
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{"reports":' + JSON.stringify(reports) + '}'); //return only array of reports
+            res.end();
+        });
     });
 }
 

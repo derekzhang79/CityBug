@@ -484,7 +484,7 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
 - (NSArray *)reportsWithUsername:(NSString *)username error:(NSError **)error
 {
     
-    NSString *resourcePath = [@"/api/reports" stringByAppendingPathComponent:username];
+    NSString *resourcePath = [@"/api/reports/user" stringByAppendingPathComponent:username];
     
     [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
         loader.onDidLoadObjects = ^(NSArray *objects){
