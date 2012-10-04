@@ -10,18 +10,19 @@
 
 @implementation ODMUser
 
-- (id)initWithUser:(NSString *)username email:(NSString *)email password:(NSString *)password
+- (id)initWithUser:(NSString *)username email:(NSString *)email password:(NSString *)password thumbnailImage:(NSString *)thumbnailImage
 {
     if (self = [super init]) {
         _username = username;
         _email = email;
         _password = password;
+        _thumbnailImage = thumbnailImage;
     }
     return self;
 }
 
-+ (ODMUser *)newUser:(NSString *)username email:(NSString *)email password:(NSString *)password
++ (ODMUser *)newUser:(NSString *)username email:(NSString *)email password:(NSString *)password thumbnailImage:(NSString *)thumbnailImage
 {
-    return [[self alloc] initWithUser:username email:email password:password];
+    return [[self alloc] initWithUser:username email:email password:password thumbnailImage:thumbnailImage];
 }
 @end

@@ -82,7 +82,10 @@
 
 - (void)updatePage:(NSNotification *)notification
 {
-    [[ODMDataManager sharedInstance] myReports];
+    ODMDataManager *dataManager = [ODMDataManager sharedInstance];
+    userNameLabel.text = [[dataManager currentUser] username];
+    emailLabel.text = [[dataManager currentUser] email];
+    [dataManager myReports];
     
 //    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
 //
