@@ -17,7 +17,7 @@
 @implementation ODMMySubscribeViewController {
     NSArray *dataSource;
 }
-@synthesize tableView;
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -42,16 +42,11 @@
 
 - (void)viewDidUnload
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self setTableView:nil];
     [super viewDidUnload];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super viewWillDisappear:animated];
-    
-}
 
 - (void)updateMySubscription:(NSNotification *)notification
 {
@@ -79,7 +74,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"PlaceCellIdentifier";
+    static NSString *CellIdentifier = @"subscriptionCellIdentifier";
     UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     cell.textLabel.text = ((ODMPlace *)[dataSource objectAtIndex:indexPath.row]).title;
