@@ -112,6 +112,7 @@ CityBug Project (Beta v.1.0)
 		* 200 - OK
 		* 404 - Not Found
 		* 500 - Server fail
+
 				{
 					"reports": [
 						{
@@ -244,6 +245,7 @@ CityBug Project (Beta v.1.0)
 						}
 					]
 				}
+
 * Most Recent
 
 	ใช้ในกรณีที่ไม่ได้เข้าใช้งาน (sign in) หากไม่สามารถค้นหา latitude และ longitude จะ response เป็น reports ล่าสุด
