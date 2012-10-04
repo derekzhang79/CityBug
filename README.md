@@ -101,7 +101,149 @@ CityBug Project (Beta v.1.0)
 								}
 					]
 				}
+* User feed
 
+	ใช้สำหรับแสดง feed ที่ user นั้นๆได้ report ไว้ 
+		 /api/report/:username
+
+	* Response Status
+	* HTTP Method - GET
+	* Login required - NO
+		* 200 - OK
+		* 404 - Not Found
+		* 500 - Server fail
+				{
+					"reports": [
+						{
+							"user": {
+								"_id": "506cf2d714e5f1264fb2d5e9",
+								"username": "admin",
+								"email": "admin@citybug.in.th"
+							},
+							"_id": "506cf2d714e5f1264fb2d62b",
+							"comments": [
+								{
+									"_id": "506cf2d714e5f1264fb2d630",
+									"text": "ผมอยู่แถวนั้นเหมือนกัน",
+									"last_modified": "2012-01-25T09:35:27.341Z",
+									"created_at": "2012-09-25T09:35:27.341Z",
+									"user": {
+										"_id": "506cf2d714e5f1264fb2d5e9",
+										"username": "admin",
+										"email": "admin@citybug.in.th"
+									},
+									"report": "506cf2d714e5f1264fb2d62b"
+								}
+							],
+							"title": "แผ่นดินไหว ถนนพัง",
+							"lat": 40.720658,
+							"lng": -73.98427,
+							"note": "ไม่มีการเตือนภัยที่ไหนเลย",
+							"is_resolved": false,
+							"categories": [
+								{
+									"_id": "506cf2d714e5f1264fb2d5c2",
+									"title": "ไฟฟ้า"
+								}
+							],
+							"place": {
+								"_id": "506cf2d714e5f1264fb2d5c9",
+								"distance": 0.07444324802004024,
+								"type": "suggested",
+								"created_at": "2012-09-21T09:39:52.921Z",
+								"last_modified": "2012-09-21T09:39:52.921Z",
+								"lng": -73.98427,
+								"lat": 40.720658,
+								"title": "the living theater",
+								"id_foursquare": "4ada58f4f964a520a52121e3"
+							},
+							"imins": [],
+							"last_modified": "2012-09-25T09:35:27.341Z",
+							"created_at": "2012-09-25T09:35:27.341Z"
+						},
+						{
+							"user": {
+								"_id": "506cf2d714e5f1264fb2d5e9",
+								"username": "admin",
+								"email": "admin@citybug.in.th"
+							},
+							"_id": "506cf2d714e5f1264fb2d62c",
+							"comments": [
+								{
+									"_id": "506cf2d714e5f1264fb2d631",
+									"text": "เห็นใจอ่ะ เราอยู้เมืองนอกเลยไม่เจอ",
+									"last_modified": "2012-01-25T09:35:27.341Z",
+									"created_at": "2012-09-25T09:35:27.341Z",
+									"user": {
+										"_id": "506cf2d714e5f1264fb2d5e9",
+										"username": "admin",
+										"email": "admin@citybug.in.th"
+									},
+									"report": "506cf2d714e5f1264fb2d62c"
+								}
+							],
+							"title": "น้ำท่วม แย่แล้ว",
+							"lat": 40.7209,
+							"lng": -73.98428,
+							"note": "น้ำไหลมาเรื่อยๆตั้งแต่เย็นแล้ว",
+							"is_resolved": false,
+							"categories": [
+								{
+									"_id": "506cf2d714e5f1264fb2d5c3",
+									"title": "ประปา"
+								}
+							],
+							"place": {
+								"_id": "506cf2d714e5f1264fb2d5ca",
+								"distance": 0.1,
+								"type": "suggested",
+								"last_modified": "2012-09-21T08:41:13.446Z",
+								"created_at": "2012-09-21T08:41:13.446Z",
+								"lng": -73.98428,
+								"lat": 40.7209,
+								"id_foursquare": "mockupplaceid",
+								"title": "สวนดอกจ้า"
+							},
+							"imins": [],
+							"last_modified": "2012-02-25T09:35:27.341Z",
+							"created_at": "2012-09-25T09:35:27.341Z"
+						},
+						{
+							"user": {
+								"_id": "506cf2d714e5f1264fb2d5e9",
+								"username": "admin",
+								"email": "admin@citybug.in.th"
+							},
+							"_id": "506cf2d714e5f1264fb2d62d",
+							"comments": [],
+							"title": "ฟ้าถล่ม",
+							"lat": 40.722262,
+							"lng": -73.98332129,
+							"note": "กระต่ายวิ่งกันเต็มเลย",
+							"is_resolved": false,
+							"categories": [
+								{
+									"_id": "506cf2d714e5f1264fb2d5c4",
+									"title": "ถนน"
+								}
+							],
+							"place": {
+								"_id": "506cf2d714e5f1264fb2d5cb",
+								"created_at": "2012-09-21T09:45:02.239Z",
+								"type": "suggested",
+								"last_modified": "2012-09-21T09:45:02.239Z",
+								"lng": -73.98332129,
+								"lat": 40.722262,
+								"distance": 101,
+								"title": "Idle Hands Bar",
+								"id_foursquare": "4bc779d992b376b07cca4f3a"
+							},
+							"imins": [],
+							"last_modified": "2012-01-25T09:35:27.341Z",
+							"created_at": "2012-09-25T09:35:27.341Z"
+						}
+					]
+				}
 * Most Recent
 
 	ใช้ในกรณีที่ไม่ได้เข้าใช้งาน (sign in) หากไม่สามารถค้นหา latitude และ longitude จะ response เป็น reports ล่าสุด
@@ -450,7 +592,17 @@ CityBug Project (Beta v.1.0)
 	* Login required - NO
 	* Response Status
 		* 200 - OK (text = 'authenticated')
-		* 401 - Unauthorized 
+		* 401 - Unauthorized
+
+				{
+					"user": 
+					{
+						"_id":"506955aa44cc56ccbdff2901",
+						"last_modified":"2012-09-26T09:58:09.507Z",
+						"created_at":"2012-09-26T09:58:09.507Z","email":"nut@opendream.co.th",
+						"username":"nut"
+					}
+				}
 
 * sign out
 	
@@ -461,9 +613,3 @@ CityBug Project (Beta v.1.0)
 * subscribes
 	
 		 /api/user/:username/subscribes
-
-* reports
-	
-		 /api/report/:username
-	* Response Status
-		* 200 - OK
