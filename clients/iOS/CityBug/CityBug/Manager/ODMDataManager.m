@@ -586,7 +586,7 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
 
     NSString *resourcPath = [@"/api/subscriptions/" stringByAppendingString:[self currentUser].username];
     NSLog(@"username %@", [self currentUser].username);
-    
+
     [serviceObjectManager loadObjectsAtResourcePath:resourcPath usingBlock:^(RKObjectLoader *loader){
         loader.onDidLoadObjects = ^(NSArray *objects){
           // Post notification with category array
