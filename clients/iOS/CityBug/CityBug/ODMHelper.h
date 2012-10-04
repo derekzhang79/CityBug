@@ -6,8 +6,8 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-//#define BASE_URL @"http://127.0.0.1:3003"
-#define BASE_URL @"http://54.251.32.49:3003"
+#define BASE_URL @"http://127.0.0.1:3003"
+//#define BASE_URL @"http://54.251.32.49:3003"
 
 #define DEBUG_HAS_SIGNED_IN YES
 
@@ -92,6 +92,8 @@
 #define HEADER_TEXT_USERNAME_EXISTED @"username existed"
 #define HEADER_TEXT_EMAIL_EXISTED @"email existed"
 #define HEADER_TEXT_SIGNUP_COMPLETE @"registered"
+#define HEADER_TEXT_SUBSCRIBE_COMPLETE @"subscribed"
+
 /*
  * ODMLog
  */

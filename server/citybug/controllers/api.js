@@ -89,6 +89,81 @@ exports.reports_place = function(req, res) {
     });
 }
 
+//POST new subscriptions by id_foursquare of place
+exports.subscription_place_post = function(req, res){
+    var currentId4sq = req.body.id_foursquare;
+
+    var currentUser = req.user;
+
+    console.log('post new subscription from place id 4sq'+ currentId4sq);
+    model.Place.findOne({id_foursquare: currentId4sq}, function(err, place) {
+        //ถ้า  place ยังไม่มีใน server ต้อง add ก่อน
+        if (err || place == null) {
+            //Save new place
+            var newPlace = new model.Place();
+            newPlace.id_foursquare = req.body.place_id;       
+            newPlace.title = req.body.place_title;         
+            newPlace.lat = req.body.place_lat;                   
+            newPlace.lng = req.body.place_lng;
+            newPlace.last_modified = new Date();
+            newPlace.created_at = new Date();
+            // newPlace.is_subscribed = true;
+
+            newPlace.save(function (err){
+                if (err) {
+                    console.log(err);
+                    // do something
+                } else {
+                    console.log('newPlace' + newPlace);
+
+                    //add sub ใหม่
+                    var sub = new model.Subscription();
+                    sub.place = newPlace;
+                    sub.user = currentUser;
+                    sub.created_at = new Date();
+                    sub.last_modified = new Date();
+                    sub.save(function (err){
+                        if (err) {
+                            console.log(err);
+                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.end();
+                            return;
+                        } else {
+                            console.log('saved new sub' + sub);
+                            res.writeHead(200,  { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'subscribed'});
+                            res.end();
+                            return;
+                        }
+                    }); 
+                }
+            }); 
+        } 
+        // ถ้ามี place นั้นแล้วในserver ก็ add sub ใหม่ได้เลย
+        else {
+            //add sub ใหม่
+            var sub = new model.Subscription();
+            sub.place = place;
+            sub.user = currentUser;
+            sub.created_at = new Date();
+            sub.last_modified = new Date();
+            sub.save(function (err){
+                if (err) {
+                    console.log(err);
+                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                    res.end();
+                    return;
+                } else {
+                    console.log('saved new sub' + sub);
+                    res.writeHead(200,  { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'subscribed'});
+                    res.end();
+                    return;
+                }
+            }); 
+        }
+
+    });
+}
+
 exports.subscriptions_username = function(req, res){
     var currentUsername = req.url.match( /[^\/]+\/?$/ );
     console.log("get subscribed place of current Username =>>> "+ currentUsername);

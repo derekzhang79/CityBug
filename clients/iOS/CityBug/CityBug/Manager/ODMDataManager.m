@@ -585,7 +585,7 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
 - (NSArray *)mySubscriptionWithError:(NSError **)error
 {
 
-    NSString *resourcPath = [@"/api/subscriptions/" stringByAppendingString:[self currentUser].username];
+    NSString *resourcPath = [@"/api/subscriptions/user/" stringByAppendingString:[self currentUser].username];
     NSLog(@"username %@", [self currentUser].username);
 
     [serviceObjectManager loadObjectsAtResourcePath:resourcPath usingBlock:^(RKObjectLoader *loader){
