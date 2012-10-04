@@ -60,13 +60,10 @@
         [alert show];
     } else {
         
-        NSString *email = [NSString stringWithFormat:@"%@@opendream.co.th", usernameTextField.text];
+        // Set username password to authen with server
         [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:@"username"];
-        [[NSUserDefaults standardUserDefaults] setObject:passwordTextField.text forKey:@"password"];
-        [[NSUserDefaults standardUserDefaults] setObject:email forKey:@"email"];
-        
+        [[NSUserDefaults standardUserDefaults] setObject:passwordTextField.text forKey:@"password"];        
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
         
         NSError *error = nil;
         // use http basic send, nothing
