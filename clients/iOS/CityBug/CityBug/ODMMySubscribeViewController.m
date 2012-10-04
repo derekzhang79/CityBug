@@ -35,8 +35,18 @@
                                              selector:@selector(updateMySubscription:)
                                                  name:ODMDataManagerNotificationMySubscriptionLoadingFinish
                                                object:nil];
+    
+
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     dataSource = [NSArray new];
-    dataSource = [[ODMDataManager sharedInstance] mySubscriptions];
+    if ([[ODMDataManager sharedInstance] isAuthenticated]) {
+        dataSource = [[ODMDataManager sharedInstance] mySubscriptions];
+    }
+    [self.tableView reloadData];
 
 }
 
