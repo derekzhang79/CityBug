@@ -87,6 +87,9 @@ exports.place_search = function(req, res){
 	var lng = req.query.lng;
 	var queryText = req.query.text;
 
+	var currentUser = req.user;
+	console.log("get place with user >>>>> "+ JSON.stringify(currentUser));
+
 	console.log("get request param >> "+ JSON.stringify(req.query));
 
 	//------------------------ Manage server places ---------------------------------
@@ -99,148 +102,167 @@ exports.place_search = function(req, res){
 		    return;
 		}
 
-		//ถ้า  GET /api/place/search? ไม่ได้ส่ง lat lng และ queryText มา จะ return server place แบบ sort by alphabet
-		if ((lat == null || lng == null) && queryText == null) {
-			console.log("lat lng text is null!");
-			serverPlace = serverPlace.sort(function(a, b) { 
-			 	a.type = 'suggested';
-			 	b.type = 'suggested';
-				var ret = 0;
-				var aCompare = a.title.toLowerCase();
-				var bCompare = b.title.toLowerCase();
-				if(aCompare > bCompare) 
-					ret = 1;
-				if(aCompare < bCompare) 
-					ret = -1; 
-				return ret;
-			});
-			//---------------------------------------- Send response ----------------------------------
-			res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-			res.write('{ "places":'+ JSON.stringify( serverPlace.slice(0,30) ) + ' }');
-		    res.end();
-		    return;
-		} 
-		//ถ้า  GET /api/place/search? ไม่ได้ส่ง lat lng แต่ส่ง queryText มา จะ return server place แบบ search ตาม text แล้ว
-		else if ((lat == null || lng == null) && queryText != null) {
-			console.log("lat lng is null but text is not null!");
+		// Set isSubscribed flag to all serverplace by check in subscriptions list
+		model.Subscription.find({user:currentUser}).populate('place').exec(function(err, subs){
 
-			// Filtered places by query text compatibility
-			var serverPlaceFilterdByQueryTextArray = filteredPlacesByQueryTextCompatibility(serverPlace, queryText);
-			
-			//---------------------------------------- Send response ----------------------------------
-			res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-			res.write('{ "places":'+ JSON.stringify( serverPlaceFilterdByQueryTextArray.slice(0,30) ) + ' }');
-		    res.end();
-		    return;
-		}
-		//ถ้า GET /api/place/search? ส่ง latและlng ส่วน query text ส่งมาหรือไม่ก็ได้ จะต้อง return server places + 4sq places แบบเรียงตาม distance
-		//ถ้าส่ง query text มาด้วย ต้อง filtered ตาม text ด้วย
-		else {
-			console.log("lat lng (text) is not null!");
-	        var serverPlaceArray = [];
+			var subscribedPlaces4sqIDArray = [];
+			for (i in subs) {
+				subscribedPlaces4sqIDArray.push(subs[i].place.id_foursquare);
+			}
+			console.log(subscribedPlaces4sqIDArray);
 			for (i in serverPlace) {
-				serverPlace[i].type = 'suggested';
-				//Calculate distance in each server place
-				serverPlace[i].distance = service.distanceCalculate(serverPlace[i].lat, serverPlace[i].lng, lat, lng);
-				serverPlaceArray.push(serverPlace[i]);
-			}
-        
-            //Sort server place by distance
-			serverPlaceArray = serverPlaceArray.sort(function(a, b) {
-				if (a.distance < b.distance) { return -1; }
-				if (a.distance > b.distance) { return  1; }
-				return 0;
-			});
-
-			// Filtered places by query text compatibility
-			var serverPlaceFilterdByQueryTextArray;
-			if (queryText != null) {
-				serverPlaceFilterdByQueryTextArray = filteredPlacesByQueryTextCompatibility(serverPlaceArray, queryText);
-			} else {
-				serverPlaceFilterdByQueryTextArray = serverPlaceArray;
+				var isSubscribed = false;
+				var current4sqID = serverPlace[i].id_foursquare;
+				if (err == null && subs != null && subscribedPlaces4sqIDArray.indexOf(current4sqID) != -1){
+					isSubscribed = true;
+				}
+				serverPlace[i].is_subscribed = isSubscribed;
 			}
 
-			//Get only first 30 sorted places
-			var thirtyServerPlaceArray = serverPlaceFilterdByQueryTextArray.slice(0,30);
-			console.log("Get place from server "+thirtyServerPlaceArray.length + " places");
+			//ถ้า  GET /api/place/search? ไม่ได้ส่ง lat lng และ queryText มา จะ return server place แบบ sort by alphabet
+			if ((lat == null || lng == null) && queryText == null) {
+				console.log("lat lng text is null!");
+				serverPlace = serverPlace.sort(function(a, b) { 
+				 	a.type = 'suggested';
+				 	b.type = 'suggested';
+					var ret = 0;
+					var aCompare = a.title.toLowerCase();
+					var bCompare = b.title.toLowerCase();
+					if(aCompare > bCompare) 
+						ret = 1;
+					if(aCompare < bCompare) 
+						ret = -1; 
+					return ret;
+				});
+				//---------------------------------------- Send response ----------------------------------
+				res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+				res.write('{ "places":'+ JSON.stringify( serverPlace.slice(0,30) ) + ' }');
+			    res.end();
+			    return;
+			} 
+			//ถ้า  GET /api/place/search? ไม่ได้ส่ง lat lng แต่ส่ง queryText มา จะ return server place แบบ search ตาม text แล้ว
+			else if ((lat == null || lng == null) && queryText != null) {
+				console.log("lat lng is null but text is not null!");
 
-			//------------------------ Manage 4sq places ---------------------------------
-			var params = {  
-			    "ll": lat + "," + lng,
-			    "query": queryText
-			};
-			console.log("parameters = "+JSON.stringify(params));
+				// Filtered places by query text compatibility
+				var serverPlaceFilterdByQueryTextArray = filteredPlacesByQueryTextCompatibility(serverPlace, queryText);
+				
+				//---------------------------------------- Send response ----------------------------------
+				res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+				res.write('{ "places":'+ JSON.stringify( serverPlaceFilterdByQueryTextArray.slice(0,30) ) + ' }');
+			    res.end();
+			    return;
+			}
+			//ถ้า GET /api/place/search? ส่ง latและlng ส่วน query text ส่งมาหรือไม่ก็ได้ จะต้อง return server places + 4sq places แบบเรียงตาม distance
+			//ถ้าส่ง query text มาด้วย ต้อง filtered ตาม text ด้วย
+			else {
+				console.log("lat lng (text) is not null!");
+		        var serverPlaceArray = [];
+				for (i in serverPlace) {
+					serverPlace[i].type = 'suggested';
+					//Calculate distance in each server place
+					serverPlace[i].distance = service.distanceCalculate(serverPlace[i].lat, serverPlace[i].lng, lat, lng);
+					serverPlaceArray.push(serverPlace[i]);
+				}
+	        
+	            //Sort server place by distance
+				serverPlaceArray = serverPlaceArray.sort(function(a, b) {
+					if (a.distance < b.distance) { return -1; }
+					if (a.distance > b.distance) { return  1; }
+					return 0;
+				});
 
-			foursquare.getVenues(params, function(error, venues) {  
-		        // console.log(JSON.stringify(venues));
-		        if (!error && venues != null && venues.response != null && (venues.response.venues != null || (venues.response.groups != null && venues.response.groups.length > 0 && venues.response.groups[0].items != null))) { 
-		    		
-		    		var itemArray;
-		    		if (venues.response.venues != null) {
-						itemArray = venues.response.venues;
-					} else {
-						itemArray = venues.response.groups[0].items;
-					}
-					var foursquarePlaceArray = [];
-
-					for (i in itemArray) {
-						//Create place object from 4sq data
-						var newPlace = new model.Place();
-						newPlace.id_foursquare = itemArray[i].id;		
-						newPlace.title = itemArray[i].name;			
-						newPlace.distance = itemArray[i].location.distance;
-						newPlace.type = 'additional';
-						newPlace.lat = itemArray[i].location.lat;
-						newPlace.lng = itemArray[i].location.lng;
-						newPlace.last_modified = new Date();
-						newPlace.created_at = new Date();
-
-						foursquarePlaceArray.push(newPlace);
-					}
-
-					//Sort 4sq place by distance
-					foursquarePlaceArray = foursquarePlaceArray.sort(function(a, b) {
-						if (a.distance < b.distance) { return -1; }
-						if (a.distance > b.distance) { return  1; }
-						return 0;
-					});
-					console.log("Get place from foursquare "+foursquarePlaceArray.length + " places");
-								
-
-					// Remove duplicate place from 4sq place (at variable name "placeArray")
-					var foursquarePlaceIDArray = [];
-					for (count in foursquarePlaceArray) {
-						foursquarePlaceIDArray.push(foursquarePlaceArray[count].id_foursquare);
-					}
-
-					for (j in thirtyServerPlaceArray) {
-						var tmpID = thirtyServerPlaceArray[j].id_foursquare;
-						if (foursquarePlaceIDArray.indexOf(tmpID) != -1) {
-							var index = foursquarePlaceIDArray.indexOf(tmpID);
-							foursquarePlaceIDArray.splice(index, 1);  //remove object at index
-							foursquarePlaceArray.splice(index, 1);  //remove object at index
-						}
-					}
-
-		            //---------------------------------------- Send response ----------------------------------
-		            var responseArray = [];
-		            responseArray = responseArray.concat(thirtyServerPlaceArray, foursquarePlaceArray);
-					var responseString = '{ "places":'+ JSON.stringify(responseArray) + ' }';
-					
-					res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-					res.write(responseString);
-				    res.end();
-				    return;
-
+				// Filtered places by query text compatibility
+				var serverPlaceFilterdByQueryTextArray;
+				if (queryText != null) {
+					serverPlaceFilterdByQueryTextArray = filteredPlacesByQueryTextCompatibility(serverPlaceArray, queryText);
 				} else {
-					//---------------------------------------- Send response ----------------------------------
-					res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-					res.write('{ "places":'+ JSON.stringify(thirtyServerPlaceArray) + ' }');
-				    res.end();
-				    return;
-				}  
-			}); 
-		}
+					serverPlaceFilterdByQueryTextArray = serverPlaceArray;
+				}
+
+				//Get only first 30 sorted places
+				var thirtyServerPlaceArray = serverPlaceFilterdByQueryTextArray.slice(0,30);
+				console.log("Get place from server "+thirtyServerPlaceArray.length + " places");
+
+				//------------------------ Manage 4sq places ---------------------------------
+				var params = {  
+				    "ll": lat + "," + lng,
+				    "query": queryText
+				};
+				console.log("parameters = "+JSON.stringify(params));
+
+				foursquare.getVenues(params, function(error, venues) {  
+			        // console.log(JSON.stringify(venues));
+			        if (!error && venues != null && venues.response != null && (venues.response.venues != null || (venues.response.groups != null && venues.response.groups.length > 0 && venues.response.groups[0].items != null))) { 
+			    		
+			    		var itemArray;
+			    		if (venues.response.venues != null) {
+							itemArray = venues.response.venues;
+						} else {
+							itemArray = venues.response.groups[0].items;
+						}
+						var foursquarePlaceArray = [];
+
+						for (i in itemArray) {
+							//Create place object from 4sq data
+							var newPlace = new model.Place();
+							newPlace.id_foursquare = itemArray[i].id;		
+							newPlace.title = itemArray[i].name;			
+							newPlace.distance = itemArray[i].location.distance;
+							newPlace.type = 'additional';
+							newPlace.lat = itemArray[i].location.lat;
+							newPlace.lng = itemArray[i].location.lng;
+							newPlace.last_modified = new Date();
+							newPlace.created_at = new Date();
+							newPlace.is_subscribed = false;
+
+							foursquarePlaceArray.push(newPlace);
+						}
+
+						//Sort 4sq place by distance
+						foursquarePlaceArray = foursquarePlaceArray.sort(function(a, b) {
+							if (a.distance < b.distance) { return -1; }
+							if (a.distance > b.distance) { return  1; }
+							return 0;
+						});
+						console.log("Get place from foursquare "+foursquarePlaceArray.length + " places");
+									
+
+						// Remove duplicate place from 4sq place (at variable name "placeArray")
+						var foursquarePlaceIDArray = [];
+						for (count in foursquarePlaceArray) {
+							foursquarePlaceIDArray.push(foursquarePlaceArray[count].id_foursquare);
+						}
+
+						for (j in thirtyServerPlaceArray) {
+							var tmpID = thirtyServerPlaceArray[j].id_foursquare;
+							if (foursquarePlaceIDArray.indexOf(tmpID) != -1) {
+								var index = foursquarePlaceIDArray.indexOf(tmpID);
+								foursquarePlaceIDArray.splice(index, 1);  //remove object at index
+								foursquarePlaceArray.splice(index, 1);  //remove object at index
+							}
+						}
+
+			            //---------------------------------------- Send response ----------------------------------
+			            var responseArray = [];
+			            responseArray = responseArray.concat(thirtyServerPlaceArray, foursquarePlaceArray);
+						var responseString = '{ "places":'+ JSON.stringify(responseArray) + ' }';
+						
+						res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+						res.write(responseString);
+					    res.end();
+					    return;
+
+					} else {
+						//---------------------------------------- Send response ----------------------------------
+						res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+						res.write('{ "places":'+ JSON.stringify(thirtyServerPlaceArray) + ' }');
+					    res.end();
+					    return;
+					}  
+				}); 
+			}
+		});
 	});
 }
 

@@ -9,11 +9,13 @@
 @interface ODMPlace : NSObject {
     NSString *_title, *_uid, *_type;
     NSNumber *_latitude, *_longitude;
+    BOOL _isSubscribed;
 }
 
 @property (nonatomic, strong) NSString *title, *uid, *type;
 @property (nonatomic, strong) NSNumber *latitude, *longitude;
+@property (nonatomic, assign) BOOL isSubscribed;
 
-+ (ODMPlace *)placeWithTitle:(NSString *)title latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude uid:(NSString *)uid type:(NSString *)type;
++ (ODMPlace *)placeWithTitle:(NSString *)title latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude uid:(NSString *)uid type:(NSString *)type isSubscribed:(BOOL)isSubscribed;
 
 @end

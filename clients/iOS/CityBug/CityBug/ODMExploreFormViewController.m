@@ -89,8 +89,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    
-    cell.textLabel.text = [(ODMPlace *)[self placeFromIndexPath:indexPath forTableView:tableView] title];
+    ODMPlace *place = (ODMPlace *)[self placeFromIndexPath:indexPath forTableView:tableView];
+    cell.textLabel.text = [place title];
+    if([place isSubscribed] == YES){
+        cell.textLabel.textColor = [UIColor redColor];
+    } else {
+        cell.textLabel.textColor = [UIColor blackColor];
+    }
     
     return cell;
 }
@@ -227,6 +232,12 @@
                                              selector:@selector(updatePlacesSearchingNotification:)
                                                  name:ODMDataManagerNotificationPlacesSearchingFinish
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadData)
+                                                 name:ODMDataManagerNotificationAuthenDidFinish
+                                               object:nil];
+    
     [self reloadData];
 }
 

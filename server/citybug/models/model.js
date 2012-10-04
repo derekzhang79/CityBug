@@ -18,6 +18,7 @@ module.exports = function (mongoose) {
 		, type 				: String 		//suggested,additional
 		, last_modified		: Date
 		, created_at		: Date
+		, is_subscribed		: Boolean
 	});
 
 	var UserSchema = new Schema({

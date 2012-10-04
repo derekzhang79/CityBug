@@ -15,7 +15,7 @@ module.exports = function(app, express){
 	app.get('/api/reports/user/*', api.reports_username);
 	app.get('/api/reports/place/*', api.reports_place);
 
-	app.get('/api/reports', auth.basic_auth_reports, api.reports);
+	app.get('/api/reports', auth.basic_auth_not_required, api.reports);
 	app.post('/api/reports', auth.basic_auth, api.report_post);
 	app.get('/api/report/*', api.report);
 	app.get('/api/reports/all', api.all_reports);
@@ -26,7 +26,7 @@ module.exports = function(app, express){
 
 	//place
 	app.get('/callback_place_search', place.callback_place_search);
-	app.get('/api/place/search', place.place_search);
+	app.get('/api/place/search',auth.basic_auth_not_required , place.place_search);
 	app.get('/api/places', place.places);
 
 	//categories

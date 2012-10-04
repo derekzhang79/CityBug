@@ -10,7 +10,7 @@
 
 @implementation ODMPlace
 
-- (id)initWithPlaceWithTitle:(NSString *)title latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude uid:(NSString *)theUID type:(NSString *)type
+- (id)initWithPlaceWithTitle:(NSString *)title latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude uid:(NSString *)theUID type:(NSString *)type isSubscribed:(BOOL)isSubscribed
 {
     if (self = [super init]) {
         _uid = theUID;
@@ -18,13 +18,14 @@
         _latitude = latitude;
         _longitude = longitude;
         _type = type;
+        _isSubscribed = isSubscribed;
     }
     return self;
 }
 
-+ (ODMPlace *)placeWithTitle:(NSString *)title latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude uid:(NSString *)uid type:(NSString *)type
++ (ODMPlace *)placeWithTitle:(NSString *)title latitude:(NSNumber *)latitude longitude:(NSNumber *)longitude uid:(NSString *)uid type:(NSString *)type isSubscribed:(BOOL)isSubscribed
 {
-    return [[self alloc] initWithPlaceWithTitle:title latitude:latitude longitude:longitude uid:uid type:type];
+    return [[self alloc] initWithPlaceWithTitle:title latitude:latitude longitude:longitude uid:uid type:type isSubscribed:(BOOL)isSubscribed];
 }
             
 @end

@@ -7,13 +7,13 @@ var passport = require('passport'),
 exports.basic_auth = function(req, res, next) {
 	passport.authenticate('basic', {session: false}, function(err, user, info) {
 	if (err) {
-		console.log("UNAUTHEN 2");
+		console.log("UNAUTHEN #2");
 		res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.end();
 		return next(err);
 	}
 	if (!user) {
-		console.log("UNAUTHEN");
+		console.log("UNAUTHEN #1");
 		res.writeHead(401, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.end();
 		return;
@@ -23,13 +23,14 @@ exports.basic_auth = function(req, res, next) {
 			return next(err); 
 		}
 		// call next function
+		console.log("AUTHEN 1");
 		next();
 		return;
 		});
 	})(req, res, next);
 }
 
-exports.basic_auth_reports = function(req, res, next) {
+exports.basic_auth_not_required = function(req, res, next) {
 	passport.authenticate('basic', {session: false}, function(err, user, info) {
 	if (err) {
 		res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});

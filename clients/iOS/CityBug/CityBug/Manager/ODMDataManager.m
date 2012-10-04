@@ -111,6 +111,7 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
         [placeMapping mapKeyPath:@"lng" toAttribute:@"longitude"];
         [placeMapping mapKeyPath:@"id_foursquare" toAttribute:@"uid"];
         [placeMapping mapKeyPath:@"type" toAttribute:@"type"];
+        [placeMapping mapKeyPath:@"is_subscribed" toAttribute:@"isSubscribed"];
         
         RKObjectMapping *userMapping = [RKObjectMapping mappingForClass:[ODMUser class]];
         [userMapping mapKeyPath:@"username" toAttribute:@"username"];
