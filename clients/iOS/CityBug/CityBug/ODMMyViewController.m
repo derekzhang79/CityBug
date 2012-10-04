@@ -85,6 +85,10 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 - (void)updatePage:(NSNotification *)notification
 {
+    if ([self isSignIn] == NO) {
+        return;
+    }
+        
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     userNameLabel.text = [[dataManager currentUser] username];
     emailLabel.text = [[dataManager currentUser] email];
@@ -104,10 +108,13 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 //    isAuthenOld = isAuthen;
     
     [self.actView setHidden:NO];
+    
 }
 
 - (void)updateReports:(NSNotification *)notification
 {
+    [self.actView setHidden:YES];
+    
     NSUInteger oldItemsCount = [datasource count];
     
     if ([[notification object] isKindOfClass:[NSArray class]]) {
@@ -124,7 +131,6 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
         ODMLog(@"%@ [%i]",message ,[datasource count]);
     }
     
-    [self.actView setHidden:YES];
     if ([datasource count] == 0) {
         [self.noResultView setHidden:NO];
         [self.myReportTableView setBounces:NO];
@@ -132,6 +138,17 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
         [self.noResultView setHidden:YES];
         [self.myReportTableView setBounces:YES];
     }
+}
+
+- (BOOL)isSignIn
+{
+    [self.notLoginView setHidden:YES];
+    if ([[ODMDataManager sharedInstance] isAuthenticated] == NO) {
+        [self.actView setHidden:YES];
+        [self.notLoginView setHidden:NO];
+        return NO;
+    }
+    return YES;
 }
 
 - (void)signOutButtonTapped
@@ -142,7 +159,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 - (IBAction)goToPost:(id)sender
 {
-    
+    UITabBarController *tc = (UITabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    [tc setSelectedIndex:0];
 }
 
 #pragma mark - Table view data source
