@@ -72,5 +72,6 @@
  */
 - (ODMUser *)currentUser;
 - (void)signInCityBugUserWithError:(NSError **)error;
+- (void)signOut;
 
 @end

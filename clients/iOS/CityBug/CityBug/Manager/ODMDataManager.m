@@ -233,6 +233,18 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
     return [ODMUser newUser:currentUsername email:currentEmail password:currentPassword thumbnailImage:currentThumbnail];
 }
 
+- (void)signOut
+{
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"password"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"email"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"thumbnailImage"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    NSError *error = nil;
+    // use http basic authen
+    [[ODMDataManager sharedInstance] signInCityBugUserWithError:&error];}
 
 /*
  * SIGN IN

@@ -18,12 +18,15 @@
 #import "ODMReport.h"
 #import "ODMComment.h"
 
+static NSString *gotoViewSegue = @"gotoViewSegue";
+
 @interface ODMMyViewController ()
 {
     NSArray *datasource;
     UIBarButtonItem *signOutButton;
     
     BOOL isAuthenOld;
+    __weak ODMDescriptionFormViewController *_formViewController;
 }
 @end
 
@@ -122,16 +125,7 @@
 
 - (void)signOutButtonTapped
 {
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"username"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"password"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"email"];
-    
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    NSError *error = nil;
-    // use http basic send, nothing
-    [[ODMDataManager sharedInstance] signInCityBugUserWithError:&error];
-    
+    [[ODMDataManager sharedInstance] signOut];
     [self updatePage:nil];
 }
 
@@ -162,6 +156,32 @@
         [cell.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
     }
     return cell;
+}
+#pragma mark - segue
+
+- (void)setFormViewController:(ODMDescriptionFormViewController *)vc
+{
+    _formViewController = vc;
+}
+
+- (ODMDescriptionFormViewController *)formViewController
+{
+    return _formViewController;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:gotoViewSegue]) {
+        
+        ODMReportDetailViewController *detailViewController = (ODMReportDetailViewController *) segue.destinationViewController;
+        
+        NSIndexPath *selectedIndexPath = [self.myReportTableView indexPathForCell:(UITableViewCell *)sender];
+        
+        if (datasource.count > selectedIndexPath.row) {
+            ODMReport *aReport = [datasource objectAtIndex:selectedIndexPath.row];
+            detailViewController.report = aReport;
+        }
+    }
 }
 
 @end
