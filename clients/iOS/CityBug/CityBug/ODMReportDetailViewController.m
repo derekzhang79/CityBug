@@ -33,6 +33,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCommentForm:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incommingComments:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCommentView:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.backView addGestureRecognizer:tapGesture];
@@ -45,15 +46,7 @@
 {
     [super viewWillAppear:animated];
     
-    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
-    
-    if (isAuthen) {
-        self.commentFormView.hidden = NO;
-        [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
-    } else {
-        self.commentFormView.hidden = YES;
-        [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
-    }
+    [self updateCommentView:nil];
 
     [self reloadData];
 }
@@ -76,6 +69,19 @@
 - (void)handleTapGesture:(UIGestureRecognizer *)gesture
 {
     [self resignFirstResponder];
+}
+
+- (void)updateCommentView:(NSNotificationCenter *)noti
+{
+    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
+    
+    if (isAuthen) {
+        self.commentFormView.hidden = NO;
+        [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
+    } else {
+        self.commentFormView.hidden = YES;
+        [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
+    }
 }
 
 #pragma mark - Datasource
