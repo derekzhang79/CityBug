@@ -77,7 +77,7 @@ exports.reports_place = function(req, res) {
     console.log('get place feed from '+ url);
     model.Place.findOne({id_foursquare: currentId4sq}, function(err, place) {
         if (err || place == null) {
-            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'can not get reports place'}); //can not get reports place
             res.end();
             return;
         }
