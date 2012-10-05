@@ -3,57 +3,6 @@
         header.page-header
             h1 City Bug
                 small.subtitle bug around the world
-        script
-
-            function addRow(report) {
-                if (!document.getElementsByTagName) 
-                    return;
-                var tabBody=document.getElementById("reporttable");
-                var row=document.createElement("TR");
-
-                var cellTitle = document.createElement("TD");
-                var cellThumbnailImage = document.createElement("TD");
-                var cellFullImage = document.createElement("TD");
-                var cellLatitude = document.createElement("TD");
-                var cellLongitude = document.createElement("TD");
-                var cellNote = document.createElement("TD");
-                var cellCategories = document.createElement("TD");
-                var cellDate = document.createElement("TD");
-
-                var textnodeTitle=document.createTextNode(report['title']);
-                var thumbnailImage=document.createElement('img');
-                thumbnailImage.src = report['thumbnail_image'];
-                thumbnailImage.width = 40;
-                thumbnailImage.heigth = 40;
-                var fullImage=document.createElement('img');
-                fullImage.src =  report['full_image'];
-                fullImage.width = 40;
-                fullImage.heigth = 40;
-                var textnodeLatitude=document.createTextNode(report['lat']);
-                var textnodeLongitude=document.createTextNode(report['lng']);
-                var textnodeNote=document.createTextNode(report['note']);
-                var textnodeCategories=document.createTextNode(report['categories']);
-                var textnodeDate=document.createTextNode(report['last_modified']);
-
-                cellTitle.appendChild(textnodeTitle);
-                cellThumbnailImage.appendChild(thumbnailImage);
-                cellFullImage.appendChild(fullImage);
-                cellLatitude.appendChild(textnodeLatitude);
-                cellLongitude.appendChild(textnodeLongitude);
-                cellNote.appendChild(textnodeNote);
-                cellCategories.appendChild(textnodeCategories);
-                cellDate.appendChild(textnodeDate);
-
-                row.appendChild(cellTitle);
-                row.appendChild(cellThumbnailImage);
-                row.appendChild(cellFullImage);
-                row.appendChild(cellLatitude);
-                row.appendChild(cellLongitude);
-                row.appendChild(cellNote);
-                row.appendChild(cellCategories);
-                row.appendChild(cellDate);
-                tabBody.appendChild(row);
-            }
         h2
             <a href="/add">Click here to test POST api</a><br/>
             <a href="/add_comment">Click here to test POST COMMENT api</a><br/>
