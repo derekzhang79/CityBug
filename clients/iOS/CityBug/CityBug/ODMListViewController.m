@@ -29,6 +29,7 @@
 
 static NSString *gotoFormSegue = @"presentFormSegue";
 static NSString *gotoViewSegue = @"gotoViewSegue";
+static NSString *presentSignInModal = @"presentSignInModal";
 
 @implementation ODMListViewController {
     CLLocationManager *locationManager;
@@ -55,7 +56,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:NOW_TABBAR];
     [self updatePage:nil];
 }
 
@@ -126,9 +127,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     
     if (isAuthen) {
         UIBarButtonItem *cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addButtonTapped:)];
-        UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOutButtonTapped)];
         
-        [[self navigationItem] setRightBarButtonItems:[NSArray arrayWithObjects:cameraButton, signOutButton, nil] animated:NO];
+        [[self navigationItem] setRightBarButtonItems:[NSArray arrayWithObjects:cameraButton, nil] animated:NO];
     } else {
         [[self navigationItem] setRightBarButtonItems:[NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]]];
     }
@@ -203,7 +203,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 - (IBAction)signInButtonTapped:(id)sender
 {
     NSLog(@"present signin");
-    [self performSegueWithIdentifier:@"presentSignInPush" sender:self];
+    [self performSegueWithIdentifier:presentSignInModal sender:self];
 }
 
 - (IBAction)addButtonTapped:(id)sender
