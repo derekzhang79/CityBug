@@ -83,7 +83,7 @@ exports.reports_place = function(req, res) {
         }
         getAllReports({place: place}, function(reports){
             res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write('{"reports":' + JSON.stringify(reports) + '}'); //return only array of reports
+            res.write('{"reports":' + JSON.stringify(reports.slice(0,30)) + '}'); //return only array of reports
             res.end();
         });
     });
@@ -549,7 +549,7 @@ exports.reports = function(req, res) {
                     query["$or"] = [];
                     query["$or"].push({"user":currentUser._id}); //check report.user is current user feed
                     for (i in subscribes) {
-                        console.log(i + " subscribes >> "+ subscribes[i]);
+                        //console.log(i + " subscribes >> "+ subscribes[i]);
                         if (subscribes[i].place != null && subscribes[i].place != undefined) {
                             query["$or"].push({"place":subscribes[i].place}); //check report.place is in subscribe
                         }
