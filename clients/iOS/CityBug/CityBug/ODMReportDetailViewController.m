@@ -49,8 +49,10 @@
     
     if (isAuthen) {
         self.commentFormView.hidden = NO;
+        [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
     } else {
         self.commentFormView.hidden = YES;
+        [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
     }
 
     [self reloadData];
