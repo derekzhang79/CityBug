@@ -72,6 +72,8 @@
  */
 - (NSArray *)placesWithQueryParams:(NSDictionary *)params;
 
+- (void)postNewSubscribeToPlace:(ODMPlace *)place;
+
 /*
  * CurrentUser
  */

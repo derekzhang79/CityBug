@@ -37,6 +37,9 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
 NSString *ODMDataManagerNotificationPlaceReportsLoadingFinish;
 NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
 
+NSString *ODMDataManagerNotificationPlaceSubscribeDidFinish;
+NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
+
 @interface ODMDataManager()
 
 /*
@@ -84,7 +87,9 @@ NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
         ODMDataManagerNotificationPlaceReportsLoadingFinish = @"ODMDataManagerNotificationPlaceReportsLoadingFinish";
         ODMDataManagerNotificationPlaceReportsLoadingFail = @"ODMDataManagerNotificationPlaceReportsLoadingFail";
         
-
+        
+        ODMDataManagerNotificationPlaceSubscribeDidFinish = @"ODMDataManagerNotificationPlaceSubscribeDidFinish";
+        ODMDataManagerNotificationPlaceSubscribeDidFail = @"ODMDataManagerNotificationPlaceSubscribeDidFail";
         
         //
         // RestKit setup
@@ -164,6 +169,7 @@ NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
         [serviceObjectManager.router routeClass:[ODMCategory class] toResourcePath:@"/api/categories" forMethod:RKRequestMethodGET];
         [serviceObjectManager.router routeClass:[ODMComment class] toResourcePath:@"/api/report/:reportID/comment" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_up" forMethod:RKRequestMethodPOST];
+        [serviceObjectManager.router routeClass:[ODMPlace class] toResourcePath:@"/api/subscription/place/" forMethod:RKRequestMethodPOST];
         
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
         
@@ -603,6 +609,30 @@ NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
     return _filterdPlaces;
 }
 
+- (void)postNewSubscribeToPlace:(ODMPlace *)place
+{
+    
+    RKParams *placeParams = [RKParams params];
+        
+    [[RKObjectManager sharedManager] postObject:place usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+
+        [placeParams setValue:[place uid] forParam:@"place_id"];
+        [placeParams setValue:[place title] forParam:@"place_title"];
+        [placeParams setValue:[place latitude] forParam:@"place_lat"];
+        [placeParams setValue:[place longitude] forParam:@"place_lng"];
+        
+        loader.defaultHTTPEncoding = NSUTF8StringEncoding;
+        
+        loader.onDidLoadObject = ^(id object){
+//            if (object != NULL) {
+//                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceSubscribeDidFinish object:object];
+//            }
+        };
+        loader.params = placeParams;
+    }];
+}
+
 - (NSArray *)mySubscriptions
 {
     return [self mySubscriptionWithError:NULL];
@@ -646,6 +676,9 @@ NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
             } else if ([headerText isEqualToString:HEADER_TEXT_SIGNUP_COMPLETE]) {
                 // sign up ok
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationSignUpDidFinish object:nil];
+            } else if ([headerText isEqualToString:HEADER_TEXT_SUBSCRIBE_COMPLETE]) {
+                // subscribe ok
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceSubscribeDidFinish object:nil];
             }
         }
             break;
