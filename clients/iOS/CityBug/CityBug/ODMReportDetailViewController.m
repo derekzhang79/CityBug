@@ -14,6 +14,7 @@
 #import "ODMDataManager.h"
 
 #define ROW_HEIGHT 44
+#define TABLE_VIEW_ORIGIN_X 337
 
 @implementation ODMReportDetailViewController {
     NSUInteger numberOfComments;
@@ -120,20 +121,24 @@
     CGRect tvFrame = [self.tableView frame];
     numberOfComments = self.report.comments.count;
     CGSize commentsSize = CGSizeMake(self.tableView.bounds.size.width, numberOfComments * ROW_HEIGHT);
-    [self.tableView setFrame:CGRectMake(tvFrame.origin.x, tvFrame.origin.y, tvFrame.size.width, ROW_HEIGHT * numberOfComments)];
+
     
+    //
     //
     // Note height
     //
-    CGSize noteSize = [self.noteLabel.text sizeWithFont:[UIFont systemFontOfSize:14.f] forWidth:self.noteLabel.bounds.size.width lineBreakMode:UILineBreakModeWordWrap];
-    self.noteLabel.frame = CGRectMake(self.noteLabel.frame.origin.x, self.noteLabel.frame.origin.y, noteSize.width, noteSize.height);
     
+    CGSize noteSize = [self.noteLabel.text sizeWithFont:[UIFont systemFontOfSize:14.f] forWidth:self.noteLabel.bounds.size.width lineBreakMode:UILineBreakModeCharacterWrap];
+    self.noteLabel.frame = CGRectMake(self.noteLabel.frame.origin.x, self.noteLabel.frame.origin.y, noteSize.width, noteSize.height);
+    [self.noteLabel sizeToFit];
+    CGRect rect = self.noteLabel.frame;
     CGRect infoFrame = self.infoView.frame;
     
     // Value from Storyboard
     CGFloat defaultNoteLabelHeight = 22;
     CGFloat defaultInfoViewHeight = 322;
     CGFloat spaceBetweenInfoAndNote = 15;
+    
     
     if (abs(self.noteLabel.frame.size.height - defaultNoteLabelHeight) > 0) {
         infoFrame.size.height = defaultInfoViewHeight + self.noteLabel.frame.size.height;
@@ -146,6 +151,12 @@
     //
     CGRect contentFrame = self.scrollView.frame;
     contentFrame.size.height = infoFrame.size.height + spaceBetweenInfoAndNote + commentsSize.height;
+    
+    //
+    // Set new origin table
+    //
+    [self.tableView setFrame:CGRectMake(tvFrame.origin.x, TABLE_VIEW_ORIGIN_X + rect.size.height, tvFrame.size.width, ROW_HEIGHT * numberOfComments)];
+    
     
     //
     // Scroll to bottom
