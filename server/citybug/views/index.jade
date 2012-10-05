@@ -5,15 +5,6 @@
                 small.subtitle bug around the world
         script
 
-            var socket = io.connect();
-            socket.on('connect', function () {
-            });
-            socket.on('user message', function(report) {
-                addRow(reportModel);
-            });
-            function sendMessage() {
-                socket.emit('user message');
-            }
             function addRow(report) {
                 if (!document.getElementsByTagName) 
                     return;
