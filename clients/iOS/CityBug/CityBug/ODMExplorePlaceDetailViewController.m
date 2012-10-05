@@ -53,6 +53,10 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
                                                  name:ODMDataManagerNotificationPlaceReportsLoadingFinish
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateReports:)
+                                                 name:ODMDataManagerNotificationPlaceReportsLoadingFail
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updatePage:)
                                                  name:ODMDataManagerNotificationAuthenDidFinish
                                                object:nil];

@@ -709,6 +709,9 @@ NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
             }else if ([headerText isEqualToString:HEADER_TEXT_EMAIL_EXISTED]) {
                 // sign up failed because email is existed
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationSignUpDidFinish object:HEADER_TEXT_EMAIL_EXISTED];
+            }else if ([headerText isEqualToString:HEADER_TEXT_CAN_NOT_GET_REPORT_PLACE]) {
+                // sign up failed because email is existed
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceReportsLoadingFail object:HEADER_TEXT_CAN_NOT_GET_REPORT_PLACE];
             }
         }
             break;
