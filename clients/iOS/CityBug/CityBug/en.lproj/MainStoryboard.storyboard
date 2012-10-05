@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C54" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="DAN-Mj-WHC">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
     <scenes>
@@ -151,7 +150,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="backgroundView" destination="9SJ-VR-vVV" id="uW4-Xh-Qkc"/>
-                                            <segue destination="7od-Vb-NtW" kind="push" identifier="gotoViewSegue" id="gsY-8X-h2C"/>
+                                            <segue destination="JeU-ep-nt1" kind="modal" identifier="presentSignInModal" id="gF6-TA-VCV"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -192,17 +191,6 @@
                             <view contentMode="scaleToFill" id="BWd-fU-AHA">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Please login :3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1hH-Lv-xb9">
-                                        <rect key="frame" x="0.0" y="170" width="320" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                        <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <size key="shadowOffset" width="0.0" height="1"/>
-                                    </label>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="eoQ-GF-Kkl">
@@ -238,7 +226,6 @@
                         <outlet property="noResultView" destination="Lhu-EV-HTI" id="vp9-Ov-hPc"/>
                         <outlet property="notLoginView" destination="BWd-fU-AHA" id="rQE-Rb-H5l"/>
                         <outlet property="userNameLabel" destination="kxW-fb-tk6" id="tVi-4G-u0x"/>
-                        <segue destination="ULT-zB-p5m" kind="push" identifier="presentSignInPush" id="saj-g9-Vin"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yFN-gy-UUV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -410,7 +397,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="fLN-el-UYt" kind="push" identifier="presentFormSegue" id="W8R-9m-FS9"/>
-                        <segue destination="ULT-zB-p5m" kind="push" identifier="presentSignInPush" id="Gq7-kG-GUV"/>
+                        <segue destination="JeU-ep-nt1" kind="modal" identifier="presentSignInModal" id="dfb-0w-5uT"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oXn-Nc-CEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -924,12 +911,12 @@
             </objects>
             <point key="canvasLocation" x="-1576" y="-2801"/>
         </scene>
-        <!--Sign In View Controller-->
+        <!--Sign In View Controller - Sign in-->
         <scene sceneID="F2b-lN-d1v">
             <objects>
                 <viewController id="ULT-zB-p5m" customClass="ODMSignInViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ndi-jd-XII">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Username" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4lZ-1P-JAm">
@@ -994,7 +981,13 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="kg9-Y2-sqX"/>
+                    <navigationItem key="navigationItem" title="Sign in" id="kg9-Y2-sqX">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="C64-b1-ln4">
+                            <connections>
+                                <action selector="back:" destination="ULT-zB-p5m" id="ebR-Fi-pIi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="passwordTextField" destination="9lC-kA-jnd" id="ksb-nB-J4M"/>
@@ -1005,12 +998,12 @@
             </objects>
             <point key="canvasLocation" x="-2049" y="-2079"/>
         </scene>
-        <!--Sign Up View Controller-->
+        <!--Sign Up View Controller - Sign up-->
         <scene sceneID="6gz-kz-GSi">
             <objects>
                 <viewController id="Ecr-IO-vj5" customClass="ODMSignUpViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="snK-aP-AGb">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Username" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="KRg-ch-zUR">
@@ -1095,7 +1088,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.89168128189999996" green="0.88809881670000002" blue="0.87735142099999996" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Dho-Ed-A9Y"/>
+                    <navigationItem key="navigationItem" title="Sign up" id="Dho-Ed-A9Y"/>
                     <connections>
                         <outlet property="confirmPasswordTextField" destination="ov2-vO-r95" id="IZc-0v-NVf"/>
                         <outlet property="emailTextField" destination="dXc-nI-jPg" id="tOz-Ls-BB4"/>
@@ -1864,6 +1857,7 @@
         <class className="ODMSignInViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMSignInViewController.h"/>
             <relationships>
+                <relationship kind="action" name="back:"/>
                 <relationship kind="action" name="magicSignIn:"/>
                 <relationship kind="outlet" name="passwordTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="usernameTextField" candidateClass="UITextField"/>
@@ -1886,7 +1880,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="SDA-I0-JZm"/>
-        <segue reference="saj-g9-Vin"/>
+        <segue reference="Te4-z6-zTY"/>
+        <segue reference="dfb-0w-5uT"/>
     </inferredMetricsTieBreakers>
 </document>

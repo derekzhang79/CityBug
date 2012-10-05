@@ -29,6 +29,7 @@
 
 static NSString *gotoFormSegue = @"presentFormSegue";
 static NSString *gotoViewSegue = @"gotoViewSegue";
+static NSString *presentSignInModal = @"presentSignInModal";
 
 @implementation ODMListViewController {
     CLLocationManager *locationManager;
@@ -202,7 +203,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 - (IBAction)signInButtonTapped:(id)sender
 {
     NSLog(@"present signin");
-    [self performSegueWithIdentifier:@"presentSignInModal" sender:self];
+    [self performSegueWithIdentifier:presentSignInModal sender:self];
 }
 
 - (IBAction)addButtonTapped:(id)sender

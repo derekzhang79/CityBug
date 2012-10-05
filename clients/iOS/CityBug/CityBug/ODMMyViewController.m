@@ -19,6 +19,7 @@
 #import "ODMComment.h"
 
 static NSString *gotoViewSegue = @"gotoViewSegue";
+static NSString *presentSignInModal = @"presentSignInModal";
 
 @interface ODMMyViewController ()
 {
@@ -147,7 +148,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
         [self.notLoginView setHidden:NO];
         
         NSLog(@"present signin");
-        [self performSegueWithIdentifier:@"presentSignInModal" sender:self];
+        [self performSegueWithIdentifier:presentSignInModal sender:self];
         
         [[self navigationItem] setRightBarButtonItem:nil];
         return NO;
