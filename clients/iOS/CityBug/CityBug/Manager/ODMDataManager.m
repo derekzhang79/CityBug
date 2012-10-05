@@ -8,6 +8,7 @@
 
 #import "ODMDataManager.h"
 #import "ODMReport.h"
+#import "ODMPlace.h"
 
 static ODMDataManager *sharedDataManager = nil;
 
@@ -33,6 +34,8 @@ NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
 NSString *ODMDataManagerNotificationMyReportsLoadingFinish;
 NSString *ODMDataManagerNotificationMyReportsLoadingFail;
 
+NSString *ODMDataManagerNotificationPlaceReportsLoadingFinish;
+NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
 
 @interface ODMDataManager()
 
@@ -77,7 +80,12 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
         
         ODMDataManagerNotificationMyReportsLoadingFinish = @"ODMDataManagerNotificationMyReportsLoadingFinish";
         ODMDataManagerNotificationMyReportsLoadingFail = @"ODMDataManagerNotificationMyReportsLoadingFail";
+        
+        ODMDataManagerNotificationPlaceReportsLoadingFinish = @"ODMDataManagerNotificationPlaceReportsLoadingFinish";
+        ODMDataManagerNotificationPlaceReportsLoadingFail = @"ODMDataManagerNotificationPlaceReportsLoadingFail";
+        
 
+        
         //
         // RestKit setup
         //
@@ -475,6 +483,24 @@ NSString *ODMDataManagerNotificationMyReportsLoadingFail;
     }];
     
     return _reports;
+}
+
+- (NSArray *)reportsWithPlace:(ODMPlace *)place
+{
+    NSString *resourcePath = [@"/api/reports/place" stringByAppendingPathComponent:place.uid];
+    
+    [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
+        loader.onDidLoadObjects = ^(NSArray *objects){
+            
+            NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"lastModified" ascending:NO];
+            
+            _placeReports = [objects sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sort1, nil]];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceReportsLoadingFinish object:_placeReports];
+        };
+    }];
+    
+    return _placeReports;
 }
 
 - (NSArray *)reportsWithUsername:(NSString *)username

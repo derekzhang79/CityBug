@@ -7,8 +7,11 @@
 //
 
 #import "ODMExploreFormViewController.h"
+#import "ODMExplorePlaceDetailViewController.h"
 #import "ODMDataManager.h"
 #import "ODMPlace.h"
+
+#define goToPlaceViewSegue @"goToPlaceViewSegue"
 
 @implementation ODMExploreFormViewController {
     NSIndexPath *selectedIndexPath;
@@ -59,15 +62,6 @@
     return [sectionItems count];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//    if ([self.delegate respondsToSelector:@selector(didSelectPlace:)]) {
-//        [self.delegate didSelectPlace:[self placeFromIndexPath:indexPath forTableView:tableView]];
-//    }
-//    
-//    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     // get title string from section key path
@@ -99,6 +93,20 @@
     
     return cell;
 }
+
+#pragma mark - segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:goToPlaceViewSegue]) {
+        
+        ODMExplorePlaceDetailViewController *detailViewController = (ODMExplorePlaceDetailViewController *)segue.destinationViewController;
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
+        ODMPlace *aPlace = [self placeFromIndexPath:selectedIndexPath forTableView:self.tableView];
+        detailViewController.place = aPlace;
+    }
+}
+
 
 #pragma mark - SEARCH
 

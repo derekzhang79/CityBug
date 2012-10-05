@@ -9,13 +9,13 @@
 
 #import "ODMComment.h"
 
-@class ODMReport, ODMUser;
+@class ODMReport, ODMUser, ODMPlace;
 
 @interface ODMDataManager : NSObject <RKObjectLoaderDelegate, CLLocationManagerDelegate> {
 @private
     RKObjectManager *serviceObjectManager;
 
-    NSArray *_reports, *_categories, *_places, *_filterdPlaces, *_mySubscription, *_myReports;
+    NSArray *_reports, *_categories, *_places, *_filterdPlaces, *_mySubscription, *_myReports, *_placeReports;
     
     NSMutableDictionary *queryParams;
     CLLocationManager *_locationManager;
@@ -24,7 +24,7 @@
 @property (nonatomic, readonly ,strong) CLLocationManager *locationManager;
 
 
-@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places, *mySubscription, *myReports;
+@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places, *mySubscription, *myReports, *placeReports;
 @property (nonatomic, assign) BOOL isAuthenticated;
 
 /*
@@ -50,9 +50,14 @@
 - (NSArray *)reportsWithParameters:(NSDictionary *)params error:(NSError **)error;
 
 /*
- * Get Reports by user and query parameters
+ * Get Reports by username
  */
 - (NSArray *)reportsWithUsername:(NSString *)username error:(NSError **)error;
+
+/*
+ * Get Reports by place
+ */
+- (NSArray *)reportsWithPlace:(ODMPlace *)place;
 
 /*
  * Sign Up New User

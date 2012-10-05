@@ -129,3 +129,7 @@ extern NSString *ODMDataManagerNotificationSignUpDidFinish;
 extern NSString *ODMDataManagerNotificationMyReportsLoadingFinish;
 extern NSString *ODMDataManagerNotificationMyReportsLoadingFail;
 
+// Place Reports
+extern NSString *ODMDataManagerNotificationPlaceReportsLoadingFinish;
+extern NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
+
