@@ -12,6 +12,8 @@
 #import "ODMReport.h"
 #import "ODMComment.h"
 
+#import "MapViewAnnotation.h"
+
 static NSString *gotoViewSegue = @"gotoViewSegue";
 
 @interface ODMExplorePlaceDetailViewController ()
@@ -38,7 +40,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    titleLabel.text = [NSString stringWithFormat:@"%@", self.place.title];
+    titleLabel.text = self.place.title;
+    self.title = self.place.title;
     
     // Load data
     datasource = [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
@@ -58,7 +61,13 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
                                                  name:ODMDataManagerNotificationPlaceSubscribeDidFinish
                                                object:nil];
     
-    signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOutButtonTapped)];
+    CLLocationCoordinate2D location;
+	location.latitude = [self.place.latitude doubleValue];
+	location.longitude = [self.place.longitude doubleValue];
+    
+	// Add the annotation to our map view
+	MapViewAnnotation *newAnnotation = [[MapViewAnnotation alloc] initWithTitle:self.place.title andCoordinate:location];
+	[self.map addAnnotation:newAnnotation];
 
 }
 
@@ -79,6 +88,20 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+# pragma mark - action
+
+// When a map annotation point is added, zoom to it (1500 range)
+- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
+{
+	MKAnnotationView *annotationView = [views objectAtIndex:0];
+	id <MKAnnotation> mp = [annotationView annotation];
+	MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance([mp coordinate], 1500, 1500);
+	[mv setRegion:region animated:YES];
+	[mv selectAnnotation:mp animated:YES];
+    
+    region.center = [mp coordinate];
 }
 
 - (void)updateSubscribeStatus:(NSNotification *)notification
