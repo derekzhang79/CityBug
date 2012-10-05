@@ -76,6 +76,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     [super viewWillAppear:animated];
     
     [self updatePage:nil];
+    
+    [self isSignIn];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -85,9 +87,6 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 - (void)updatePage:(NSNotification *)notification
 {
-    if ([self isSignIn] == NO) {
-        return;
-    }
         
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     userNameLabel.text = [[dataManager currentUser] username];
@@ -146,7 +145,14 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     if ([[ODMDataManager sharedInstance] isAuthenticated] == NO) {
         [self.actView setHidden:YES];
         [self.notLoginView setHidden:NO];
+        
+        NSLog(@"present signin");
+        [self performSegueWithIdentifier:@"presentSignInModal" sender:self];
+        
+        [[self navigationItem] setRightBarButtonItem:nil];
         return NO;
+    } else {
+        [[self navigationItem] setRightBarButtonItem:signOutButton];
     }
     return YES;
 }
@@ -155,9 +161,16 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 {
     [[ODMDataManager sharedInstance] signOut];
     [self updatePage:nil];
+    
+    [self changeTabBarToFirstTabBar];
 }
 
 - (IBAction)goToPost:(id)sender
+{
+    [self changeTabBarToFirstTabBar];
+}
+
+- (void)changeTabBarToFirstTabBar
 {
     UITabBarController *tc = (UITabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [tc setSelectedIndex:0];

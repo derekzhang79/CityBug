@@ -12,5 +12,6 @@
 }
 
 - (IBAction)magicSignIn:(id)sender;
+- (IBAction)back:(id)sender;
 
 @end

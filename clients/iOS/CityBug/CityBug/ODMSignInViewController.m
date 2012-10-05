@@ -74,6 +74,22 @@
     }
 }
 
+- (IBAction)back:(id)sender;
+{
+    [indicator stopAnimating];
+    indicator.hidden = YES;
+    [self changeTabBarToLastTapWithSeletedTap:2];
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)changeTabBarToLastTapWithSeletedTap:(NSInteger) currentTap
+{
+    UITabBarController *tb = (UITabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    if ([tb selectedIndex] == currentTap) {
+        [tb setSelectedIndex:[[[NSUserDefaults standardUserDefaults] valueForKey:NOW_TABBAR] intValue]];
+    }
+}
+
 - (void)dismissPage:(id)sender
 {
     [indicator stopAnimating];
@@ -83,7 +99,8 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not sign in" message:@"Wrong username and password combination! Please try again." delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
         [alert show];
     } else {
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismissModalViewControllerAnimated:YES];
+        
     }
 }
 
