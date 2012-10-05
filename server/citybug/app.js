@@ -5,7 +5,6 @@ var express = require('express'),
 	flash = require('connect-flash'),
 	util = require('util');
 var app = module.exports = express.createServer();
-var sio = require('socket.io');
 
 // Configuration
 require('./configuration')(app, express, passport, flash);
