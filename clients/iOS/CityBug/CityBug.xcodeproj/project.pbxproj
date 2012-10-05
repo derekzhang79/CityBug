@@ -11,6 +11,9 @@
 		7FBB56E2161D72D900E6E7FE /* ODMExploreFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FBB56E1161D72D900E6E7FE /* ODMExploreFormViewController.m */; };
 		7FC8291A161D9DEF0027E5BA /* ODMExplorePlaceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FC82919161D9DEF0027E5BA /* ODMExplorePlaceDetailViewController.m */; };
 		7FC8293F161EB8940027E5BA /* MapViewAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FC8293E161EB8940027E5BA /* MapViewAnnotation.m */; };
+		7FC82942161EC32D0027E5BA /* ODMPlaceViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FC82941161EC32D0027E5BA /* ODMPlaceViewCell.m */; };
+		7FC82945161ECE8D0027E5BA /* star_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 7FC82943161ECE8D0027E5BA /* star_active.png */; };
+		7FC82946161ECE8D0027E5BA /* star_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 7FC82944161ECE8D0027E5BA /* star_inactive.png */; };
 		982026AE1615B4CB009F47D7 /* comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 982026AD1615B4CB009F47D7 /* comment.png */; };
 		985F49EE160B2D1000D642D0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */; };
 		985F49F0160B2D1B00D642D0 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F49EF160B2D1B00D642D0 /* ImageIO.framework */; };
@@ -138,6 +141,10 @@
 		7FC82919161D9DEF0027E5BA /* ODMExplorePlaceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMExplorePlaceDetailViewController.m; path = CityBug/ODMExplorePlaceDetailViewController.m; sourceTree = SOURCE_ROOT; };
 		7FC8293D161EB8940027E5BA /* MapViewAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewAnnotation.h; sourceTree = "<group>"; };
 		7FC8293E161EB8940027E5BA /* MapViewAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewAnnotation.m; sourceTree = "<group>"; };
+		7FC82940161EC32D0027E5BA /* ODMPlaceViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMPlaceViewCell.h; path = CityBug/View/ODMPlaceViewCell.h; sourceTree = SOURCE_ROOT; };
+		7FC82941161EC32D0027E5BA /* ODMPlaceViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMPlaceViewCell.m; path = CityBug/View/ODMPlaceViewCell.m; sourceTree = SOURCE_ROOT; };
+		7FC82943161ECE8D0027E5BA /* star_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = star_active.png; path = CityBug/images/Prototype/star_active.png; sourceTree = SOURCE_ROOT; };
+		7FC82944161ECE8D0027E5BA /* star_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = star_inactive.png; path = CityBug/images/Prototype/star_inactive.png; sourceTree = SOURCE_ROOT; };
 		982026AD1615B4CB009F47D7 /* comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = comment.png; path = CityBug/images/Prototype/comment.png; sourceTree = SOURCE_ROOT; };
 		985F49ED160B2D1000D642D0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		985F49EF160B2D1B00D642D0 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -301,6 +308,8 @@
 		98675A0815FDFD9900B34785 /* prototype */ = {
 			isa = PBXGroup;
 			children = (
+				7FC82943161ECE8D0027E5BA /* star_active.png */,
+				7FC82944161ECE8D0027E5BA /* star_inactive.png */,
 				982026AD1615B4CB009F47D7 /* comment.png */,
 				CE314D8A161076C500CB7820 /* geo.png */,
 				CE314D8B161076C500CB7820 /* in.png */,
@@ -337,6 +346,8 @@
 				CE314D17161016B600CB7820 /* ODMActivityFeedViewCell.m */,
 				9889728C161BEBF400DAF709 /* ODMMyReportCell.h */,
 				9889728D161BEBF400DAF709 /* ODMMyReportCell.m */,
+				7FC82940161EC32D0027E5BA /* ODMPlaceViewCell.h */,
+				7FC82941161EC32D0027E5BA /* ODMPlaceViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -707,6 +718,8 @@
 				CE314D8D161076C500CB7820 /* geo.png in Resources */,
 				CE314D8E161076C500CB7820 /* in.png in Resources */,
 				982026AE1615B4CB009F47D7 /* comment.png in Resources */,
+				7FC82945161ECE8D0027E5BA /* star_active.png in Resources */,
+				7FC82946161ECE8D0027E5BA /* star_inactive.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -779,6 +792,7 @@
 				7FBB56E2161D72D900E6E7FE /* ODMExploreFormViewController.m in Sources */,
 				7FC8291A161D9DEF0027E5BA /* ODMExplorePlaceDetailViewController.m in Sources */,
 				7FC8293F161EB8940027E5BA /* MapViewAnnotation.m in Sources */,
+				7FC82942161EC32D0027E5BA /* ODMPlaceViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
