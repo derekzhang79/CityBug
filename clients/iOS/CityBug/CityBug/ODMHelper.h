@@ -133,3 +133,7 @@ extern NSString *ODMDataManagerNotificationMyReportsLoadingFail;
 extern NSString *ODMDataManagerNotificationPlaceReportsLoadingFinish;
 extern NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
 
+// Place Subscribe
+extern NSString *ODMDataManagerNotificationPlaceSubscribeDidFinish;
+extern NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
+

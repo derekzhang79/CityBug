@@ -45,8 +45,18 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     if (!datasource) datasource = [NSArray new];
     [self.tableView reloadData];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationPlaceReportsLoadingFinish object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateReports:)
+                                                 name:ODMDataManagerNotificationPlaceReportsLoadingFinish
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updatePage:)
+                                                 name:ODMDataManagerNotificationAuthenDidFinish
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateSubscribeStatus:)
+                                                 name:ODMDataManagerNotificationPlaceSubscribeDidFinish
+                                               object:nil];
     
     signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOutButtonTapped)];
 
@@ -71,6 +81,15 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)updateSubscribeStatus:(NSNotification *)notification
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Subscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    if (self.subscribeButton.enabled == YES) {
+        self.subscribeButton.enabled = NO;
+    }
+}
+
 - (void)updatePage:(NSNotification *)notification
 {    
     [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
@@ -78,6 +97,11 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     
     [self.actView setHidden:NO];
     
+    self.subscribeButton.enabled = !self.place.isSubscribed;
+    
+    if([[ODMDataManager sharedInstance] isAuthenticated] == NO) {
+        self.subscribeButton.enabled = NO;
+    }
 }
 
 - (void)updateReports:(NSNotification *)notification
@@ -111,7 +135,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 - (IBAction)subscribeButtonAction:(id)sender
 {
-    
+    [[ODMDataManager sharedInstance] postNewSubscribeToPlace:self.place];
 }
 
 

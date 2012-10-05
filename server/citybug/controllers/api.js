@@ -91,8 +91,8 @@ exports.reports_place = function(req, res) {
 
 //POST new subscriptions by id_foursquare of place
 exports.subscription_place_post = function(req, res){
-    var currentId4sq = req.body.id_foursquare;
-
+    var currentId4sq = req.body.place_id;
+    console.log(JSON.stringify(req.body));
     var currentUser = req.user;
 
     console.log('post new subscription from place id 4sq'+ currentId4sq);
@@ -131,6 +131,7 @@ exports.subscription_place_post = function(req, res){
                         } else {
                             console.log('saved new sub' + sub);
                             res.writeHead(200,  { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'subscribed'});
+                            res.write(JSON.stringify(sub));
                             res.end();
                             return;
                         }
@@ -155,6 +156,7 @@ exports.subscription_place_post = function(req, res){
                 } else {
                     console.log('saved new sub' + sub);
                     res.writeHead(200,  { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'subscribed'});
+                    res.write(JSON.stringify(sub));
                     res.end();
                     return;
                 }
