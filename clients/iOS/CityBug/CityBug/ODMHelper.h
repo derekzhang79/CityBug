@@ -97,7 +97,7 @@
 #define HEADER_TEXT_EMAIL_EXISTED @"email existed"
 #define HEADER_TEXT_SIGNUP_COMPLETE @"registered"
 #define HEADER_TEXT_SUBSCRIBE_COMPLETE @"subscribed"
-
+#define HEADER_TEXT_CAN_NOT_GET_REPORT_PLACE @"can not get reports place"
 /*
  * ODMLog
  */

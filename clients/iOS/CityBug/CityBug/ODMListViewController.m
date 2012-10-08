@@ -214,7 +214,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
                                         destructiveButtonTitle:nil
                                              otherButtonTitles:@"Camera", @"Existing Photo", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-    [actionSheet showInView:self.view];
+    [actionSheet showInView:self.tabBarController.view];
 }
 
 - (IBAction)refreshButtonTapped:(id)sender

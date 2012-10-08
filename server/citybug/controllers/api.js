@@ -77,13 +77,13 @@ exports.reports_place = function(req, res) {
     console.log('get place feed from '+ url);
     model.Place.findOne({id_foursquare: currentId4sq}, function(err, place) {
         if (err || place == null) {
-            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'can not get reports place'}); //can not get reports place
             res.end();
             return;
         }
         getAllReports({place: place}, function(reports){
             res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write('{"reports":' + JSON.stringify(reports) + '}'); //return only array of reports
+            res.write('{"reports":' + JSON.stringify(reports.slice(0,30)) + '}'); //return only array of reports
             res.end();
         });
     });
@@ -286,6 +286,7 @@ exports.comment_post = function(req, res) {
                             res.end();
                         } else {
                             console.log('new comment ' + report);
+                            report.last_modified = new Date();
                             report.comments.push(newComment._id);
                             report.save(function (err){
                                 if (err) {
@@ -549,7 +550,7 @@ exports.reports = function(req, res) {
                     query["$or"] = [];
                     query["$or"].push({"user":currentUser._id}); //check report.user is current user feed
                     for (i in subscribes) {
-                        console.log(i + " subscribes >> "+ subscribes[i]);
+                        //console.log(i + " subscribes >> "+ subscribes[i]);
                         if (subscribes[i].place != null && subscribes[i].place != undefined) {
                             query["$or"].push({"place":subscribes[i].place}); //check report.place is in subscribe
                         }

@@ -10,6 +10,7 @@
 #import "ODMExplorePlaceDetailViewController.h"
 #import "ODMDataManager.h"
 #import "ODMPlace.h"
+#import "ODMPlaceViewCell.h"
 
 #define goToPlaceViewSegue @"goToPlaceViewSegue"
 
@@ -77,19 +78,28 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"PlaceCellIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    ODMPlaceViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[ODMPlaceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     ODMPlace *place = (ODMPlace *)[self placeFromIndexPath:indexPath forTableView:tableView];
-    cell.textLabel.text = [place title];
+    cell.place = place;
+    
+    if (place.isSubscribed == YES) {
+        cell.subscribeStatusImageView.image = [UIImage imageNamed:@"star_active"];
+    } else {
+        cell.subscribeStatusImageView.image = [UIImage imageNamed:@"star_inactive"];
+    }
+
+    /*
+     cell.textLabel.text = [place title];
     if([place isSubscribed] == YES){
         cell.textLabel.textColor = [UIColor redColor];
     } else {
-        cell.textLabel.textColor = [UIColor blackColor];
-    }
+         cell.textLabel.textColor = [UIColor blackColor];
+    }*/
     
     return cell;
 }
@@ -136,6 +146,8 @@
     [self.actView setHidden:YES];
     [self.guideView setHidden:YES];
     [self.noResultView setHidden:YES];
+    [self setActive:NO];
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -211,7 +223,9 @@
 
 - (BOOL)resignFirstResponder
 {
-    [self setActive:NO];
+    if (self.searchBar.text.length == 0) {
+        [self setActive:NO];
+    }
     
     [self.searchBar resignFirstResponder];
     
