@@ -146,6 +146,8 @@
     [self.actView setHidden:YES];
     [self.guideView setHidden:YES];
     [self.noResultView setHidden:YES];
+    [self setActive:NO];
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -221,7 +223,9 @@
 
 - (BOOL)resignFirstResponder
 {
-    [self setActive:NO];
+    if (self.searchBar.text.length == 0) {
+        [self setActive:NO];
+    }
     
     [self.searchBar resignFirstResponder];
     
