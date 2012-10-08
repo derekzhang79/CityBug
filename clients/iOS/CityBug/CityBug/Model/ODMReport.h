@@ -20,6 +20,7 @@
     ODMUser  *_user;
     
     NSDate *_lastModified;
+    NSDate *_createdAt;
 }
 
 @property (nonatomic, strong) NSString *title, *note, *uid, *thumbnailImage, *fullImage;
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) ODMComment *comment;
 
 @property (nonatomic, strong) NSDate *lastModified;
+@property (nonatomic, strong) NSDate *createdAt;
 
 - (BOOL)validateValue:(__autoreleasing id *)value forKey:(NSString *)key error:(NSError *__autoreleasing *)error;
 

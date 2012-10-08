@@ -93,7 +93,7 @@
     
     self.titleLabel.text = [self.report title];
     self.userLabel.text = [self.report.user username];
-    self.lastModifiedLabel.text = [self.report.lastModified stringWithHumanizedTimeDifference];
+    self.createdAtLabel.text = [self.report.createdAt stringWithHumanizedTimeDifference];
     self.iminLabel.text = [NSString stringWithFormat:@"%i",self.report.iminCount.intValue];
     self.locationLabel.text = [self.report.place title];
     self.noteLabel.text = [NSString stringWithFormat:@"%@", [self.report note]];

@@ -1134,7 +1134,7 @@
                                                 <rect key="frame" x="70" y="65" width="200" height="200"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             </imageView>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="last modified" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kjV-aY-zkv">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="created at" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kjV-aY-zkv" userLabel="Label created at">
                                                 <rect key="frame" x="166" y="16" width="134" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1286,6 +1286,7 @@
                         <outlet property="backView" destination="wnN-W8-PUO" id="cLD-QY-wm8"/>
                         <outlet property="commentFormView" destination="qJv-1C-FV2" id="kaw-aV-FJv"/>
                         <outlet property="commentTextField" destination="Rep-ve-Cds" id="v1n-gO-KK5"/>
+                        <outlet property="createdAtLabel" destination="kjV-aY-zkv" id="PTa-IE-8dJ"/>
                         <outlet property="iminLabel" destination="3lI-tY-MRH" id="egk-WS-Poc"/>
                         <outlet property="infoView" destination="Yh9-PK-lsh" id="icz-fo-Owf"/>
                         <outlet property="lastModifiedLabel" destination="kjV-aY-zkv" id="Z3q-Jx-bes"/>
@@ -1852,6 +1853,7 @@
                 <relationship kind="outlet" name="commentFormView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="commentLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="commentTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="createdAtLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="iminLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="infoView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="lastModifiedLabel" candidateClass="UILabel"/>
@@ -1891,7 +1893,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="SDA-I0-JZm"/>
-        <segue reference="GJm-fq-V3p"/>
+        <segue reference="dfb-0w-5uT"/>
+        <segue reference="Te4-z6-zTY"/>
     </inferredMetricsTieBreakers>
 </document>

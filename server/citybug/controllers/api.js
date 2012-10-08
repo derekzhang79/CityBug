@@ -286,6 +286,7 @@ exports.comment_post = function(req, res) {
                             res.end();
                         } else {
                             console.log('new comment ' + report);
+                            report.last_modified = new Date();
                             report.comments.push(newComment._id);
                             report.save(function (err){
                                 if (err) {
