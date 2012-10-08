@@ -1289,7 +1289,6 @@
                         <outlet property="createdAtLabel" destination="kjV-aY-zkv" id="PTa-IE-8dJ"/>
                         <outlet property="iminLabel" destination="3lI-tY-MRH" id="egk-WS-Poc"/>
                         <outlet property="infoView" destination="Yh9-PK-lsh" id="icz-fo-Owf"/>
-                        <outlet property="lastModifiedLabel" destination="kjV-aY-zkv" id="Z3q-Jx-bes"/>
                         <outlet property="locationLabel" destination="d9N-cs-xUo" id="hwh-t1-rWA"/>
                         <outlet property="noteLabel" destination="khP-1V-NP0" id="iZd-yx-kEe"/>
                         <outlet property="reportImageView" destination="y5X-vt-R2U" id="0Ej-cT-BUM"/>
@@ -1856,7 +1855,6 @@
                 <relationship kind="outlet" name="createdAtLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="iminLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="infoView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="lastModifiedLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="noteLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="reportImageView" candidateClass="UIImageView"/>
@@ -1893,7 +1891,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="dfb-0w-5uT"/>
-        <segue reference="Te4-z6-zTY"/>
+        <segue reference="GJm-fq-V3p"/>
+        <segue reference="Q6Q-aX-Jb0"/>
     </inferredMetricsTieBreakers>
 </document>
