@@ -20,7 +20,7 @@
 
     IBOutlet UILabel *titleLabel;
 }
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *subscribeButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *rightButton;
 
 @property (nonatomic, strong) ODMPlace *place;
 

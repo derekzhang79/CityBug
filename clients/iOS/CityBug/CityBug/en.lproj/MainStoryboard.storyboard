@@ -1011,7 +1011,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hli-Y2-lDY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1465" y="-2224"/>
+            <point key="canvasLocation" x="-489" y="-2184"/>
         </scene>
         <!--Sign Up View Controller - Sign up-->
         <scene sceneID="6gz-kz-GSi">
@@ -1113,7 +1113,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QAi-tV-E9h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-973" y="-2224"/>
+            <point key="canvasLocation" x="3" y="-2184"/>
         </scene>
         <!--Report Detail View Controller-->
         <scene sceneID="QE7-ce-1dd">
@@ -1322,7 +1322,7 @@
                 </pongPressGestureRecognizer>
                 <tapGestureRecognizer id="T6Y-gP-tje"/>
             </objects>
-            <point key="canvasLocation" x="-1085" y="-1426"/>
+            <point key="canvasLocation" x="-469" y="-1386"/>
         </scene>
         <!--Navigation Controller - Feed-->
         <scene sceneID="Pgm-XA-WXl">
@@ -1359,7 +1359,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Gb-do-JgJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2035" y="-2224"/>
+            <point key="canvasLocation" x="-1059" y="-2184"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="zzx-Pc-U6b">
@@ -1747,20 +1747,17 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Place" id="ZOZ-vJ-2Bo">
-                        <barButtonItem key="rightBarButtonItem" title="Subscribe" id="dOd-31-T1J">
-                            <connections>
-                                <action selector="subscribeButtonAction:" destination="jjS-M5-IgI" id="6hV-cz-Byw"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Subscribe" id="dOd-31-T1J"/>
                     </navigationItem>
                     <connections>
                         <outlet property="actView" destination="Hff-lX-5m6" id="ojL-Qb-Ahu"/>
                         <outlet property="map" destination="YEQ-YR-eOn" id="8kI-YO-PeD"/>
                         <outlet property="mapView" destination="z6g-ye-Hf3" id="bbT-7e-VjU"/>
                         <outlet property="noResultView" destination="Rrf-T4-W3m" id="5aL-SU-3jm"/>
-                        <outlet property="subscribeButton" destination="dOd-31-T1J" id="0eb-37-9Ew"/>
+                        <outlet property="rightButton" destination="dOd-31-T1J" id="Ujo-ju-lY4"/>
                         <outlet property="tableView" destination="GdM-fN-Yk3" id="ecT-ps-w0D"/>
                         <outlet property="titleLabel" destination="sX4-JG-c6k" id="Orq-JS-lyh"/>
+                        <segue destination="JeU-ep-nt1" kind="modal" identifier="presentSignInModal" id="6EH-Uq-ojF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FGw-mE-vcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1815,12 +1812,14 @@
         <class className="ODMExplorePlaceDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMExplorePlaceDetailViewController.h"/>
             <relationships>
+                <relationship kind="action" name="subscribeButtonAction:"/>
+                <relationship kind="action" name="unsubscribeButtonAction:"/>
                 <relationship kind="outlet" name="actView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="map" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="mapView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="noResultView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="rightButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="subscribeButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
             </relationships>
@@ -1912,7 +1911,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="GJm-fq-V3p"/>
+        <segue reference="6EH-Uq-ojF"/>
         <segue reference="BWE-OZ-5L0"/>
         <segue reference="SDA-I0-JZm"/>
     </inferredMetricsTieBreakers>

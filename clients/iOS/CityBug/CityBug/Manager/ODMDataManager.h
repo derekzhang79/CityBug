@@ -67,12 +67,13 @@
  * Places
  */
 - (NSArray *)mySubscriptions;
-/*
- * Places
- */
 - (NSArray *)placesWithQueryParams:(NSDictionary *)params;
 
+/*
+ * Subscriptions
+ */
 - (void)postNewSubscribeToPlace:(ODMPlace *)place;
+- (void)unsubscribeToPlace:(ODMPlace *)place;
 
 /*
  * CurrentUser

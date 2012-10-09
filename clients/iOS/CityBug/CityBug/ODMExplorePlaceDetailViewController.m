@@ -15,6 +15,7 @@
 #import "MapViewAnnotation.h"
 
 static NSString *gotoViewSegue = @"gotoViewSegue";
+static NSString *presentSignInModal = @"presentSignInModal";
 
 @interface ODMExplorePlaceDetailViewController ()
 {
@@ -23,6 +24,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     
     BOOL isAuthenOld;
     __weak ODMDescriptionFormViewController *_formViewController;
+    
+    UIBarButtonItem *subscribeButton, *unsubscribeButton, *signinButton;
 }
 @end
 
@@ -43,6 +46,10 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     titleLabel.text = self.place.title;
     self.title = self.place.title;
     
+    subscribeButton = [[UIBarButtonItem alloc] initWithTitle:@"Subscribe" style:UIBarButtonItemStyleBordered target:self action:@selector(subscribeButtonAction:)];
+    unsubscribeButton = [[UIBarButtonItem alloc] initWithTitle:@"Unsubscribe" style:UIBarButtonItemStyleBordered target:self action:@selector(unsubscribeButtonAction:)];
+    signinButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonAction)];
+    
     // Load data
     datasource = [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
     if (!datasource) datasource = [NSArray new];
@@ -61,8 +68,12 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
                                                  name:ODMDataManagerNotificationAuthenDidFinish
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateSubscribeStatus:)
+                                             selector:@selector(subscribeComplete:)
                                                  name:ODMDataManagerNotificationPlaceSubscribeDidFinish
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(unsubscribeComplete:)
+                                                 name:ODMDataManagerNotificationPlaceUnsubscribeDidFinish
                                                object:nil];
     
     CLLocationCoordinate2D location;
@@ -79,7 +90,7 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 {
     titleLabel = nil;
     [self setMap:nil];
-    [self setSubscribeButton:nil];
+    [self setRightButton:nil];
     [super viewDidUnload];
 }
 
@@ -109,12 +120,28 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     region.center = [mp coordinate];
 }
 
-- (void)updateSubscribeStatus:(NSNotification *)notification
+- (void)subscribeComplete:(NSNotification *)notification
 {
+    self.place.isSubscribed = YES;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Subscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    if (self.subscribeButton.enabled == YES) {
-        self.subscribeButton.enabled = NO;
+    [self updateSubscribeStatus];
+}
+
+- (void)unsubscribeComplete:(NSNotification *)notification
+{
+    self.place.isSubscribed = NO;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsubscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    [self updateSubscribeStatus];
+}
+
+- (void)updateSubscribeStatus
+{
+    if (self.place.isSubscribed == YES) {
+        [self.navigationItem setRightBarButtonItem:unsubscribeButton];
+    } else {
+        [self.navigationItem setRightBarButtonItem:subscribeButton];
     }
 }
 
@@ -125,11 +152,18 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
     
     [self.actView setHidden:NO];
     
-    self.subscribeButton.enabled = !self.place.isSubscribed;
-    
     if([[ODMDataManager sharedInstance] isAuthenticated] == NO) {
-        self.subscribeButton.enabled = NO;
+        self.rightButton.enabled = NO;
+//        [self.navigationItem setRightBarButtonItem:signinButton];
+    } else {
+        [self updateSubscribeStatus];
     }
+}
+
+- (void)signInButtonAction
+{
+    //must refresh subscribe status from explore place list
+    [self performSegueWithIdentifier:presentSignInModal sender:self];
 }
 
 - (void)updateReports:(NSNotification *)notification
@@ -163,6 +197,12 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 
 - (IBAction)subscribeButtonAction:(id)sender
 {
+    [[ODMDataManager sharedInstance] postNewSubscribeToPlace:self.place];
+}
+
+- (IBAction)unsubscribeButtonAction:(id)sender
+{
+//    [[ODMDataManager sharedInstance] unsubscribeToPlace:self.place];
     [[ODMDataManager sharedInstance] postNewSubscribeToPlace:self.place];
 }
 

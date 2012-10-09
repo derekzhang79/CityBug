@@ -62,7 +62,7 @@ exports.subscription_place_post = function(req, res) {
                     sub.save(function (err){
                         if (err) {
                             console.log(err);
-                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'subscribed not complete'});
                             res.end();
                             return;
                         } else {
@@ -78,26 +78,48 @@ exports.subscription_place_post = function(req, res) {
         } 
         // ถ้ามี place นั้นแล้วในserver ก็ add sub ใหม่ได้เลย
         else {
-            //add sub ใหม่
-            var sub = new model.Subscription();
-            sub.place = place;
-            sub.user = currentUser;
-            sub.created_at = new Date();
-            sub.last_modified = new Date();
-            sub.save(function (err){
-                if (err) {
-                    console.log(err);
-                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.end();
-                    return;
-                } else {
-                    console.log('saved new sub' + sub);
-                    res.writeHead(200,  { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'subscribed'});
-                    res.write(JSON.stringify(sub));
-                    res.end();
-                    return;
-                }
-            }); 
+
+        	model.Subscription.find({ $and: [ { place: place._id }, { user:currentUser._id  } ] }, function(err, existSubs){
+        		console.log(JSON.stringify(existSubs));
+        		if (err || existSubs == null || existSubs.length < 1) {
+        			//add sub ใหม่
+		            var sub = new model.Subscription();
+		            sub.place = place;
+		            sub.user = currentUser;
+		            sub.created_at = new Date();
+		            sub.last_modified = new Date();
+		            sub.save(function (err){
+		                if (err) {
+		                    console.log(err);
+		                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'subscribed not complete'});
+		                    res.end();
+		                    return;
+		                } else {
+		                    console.log('saved new sub' + sub);
+		                    res.writeHead(200,  { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'subscribed'});
+		                    res.write(JSON.stringify(sub));
+		                    res.end();
+		                    return;
+		                }
+		            }); 
+        		} else {
+        			console.log("remove sub");
+        			model.Subscription.remove({ $and: [ { place: place._id }, { user:currentUser._id  } ] }, function(err){
+		        		if (err) {
+		                    console.log(err +" unsubscribe not complete");
+		                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'unsubscribed not complete'});
+		                    res.end();
+		                    return;
+		                } else {
+		                    console.log(currentUser.username +' unsubscribed to place' + place + 'completed!');
+		                    res.writeHead(200,  { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'unsubscribed'});
+		                    res.end();
+		                    return;
+		                }
+		        	});
+        		}
+        	});
+            
         }
 
     });
@@ -105,7 +127,36 @@ exports.subscription_place_post = function(req, res) {
 
 //delete subscriptions by place
 exports.subscription_place_delete = function(req, res) {
+	var url = req.url;
+    var currentId4sq = url.match( /[^\/]+\/?$/ );
+    var currentUser = req.user;
 
+    console.log('delete subscription from place id 4sq'+ currentId4sq + 'and user '+currentUser);
+    model.Place.findOne({id_foursquare: currentId4sq}, function(err, place) {
+        if (err || place == null) {
+            console.log(err);
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'unsubscribed not complete'});
+            res.end();
+            return;
+        } 
+        // ถ้ามี place นั้นแล้วในserver ก็ delete sub ได้เลย
+        else {
+        	model.Subscription.remove({ $and: [ { place: place }, { user:currentUser  } ] }, function(err){
+        		if (err) {
+                    console.log(err);
+                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'unsubscribed not complete'});
+                    res.end();
+                    return;
+                } else {
+                    console.log(currentUser.username +'unsubscribed to place' + place + 'completed!');
+                    res.writeHead(200,  { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'unsubscribed'});
+                    res.end();
+                    return;
+                }
+        	});
+        }
+
+    });
 }
 
 exports.subscriptions_username = function(req, res) {

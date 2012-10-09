@@ -273,7 +273,7 @@
 
 - (IBAction)addImin:(id)sender
 {
-    [[ODMDataManager sharedInstance] postIminAtReport:self.report];
+    //[[ODMDataManager sharedInstance] postIminAtReport:self.report];
 }
 
 #pragma mark - UIScrollView

@@ -41,6 +41,9 @@ NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
 NSString *ODMDataManagerNotificationPlaceSubscribeDidFinish;
 NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
 
+NSString *ODMDataManagerNotificationPlaceUnsubscribeDidFinish;
+NSString *ODMDataManagerNotificationPlaceUnsubscribeDidFail;
+
 NSString *ODMDataManagerNotificationIminAddDidFinish;
 NSString *ODMDataManagerNotificationIminDeleteDidFinish;
 NSString *ODMDataManagerNotificationIminDidFail;
@@ -92,9 +95,11 @@ NSString *ODMDataManagerNotificationIminDidFail;
         ODMDataManagerNotificationPlaceReportsLoadingFinish = @"ODMDataManagerNotificationPlaceReportsLoadingFinish";
         ODMDataManagerNotificationPlaceReportsLoadingFail = @"ODMDataManagerNotificationPlaceReportsLoadingFail";
         
-        
         ODMDataManagerNotificationPlaceSubscribeDidFinish = @"ODMDataManagerNotificationPlaceSubscribeDidFinish";
         ODMDataManagerNotificationPlaceSubscribeDidFail = @"ODMDataManagerNotificationPlaceSubscribeDidFail";
+
+        ODMDataManagerNotificationPlaceUnsubscribeDidFinish = @"ODMDataManagerNotificationPlaceUnsubscribeDidFinish";
+        ODMDataManagerNotificationPlaceUnsubscribeDidFail = @"ODMDataManagerNotificationPlaceUnsubscribeDidFail";
         
         ODMDataManagerNotificationIminAddDidFinish = @"ODMDataManagerNotificationIminAddDidFinish";
         ODMDataManagerNotificationIminDeleteDidFinish = @"ODMDataManagerNotificationIminDeleteDidFinish";
@@ -662,6 +667,18 @@ NSString *ODMDataManagerNotificationIminDidFail;
     }];
 }
 
+- (void)unsubscribeToPlace:(ODMPlace *)place
+{
+    NSString *resourcePath = [@"/api/subscriptions/place/" stringByAppendingString:place.uid];
+    
+    [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        [loader setMethod:RKRequestMethodDELETE];
+        loader.resourcePath = resourcePath;
+    }];
+}
+
+
 - (NSArray *)mySubscriptions
 {
     return [self mySubscriptionWithError:NULL];
@@ -731,6 +748,9 @@ NSString *ODMDataManagerNotificationIminDidFail;
             } else if ([headerText isEqualToString:HEADER_TEXT_SUBSCRIBE_COMPLETE]) {
                 // subscribe ok
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceSubscribeDidFinish object:nil];
+            } else if ([headerText isEqualToString:HEADER_TEXT_UNSUBSCRIBE_COMPLETE]) {
+                // unsubscribe ok
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceUnsubscribeDidFinish object:nil];
             } else if ([headerText isEqualToString:HEADER_TEXT_IMIN_ADD_COMPLETE]) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminAddDidFinish object:nil];
             }
@@ -770,6 +790,13 @@ NSString *ODMDataManagerNotificationIminDidFail;
                 // user already in is existed
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminDidFail object:HEADER_TEXT_IMIN_EXISTED];
             }
+//            else if ([headerText isEqualToString:HEADER_TEXT_SUBSCRIBE_NOT_COMPLETE]) {
+//                // user already in is existed
+//                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceSubscribeDidFail object:HEADER_TEXT_SUBSCRIBE_NOT_COMPLETE];
+//            } else if ([headerText isEqualToString:HEADER_TEXT_UNSUBSCRIBE_NOT_COMPLETE]) {
+//                // user already in is existed
+//                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceUnsubscribeDidFail object:HEADER_TEXT_UNSUBSCRIBE_NOT_COMPLETE];
+//            }
         }
             break;
             

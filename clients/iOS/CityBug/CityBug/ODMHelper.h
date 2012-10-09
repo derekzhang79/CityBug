@@ -97,6 +97,9 @@
 #define HEADER_TEXT_EMAIL_EXISTED @"email existed"
 #define HEADER_TEXT_SIGNUP_COMPLETE @"registered"
 #define HEADER_TEXT_SUBSCRIBE_COMPLETE @"subscribed"
+#define HEADER_TEXT_UNSUBSCRIBE_COMPLETE @"unsubscribed"
+#define HEADER_TEXT_SUBSCRIBE_NOT_COMPLETE @"subscribed not complete"
+#define HEADER_TEXT_UNSUBSCRIBE_NOT_COMPLETE @"unsubscribed not complete"
 #define HEADER_TEXT_CAN_NOT_GET_REPORT_PLACE @"can not get reports place"
 #define HEADER_TEXT_IMIN_ADD_COMPLETE @"imin add"
 #define HEADER_TEXT_IMIN_DELETE_COMPLETE @"imin delete"
@@ -144,6 +147,10 @@ extern NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
 // Place Subscribe
 extern NSString *ODMDataManagerNotificationPlaceSubscribeDidFinish;
 extern NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
+
+// Place Unsubscribe
+extern NSString *ODMDataManagerNotificationPlaceUnsubscribeDidFinish;
+extern NSString *ODMDataManagerNotificationPlaceUnsubscribeDidFail;
 
 // imin
 
