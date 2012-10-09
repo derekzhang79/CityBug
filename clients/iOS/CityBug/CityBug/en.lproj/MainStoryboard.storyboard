@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C54" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="DAN-Mj-WHC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="DAN-Mj-WHC">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
@@ -242,15 +242,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="subscriptionCellIdentifier" textLabel="b8h-8d-LPT" style="IBUITableViewCellStyleDefault" id="q6g-E0-2Wo">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="subscriptionCellIdentifier" textLabel="b8h-8d-LPT" style="IBUITableViewCellStyleDefault" id="q6g-E0-2Wo">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="b8h-8d-LPT">
-                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -259,6 +259,9 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <connections>
+                                    <segue destination="jjS-M5-IgI" kind="push" identifier="goToPlaceViewSegue" id="BWE-OZ-5L0"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -618,7 +621,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OGW-Lc-hiF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-859" y="-2097"/>
+            <point key="canvasLocation" x="-1419" y="-2923"/>
         </scene>
         <!--Description Form View Controller - Create a report-->
         <scene sceneID="H9w-fQ-n6f">
@@ -771,7 +774,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4fD-nf-WHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2125" y="-2097"/>
+            <point key="canvasLocation" x="-2045" y="-2939"/>
         </scene>
         <!--Place Form View Controller - Choose a place-->
         <scene sceneID="Fqh-U9-b4n">
@@ -921,7 +924,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="22r-6v-W8O" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <searchDisplayController id="MLe-UJ-rlW"/>
             </objects>
-            <point key="canvasLocation" x="-867" y="-1456"/>
+            <point key="canvasLocation" x="-1427" y="-3626"/>
         </scene>
         <!--Sign In View Controller - Sign in-->
         <scene sceneID="F2b-lN-d1v">
@@ -1008,7 +1011,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hli-Y2-lDY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1529" y="-2816"/>
+            <point key="canvasLocation" x="-1465" y="-2224"/>
         </scene>
         <!--Sign Up View Controller - Sign up-->
         <scene sceneID="6gz-kz-GSi">
@@ -1110,7 +1113,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QAi-tV-E9h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1037" y="-2816"/>
+            <point key="canvasLocation" x="-973" y="-2224"/>
         </scene>
         <!--Report Detail View Controller-->
         <scene sceneID="QE7-ce-1dd">
@@ -1319,7 +1322,7 @@
                 </pongPressGestureRecognizer>
                 <tapGestureRecognizer id="T6Y-gP-tje"/>
             </objects>
-            <point key="canvasLocation" x="-1557" y="-1410"/>
+            <point key="canvasLocation" x="-1085" y="-1426"/>
         </scene>
         <!--Navigation Controller - Feed-->
         <scene sceneID="Pgm-XA-WXl">
@@ -1356,7 +1359,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Gb-do-JgJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2099" y="-2816"/>
+            <point key="canvasLocation" x="-2035" y="-2224"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="zzx-Pc-U6b">
@@ -1762,7 +1765,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FGw-mE-vcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2157" y="-305"/>
+            <point key="canvasLocation" x="-1605" y="-457"/>
         </scene>
     </scenes>
     <resources>
@@ -1909,7 +1912,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="SDA-I0-JZm"/>
         <segue reference="GJm-fq-V3p"/>
+        <segue reference="BWE-OZ-5L0"/>
+        <segue reference="SDA-I0-JZm"/>
     </inferredMetricsTieBreakers>
 </document>

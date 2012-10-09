@@ -101,7 +101,8 @@ static NSString *gotoViewSegue = @"gotoViewSegue";
 {
 	MKAnnotationView *annotationView = [views objectAtIndex:0];
 	id <MKAnnotation> mp = [annotationView annotation];
-	MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance([mp coordinate], 1500, 1500);
+    int radius = 1000;
+	MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance([mp coordinate], radius, radius);
 	[mv setRegion:region animated:YES];
 	[mv selectAnnotation:mp animated:YES];
     

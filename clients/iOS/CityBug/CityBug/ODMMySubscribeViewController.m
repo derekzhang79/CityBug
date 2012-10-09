@@ -9,6 +9,9 @@
 #import "ODMMySubscribeViewController.h"
 #import "ODMDataManager.h"
 #import "ODMPlace.h"
+#import "ODMExplorePlaceDetailViewController.h"
+
+#define goToPlaceViewSegue @"goToPlaceViewSegue"
 
 @interface ODMMySubscribeViewController ()
 
@@ -92,5 +95,18 @@
     return cell;
 }
 
+
+#pragma mark - segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:goToPlaceViewSegue]) {
+        
+        ODMExplorePlaceDetailViewController *detailViewController = (ODMExplorePlaceDetailViewController *)segue.destinationViewController;
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
+        ODMPlace *aPlace = [dataSource objectAtIndex:selectedIndexPath.row];
+        detailViewController.place = aPlace;
+    }
+}
 
 @end

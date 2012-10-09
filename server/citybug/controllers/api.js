@@ -200,6 +200,8 @@ exports.subscriptions_username = function(req, res) {
                 }
                 //Sort by title's alphabet
                 placeArray = placeArray.sort(function(a, b) { 
+                    a.is_subscribed = true;
+                    b.is_subscribed = true;
                     var ret = 0;
                     var aCompare = a.title.toLowerCase();
                     var bCompare = b.title.toLowerCase();
