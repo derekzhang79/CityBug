@@ -18,7 +18,7 @@ exports.imin_post = function(req, res) {
         .populate('imins')
         .exec(function(err, report) {
 
-        if (include(report.imins, user._id)) {
+        if (containUser(report.imins, user._id)) {
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'imin existed'});
             res.end();
             console.log('user existed');
@@ -59,13 +59,22 @@ exports.imin_delete = function(req, res) {
 
 	model.Imin.findOne({_id:imin._id},function(err, imin) {
 
-		model.Report.findOne({_id:report_id}, function(err, report) {
+		model.Report.findOne({_id:report_id})
+	        .populate('comments')
+	        .exec(function(err, report) {
 			if (err) {
 				console.log(err);
 				res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
 				res.end();
 				return;
 			};
+
+			if (containUser(report.comments, user._id)) {
+	            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'imin existed'});
+	            res.end();
+	            console.log('user existed');
+	        	return;
+        	}
 
 			report.imin_count = report.imin_count - 1;
 
@@ -103,7 +112,7 @@ exports.imin_delete = function(req, res) {
 	});
 }
 
-function include(arr, obj) {
+function containUser(arr, obj) {
     for(var i = 0; i < arr.length; i++) {
         if (arr[i].user.equals(obj)) return true;
     }
