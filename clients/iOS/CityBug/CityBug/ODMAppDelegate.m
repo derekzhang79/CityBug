@@ -29,15 +29,25 @@
 
 - (void)reachabilityStatusChanged:(NSNotification *)notification
 {
+
     NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     if ([[[RKClient sharedClient] reachabilityObserver] isReachabilityDetermined] && [[RKClient sharedClient] isNetworkReachable]) {
         NSLog(@"Internet reachable");
     } else {
         NSLog(@"Internet not reachable");
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No internet connection!" message:@"Please connect internet to use citybug" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
+
+        UIAlertView *errorView;
+        
+        errorView = [[UIAlertView alloc]
+                     initWithTitle: NSLocalizedString(@"Network error", @"Network error")
+                     message: NSLocalizedString(@"No internet connection found, this application requires an internet connection to gather the data required.", @"Network error")
+                     delegate: self
+                     cancelButtonTitle: NSLocalizedString(@"Close", @"Network error") otherButtonTitles: nil];
+        
+        [errorView show];
     }
     NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 }
+
 
 @end
