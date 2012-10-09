@@ -657,7 +657,7 @@
                                                                 <outlet property="delegate" destination="fLN-el-UYt" id="qar-FE-Hzq"/>
                                                             </connections>
                                                         </textField>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="bezel" placeholder="Report Note" minimumFontSize="15" clearButtonMode="unlessEditing" id="jTN-Jr-fRD">
+                                                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="bezel" minimumFontSize="15" clearButtonMode="unlessEditing" id="jTN-Jr-fRD">
                                                             <rect key="frame" x="128" y="52" width="152" height="61"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                             <nil key="textColor"/>
@@ -667,6 +667,16 @@
                                                                 <outlet property="delegate" destination="fLN-el-UYt" id="3Jf-nz-DF9"/>
                                                             </connections>
                                                         </textField>
+                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="b4h-Jk-a5N" customClass="GCPlaceholderTextView">
+                                                            <rect key="frame" x="129" y="53" width="150" height="59"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                            <connections>
+                                                                <outlet property="delegate" destination="fLN-el-UYt" id="dBV-0W-Ol5"/>
+                                                            </connections>
+                                                        </textView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
@@ -754,6 +764,7 @@
                         <outlet property="categoryLabel" destination="yBv-u0-5OA" id="DRI-rN-m46"/>
                         <outlet property="localtionLabel" destination="OWM-jQ-g4b" id="rhk-ui-MY0"/>
                         <outlet property="noteTextField" destination="jTN-Jr-fRD" id="gAr-zK-YS1"/>
+                        <outlet property="noteTextView" destination="b4h-Jk-a5N" id="sOw-6k-Fgp"/>
                         <outlet property="placeLabel" destination="OWM-jQ-g4b" id="bWL-Xi-LbL"/>
                         <outlet property="titleTextField" destination="swL-5T-kd7" id="Ehq-Cw-dOK"/>
                     </connections>
@@ -1762,6 +1773,9 @@
         <image name="in.png" width="30" height="30"/>
     </resources>
     <classes>
+        <class className="GCPlaceholderTextView" superclassName="UITextView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GCPlaceholderTextView.h"/>
+        </class>
         <class className="ODMActivityFeedViewCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMActivityFeedViewCell.h"/>
         </class>
@@ -1779,6 +1793,7 @@
                 <relationship kind="outlet" name="categoryLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="localtionLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="noteTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="noteTextView" candidateClass="GCPlaceholderTextView"/>
                 <relationship kind="outlet" name="placeLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="titleTextField" candidateClass="UITextField"/>
             </relationships>

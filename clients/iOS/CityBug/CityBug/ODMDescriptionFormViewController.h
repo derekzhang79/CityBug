@@ -8,6 +8,7 @@
 
 #import "ODMFormFiedViewController.h"
 #import "ODMCategoryListViewController.h"
+#import "GCPlaceholderTextView.h"
 
 #import <CoreLocation/CoreLocation.h>
 
@@ -19,6 +20,7 @@
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;
+@property (weak, nonatomic) IBOutlet GCPlaceholderTextView *noteTextView;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField, *noteTextField;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel, *placeLabel, *localtionLabel;
 @property (weak, nonatomic) UIImage *bugImage;

@@ -14,6 +14,8 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
+#define PLACE_HOLDER_NOTE @"Report Note"
+
 @implementation ODMDescriptionFormViewController {
     NSMutableDictionary *entryDict;
     
@@ -27,6 +29,7 @@
 {
     [super viewDidLoad];
     self.bugImageView.image = self.bugImage;
+    self.noteTextView.placeholder = PLACE_HOLDER_NOTE;
     
     [self startGatheringLocation];
 }
@@ -53,6 +56,7 @@
 {
     [self.titleTextField resignFirstResponder];
     [self.noteTextField resignFirstResponder];
+    [self.noteTextView resignFirstResponder];
     
     return [super resignFirstResponder];
 }
@@ -84,7 +88,8 @@
         BOOL isValid = [report validateValue:&title forKey:@"title" error:&error];        
         if (!isValid || error) @throw [NSException exceptionWithName:[error domain] reason:[[error userInfo] objectForKey:@"description"] userInfo:nil];
         
-        report.note = self.noteTextField.text;
+//        report.note = self.noteTextField.text;
+        report.note = self.noteTextView.text;
         id note = report.note;
         error = nil;
         isValid = [report validateValue:&note forKey:@"note" error:&error];
