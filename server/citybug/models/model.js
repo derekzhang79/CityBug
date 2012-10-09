@@ -39,6 +39,7 @@ module.exports = function (mongoose) {
 
 	var IminSchema = new Schema({
 		user 				: { type: Schema.Types.ObjectId, ref: 'User' }
+		, report 				: { type: Schema.Types.ObjectId, ref: 'Report' }
 		, last_modified		: Date
 		, created_at		: Date
 	});

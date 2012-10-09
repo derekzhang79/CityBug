@@ -90,7 +90,7 @@ exports.reports_place = function(req, res) {
 }
 
 //POST new subscriptions by id_foursquare of place
-exports.subscription_place_post = function(req, res){
+exports.subscription_place_post = function(req, res) {
     var currentId4sq = req.body.place_id;
     console.log(JSON.stringify(req.body));
     var currentUser = req.user;
@@ -166,7 +166,12 @@ exports.subscription_place_post = function(req, res){
     });
 }
 
-exports.subscriptions_username = function(req, res){
+//delete subscriptions by place
+exports.subscription_place_delete = function(req, res) {
+
+}
+
+exports.subscriptions_username = function(req, res) {
     var currentUsername = req.url.match( /[^\/]+\/?$/ );
     console.log("get subscribed place of current Username =>>> "+ currentUsername);
 

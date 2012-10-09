@@ -4,6 +4,7 @@ var controller = require('./controllers/index'),
     place = require('./controllers/place'),
     auth = require('./controllers/authentication'),
     user = require('./controllers/user'),
+    imin = require('./controllers/imin'),
 	passport = require('passport'),
 	service = require('./service');
 
@@ -36,10 +37,15 @@ module.exports = function(app, express){
 	app.get('/api/subscriptions', api.subscriptions);
 	app.get('/api/subscriptions/user/*', api.subscriptions_username);
 	app.post('/api/subscription/place',auth.basic_auth , api.subscription_place_post);
+	app.delete('/api/subscription/place',auth.basic_auth , api.subscription_place_delete);
 
 	//user
 	app.get('/api/users', api.users);
 	app.get('/api/user/*', user.user);
+
+	//imin
+	app.post('api/imin/report/*', auth.basic_auth, imin.imin_post);
+	app.delete('api/imin/report/*', auth.basic_auth, imin.imin_delete);
 
 	//authenticated
 	app.post('/api/user/sign_up', user.sign_up);
