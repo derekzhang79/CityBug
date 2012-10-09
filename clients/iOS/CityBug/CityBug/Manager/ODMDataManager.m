@@ -211,6 +211,17 @@ NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
     return YES;
 }
 
+// monitor the authorization status for the application changed
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (status == 2) {
+        UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"CityBug" message:NSLocalizedString(REQUIRE_LOCATION_SERVICES_TEXT, REQUIRE_LOCATION_SERVICES_TEXT) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
+        [locationAlert show];
+    }
+    if (status == 3) {
+        [self startGatheringLocation];
+    }
+}
+
 - (BOOL)stopGatheringLocation
 {
     if (_locationManager) {

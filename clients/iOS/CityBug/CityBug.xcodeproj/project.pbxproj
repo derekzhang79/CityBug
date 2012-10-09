@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		208AB70B1623B8D000AC8674 /* GCPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 208AB70A1623B8D000AC8674 /* GCPlaceholderTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7F9C7B461613144000B7FC95 /* ODMSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C7B451613144000B7FC95 /* ODMSignInViewController.m */; };
 		7FBB56E2161D72D900E6E7FE /* ODMExploreFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FBB56E1161D72D900E6E7FE /* ODMExploreFormViewController.m */; };
 		7FC8291A161D9DEF0027E5BA /* ODMExplorePlaceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FC82919161D9DEF0027E5BA /* ODMExplorePlaceDetailViewController.m */; };
@@ -133,6 +134,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		208AB7091623B8D000AC8674 /* GCPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCPlaceholderTextView.h; sourceTree = "<group>"; };
+		208AB70A1623B8D000AC8674 /* GCPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCPlaceholderTextView.m; sourceTree = "<group>"; };
 		7F9C7B441613144000B7FC95 /* ODMSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMSignInViewController.h; path = CityBug/ODMSignInViewController.h; sourceTree = SOURCE_ROOT; };
 		7F9C7B451613144000B7FC95 /* ODMSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMSignInViewController.m; path = CityBug/ODMSignInViewController.m; sourceTree = SOURCE_ROOT; };
 		7FBB56E0161D72D900E6E7FE /* ODMExploreFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMExploreFormViewController.h; path = CityBug/ODMExploreFormViewController.h; sourceTree = SOURCE_ROOT; };
@@ -297,6 +300,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		208AB7081623B8D000AC8674 /* GCPlaceholderTextView */ = {
+			isa = PBXGroup;
+			children = (
+				208AB7091623B8D000AC8674 /* GCPlaceholderTextView.h */,
+				208AB70A1623B8D000AC8674 /* GCPlaceholderTextView.m */,
+			);
+			name = GCPlaceholderTextView;
+			path = Vendor/GCPlaceholderTextView;
+			sourceTree = "<group>";
+		};
 		98675A0715FDFD9200B34785 /* images */ = {
 			isa = PBXGroup;
 			children = (
@@ -443,6 +456,7 @@
 		CEB10E90160376F10041B3B8 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				208AB7081623B8D000AC8674 /* GCPlaceholderTextView */,
 				CE1B85AD16120CDA0040951C /* FDStatusBarNotifierView */,
 				CE314D24161056BD00CB7820 /* SDWebImage */,
 				CE314D1A1610548700CB7820 /* SEHumanizedTime */,
@@ -793,6 +807,7 @@
 				7FC8291A161D9DEF0027E5BA /* ODMExplorePlaceDetailViewController.m in Sources */,
 				7FC8293F161EB8940027E5BA /* MapViewAnnotation.m in Sources */,
 				7FC82942161EC32D0027E5BA /* ODMPlaceViewCell.m in Sources */,
+				208AB70B1623B8D000AC8674 /* GCPlaceholderTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
