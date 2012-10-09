@@ -1280,7 +1280,7 @@
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </barButtonItem>
-                                            <barButtonItem title="Send" style="done" id="CA6-fk-V3m">
+                                            <barButtonItem title="I'm in" style="done" id="CA6-fk-V3m">
                                                 <connections>
                                                     <action selector="addCommentButtonTapped:" destination="7od-Vb-NtW" id="o64-pG-3IV"/>
                                                 </connections>
