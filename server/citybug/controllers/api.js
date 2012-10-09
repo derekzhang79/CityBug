@@ -414,6 +414,7 @@ function getAllReports(queryString, callbackFunction) {
                              "categories":report[index].categories,
                              "place":report[index].place,
                              "imins":imins,
+                             "imin_count":report[index].imin_count,
                              "last_modified":report[index].last_modified,
                              "created_at":report[index].created_at
                             });
@@ -698,6 +699,7 @@ exports.report = function(req, res) {
                          "categories":report.categories,
                          "place":report.place,
                          "imins":imins,
+                         "imin_count":report.imin_count,
                          "last_modified":report.last_modified,
                          "created_at":report.created_at
                         });
@@ -986,7 +988,7 @@ function queryListImin(query, r, callbackFunction) {
                 console.log('query imin' + err);
                 return;
             }
-            if (comments != null && comments.length > 0) {
+            if (imins != null && imins.length > 0) {
                 callbackFunction(imins, r, true);                  
             } 
             return;

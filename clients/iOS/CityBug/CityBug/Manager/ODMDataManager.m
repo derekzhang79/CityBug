@@ -9,6 +9,7 @@
 #import "ODMDataManager.h"
 #import "ODMReport.h"
 #import "ODMPlace.h"
+#import "ODMImin.h"
 
 static ODMDataManager *sharedDataManager = nil;
 
@@ -39,6 +40,10 @@ NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
 
 NSString *ODMDataManagerNotificationPlaceSubscribeDidFinish;
 NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
+
+NSString *ODMDataManagerNotificationIminAddDidFinish;
+NSString *ODMDataManagerNotificationIminDeleteDidFinish;
+NSString *ODMDataManagerNotificationIminDidFail;
 
 @interface ODMDataManager()
 
@@ -91,6 +96,10 @@ NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
         ODMDataManagerNotificationPlaceSubscribeDidFinish = @"ODMDataManagerNotificationPlaceSubscribeDidFinish";
         ODMDataManagerNotificationPlaceSubscribeDidFail = @"ODMDataManagerNotificationPlaceSubscribeDidFail";
         
+        ODMDataManagerNotificationIminAddDidFinish = @"ODMDataManagerNotificationIminAddDidFinish";
+        ODMDataManagerNotificationIminDeleteDidFinish = @"ODMDataManagerNotificationIminDeleteDidFinish";
+        ODMDataManagerNotificationIminDidFail = @"ODMDataManagerNotificationIminDidFail";
+        
         //
         // RestKit setup
         //
@@ -138,6 +147,10 @@ NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
         [commentMapping mapKeyPath:@"_id" toAttribute:@"reportID"];
         [commentMapping mapKeyPath:@"last_modified" toAttribute:@"lastModified"];
         
+        RKObjectMapping *iminMapping = [RKObjectMapping mappingForClass:[ODMImin class]];
+        [iminMapping mapKeyPath:@"created_at" toAttribute:@"createdAt"];
+        [iminMapping mapKeyPath:@"last_modified" toAttribute:@"lastModified"];
+        [iminMapping mapKeyPath:@"_id" toAttribute:@"reportID"];
         
         // Mapping Relation
         [reportMapping mapRelationship:@"categories" withMapping:categoryMapping];
@@ -148,12 +161,14 @@ NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
         
         // Configuration using helper methods
         [reportMapping hasMany:@"comments" withMapping:commentMapping];
+        [reportMapping hasMany:@"imin" withMapping:iminMapping];
         
         [serviceObjectManager.mappingProvider setMapping:reportMapping forKeyPath:@"reports"];
         [serviceObjectManager.mappingProvider setMapping:categoryMapping forKeyPath:@"categories"];
         [serviceObjectManager.mappingProvider setMapping:placeMapping forKeyPath:@"places"];
         [serviceObjectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
         [serviceObjectManager.mappingProvider setMapping:commentMapping forKeyPath:@"comments"];
+        [serviceObjectManager.mappingProvider setMapping:iminMapping forKeyPath:@"imin"];
         [serviceObjectManager.mappingProvider addObjectMapping:reportMapping];
         
         // Serialization
@@ -164,6 +179,7 @@ NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
         [serviceObjectManager.mappingProvider setSerializationMapping:placeMapping forClass:[ODMPlace class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:[userMapping inverseMapping] forClass:[ODMUser class]];
         [serviceObjectManager.mappingProvider setSerializationMapping:commentMapping forClass:[ODMComment class]];
+        [serviceObjectManager.mappingProvider setSerializationMapping:iminMapping forClass:[ODMImin class]];
         
         // Routing
         [serviceObjectManager.router routeClass:[ODMReport class] toResourcePath:@"/api/reports" forMethod:RKRequestMethodPOST];
@@ -171,9 +187,10 @@ NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
         [serviceObjectManager.router routeClass:[ODMComment class] toResourcePath:@"/api/report/:reportID/comment" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMUser class] toResourcePath:@"/api/user/sign_up" forMethod:RKRequestMethodPOST];
         [serviceObjectManager.router routeClass:[ODMPlace class] toResourcePath:@"/api/subscription/place/" forMethod:RKRequestMethodPOST];
+        [serviceObjectManager.router routeClass:[ODMImin class] toResourcePath:@"/api/imin/report/:reportID" forMethod:RKRequestMethodPOST];
+        [serviceObjectManager.router routeClass:[ODMImin class] toResourcePath:@"/api/imin/report/:reportID" forMethod:RKRequestMethodDELETE];
         
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
-        
         // check user when open application
         NSError *error = nil;
         [self signInCityBugUserWithError:&error];
@@ -669,6 +686,29 @@ NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
     return _mySubscription;
 }
 
+#pragma mark - Inim
+
+- (void)postIminAtReport:(ODMReport *)report
+{
+    ODMImin *imin = [[ODMImin alloc] init];
+    imin.reportID = report.uid;
+    
+    RKParams *iminParams = [RKParams params];
+    
+    [[RKObjectManager sharedManager] postObject:imin usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        
+        [iminParams setValue:report.uid forParam:@"_id"];
+        
+        loader.onDidLoadObject = ^(id object) {
+            
+        };
+        
+        loader.params = iminParams;
+    }];
+}
+
+
 #pragma mark - RKObjectLoader Delegate
 
 - (void)request:(RKRequest *)request didReceiveResponse:(RKResponse *)response
@@ -691,6 +731,8 @@ NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
             } else if ([headerText isEqualToString:HEADER_TEXT_SUBSCRIBE_COMPLETE]) {
                 // subscribe ok
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceSubscribeDidFinish object:nil];
+            } else if ([headerText isEqualToString:HEADER_TEXT_IMIN_ADD_COMPLETE]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminAddDidFinish object:nil];
             }
         }
             break;
@@ -718,12 +760,15 @@ NSString *ODMDataManagerNotificationPlaceSubscribeDidFail;
                 // sign up failed because username is existed
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationSignUpDidFinish object:HEADER_TEXT_USERNAME_EXISTED];
                 
-            }else if ([headerText isEqualToString:HEADER_TEXT_EMAIL_EXISTED]) {
+            } else if ([headerText isEqualToString:HEADER_TEXT_EMAIL_EXISTED]) {
                 // sign up failed because email is existed
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationSignUpDidFinish object:HEADER_TEXT_EMAIL_EXISTED];
-            }else if ([headerText isEqualToString:HEADER_TEXT_CAN_NOT_GET_REPORT_PLACE]) {
+            } else if ([headerText isEqualToString:HEADER_TEXT_CAN_NOT_GET_REPORT_PLACE]) {
                 // sign up failed because email is existed
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceReportsLoadingFail object:HEADER_TEXT_CAN_NOT_GET_REPORT_PLACE];
+            } else if ([headerText isEqualToString:HEADER_TEXT_IMIN_EXISTED]) {
+                // user already in is existed
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminDidFail object:HEADER_TEXT_IMIN_EXISTED];
             }
         }
             break;

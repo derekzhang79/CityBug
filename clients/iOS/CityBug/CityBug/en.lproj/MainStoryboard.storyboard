@@ -1185,7 +1185,7 @@
                                                 <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <size key="shadowOffset" width="0.0" height="1"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="in.png" id="Idg-wM-fX3">
+                                            <imageView contentMode="scaleAspectFit" image="in.png" id="Idg-wM-fX3">
                                                 <rect key="frame" x="20" y="271" width="22" height="20"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
@@ -1298,6 +1298,7 @@
                         <outlet property="commentFormView" destination="qJv-1C-FV2" id="kaw-aV-FJv"/>
                         <outlet property="commentTextField" destination="Rep-ve-Cds" id="v1n-gO-KK5"/>
                         <outlet property="createdAtLabel" destination="kjV-aY-zkv" id="PTa-IE-8dJ"/>
+                        <outlet property="iminImage" destination="Idg-wM-fX3" id="J8G-1c-SJN"/>
                         <outlet property="iminLabel" destination="3lI-tY-MRH" id="egk-WS-Poc"/>
                         <outlet property="infoView" destination="Yh9-PK-lsh" id="icz-fo-Owf"/>
                         <outlet property="locationLabel" destination="d9N-cs-xUo" id="hwh-t1-rWA"/>
@@ -1862,12 +1863,14 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMReportDetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="addCommentButtonTapped:"/>
+                <relationship kind="action" name="addImin:"/>
                 <relationship kind="outlet" name="avatarImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="backView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="commentFormView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="commentLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="commentTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="createdAtLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="iminImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="iminLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="infoView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
@@ -1906,7 +1909,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="SDA-I0-JZm"/>
         <segue reference="GJm-fq-V3p"/>
-        <segue reference="Q6Q-aX-Jb0"/>
     </inferredMetricsTieBreakers>
 </document>

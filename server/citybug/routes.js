@@ -44,8 +44,8 @@ module.exports = function(app, express){
 	app.get('/api/user/*', user.user);
 
 	//imin
-	app.post('api/imin/report/*', auth.basic_auth, imin.imin_post);
-	app.delete('api/imin/report/*', auth.basic_auth, imin.imin_delete);
+	app.post('/api/imin/report/*', auth.basic_auth, imin.imin_post);
+	app.delete('/api/imin/report/*', auth.basic_auth, imin.imin_delete);
 
 	//authenticated
 	app.post('/api/user/sign_up', user.sign_up);

@@ -35,12 +35,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incommingComments:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCommentView:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.backView addGestureRecognizer:tapGesture];
     
     UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.scrollView addGestureRecognizer:tapGesture2];
+    
+    UITapGestureRecognizer *tapGesture3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addImin:)];
+    [self.iminImage addGestureRecognizer:tapGesture3];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -78,9 +82,11 @@
     
     if (isAuthen) {
         self.commentFormView.hidden = NO;
+        self.iminImage.userInteractionEnabled = YES;
         [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
     } else {
         self.commentFormView.hidden = YES;
+        self.iminImage.userInteractionEnabled = NO;
         [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
     }
 }
@@ -129,7 +135,7 @@
     //
     
     CGSize noteSize = [self.noteLabel.text sizeWithFont:[UIFont systemFontOfSize:14.f] forWidth:self.noteLabel.bounds.size.width lineBreakMode:UILineBreakModeCharacterWrap];
-    self.noteLabel.frame = CGRectMake(self.noteLabel.frame.origin.x, self.noteLabel.frame.origin.y, noteSize.width, noteSize.height);
+    self.noteLabel.frame = CGRectMake(self.noteLabel.frame.origin.x, self.noteLabel.frame.origin.y, self.noteLabel.frame.size.width, noteSize.height);
     [self.noteLabel sizeToFit];
     CGRect rect = self.noteLabel.frame;
     CGRect infoFrame = self.infoView.frame;
@@ -262,6 +268,12 @@
         
         [alertView show];
     }
+}
+
+
+- (IBAction)addImin:(id)sender
+{
+    [[ODMDataManager sharedInstance] postIminAtReport:self.report];
 }
 
 #pragma mark - UIScrollView

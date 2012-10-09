@@ -80,5 +80,8 @@
 - (ODMUser *)currentUser;
 - (void)signInCityBugUserWithError:(NSError **)error;
 - (void)signOut;
-
+/*
+ * Imin
+ */
+- (void)postIminAtReport:(ODMReport *)report;
 @end

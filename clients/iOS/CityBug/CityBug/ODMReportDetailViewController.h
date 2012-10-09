@@ -30,7 +30,7 @@
  * Accessory
  */
 @property (weak, nonatomic) IBOutlet UIView *commentFormView, *infoView, *backView;;
-@property (weak, nonatomic) IBOutlet UIImageView *reportImageView, *avatarImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *reportImageView, *avatarImageView, *iminImage;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel, *locationLabel, *commentLabel, *iminLabel, *userLabel, *createdAtLabel, *noteLabel;
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sendButton;
@@ -38,6 +38,9 @@
  * Add comment
  */
 - (IBAction)addCommentButtonTapped:(id)sender;
-
+/*
+ * Add imin
+ */
+- (IBAction)addImin:(id)sender;
 @end
 
