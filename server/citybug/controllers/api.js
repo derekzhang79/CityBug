@@ -11,26 +11,22 @@ exports.add = function(req, res){
     });
 };
 
-exports.subscriptions = function(req, res){
-
-    model.Subscription.find({})
-        .populate('place')
-        .populate('user','username email thumbnail_image')
-        .exec(function (err, docs) {
+// GET /api/categories >> get list of categories
+exports.categories = function(req, res) {
+    model.Category.find({}, function(err,docs) {
         if (err) {
             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write("Cannot get subscription");
+            res.write("Cannot get categories");
             res.end();
             return;
         } else {
             res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write('{ "subscriptions":' + JSON.stringify(docs) + '}');
+            res.write('{ "categories":' + JSON.stringify(docs) + '}');
             res.end();
             return;
         }
     });
-    
-};
+}
 
 //GET report by username
 exports.reports_username = function(req, res) {
@@ -89,235 +85,6 @@ exports.reports_place = function(req, res) {
     });
 }
 
-//POST new subscriptions by id_foursquare of place
-exports.subscription_place_post = function(req, res) {
-    var currentId4sq = req.body.place_id;
-    console.log(JSON.stringify(req.body));
-    var currentUser = req.user;
-
-    console.log('post new subscription from place id 4sq'+ currentId4sq);
-    model.Place.findOne({id_foursquare: currentId4sq}, function(err, place) {
-        //ถ้า  place ยังไม่มีใน server ต้อง add ก่อน
-        if (err || place == null) {
-            //Save new place
-            var newPlace = new model.Place();
-            newPlace.id_foursquare = req.body.place_id;       
-            newPlace.title = req.body.place_title;         
-            newPlace.lat = req.body.place_lat;                   
-            newPlace.lng = req.body.place_lng;
-            newPlace.last_modified = new Date();
-            newPlace.created_at = new Date();
-            // newPlace.is_subscribed = true;
-
-            newPlace.save(function (err){
-                if (err) {
-                    console.log(err);
-                    // do something
-                } else {
-                    console.log('newPlace' + newPlace);
-
-                    //add sub ใหม่
-                    var sub = new model.Subscription();
-                    sub.place = newPlace;
-                    sub.user = currentUser;
-                    sub.created_at = new Date();
-                    sub.last_modified = new Date();
-                    sub.save(function (err){
-                        if (err) {
-                            console.log(err);
-                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.end();
-                            return;
-                        } else {
-                            console.log('saved new sub' + sub);
-                            res.writeHead(200,  { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'subscribed'});
-                            res.write(JSON.stringify(sub));
-                            res.end();
-                            return;
-                        }
-                    }); 
-                }
-            }); 
-        } 
-        // ถ้ามี place นั้นแล้วในserver ก็ add sub ใหม่ได้เลย
-        else {
-            //add sub ใหม่
-            var sub = new model.Subscription();
-            sub.place = place;
-            sub.user = currentUser;
-            sub.created_at = new Date();
-            sub.last_modified = new Date();
-            sub.save(function (err){
-                if (err) {
-                    console.log(err);
-                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.end();
-                    return;
-                } else {
-                    console.log('saved new sub' + sub);
-                    res.writeHead(200,  { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'subscribed'});
-                    res.write(JSON.stringify(sub));
-                    res.end();
-                    return;
-                }
-            }); 
-        }
-
-    });
-}
-
-//delete subscriptions by place
-exports.subscription_place_delete = function(req, res) {
-
-}
-
-exports.subscriptions_username = function(req, res) {
-    var currentUsername = req.url.match( /[^\/]+\/?$/ );
-    console.log("get subscribed place of current Username =>>> "+ currentUsername);
-
-    // Find user by username
-    model.User.findOne({username: currentUsername}, function(errUser, currentUser){
-        if (errUser || currentUser == null) {
-            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write("Cannot get subscription of username "+ currentUsername);
-            res.end();
-            return;
-        }
-        // Find all subscriptions of user
-        model.Subscription.find({user: currentUser._id})
-        .populate('place')
-        .exec(function (err, subs) {
-            if (err) {
-                res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                res.write("Cannot get subscription of username "+ currentUsername);
-                res.end();
-                return;
-            } else {
-                var placeArray = [];
-                //Get all places
-                for (i in subs) {
-                    placeArray.push(subs[i].place);
-                }
-                //Sort by title's alphabet
-                placeArray = placeArray.sort(function(a, b) { 
-                    a.is_subscribed = true;
-                    b.is_subscribed = true;
-                    var ret = 0;
-                    var aCompare = a.title.toLowerCase();
-                    var bCompare = b.title.toLowerCase();
-                    if(aCompare > bCompare) 
-                        ret = 1;
-                    if(aCompare < bCompare) 
-                        ret = -1; 
-                    return ret;
-                });
-
-                res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-                res.write('{ "places":' + JSON.stringify(placeArray) + '}');
-                res.end();
-                return;
-            }
-        });
-    });
-    
-};
-
-exports.users = function(req, res){
-
-    model.User.find({}) //, {username:1, password:1, email:1, created_at:1, last_modified:1})
-        .exec(function (err, docs) {
-        if (err) {
-            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write("Can not get user");
-            res.end();
-            return;
-        } else {
-            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write('{ "users":' + JSON.stringify(docs) + '}');
-            res.end();
-            return;
-        }
-    });
-    
-};
-
-
-exports.comment_post = function(req, res) {
-    var url = req.url;
-    // reg localhost:3003/api/report/505c1671ae45f73d0d000006/comment --> 505c1671ae45f73d0d000006
-    var urlArrayID = url.match( /^.*?\/(\w+)\/[^\/]*$/ );    
-    var currentID;
-    // get :id from url
-    if(urlArrayID != null && urlArrayID.length > 1) {
-        currentID = urlArrayID[1];
-    } else {
-        res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-        res.write("Can not add new comment, wrong report ID\n Please use format /api/report/:id/comment");
-        res.end();
-        return;
-    }
-    
-    //Find User by username from http basic
-    model.User.findOne({username:req.user.username}, function (err, user){
-        //add comment
-        if (err) {
-            console.log(err);
-        } else if (user == null || user == undefined) {
-            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write("Can not add new comment, cannot find user Please use format /api/report/:id/comment");
-            res.end();
-        } else {
-            var newComment = new model.Comment();
-            newComment.text = req.body.text;
-            newComment.user = user._id;
-            newComment.report = currentID;
-            newComment.last_modified = new Date();
-            newComment.created_at = new Date();
-            newComment.save(function (err){
-                if (err) {
-                    console.log(err);
-                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                    res.write("Can not add new comment, save failed");
-                    res.end();
-                } else {
-                    // find report by id
-                    model.Report.findOne({_id:currentID}, function(err, report) {
-                        if (err) {
-                            console.log('err' + err);
-                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write("Can not add new comment, cannot find user Please use format /api/report/:id/comment");
-                            res.end();
-                        } else if (report == null || report == undefined) {
-                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                            res.write("Can not add new comment, wrong report ID\n Please use format /api/report/:id/comment");
-                            res.end();
-                        } else {
-                            console.log('new comment ' + report);
-                            report.last_modified = new Date();
-                            report.comments.push(newComment._id);
-                            report.save(function (err){
-                                if (err) {
-                                    console.log(err);
-                                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-                                    res.write("Can not add new comment, save comments failed");
-                                    res.end();
-                                } else {
-                                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'commented'});
-                                    res.write(JSON.stringify(report));
-                                    res.end();
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        } 
-    });
-}
-
-exports.add_comment = function(req, res){
-    res.render('add_comment.jade', { title: 'City bug'});
-};
 
 // GET /api/reports >> get list of entries
 exports.all_reports = function(req, res) {
@@ -455,10 +222,6 @@ function isSignInWithUser(currentUser) {
     // return false;
 }
 
-function getCurrentUserID(tmp) {
-    return '505c0e2451a3f4ab11000003';
-}
-
 function sortReportByDistance(report, currentLat, currentLng, callbackFunction) {
     //sort by distance
     for ( i in report ) {
@@ -508,10 +271,6 @@ exports.reports = function(req, res) {
     }
 
     var maxNumber = 30;
-
-    // var currentUserID = getCurrentUserID(req.headers);
-    // var currentUsername = req.query.username;
-    // var currentPassword = req.query.password;
 
     var currentUsername = '';
     var currentPassword = '';
@@ -940,22 +699,6 @@ exports.report_post = function(req, res) {
 
 };
 
-// GET /api/categories >> get list of categories
-exports.categories = function(req, res) {
-    model.Category.find({}, function(err,docs) {
-        if (err) {
-            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write("Cannot get categories");
-            res.end();
-            return;
-        } else {
-            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-            res.write('{ "categories":' + JSON.stringify(docs) + '}');
-            res.end();
-            return;
-        }
-    });
-}
 
 function queryListComment(query, r, callbackFunction) {
     if (query['$or'].length <= 0) {

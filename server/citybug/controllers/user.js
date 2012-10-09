@@ -2,6 +2,27 @@ var environment = require('../environment'),
     service = require('../service'),
     model =  service.useModel('model');
 
+
+exports.users = function(req, res){
+
+    model.User.find({}) //, {username:1, password:1, email:1, created_at:1, last_modified:1})
+        .exec(function (err, docs) {
+        if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write("Can not get user");
+            res.end();
+            return;
+        } else {
+            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.write('{ "users":' + JSON.stringify(docs) + '}');
+            res.end();
+            return;
+        }
+    });
+    
+};
+
+
 exports.user = function(req, res) {
 	console.log('get user');
 	var url = req.url;

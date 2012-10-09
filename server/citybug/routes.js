@@ -5,6 +5,8 @@ var controller = require('./controllers/index'),
     auth = require('./controllers/authentication'),
     user = require('./controllers/user'),
     imin = require('./controllers/imin'),
+    comment = require('./controllers/comment'),
+    subscription = require('./controllers/subscription'),
 	passport = require('passport'),
 	service = require('./service');
 
@@ -22,8 +24,8 @@ module.exports = function(app, express){
 	app.get('/api/reports/all', api.all_reports);
 
 	//comment
-	app.get('/add_comment', api.add_comment);
-	app.post('/api/report/*/comment', auth.basic_auth, api.comment_post);
+	app.get('/add_comment', comment.add_comment);
+	app.post('/api/report/*/comment', auth.basic_auth, comment.comment_post);
 
 	//place
 	app.get('/callback_place_search', place.callback_place_search);
@@ -34,13 +36,13 @@ module.exports = function(app, express){
 	app.get('/api/categories', api.categories);
 
 	//subscribe
-	app.get('/api/subscriptions', api.subscriptions);
-	app.get('/api/subscriptions/user/*', api.subscriptions_username);
-	app.post('/api/subscription/place',auth.basic_auth , api.subscription_place_post);
-	app.delete('/api/subscription/place',auth.basic_auth , api.subscription_place_delete);
+	app.get('/api/subscriptions', subscription.subscriptions);
+	app.get('/api/subscriptions/user/*', subscription.subscriptions_username);
+	app.post('/api/subscription/place',auth.basic_auth , subscription.subscription_place_post);
+	app.delete('/api/subscription/place',auth.basic_auth , subscription.subscription_place_delete);
 
 	//user
-	app.get('/api/users', api.users);
+	app.get('/api/users', user.users_all);
 	app.get('/api/user/*', user.user);
 
 	//imin
