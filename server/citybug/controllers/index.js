@@ -382,7 +382,7 @@ function queryListImin(query, r, callbackFunction) {
                 console.log('query ' + err);
                 return;
             }
-            if (comments != undefined && comments.length > 0) {
+            if (imins != undefined && imins.length > 0) {
                 callbackFunction(imins, r, true);                  
             } 
             return;
