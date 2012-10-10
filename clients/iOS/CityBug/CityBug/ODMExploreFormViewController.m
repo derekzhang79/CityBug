@@ -262,6 +262,11 @@
     [self.tableView reloadData];
 }
 
+- (void)reloadTableView
+{
+    [self.tableView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -279,10 +284,14 @@
                                              selector:@selector(reloadData)
                                                  name:ODMDataManagerNotificationAuthenDidFinish
                                                object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(reloadData)
-//                                                 name:ODMDataManagerNotificationPlaceSubscribeDidFinish
-//                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadTableView)
+                                                 name:ODMDataManagerNotificationPlaceSubscribeDidFinish
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadTableView)
+                                                 name:ODMDataManagerNotificationPlaceUnsubscribeDidFinish
+                                               object:nil];
     
     [self reloadData];
 }
