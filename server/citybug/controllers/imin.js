@@ -122,10 +122,10 @@ exports.imin_delete = function(req, res) {
 	});
 }
 
-exports.imin_list = function(req, res) {
+exports.imin_user_list = function(req, res) {
     var url = req.url;
     var report_id = url.match( /[^\/]+\/?$/ );
-    console.log('imin user list with report id ' + report_id);
+    console.log('get i\'m in user list of report_id ' + report_id);
     model.Imin.find({report:report_id})
 	    .populate('user','username email thumbnail_image')
 	    .exec(function(err, imins) {

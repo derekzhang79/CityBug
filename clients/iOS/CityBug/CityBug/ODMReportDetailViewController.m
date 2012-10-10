@@ -13,6 +13,7 @@
 #import "ODMImin.h"
 #import "ODMReportDetailViewController.h"
 #import "ODMDataManager.h"
+#import "ODMUserListTableViewController.h"
 
 #define ROW_HEIGHT 44
 #define TABLE_VIEW_ORIGIN_X 337
@@ -243,6 +244,10 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 //        locationLabel.text = [self.report.place title];
 //        MKMapView *mapView = (MKMapView *)[vc.view viewWithTag:6111];
 //        [mapView setCenterCoordinate:CLLocationCoordinate2DMake(self.report.latitude.doubleValue, self.report.longitude.doubleValue) animated:NO];
+    }
+    else if ([segue.identifier isEqualToString:goToUserListSegue]) {
+        ODMUserListTableViewController *detailViewController = (ODMUserListTableViewController *)segue.destinationViewController;
+        detailViewController.report = self.report;
     }
 }
 
