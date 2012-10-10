@@ -200,7 +200,6 @@ function getAllReports(queryString, callbackFunction) {
                             queryCount++;
                         }
                         // have comment in any report
-                        console.log('max ' + maxQueryCount + ' queryCount ' + queryCount);
                         if (maxQueryCount == queryCount && maxQueryCount != 0) {
 
                             //Sorted by last_modified
@@ -446,16 +445,22 @@ exports.report = function(req, res) {
                 }
             }            
             // add query imins where _id:id or _id:id ....
-            var query_imins = {};
-            query_imins["$or"] = [];
-            for (i in report.imins) {
-                if (report.imins[i]._id != null && report.imins.length > 0) {
-                    query_imins["$or"].push({"_id":report.imins[i]._id});
-                }
-            }
+
 
             // get all list 
             queryListComment(query_comments, 0, function(comments, index, isQueryComment) {
+
+                if (isQueryComment) {
+                    queryCount++;
+                }
+
+                var query_imins = {};
+                query_imins["$or"] = [];
+                for (i in report.imins) {
+                    if (report.imins[i]._id != null && report.imins.length > 0) {
+                        query_imins["$or"].push({"_id":report.imins[i]._id});
+                    }
+                }
 
                 // get all comment
                 queryListImin(query_imins, 0, function(imins, index, isQueryImins) {
@@ -479,9 +484,9 @@ exports.report = function(req, res) {
                          "created_at":report.created_at
                         });
 
-                    if (isQueryComment || isQueryImins) {
+                    if (isQueryImins) {
                         queryCount++;
-                    };
+                    }
                     // have comment in report
                     if (maxQueryCount == queryCount && maxQueryCount != 0) {
                         res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});

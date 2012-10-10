@@ -64,7 +64,6 @@ exports.imin_delete = function(req, res) {
 			res.end();
 			return;
 		}
-		console.log('report ' + report_id + ' userid ' + user._id);
 		if (imin == null) {
 			res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
 			res.end();
@@ -164,7 +163,6 @@ function removeUserInArrayByUserId(arr, obj) {
 		if (arr[i].user.equals(obj))
 			arr.splice(i, 1); 
 	}
-	console.log('array ' + arr);
 	return arr;
 }
 
