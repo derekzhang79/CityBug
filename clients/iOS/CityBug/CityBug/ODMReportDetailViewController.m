@@ -286,7 +286,7 @@
 - (IBAction)imin:(id)sender
 {
     if ([self isImin]) {
-        [[ODMDataManager sharedInstance] deleteIminAtReport:self.report];
+//        [[ODMDataManager sharedInstance] deleteIminAtReport:self.report];
     } else {
         [[ODMDataManager sharedInstance] postIminAtReport:self.report];
     }
