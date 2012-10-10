@@ -17,14 +17,16 @@
 @implementation ODMExploreFormViewController {
     NSIndexPath *selectedIndexPath;
     NSUInteger cooldownSearchCount;
-    NSArray *_filteredDatasoruce;
+    NSArray *_filteredDatasource;
     UIView *_loadingView;
+    
+    ODMPlace *selectedPlace;
 }
 
 - (NSArray *)arrayForTableView:(UITableView *)tableView
 {
     if (self.isActive) {
-        return _filteredDatasoruce;
+        return _filteredDatasource;
     }
     return self.datasource;
 }
@@ -92,14 +94,6 @@
     } else {
         cell.subscribeStatusImageView.image = [UIImage imageNamed:@"star_inactive"];
     }
-
-    /*
-     cell.textLabel.text = [place title];
-    if([place isSubscribed] == YES){
-        cell.textLabel.textColor = [UIColor redColor];
-    } else {
-         cell.textLabel.textColor = [UIColor blackColor];
-    }*/
     
     return cell;
 }
@@ -111,9 +105,10 @@
     if ([segue.identifier isEqualToString:goToPlaceViewSegue]) {
         
         ODMExplorePlaceDetailViewController *detailViewController = (ODMExplorePlaceDetailViewController *)segue.destinationViewController;
+        self.delegate = detailViewController;
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
-        ODMPlace *aPlace = [self placeFromIndexPath:selectedIndexPath forTableView:self.tableView];
-        detailViewController.place = aPlace;
+        selectedPlace = [self placeFromIndexPath:selectedIndexPath forTableView:self.tableView];
+        detailViewController.place = selectedPlace;
     }
 }
 
@@ -182,11 +177,30 @@
 
 #pragma mark - VIEW
 
+// Update tp explore place detail view
+- (void)checkUpdatePlaceFromDatasource:(NSArray *)datasource
+{
+    if (selectedPlace == nil)
+        return;
+    
+    for (int i=0; i<datasource.count; i++) {
+        NSArray *placeArray = [datasource objectAtIndex:i];
+        for (int j=0; j<placeArray.count; j++) {
+            ODMPlace *datasourcePlace = [placeArray objectAtIndex:j];
+            if ([datasourcePlace.uid isEqualToString:selectedPlace.uid]) {
+                [self.delegate updatePlace:self withPlace:datasourcePlace];
+                return;
+            }
+        }
+    }
+}
+
 - (void)updatePlacesNotification:(NSNotification *)notification
 {
     if ([[notification object] isKindOfClass:[NSArray class]]) {
         
         _datasource = [NSArray arrayWithArray:[notification object]];
+        [self checkUpdatePlaceFromDatasource:_datasource];
         
         if (!self.isActive) {
             [self.noResultView setHidden:_datasource.count > 0 ? YES : NO];
@@ -194,6 +208,7 @@
             [self.guideView setHidden:YES];
             
             [self.tableView reloadData];
+            
         }
     }
 }
@@ -202,10 +217,11 @@
 {
     if ([[notification object] isKindOfClass:[NSArray class]]) {
         
-        _filteredDatasoruce = [NSArray arrayWithArray:[notification object]];
+        _filteredDatasource = [NSArray arrayWithArray:[notification object]];
+        [self checkUpdatePlaceFromDatasource:_filteredDatasource];
         
         if (self.isActive) {
-            if (_filteredDatasoruce.count > 0) {
+            if (_filteredDatasource.count > 0) {
                 [self.noResultView setHidden:YES];
                 [self.searchBar resignFirstResponder];
             } else {
@@ -235,11 +251,13 @@
 - (void)reloadData
 {
     _datasource = [[ODMDataManager sharedInstance] places];
-    _filteredDatasoruce = [NSArray new];
+    _filteredDatasource = [NSArray new];
     
     // show loading view and also make sure to guideView should be hidden
     [self.actView setHidden:NO];
     [self.guideView setHidden:YES];
+    
+    [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
@@ -270,6 +288,7 @@
 - (void)viewDidUnload
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    selectedPlace = nil;
     
     [super viewDidUnload];
 }

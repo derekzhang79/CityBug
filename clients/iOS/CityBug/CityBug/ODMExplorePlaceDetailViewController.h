@@ -8,9 +8,11 @@
 
 
 #import "ODMPlace.h"
+#import "ODMExploreFormViewController.h"
+
 #import <MapKit/MapKit.h>
 
-@interface ODMExplorePlaceDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ODMExplorePlaceDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, ODMExploreFormViewControllerDelegate>
 {
     BOOL _isActive;
     NSArray *_datasource;
