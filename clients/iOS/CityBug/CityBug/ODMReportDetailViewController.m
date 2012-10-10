@@ -44,6 +44,7 @@
     
     UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.scrollView addGestureRecognizer:tapGesture2];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -303,7 +304,6 @@
         [self.iminButton setTitle:@"Imout" forState:UIControlStateNormal];
         if ([self isCommentExisted]) {
             [self.iminButton setEnabled:NO];
-            [self.iminButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         }
     }
 }
