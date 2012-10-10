@@ -753,7 +753,7 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFail;
 
 - (NSArray *)iminUsersWithReport:(ODMReport *)report
 {
-    [serviceObjectManager loadObjectsAtResourcePath:[@"/api/imin/report" stringByAppendingString:report.uid] usingBlock:^(RKObjectLoader *loader){
+    [serviceObjectManager loadObjectsAtResourcePath:[@"/api/imin/report" stringByAppendingPathComponent:report.uid] usingBlock:^(RKObjectLoader *loader){
 
         loader.onDidLoadObjects = ^(NSArray *objects){
             _users = [NSArray arrayWithArray:objects];

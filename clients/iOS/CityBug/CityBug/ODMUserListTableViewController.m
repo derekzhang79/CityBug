@@ -92,7 +92,7 @@
     
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.imageView.image = [UIImage imageNamed:@"cat1.png"];
+        cell.imageView.image = [UIImage imageNamed:@"1.png"];
         cell.textLabel.text = NSLocalizedString(@"Unknown String", @"Unknown String");
     }
     

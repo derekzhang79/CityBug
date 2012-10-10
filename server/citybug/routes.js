@@ -46,7 +46,7 @@ module.exports = function(app, express){
 	app.get('/api/user/*', user.user);
 
 	//imin
-	app.get('/api/imin/report/*', imin.imin_list);
+	app.get('/api/imin/report/*', imin.imin_user_list);
 	app.post('/api/imin/report/*', auth.basic_auth, imin.imin_post);
 	app.delete('/api/imin/report/*', auth.basic_auth, imin.imin_delete);
 
