@@ -132,7 +132,6 @@ function getAllReports(queryString, callbackFunction) {
                 for (i in report[r].comments) {
                     if (report[r].comments[i]._id != null && report[r].comments.length > 0) {
                         if (i == 0) {
-                            console.log('comment pls');
                             maxQueryCount++;
                         }
                     }
@@ -140,7 +139,6 @@ function getAllReports(queryString, callbackFunction) {
                 for (i in report[r].imins) {
                     if (report[r].imins[i]._id != null && report[r].imins.length > 0) {
                         if (i == 0) {
-                            console.log('imin pls');
                             maxQueryCount++;
                         }
                     }

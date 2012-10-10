@@ -115,7 +115,8 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     self.createdAtLabel.text = [self.report.createdAt stringWithHumanizedTimeDifference];
     self.iminLabel.text = [NSString stringWithFormat:@"%i%@",self.report.iminCount.intValue, PEOPLE_ARE_IN];
     self.locationLabel.text = [self.report.place title];
-    self.noteLabel.text = [NSString stringWithFormat:@"%@", [self.report note]];
+    //[self.report note] == @"" use for sizeToFit
+    self.noteLabel.text = [NSString stringWithFormat:@"%@", [self.report note] == @"" ? @" " : [self.report note]];
     
     // Report Image
     NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report fullImage]]];
@@ -146,7 +147,6 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     //
     // Note height
     //
-    
     CGSize noteSize = [self.noteLabel.text sizeWithFont:[UIFont systemFontOfSize:14.f] forWidth:self.noteLabel.bounds.size.width lineBreakMode:UILineBreakModeCharacterWrap];
     self.noteLabel.frame = CGRectMake(self.noteLabel.frame.origin.x, self.noteLabel.frame.origin.y, self.noteLabel.frame.size.width, noteSize.height);
     [self.noteLabel sizeToFit];
