@@ -16,6 +16,8 @@
 
 #define ROW_HEIGHT 44
 #define TABLE_VIEW_ORIGIN_X 337
+#define PEOPLE_ARE_IN @" people are in!"
+static NSString *goToUserListSegue = @"goToUserListSegue";
 
 @implementation ODMReportDetailViewController {
     NSUInteger numberOfComments;
@@ -44,6 +46,9 @@
     
     UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.scrollView addGestureRecognizer:tapGesture2];
+    
+    UITapGestureRecognizer *tapGesture3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iminLabelAction)];
+    [self.iminLabel addGestureRecognizer:tapGesture3];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -60,6 +65,13 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super viewDidUnload];
+}
+
+#pragma mark - Action
+
+- (void)iminLabelAction
+{
+    [self performSegueWithIdentifier:goToUserListSegue sender:self];
 }
 
 - (BOOL)resignFirstResponder
@@ -100,7 +112,7 @@
     self.titleLabel.text = [self.report title];
     self.userLabel.text = [self.report.user username];
     self.createdAtLabel.text = [self.report.createdAt stringWithHumanizedTimeDifference];
-    self.iminLabel.text = [NSString stringWithFormat:@"%i",self.report.iminCount.intValue];
+    self.iminLabel.text = [NSString stringWithFormat:@"%i%@",self.report.iminCount.intValue, PEOPLE_ARE_IN];
     self.locationLabel.text = [self.report.place title];
     self.noteLabel.text = [NSString stringWithFormat:@"%@", [self.report note]];
     
@@ -109,7 +121,7 @@
     [self.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
     
     // Avatar Image
-    NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report.user uid]]];
+    NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report.user thumbnailImage]]];
     [self.avatarImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"1.jpeg"] options:SDWebImageCacheMemoryOnly];
     
     [self calculateContentSizeForScrollView];
