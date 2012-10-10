@@ -27,7 +27,7 @@ exports.imin_post = function(req, res) {
 
 		report.imin_count = report.imin_count + 1;
 		report.imins.push(imin._id);
-		report.save(function(err){
+		report.save(function(err) {
 			if (err) {
                 console.log(err);
                 res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
@@ -75,7 +75,6 @@ exports.imin_delete = function(req, res) {
 	        .populate('comments')
 	        .populate('imins')
 	        .exec(function(err, report) {
-	        console.log('1');
 			if (err) {
 				console.log(err);
 				res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
@@ -83,7 +82,6 @@ exports.imin_delete = function(req, res) {
 				return;
 			};
 
-	        console.log('2');
 			if (containUser(report.comments, user._id)) {
 	            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'imin existed'});
 	            res.end();
@@ -91,7 +89,6 @@ exports.imin_delete = function(req, res) {
 	        	return;
         	}
 
-	        console.log('3');
 			report.imins = removeUserInArrayByUserId(report.imins, user._id);
 			report.imin_count = report.imins.length;
 	        console.log('4');
@@ -102,7 +99,6 @@ exports.imin_delete = function(req, res) {
 					return;
 				}
 
-	        console.log('5');
 				report.save(function(err) {
 					if (err) {
 						console.log(err);
@@ -110,10 +106,8 @@ exports.imin_delete = function(req, res) {
 						res.end();
 					} else {
 						
-	        console.log('6');
 						imin.remove(function(err) {
 
-	        console.log('7');
 							if (err) {
 								console.log(err);
 								res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});

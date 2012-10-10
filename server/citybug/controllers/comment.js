@@ -44,7 +44,9 @@ exports.comment_post = function(req, res) {
                     res.end();
                 } else {
                     // find report by id
-                    model.Report.findOne({_id:currentID}, function(err, report) {
+                    model.Report.findOne({_id:currentID})
+                        .populate('imins')
+                        .exec(function(err, report) {
                         if (err) {
                             console.log('err' + err);
                             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
@@ -54,6 +56,36 @@ exports.comment_post = function(req, res) {
                             res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
                             res.write("Can not add new comment, wrong report ID\n Please use format /api/report/:id/comment");
                             res.end();
+                        } else if (!containUser(report.imins, user._id)) {
+                            var imin = new model.Imin();
+                            imin.user = req.user._id;
+                            imin.report = report._id;
+                            imin.created_at = new Date();
+                            imin.last_modified = new Date();
+
+                            report.imin_count = report.imin_count + 1;
+                            report.imins.push(imin._id);
+                            report.last_modified = new Date();
+                            report.comments.push(newComment._id);
+                            report.save(function(err){
+                                if (err) {
+                                    console.log(err);
+                                    res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                                    res.end();
+                                } else {
+                                    imin.save(function(err){
+                                        if (err) {
+                                            console.log(err);
+                                            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+                                            res.end();
+                                        } else {
+                                            console.log('save imin');
+                                            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'imin add'});
+                                            res.end();
+                                        }
+                                    });
+                                }
+                            });
                         } else {
                             console.log('new comment ' + report);
                             report.last_modified = new Date();
@@ -67,7 +99,8 @@ exports.comment_post = function(req, res) {
                                 } else {
                                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'commented'});
                                     res.write(JSON.stringify(report));
-                                    res.end();
+                                    res.end();    
+                                    
                                 }
                             });
                         }
@@ -78,6 +111,13 @@ exports.comment_post = function(req, res) {
     });
 }
 
-exports.add_comment = function(req, res){
+exports.add_comment = function(req, res) {
     res.render('add_comment.jade', { title: 'City bug'});
 };
+
+function containUser(arr, obj) {
+    for(var i = 0; i < arr.length; i++) {
+        if (arr[i].user.equals(obj)) return true;
+    }
+    return false;
+}

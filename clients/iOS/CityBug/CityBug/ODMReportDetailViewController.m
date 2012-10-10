@@ -46,7 +46,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     
     UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.scrollView addGestureRecognizer:tapGesture2];
-    
+
     UITapGestureRecognizer *tapGesture3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iminLabelAction)];
     [self.iminLabel addGestureRecognizer:tapGesture3];
 }
@@ -315,7 +315,6 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         [self.iminButton setTitle:@"Imout" forState:UIControlStateNormal];
         if ([self isCommentExisted]) {
             [self.iminButton setEnabled:NO];
-            [self.iminButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         }
     }
 }
