@@ -91,38 +91,65 @@ exports.imin_delete = function(req, res) {
 
 			report.imins = removeUserInArrayByUserId(report.imins, user._id);
 			report.imin_count = report.imins.length;
-	        console.log('4');
+	        if (err) {
+				console.log(err);
+				res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+				res.end();
+				return;
+			}
+
+			report.save(function(err) {
 				if (err) {
 					console.log(err);
 					res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
 					res.end();
-					return;
+				} else {
+					
+					imin.remove(function(err) {
+
+						if (err) {
+							console.log(err);
+							res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+							res.end();
+						} else {
+							console.log('delete imin');
+							res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'imin delete'});
+							res.end();
+						}
+					});					
 				}
-
-				report.save(function(err) {
-					if (err) {
-						console.log(err);
-						res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-						res.end();
-					} else {
-						
-						imin.remove(function(err) {
-
-							if (err) {
-								console.log(err);
-								res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
-								res.end();
-							} else {
-								console.log('delete imin');
-								res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'imin delete'});
-								res.end();
-							}
-						});					
-					}
-				});
-			// });
+			});
 		});
 	});
+}
+
+exports.imin_list = function(req, res) {
+    var url = req.url;
+    var report_id = url.match( /[^\/]+\/?$/ );
+    console.log('report_id ' + report_id);
+    model.Imin.find({report:report_id})
+	    .populate('user','username email thumbnail_image')
+	    .exec(function(err, imins) {
+
+	    if (err) {
+			console.log('error ' + err);
+			res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+			res.end();
+	    }
+
+		imins = imins.sort(function(a, b) {
+			return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
+		});
+
+	    var user = [];
+	    for (i in imins) {
+	    	user.push(imins[i].user);
+	    }
+	    
+		res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+		res.write('{ "user":' + JSON.stringify(user) + '}');
+		res.end();
+    });
 }
 
 function containUser(arr, obj) {
