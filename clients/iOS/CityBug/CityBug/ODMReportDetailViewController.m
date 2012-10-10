@@ -29,7 +29,6 @@
 {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Report", @"Report");
-    
     self.commentTextField.placeholder = NSLocalizedString(@"Enter comment here", @"Enter comment here");
     // Show or hide keyboard notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCommentForm:) name:UIKeyboardWillShowNotification object:nil];
@@ -45,9 +44,6 @@
     
     UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.scrollView addGestureRecognizer:tapGesture2];
-    
-    UITapGestureRecognizer *iminTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imin:)];
-    [self.iminImage addGestureRecognizer:iminTap];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -117,7 +113,7 @@
     [self.avatarImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"1.jpeg"] options:SDWebImageCacheMemoryOnly];
     
     [self calculateContentSizeForScrollView];
-    
+    [self iminButtonConfig];
     [self.tableView reloadData];
 }
 
@@ -250,6 +246,7 @@
 {
     if (--cooldownSendImin == 0) {
         [timer invalidate];
+        [self.iminButton setEnabled:YES];
         [self.iminImage setUserInteractionEnabled:YES];
     }
 }
@@ -290,13 +287,25 @@
     } else {
         [[ODMDataManager sharedInstance] postIminAtReport:self.report];
     }
+    
+    [self.iminButton setEnabled:NO];
     [self.iminImage setUserInteractionEnabled:NO];
     cooldownSendImin = 3;
     [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(cooldownSendImin:) userInfo:nil repeats:YES];
     [self updateComment:nil];
 }
 
-- (BOOL)isImin{
+- (void)iminButtonConfig
+{
+    if(![self isImin]) {
+        [self.iminButton setTitle:@"Imin" forState:UIControlStateNormal];
+    } else {
+        [self.iminButton setTitle:@"Imout" forState:UIControlStateNormal];
+    }
+}
+
+- (BOOL)isImin
+{
     for (ODMImin *imin in self.report.imins) {
         if ([imin.user.username isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"username"]]) {
             NSLog(@"user %@ wirh current user %@", imin.user.username, [[NSUserDefaults standardUserDefaults] stringForKey:@"username"]);

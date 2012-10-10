@@ -29,6 +29,7 @@
 /*
  * Accessory
  */
+@property (weak, nonatomic) IBOutlet UIButton *iminButton;
 @property (weak, nonatomic) IBOutlet UIView *commentFormView, *infoView, *backView;;
 @property (weak, nonatomic) IBOutlet UIImageView *reportImageView, *avatarImageView, *iminImage;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel, *locationLabel, *commentLabel, *iminLabel, *userLabel, *createdAtLabel, *noteLabel;
@@ -41,6 +42,6 @@
 /*
  * Add imin
  */
-- (IBAction)addImin:(id)sender;
+- (IBAction)imin:(id)sender;
 @end
 
