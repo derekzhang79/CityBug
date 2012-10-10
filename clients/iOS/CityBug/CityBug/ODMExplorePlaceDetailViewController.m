@@ -65,7 +65,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
                                                  name:ODMDataManagerNotificationPlaceReportsLoadingFail
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updatePage:)
+                                             selector:@selector(waitingForUpdatePlace)
                                                  name:ODMDataManagerNotificationAuthenDidFinish
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -84,6 +84,8 @@ static NSString *presentSignInModal = @"presentSignInModal";
 	// Add the annotation to our map view
 	MapViewAnnotation *newAnnotation = [[MapViewAnnotation alloc] initWithTitle:self.place.title andCoordinate:location];
 	[self.map addAnnotation:newAnnotation];
+    
+    [self.actView setHidden:YES];
 
 }
 
@@ -146,16 +148,24 @@ static NSString *presentSignInModal = @"presentSignInModal";
     }
 }
 
+- (void)waitingForUpdatePlace
+{
+    [self.actView setHidden:NO];
+    
+    [subscribeButton setEnabled:NO];
+    [unsubscribeButton setEnabled:NO];
+}
+
 - (void)updatePage:(NSNotification *)notification
 {    
     [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
     [self.tableView reloadData];
     
-    [self.actView setHidden:NO];
+//    [self.actView setHidden:NO];
     
     if([[ODMDataManager sharedInstance] isAuthenticated] == NO) {
-        self.rightButton.enabled = NO;
-//        [self.navigationItem setRightBarButtonItem:signinButton];
+//        self.rightButton.enabled = NO;
+        [self.navigationItem setRightBarButtonItem:signinButton];
     } else {
         [self updateSubscribeStatus];
     }
@@ -169,7 +179,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
 
 - (void)updateReports:(NSNotification *)notification
 {
-    [self.actView setHidden:YES];
+//    [self.actView setHidden:YES];
     
     NSUInteger oldItemsCount = [datasource count];
     
@@ -272,6 +282,9 @@ static NSString *presentSignInModal = @"presentSignInModal";
         self.place = place;
         [self updatePage:nil];
     }
+    [self.actView setHidden:YES];
+    [subscribeButton setEnabled:YES];
+    [unsubscribeButton setEnabled:YES];
 }
 
 @end
