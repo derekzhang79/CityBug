@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import "NSDate+HumanizedTime.h"
 
+#import "ODMImin.h"
 #import "ODMReportDetailViewController.h"
 #import "ODMDataManager.h"
 
@@ -19,6 +20,7 @@
 @implementation ODMReportDetailViewController {
     NSUInteger numberOfComments;
     NSUInteger cooldownSendButton;
+    NSUInteger cooldownSendImin;
 }
 
 #pragma mark - View LifeCycle
@@ -36,6 +38,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCommentView:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.backView addGestureRecognizer:tapGesture];
@@ -43,8 +46,8 @@
     UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.scrollView addGestureRecognizer:tapGesture2];
     
-    UITapGestureRecognizer *tapGesture3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addImin:)];
-    [self.iminImage addGestureRecognizer:tapGesture3];
+    UITapGestureRecognizer *iminTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imin:)];
+    [self.iminImage addGestureRecognizer:iminTap];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -84,6 +87,7 @@
         self.commentFormView.hidden = NO;
         self.iminImage.userInteractionEnabled = YES;
         [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
+        
     } else {
         self.commentFormView.hidden = YES;
         self.iminImage.userInteractionEnabled = NO;
@@ -242,6 +246,14 @@
     }
 }
 
+- (void)cooldownSendImin:(NSTimer *)timer
+{
+    if (--cooldownSendImin == 0) {
+        [timer invalidate];
+        [self.iminImage setUserInteractionEnabled:YES];
+    }
+}
+
 - (IBAction)addCommentButtonTapped:(id)sender
 {
     if (!self.report) return;
@@ -271,9 +283,27 @@
 }
 
 
-- (IBAction)addImin:(id)sender
+- (IBAction)imin:(id)sender
 {
-    [[ODMDataManager sharedInstance] postIminAtReport:self.report];
+    if ([self isImin]) {
+        [[ODMDataManager sharedInstance] deleteIminAtReport:self.report];
+    } else {
+        [[ODMDataManager sharedInstance] postIminAtReport:self.report];
+    }
+    [self.iminImage setUserInteractionEnabled:NO];
+    cooldownSendImin = 3;
+    [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(cooldownSendImin:) userInfo:nil repeats:YES];
+    [self updateComment:nil];
+}
+
+- (BOOL)isImin{
+    for (ODMImin *imin in self.report.imins) {
+        if ([imin.user.username isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"username"]]) {
+            NSLog(@"user %@ wirh current user %@", imin.user.username, [[NSUserDefaults standardUserDefaults] stringForKey:@"username"]);
+            return YES;
+        }
+    }
+    return NO;
 }
 
 #pragma mark - UIScrollView

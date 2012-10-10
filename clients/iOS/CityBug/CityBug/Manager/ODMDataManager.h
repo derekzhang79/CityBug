@@ -84,4 +84,5 @@
  * Imin
  */
 - (void)postIminAtReport:(ODMReport *)report;
+- (void)deleteIminAtReport:(ODMReport *)report;
 @end

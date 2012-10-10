@@ -45,8 +45,10 @@ exports.reports_username = function(req, res) {
         } else {
             model.Subscription.count({user: user._id}, function(err,subscription_count) {
 
-                getAllReports({user: user._id}, function(reports){
+                getAllReports({user: user._id}, function(reports) {
                     var new_report = {};
+
+            console.log('1.5');
                     new_report["user"] = {
                         _id:user._id
                         , username:user.username
@@ -55,6 +57,7 @@ exports.reports_username = function(req, res) {
                         , subscription_count:subscription_count
                         , reports:reports};
 
+            console.log('2');
                     console.log("Get user detail of "+username);
                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                     // res.write(JSON.stringify(new_report));
@@ -119,7 +122,6 @@ function getAllReports(queryString, callbackFunction) {
             if (err) { 
                 console.log(err);
             }
-
             // have none of report
             if (report.length == 0 || report == null) {
                 callbackFunction(report);
@@ -133,13 +135,15 @@ function getAllReports(queryString, callbackFunction) {
                     if (report[r].comments[i]._id != null && report[r].comments.length > 0) {
                         if (i == 0) {
                             maxQueryCount++;
-                        };
+                        }
                     }
-                    if (report[r].imins._id != null && report[r].imins.length > 0) {
+                }
+                for (i in report[r].imins) {
+                    if (report[r].imins[i]._id != null && report[r].imins.length > 0) {
                         if (i == 0) {
                             maxQueryCount++;
-                        };
-                    };
+                        }
+                    }
                 }
             }
 
@@ -149,7 +153,7 @@ function getAllReports(queryString, callbackFunction) {
                 var query_comments = {};
                 query_comments["$or"] = [];
                 for (i in report[r].comments) {
-                    if (report[r].comments[i]._id != null && report[r].comments.length > 0) {
+                    if (report[r].comments.length > 0 && report[r].comments[i]._id != null) {
                         query_comments["$or"].push({"_id":report[r].comments[i]._id});
                     }
                 }
@@ -158,17 +162,17 @@ function getAllReports(queryString, callbackFunction) {
                 var query_imins = {};
                 query_imins["$or"] = [];
                 for (i in report[r].imins) {
-                    if (report[r].imins[i]._id != null && report[r].imins.length > 0) {
+                    if (report[r].imins.length > 0 && report[r].imins[i]._id != null) {
                         query_imins["$or"].push({"_id":report[r].imins[i]._id});
                     }
                 }
-
                 // get all comment
                 queryListComment(query_comments, r, function(comments, index, isQueryComment) {
-
+                
                     // get all imin
                     queryListImin(query_imins, index, function(imins, index, isQueryImins) {
                         // add data to report
+
                         new_report.push(
                             {"user":report[index].user,
                              "_id":report[index]._id,
@@ -188,10 +192,15 @@ function getAllReports(queryString, callbackFunction) {
                              "created_at":report[index].created_at
                             });
 
-                        if (isQueryComment || isQueryImins) {
+                        
+                        if (isQueryComment) {
+                            queryCount++;
+                        }
+                        if (isQueryImins) {
                             queryCount++;
                         };
                         // have comment in any report
+
                         if (maxQueryCount == queryCount && maxQueryCount != 0) {
 
                             //Sorted by last_modified
@@ -416,7 +425,7 @@ exports.report = function(req, res) {
                         maxQueryCount++;
                     };
                 }
-                if (report.imins._id != null && report.imins.length > 0) {
+                if (report.imins[i]._id != null && report.imins.length > 0) {
                     if (i == 0) {
                         maxQueryCount++;
                     };
@@ -470,7 +479,6 @@ exports.report = function(req, res) {
                     };
                     // have comment in report
                     if (maxQueryCount == queryCount && maxQueryCount != 0) {
-
                         res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                         res.write('{ "reports":' + JSON.stringify(new_report) + '}');
                         res.end();

@@ -158,10 +158,11 @@ NSString *ODMDataManagerNotificationIminDidFail;
         [reportMapping mapRelationship:@"user" withMapping:userMapping];
         [reportMapping mapRelationship:@"comment" withMapping:commentMapping];
         [commentMapping mapRelationship:@"user" withMapping:userMapping];
+        [iminMapping mapRelationship:@"user" withMapping:userMapping];
         
         // Configuration using helper methods
         [reportMapping hasMany:@"comments" withMapping:commentMapping];
-        [reportMapping hasMany:@"imin" withMapping:iminMapping];
+        [reportMapping hasMany:@"imins" withMapping:iminMapping];
         
         [serviceObjectManager.mappingProvider setMapping:reportMapping forKeyPath:@"reports"];
         [serviceObjectManager.mappingProvider setMapping:categoryMapping forKeyPath:@"categories"];
@@ -708,6 +709,25 @@ NSString *ODMDataManagerNotificationIminDidFail;
     }];
 }
 
+- (void)deleteIminAtReport:(ODMReport *)report
+{
+    ODMImin *imin = [[ODMImin alloc] init];
+    imin.reportID = report.uid;
+    
+    RKParams *iminParams = [RKParams params];
+    
+    [[RKObjectManager sharedManager] deleteObject:imin usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        
+        [iminParams setValue:report.uid forParam:@"_id"];
+        
+        loader.onDidLoadObject = ^(id object) {
+            
+        };
+        
+        loader.params = iminParams;
+    }];
+}
 
 #pragma mark - RKObjectLoader Delegate
 
@@ -733,6 +753,8 @@ NSString *ODMDataManagerNotificationIminDidFail;
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceSubscribeDidFinish object:nil];
             } else if ([headerText isEqualToString:HEADER_TEXT_IMIN_ADD_COMPLETE]) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminAddDidFinish object:nil];
+            } else if ([headerText isEqualToString:HEADER_TEXT_IMIN_DELETE_COMPLETE]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
             }
         }
             break;
