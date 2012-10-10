@@ -301,6 +301,10 @@
         [self.iminButton setTitle:@"Imin" forState:UIControlStateNormal];
     } else {
         [self.iminButton setTitle:@"Imout" forState:UIControlStateNormal];
+        if ([self isCommentExisted]) {
+            [self.iminButton setEnabled:NO];
+            [self.iminButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+        }
     }
 }
 
@@ -308,7 +312,16 @@
 {
     for (ODMImin *imin in self.report.imins) {
         if ([imin.user.username isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"username"]]) {
-            NSLog(@"user %@ wirh current user %@", imin.user.username, [[NSUserDefaults standardUserDefaults] stringForKey:@"username"]);
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)isCommentExisted
+{
+    for (ODMComment *comment in self.report.comments) {
+        if ([comment.user.username isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"username"]]) {
             return YES;
         }
     }
