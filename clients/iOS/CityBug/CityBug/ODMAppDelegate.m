@@ -20,9 +20,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityStatusChanged:)
                                                  name:RKReachabilityDidChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reachabilityStatusChanged:)
-                                                 name:RKReachabilityWasDeterminedNotification object:nil];
+    
     
     return YES;
 }
@@ -49,5 +47,9 @@
     NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 }
 
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [self reachabilityStatusChanged:nil];
+}
 
 @end
