@@ -45,8 +45,9 @@ exports.reports_username = function(req, res) {
         } else {
             model.Subscription.count({user: user._id}, function(err,subscription_count) {
 
-                getAllReports({user: user._id}, function(reports){
+                getAllReports({user: user._id}, function(reports) {
                     var new_report = {};
+
                     new_report["user"] = {
                         _id:user._id
                         , username:user.username
@@ -119,7 +120,6 @@ function getAllReports(queryString, callbackFunction) {
             if (err) { 
                 console.log(err);
             }
-
             // have none of report
             if (report.length == 0 || report == null) {
                 callbackFunction(report);
@@ -132,14 +132,18 @@ function getAllReports(queryString, callbackFunction) {
                 for (i in report[r].comments) {
                     if (report[r].comments[i]._id != null && report[r].comments.length > 0) {
                         if (i == 0) {
+                            console.log('comment pls');
                             maxQueryCount++;
-                        };
+                        }
                     }
-                    if (report[r].imins._id != null && report[r].imins.length > 0) {
+                }
+                for (i in report[r].imins) {
+                    if (report[r].imins[i]._id != null && report[r].imins.length > 0) {
                         if (i == 0) {
+                            console.log('imin pls');
                             maxQueryCount++;
-                        };
-                    };
+                        }
+                    }
                 }
             }
 
@@ -149,26 +153,29 @@ function getAllReports(queryString, callbackFunction) {
                 var query_comments = {};
                 query_comments["$or"] = [];
                 for (i in report[r].comments) {
-                    if (report[r].comments[i]._id != null && report[r].comments.length > 0) {
+                    if (report[r].comments.length > 0 && report[r].comments[i]._id != null) {
                         query_comments["$or"].push({"_id":report[r].comments[i]._id});
                     }
                 }
 
                 // add query imin where _id:id or _id:id .... 
-                var query_imins = {};
-                query_imins["$or"] = [];
-                for (i in report[r].imins) {
-                    if (report[r].imins[i]._id != null && report[r].imins.length > 0) {
-                        query_imins["$or"].push({"_id":report[r].imins[i]._id});
-                    }
-                }
 
                 // get all comment
                 queryListComment(query_comments, r, function(comments, index, isQueryComment) {
-
+                    if (isQueryComment) {
+                        queryCount++;
+                    }
+                    var query_imins = {};
+                    query_imins["$or"] = [];
+                    for (i in report[index].imins) {
+                        if (report[index].imins.length > 0 && report[index].imins[i]._id != null) {
+                            query_imins["$or"].push({"_id":report[index].imins[i]._id});
+                        }
+                    }
                     // get all imin
                     queryListImin(query_imins, index, function(imins, index, isQueryImins) {
                         // add data to report
+
                         new_report.push(
                             {"user":report[index].user,
                              "_id":report[index]._id,
@@ -188,10 +195,12 @@ function getAllReports(queryString, callbackFunction) {
                              "created_at":report[index].created_at
                             });
 
-                        if (isQueryComment || isQueryImins) {
+                        
+                        if (isQueryImins) {
                             queryCount++;
-                        };
+                        }
                         // have comment in any report
+                        console.log('max ' + maxQueryCount + ' queryCount ' + queryCount);
                         if (maxQueryCount == queryCount && maxQueryCount != 0) {
 
                             //Sorted by last_modified
@@ -200,6 +209,10 @@ function getAllReports(queryString, callbackFunction) {
                             });
 
                             // Return all Reports with all fields to callback function
+                            callbackFunction(new_report);
+                        }
+
+                        if (index == report.length) {
                             callbackFunction(new_report);
                         }
                     });
@@ -414,15 +427,16 @@ exports.report = function(req, res) {
                 if (report.comments[i]._id != null && report.comments.length > 0) {
                     if (i == 0) {
                         maxQueryCount++;
-                    };
+                    }
                 }
-                if (report.imins._id != null && report.imins.length > 0) {
+            }
+            for (i in report.imins) {
+                if (report.imins[i]._id != null && report.imins.length > 0) {
                     if (i == 0) {
                         maxQueryCount++;
                     };
                 };
             }
-
             // add query comment where _id:id or _id:id .... 
             var query_comments = {};
             query_comments["$or"] = [];
@@ -470,7 +484,6 @@ exports.report = function(req, res) {
                     };
                     // have comment in report
                     if (maxQueryCount == queryCount && maxQueryCount != 0) {
-
                         res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
                         res.write('{ "reports":' + JSON.stringify(new_report) + '}');
                         res.end();

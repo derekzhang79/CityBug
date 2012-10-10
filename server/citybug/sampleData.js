@@ -16,37 +16,37 @@ for (i in places) {
     db.subscriptions.save(sub1);
 }
 
-for (i in reports) {
-    var report = {
-    	created_at:reports[i].created_at,
-    	last_modified:reports[i].last_modified,
-    	imin_count:reports[i].imin_count,
-    	is_resolved:reports[i].is_resolved,
-    	lat:allPlaces[i].lat,
-    	lng:allPlaces[i].lng,
-    	note:reports[i].note,
-    	place:allPlaces[i]._id,
-    	title:reports[i].title,
-    	categories:[allCat[i]._id],
-    	user:adminUser._id,
-    	imin:[],
-    	comments:[]
-    };
-    db.reports.save(report);
-}
+// for (i in reports) {
+//     var report = {
+//     	created_at:reports[i].created_at,
+//     	last_modified:reports[i].last_modified,
+//     	imin_count:reports[i].imin_count,
+//     	is_resolved:reports[i].is_resolved,
+//     	lat:allPlaces[i].lat,
+//     	lng:allPlaces[i].lng,
+//     	note:reports[i].note,
+//     	place:allPlaces[i]._id,
+//     	title:reports[i].title,
+//     	categories:[allCat[i]._id],
+//     	user:adminUser._id,
+//     	imins:[],
+//     	comments:[]
+//     };
+//     db.reports.save(report);
+// }
 
-var allReport = db.reports.find();
+// var allReport = db.reports.find();
 
-for(i in comments) {
-	var comment = {
-		text:comments[i].text,
-		last_modified:comments[i].last_modified,
-		created_at:comments[i].created_at,
-		user:adminUser._id,
-		report:allReport[i%2]._id
-	}
-    db.comments.save(comment);
-    var last_comment = db.comments.findOne({text:comments[i].text});
-    db.reports.update({_id: allReport[i%2]._id}, { $set : { comments : [last_comment._id] } });
+// for(i in comments) {
+// 	var comment = {
+// 		text:comments[i].text,
+// 		last_modified:comments[i].last_modified,
+// 		created_at:comments[i].created_at,
+// 		user:adminUser._id,
+// 		report:allReport[i%2]._id
+// 	}
+//     db.comments.save(comment);
+//     var last_comment = db.comments.findOne({text:comments[i].text});
+//     db.reports.update({_id: allReport[i%2]._id}, { $set : { comments : [last_comment._id] } });
 
-}
+// }

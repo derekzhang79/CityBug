@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="DAN-Mj-WHC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C54" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="DAN-Mj-WHC">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
@@ -1123,7 +1123,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" id="oOV-Ir-1cX">
+                            <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" delaysContentTouches="NO" id="oOV-Ir-1cX">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="323"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
@@ -1215,6 +1215,19 @@
                                                 <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <size key="shadowOffset" width="0.0" height="1"/>
                                             </label>
+                                            <button opaque="NO" autoresizesSubviews="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lA4-kR-X0f">
+                                                <rect key="frame" x="7" y="267" width="40" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="12"/>
+                                                <state key="normal" title="Imin">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="imin:" destination="7od-Vb-NtW" eventType="touchUpInside" id="VJA-v3-e4V"/>
+                                                    <action selector="imin:" destination="7od-Vb-NtW" eventType="touchDown" id="Wcr-RV-2u0"/>
+                                                </connections>
+                                            </button>
                                             <view hidden="YES" alpha="0.059999999999999998" contentMode="scaleToFill" id="wnN-W8-PUO" userLabel="BackView">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1301,6 +1314,7 @@
                         <outlet property="commentFormView" destination="qJv-1C-FV2" id="kaw-aV-FJv"/>
                         <outlet property="commentTextField" destination="Rep-ve-Cds" id="v1n-gO-KK5"/>
                         <outlet property="createdAtLabel" destination="kjV-aY-zkv" id="PTa-IE-8dJ"/>
+                        <outlet property="iminButton" destination="lA4-kR-X0f" id="XzM-aH-09L"/>
                         <outlet property="iminImage" destination="Idg-wM-fX3" id="J8G-1c-SJN"/>
                         <outlet property="iminLabel" destination="3lI-tY-MRH" id="egk-WS-Poc"/>
                         <outlet property="infoView" destination="Yh9-PK-lsh" id="icz-fo-Owf"/>
@@ -1315,11 +1329,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JY3-7E-gpw" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.30000000000000004" id="yAJ-Sf-xS8">
-                    <connections>
-                        <action selector="handleLongGesture:" destination="7od-Vb-NtW" id="LHJ-ki-Oxn"/>
-                    </connections>
-                </pongPressGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.30000000000000004" id="yAJ-Sf-xS8"/>
                 <tapGestureRecognizer id="T6Y-gP-tje"/>
             </objects>
             <point key="canvasLocation" x="-469" y="-1386"/>
@@ -1812,8 +1822,6 @@
         <class className="ODMExplorePlaceDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMExplorePlaceDetailViewController.h"/>
             <relationships>
-                <relationship kind="action" name="subscribeButtonAction:"/>
-                <relationship kind="action" name="unsubscribeButtonAction:"/>
                 <relationship kind="outlet" name="actView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="map" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="mapView" candidateClass="UIView"/>
@@ -1865,13 +1873,14 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMReportDetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="addCommentButtonTapped:"/>
-                <relationship kind="action" name="addImin:"/>
+                <relationship kind="action" name="imin:"/>
                 <relationship kind="outlet" name="avatarImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="backView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="commentFormView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="commentLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="commentTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="createdAtLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="iminButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="iminImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="iminLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="infoView" candidateClass="UIView"/>
@@ -1911,8 +1920,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="6EH-Uq-ojF"/>
+        <segue reference="Te4-z6-zTY"/>
         <segue reference="BWE-OZ-5L0"/>
-        <segue reference="SDA-I0-JZm"/>
+        <segue reference="6EH-Uq-ojF"/>
     </inferredMetricsTieBreakers>
 </document>
