@@ -2,10 +2,9 @@ var environment = require('../environment'),
     service = require('../service'),
     passport = require('passport'),
     model =  service.useModel('model'),
-    http = require('http'),
-    KEYS = require('../key');
+    http = require('http');
 
-    
+
 exports.comment_post = function(req, res) {
     var url = req.url;
     // reg localhost:3003/api/report/505c1671ae45f73d0d000006/comment --> 505c1671ae45f73d0d000006
