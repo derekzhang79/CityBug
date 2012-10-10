@@ -145,7 +145,7 @@ exports.imin_user_list = function(req, res) {
 	    for (i in imins) {
 	    	user.push(imins[i].user);
 	    }
-	    
+
 		res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
 		res.write('{ "user":' + JSON.stringify(user) + '}');
 		res.end();
@@ -159,8 +159,7 @@ function containUser(arr, obj) {
     return false;
 }
 
-function removeUserInArrayByUserId(arr, obj)
-{
+function removeUserInArrayByUserId(arr, obj) {
 	for(var i = 0; i < arr.length; i++ ) { 
 		if (arr[i].user.equals(obj))
 			arr.splice(i, 1); 
