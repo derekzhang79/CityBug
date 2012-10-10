@@ -7,9 +7,12 @@
 //
 
 #import "ODMUserListTableViewController.h"
+#import "ODMDataManager.h"
+#import "ODMUser.h"
+#import "UIImageView+WebCache.h"
 
 @interface ODMUserListTableViewController ()
-
+@property (nonatomic, readwrite, strong) NSArray *datasource;
 @end
 
 @implementation ODMUserListTableViewController
@@ -23,16 +26,46 @@
     return self;
 }
 
+
+- (void)reloadData
+{
+    _datasource = [[ODMDataManager sharedInstance] iminUsersWithReport:self.report];
+    
+    [self.tableView reloadData];
+}
+
+- (void)updateUsersNotification:(NSNotification *)notification
+{
+    if ([[notification object] isKindOfClass:[NSArray class]]) {
+        _datasource = [notification object];
+        
+        [self.tableView reloadData];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateUsersNotification:)
+                                                 name:ODMDataManagerNotificationIminUsersLoadingFinish
+                                               object:nil];
 }
+
+- (void)viewDidUnload
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [super viewDidUnload];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -44,78 +77,37 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+    return [self.datasource count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"UserCellIdentifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.imageView.image = [UIImage imageNamed:@"cat1.png"];
+        cell.textLabel.text = NSLocalizedString(@"Unknown String", @"Unknown String");
+    }
+    
+    if (self.datasource.count > indexPath.row) {
+        
+        ODMUser *user = [self.datasource objectAtIndex:indexPath.row];
+        
+        cell.textLabel.text = [user username];
+        //NSURL *userImageURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, user.thumbnailImage]];
+        //[cell.imageView.image setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"1.png"] options:SDWebImageCacheMemoryOnly] ];
+    }
     
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-}
 
 @end

@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ODMReport;
 
 @interface ODMUserListTableViewController : UITableViewController
-
+{
+    NSArray *_datasource;
+    ODMReport *_report;
+}
+@property (nonatomic, readonly, strong) NSArray *datasource;
+@property (nonatomic, strong) ODMReport *report;
 @end

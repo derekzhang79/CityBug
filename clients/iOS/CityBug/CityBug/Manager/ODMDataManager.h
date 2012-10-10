@@ -15,7 +15,7 @@
 @private
     RKObjectManager *serviceObjectManager;
 
-    NSArray *_reports, *_categories, *_places, *_filterdPlaces, *_mySubscription, *_myReports, *_placeReports;
+    NSArray *_reports, *_categories, *_places, *_filterdPlaces, *_mySubscription, *_myReports, *_placeReports, *_users;
     
     NSMutableDictionary *queryParams;
     CLLocationManager *_locationManager;
@@ -24,7 +24,7 @@
 @property (nonatomic, readonly ,strong) CLLocationManager *locationManager;
 
 
-@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places, *mySubscription, *myReports, *placeReports;
+@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places, *mySubscription, *myReports, *placeReports, *users;
 @property (nonatomic, assign) BOOL isAuthenticated;
 
 /*
@@ -86,4 +86,5 @@
  */
 - (void)postIminAtReport:(ODMReport *)report;
 - (void)deleteIminAtReport:(ODMReport *)report;
+- (NSArray *)iminUsersWithReport:(ODMReport *)report;
 @end

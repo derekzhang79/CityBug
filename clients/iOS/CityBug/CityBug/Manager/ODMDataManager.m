@@ -47,13 +47,15 @@ NSString *ODMDataManagerNotificationPlaceUnsubscribeDidFail;
 NSString *ODMDataManagerNotificationIminAddDidFinish;
 NSString *ODMDataManagerNotificationIminDeleteDidFinish;
 NSString *ODMDataManagerNotificationIminDidFail;
+NSString *ODMDataManagerNotificationIminUsersLoadingFinish;
+NSString *ODMDataManagerNotificationIminUsersLoadingFail;
 
 @interface ODMDataManager()
 
 /*
  * Read write access only DataManager
  */
-@property (nonatomic, readwrite, strong) NSArray *categories, *reports, *places;
+@property (nonatomic, readwrite, strong) NSArray *categories, *reports, *places, *users;
 @property (nonatomic, readwrite, strong) CLLocationManager *locationManager;
 
 @end
@@ -104,6 +106,8 @@ NSString *ODMDataManagerNotificationIminDidFail;
         ODMDataManagerNotificationIminAddDidFinish = @"ODMDataManagerNotificationIminAddDidFinish";
         ODMDataManagerNotificationIminDeleteDidFinish = @"ODMDataManagerNotificationIminDeleteDidFinish";
         ODMDataManagerNotificationIminDidFail = @"ODMDataManagerNotificationIminDidFail";
+        ODMDataManagerNotificationIminUsersLoadingFinish = @"ODMDataManagerNotificationIminUsersLoadingFinish";
+        ODMDataManagerNotificationIminUsersLoadingFail = @"ODMDataManagerNotificationIminUsersLoadingFail";
         
         //
         // RestKit setup
@@ -145,6 +149,7 @@ NSString *ODMDataManagerNotificationIminDidFail;
         [userMapping mapKeyPath:@"username" toAttribute:@"username"];
         [userMapping mapKeyPath:@"password" toAttribute:@"password"];
         [userMapping mapKeyPath:@"email" toAttribute:@"email"];
+        [userMapping mapKeyPath:@"thumbnail_image" toAttribute:@"thumbnailImage"];
         [userMapping mapKeyPath:@"_id" toAttribute:@"uid"];
         
         RKObjectMapping *commentMapping = [RKObjectMapping mappingForClass:[ODMComment class]];
@@ -704,7 +709,7 @@ NSString *ODMDataManagerNotificationIminDidFail;
     return _mySubscription;
 }
 
-#pragma mark - Inim
+#pragma mark - I'm in
 
 - (void)postIminAtReport:(ODMReport *)report
 {
@@ -744,6 +749,22 @@ NSString *ODMDataManagerNotificationIminDidFail;
         
         loader.params = iminParams;
     }];
+}
+
+- (NSArray *)iminUsersWithReport:(ODMReport *)report
+{
+    [serviceObjectManager loadObjectsAtResourcePath:[@"/api/imin/report" stringByAppendingString:report.uid] usingBlock:^(RKObjectLoader *loader){
+
+        loader.onDidLoadObjects = ^(NSArray *objects){
+            _users = [NSArray arrayWithArray:objects];
+            
+            // Post notification with category array
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminUsersLoadingFinish object:_users];
+        };
+    }];
+    
+    return _users;
+
 }
 
 #pragma mark - RKObjectLoader Delegate

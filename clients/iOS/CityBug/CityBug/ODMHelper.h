@@ -157,3 +157,6 @@ extern NSString *ODMDataManagerNotificationPlaceUnsubscribeDidFail;
 extern NSString *ODMDataManagerNotificationIminAddDidFinish;
 extern NSString *ODMDataManagerNotificationIminDeleteDidFinish;
 extern NSString *ODMDataManagerNotificationIminDidFail;
+extern NSString *ODMDataManagerNotificationIminUsersLoadingFinish;
+extern NSString *ODMDataManagerNotificationIminUsersLoadingFail;
+
