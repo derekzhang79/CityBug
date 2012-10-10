@@ -16,9 +16,12 @@
 
 #import "ODMFormFiedViewController.h"
 
+@protocol ODMExploreFormViewControllerDelegate;
+
 @class ODMPlace;
 
 @interface ODMExploreFormViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,UISearchBarDelegate> {
+    __unsafe_unretained id <ODMExploreFormViewControllerDelegate> _delegate;
     
     BOOL _isActive;
     NSArray *_datasource;
@@ -26,6 +29,7 @@
     __weak UITableView *_tableView;
     __weak UISearchBar *_searchBar;
 }
+@property (unsafe_unretained) id <ODMExploreFormViewControllerDelegate> delegate;
 
 @property (nonatomic, readonly, strong) NSArray *datasource;
 
@@ -41,5 +45,12 @@
 @protocol ODMPlaceFormDelegate <NSObject>
 
 - (void)didSelectPlace:(ODMPlace *)place;
+
+@end
+
+
+@protocol ODMExploreFormViewControllerDelegate <NSObject>
+
+- (void)updatePlace:(ODMExploreFormViewController *)delegate withPlace:(ODMPlace *)place;
 
 @end

@@ -5,6 +5,7 @@
 #import "ODMDescriptionFormViewController.h"
 #import "ODMReportDetailViewController.h"
 #import "ODMDescriptionViewController.h"
+#import "ODMExploreFormViewController.h"
 
 #import "UIImageView+WebCache.h"
 #import "ODMActivityFeedViewCell.h"
@@ -261,6 +262,16 @@ static NSString *presentSignInModal = @"presentSignInModal";
         }
     }
     
+}
+
+#pragma mark - explore form view controller delegate
+
+- (void)updatePlace:(ODMExploreFormViewController *)delegate withPlace:(ODMPlace *)place
+{
+    if (place != nil) {
+        self.place = place;
+        [self updatePage:nil];
+    }
 }
 
 @end
