@@ -188,7 +188,9 @@
         for (int j=0; j<placeArray.count; j++) {
             ODMPlace *datasourcePlace = [placeArray objectAtIndex:j];
             if ([datasourcePlace.uid isEqualToString:selectedPlace.uid]) {
-                [self.delegate updatePlace:self withPlace:datasourcePlace];
+                if ([self.delegate respondsToSelector:@selector(updatePlace:withPlace:)]) {
+                    [self.delegate updatePlace:self withPlace:datasourcePlace];
+                }
                 return;
             }
         }

@@ -94,11 +94,13 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     
     if (isAuthen) {
         self.commentFormView.hidden = NO;
+        [self.iminButton setEnabled:YES];
         self.iminImage.userInteractionEnabled = YES;
         [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
         
     } else {
         self.commentFormView.hidden = YES;
+        [self.iminButton setEnabled:NO];
         self.iminImage.userInteractionEnabled = NO;
         [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
     }
