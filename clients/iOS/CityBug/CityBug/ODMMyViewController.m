@@ -58,7 +58,8 @@ static NSString *presentSignInModal = @"presentSignInModal";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationMyReportsLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMyReport:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMyReport:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
     signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOutButtonTapped)];
 
 }
@@ -77,7 +78,6 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [super viewWillAppear:animated];
     
     [self updatePage:nil];
-    
     [self isSignIn];
 }
 
@@ -109,6 +109,11 @@ static NSString *presentSignInModal = @"presentSignInModal";
     
     [self.actView setHidden:NO];
     
+}
+
+- (void)updateMyReport:(NSNotification *)notification
+{
+    [[ODMDataManager sharedInstance] myReports];
 }
 
 - (void)updateReports:(NSNotification *)notification

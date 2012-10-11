@@ -15,5 +15,6 @@
 
 @property (nonatomic, weak) ODMReport *report;
 @property (nonatomic, strong) UIImageView *avatarImageView, *reportImageView;
+@property (nonatomic, weak) UIButton *iminButton;
 
 @end

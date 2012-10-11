@@ -105,6 +105,11 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
+
 }
 
 - (void)viewDidUnload
@@ -150,7 +155,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
         [NSString stringWithFormat:NSLocalizedString(@"There has a new report", @"There has a new report")]
                                   : [NSString stringWithFormat:NSLocalizedString(@"There have new %i reports", @"There have %i reports"),diff];
         
-        ODMLog(@"%@ [%i]",message ,[datasource count]);
+        ODMLog(@"%@ [%i]", message,[datasource count]);
     }
 }
 

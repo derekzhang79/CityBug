@@ -253,23 +253,6 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     }
 }
 
-- (void)cooldownSendAction:(NSTimer *)timer;
-{
-    if (--cooldownSendButton == 0) {
-        [timer invalidate];
-        [self.sendButton setEnabled:YES];
-    }
-}
-
-- (void)cooldownSendImin:(NSTimer *)timer
-{
-    if (--cooldownSendImin == 0) {
-        [timer invalidate];
-        [self.iminButton setEnabled:YES];
-        [self.iminImage setUserInteractionEnabled:YES];
-    }
-}
-
 - (IBAction)addCommentButtonTapped:(id)sender
 {
     if (!self.report) return;
@@ -298,6 +281,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     }
 }
 
+#pragma mark - imin button
 
 - (IBAction)imin:(id)sender
 {
@@ -344,6 +328,26 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         }
     }
     return NO;
+}
+
+#pragma mark - cooldown
+
+
+- (void)cooldownSendAction:(NSTimer *)timer;
+{
+    if (--cooldownSendButton == 0) {
+        [timer invalidate];
+        [self.sendButton setEnabled:YES];
+    }
+}
+
+- (void)cooldownSendImin:(NSTimer *)timer
+{
+    if (--cooldownSendImin == 0) {
+        [timer invalidate];
+        [self.iminButton setEnabled:YES];
+        [self.iminImage setUserInteractionEnabled:YES];
+    }
 }
 
 #pragma mark - UIScrollView

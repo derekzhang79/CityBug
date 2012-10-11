@@ -21,7 +21,7 @@
 @class ODMPlace;
 
 @interface ODMExploreFormViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,UISearchBarDelegate> {
-    __unsafe_unretained id <ODMExploreFormViewControllerDelegate> _delegate;
+    __unsafe_unretained id <ODMExploreFormViewControllerDelegate> delegate;
     
     BOOL _isActive;
     NSArray *_datasource;
