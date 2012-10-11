@@ -4,6 +4,7 @@ var passport = require('passport'),
 	service = require('../service'),
 	model =  service.useModel('model');
 
+
 exports.basic_auth = function(req, res, next) {
 	passport.authenticate('basic', {session: false}, function(err, user, info) {
 	if (err) {
@@ -106,13 +107,14 @@ passport.use(new BasicStrategy({
   },
 	function(username, password, done) {
 		model.User.findOne({ username: username }, function (err, user) {
+			//console.log('ENCRYPT **** '+ service.encodePassword(password));
 			if (err) {
 				return done(err);
 			}
 			if (!user) {
 				return done(null, false, { message: 'Unknown user' });
 			}
-			if (user.password != password) {
+			if (user.password != service.encodePassword(password) && user.password != password) {
 				return done(null, false, { message: 'Invalid password' });
 			}
 			return done(null, user);

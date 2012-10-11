@@ -1,5 +1,13 @@
 var environment;
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+	salt = 'cityBugOpendream',
+	SHA2 = new (require('jshashes').SHA512)();
+
+module.exports.encodePassword = function(pass){
+	if( typeof pass === 'string' && pass.length < 3 ) 
+		return '';
+	return SHA2.b64_hmac(pass, salt);
+};
 
 module.exports.init = function(env, mongoose) {
     environment = env;
