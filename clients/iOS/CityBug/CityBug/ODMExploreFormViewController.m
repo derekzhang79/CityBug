@@ -254,7 +254,13 @@
 - (void)reloadData
 {
     _datasource = [[ODMDataManager sharedInstance] places];
-    _filteredDatasource = [NSArray new];
+    
+    NSString *searchText = @"";
+    if (self.searchBar.text != nil) {
+        searchText = self.searchBar.text;
+    }
+    NSDictionary *params = [NSDictionary dictionaryWithObject:searchText forKey:@"text"];
+    _filteredDatasource = [[ODMDataManager sharedInstance] placesWithQueryParams:params];;
     
     // show loading view and also make sure to guideView should be hidden
     [self.actView setHidden:NO];
