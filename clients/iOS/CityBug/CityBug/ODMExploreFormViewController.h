@@ -15,10 +15,9 @@
 //
 
 #import "ODMFormFiedViewController.h"
+#import "ODMPlace.h"
 
 @protocol ODMExploreFormViewControllerDelegate;
-
-@class ODMPlace;
 
 @interface ODMExploreFormViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,UISearchBarDelegate> {
     __unsafe_unretained id <ODMExploreFormViewControllerDelegate> delegate;
