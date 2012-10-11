@@ -21,7 +21,6 @@ static NSString *presentSignInModal = @"presentSignInModal";
 @interface ODMExplorePlaceDetailViewController ()
 {
     NSArray *datasource;
-    UIBarButtonItem *signOutButton;
     
     BOOL isAuthenOld;
     __weak ODMDescriptionFormViewController *_formViewController;

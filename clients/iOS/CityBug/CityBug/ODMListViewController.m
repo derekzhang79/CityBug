@@ -195,11 +195,6 @@ static NSString *presentSignInModal = @"presentSignInModal";
     }
 }
 
-- (void)signOutButtonTapped
-{
-    [[ODMDataManager sharedInstance] signOut];
-}
-
 - (IBAction)signInButtonTapped:(id)sender
 {
     NSLog(@"present signin");
