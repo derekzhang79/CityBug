@@ -186,6 +186,7 @@
     for (int i=0; i<datasource.count; i++) {
         NSArray *placeArray = [datasource objectAtIndex:i];
         for (int j=0; j<placeArray.count; j++) {
+            //NSLog([NSString stringWithFormat:@"[placeArray objectAtIndex:j] %@", [[placeArray objectAtIndex:j] class]]);
             ODMPlace *datasourcePlace = [placeArray objectAtIndex:j];
             if ([datasourcePlace.uid isEqualToString:selectedPlace.uid]) {
                 if ([self.delegate respondsToSelector:@selector(updatePlace:withPlace:)]) {
@@ -307,6 +308,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    selectedPlace = nil;
+    
     [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:NOW_TABBAR];
 }
 
