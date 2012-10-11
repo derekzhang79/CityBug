@@ -49,7 +49,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"Profile"];
+    [self setTitle:TAB_PROFILE_TITLE];
     
     // Load data
     datasource = [[ODMDataManager sharedInstance] myReports];

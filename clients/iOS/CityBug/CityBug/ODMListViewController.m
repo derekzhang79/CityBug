@@ -77,7 +77,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"City Bug"];
+    [self setTitle:TAB_FEED_TITLE];
     
     // Load data
     datasource = [[ODMDataManager sharedInstance] reports];

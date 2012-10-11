@@ -35,6 +35,12 @@
 #define MAXIMUM_PASSWORD_LENGTH 16
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+#define TAB_EXPLORE_TITLE @"Explore"
+#define TAB_FEED_TITLE @"City Bug"
+#define TAB_PROFILE_TITLE @"Profile"
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Title
 #define TITLE_INVALID_TEXT @"Title does not valid."
 #define TITLE_INVALID_REQUIRE_TEXT @"Title is required"

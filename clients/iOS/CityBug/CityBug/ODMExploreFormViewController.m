@@ -271,6 +271,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setTitle:TAB_EXPLORE_TITLE];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updatePlacesNotification:)
