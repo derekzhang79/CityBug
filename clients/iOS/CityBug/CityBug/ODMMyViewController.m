@@ -77,8 +77,6 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [super viewWillAppear:animated];
     
     [self updatePage:nil];
-    
-    [self isSignIn];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -108,6 +106,8 @@ static NSString *presentSignInModal = @"presentSignInModal";
 //    isAuthenOld = isAuthen;
     
     [self.actView setHidden:NO];
+    
+    [self isSignIn];
     
 }
 
@@ -163,7 +163,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [[ODMDataManager sharedInstance] signOut];
     [self updatePage:nil];
     
-    [self changeTabBarToFirstTabBar];
+//    [self changeTabBarToFirstTabBar];
 }
 
 - (IBAction)goToPost:(id)sender
