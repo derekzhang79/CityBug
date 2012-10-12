@@ -30,7 +30,7 @@
     if (self.iminCount.intValue <= 0) {
         return [NSString stringWithFormat:@"Nobody is in yet."];
     } else if (self.iminCount.intValue == 1) {
-        return [NSString stringWithFormat:@"one people is in!"];
+        return [NSString stringWithFormat:@"1 person is in!"];
     }
     return [NSString stringWithFormat:@"%i people are in!", self.iminCount.intValue];
 }

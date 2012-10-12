@@ -120,7 +120,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     self.titleLabel.text = [self.report title];
     self.userLabel.text = [self.report.user username];
     self.createdAtLabel.text = [self.report.createdAt stringWithHumanizedTimeDifference];
-    self.iminLabel.text = [NSString stringWithFormat:@"%i%@",self.report.iminCount.intValue, PEOPLE_ARE_IN];
+    self.iminLabel.text = [self.report iminString];
     self.locationLabel.text = [self.report.place title];
     //[self.report note] == @"" use for sizeToFit
     self.noteLabel.text = [NSString stringWithFormat:@"%@", [self.report note] == @"" ? @" " : [self.report note]];
