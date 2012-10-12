@@ -205,9 +205,6 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         [serviceObjectManager.router routeClass:[ODMImin class] toResourcePath:@"/api/imin/report/:reportID" forMethod:RKRequestMethodDELETE];
         
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
-        // check user when open application
-        NSError *error = nil;
-        [self signInCityBugUserWithError:&error];
 
         
     }
@@ -338,13 +335,19 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         loader.onDidLoadObject = ^(id object){
             if (object != NULL) {
                 
-                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"email"] forKey:@"email"];
-                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"thumbnailImage"] forKey:@"thumbnailImage"];
+                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"email"] forKey:kSecEmail];
+                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"thumbnailImage"] forKey:kSecThumbnailImage];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 [passwordKeyChainItem setObject:[object valueForKey:@"username"] forKey:(__bridge id)kSecAttrAccount];
                 
                 [passwordKeyChainItem setObject:[object valueForKey:@"password"] forKey:(__bridge id)kSecValueData];
 
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
+                
+                self.isAuthenticated = YES;
+                [[NSUserDefaults standardUserDefaults] setBool:self.isAuthenticated forKey:@"isAuthenticated"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
             }
         };
     }];
@@ -803,7 +806,8 @@ NSString *ODMDataManagerNotificationIminDidLoading;
                 // authen ok
                 self.isAuthenticated = YES;
                 [[NSUserDefaults standardUserDefaults] setBool:self.isAuthenticated forKey:@"isAuthenticated"];
-                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                //[[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
             } else if ([headerText isEqualToString:@"posted"]) {
                 // post ok
             } else if ([headerText isEqualToString:@"commented"]) {
@@ -833,6 +837,7 @@ NSString *ODMDataManagerNotificationIminDidLoading;
             // unauthen
             self.isAuthenticated = NO;
             [[NSUserDefaults standardUserDefaults] setBool:self.isAuthenticated forKey:@"isAuthenticated"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
         }
             break;

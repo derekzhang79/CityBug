@@ -31,7 +31,10 @@
     // Assign to UserManager
     [[ODMDataManager sharedInstance] setPasswordKeyChainItem:passwordKeyChainItem];
     
-    
+    // check user sign in when open application
+    NSError *error = nil;
+    [[ODMDataManager sharedInstance] signInCityBugUserWithError:&error];
+
     return YES;
 }
 
