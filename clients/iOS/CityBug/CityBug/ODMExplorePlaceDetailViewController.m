@@ -261,16 +261,12 @@ static NSString *presentSignInModal = @"presentSignInModal";
 - (void)subscribeComplete:(NSNotification *)notification
 {
     self.place.isSubscribed = YES;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Subscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [alert show];
     [self updateSubscribeStatus];
 }
 
 - (void)unsubscribeComplete:(NSNotification *)notification
 {
     self.place.isSubscribed = NO;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsubscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [alert show];
     [self updateSubscribeStatus];
 }
 
