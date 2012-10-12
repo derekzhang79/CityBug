@@ -49,6 +49,7 @@ NSString *ODMDataManagerNotificationIminDeleteDidFinish;
 NSString *ODMDataManagerNotificationIminDidFail;
 NSString *ODMDataManagerNotificationIminUsersLoadingFinish;
 NSString *ODMDataManagerNotificationIminUsersLoadingFail;
+NSString *ODMDataManagerNotificationIminDidLoading;
 
 @interface ODMDataManager()
 
@@ -109,7 +110,8 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFail;
         ODMDataManagerNotificationIminDidFail = @"ODMDataManagerNotificationIminDidFail";
         ODMDataManagerNotificationIminUsersLoadingFinish = @"ODMDataManagerNotificationIminUsersLoadingFinish";
         ODMDataManagerNotificationIminUsersLoadingFail = @"ODMDataManagerNotificationIminUsersLoadingFail";
-        
+        ODMDataManagerNotificationIminDidLoading = @"ODMDataManagerNotificationIminDidLoading";
+
         //
         // RestKit setup
         //
@@ -342,6 +344,7 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFail;
                 [passwordKeyChainItem setObject:[object valueForKey:@"username"] forKey:(__bridge id)kSecAttrAccount];
                 
                 [passwordKeyChainItem setObject:[object valueForKey:@"password"] forKey:(__bridge id)kSecValueData];
+
             }
         };
     }];
@@ -733,15 +736,18 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFail;
     ODMImin *imin = [[ODMImin alloc] init];
     imin.reportID = report.uid;
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminDidLoading object:report];
     RKParams *iminParams = [RKParams params];
     
     [[RKObjectManager sharedManager] postObject:imin usingBlock:^(RKObjectLoader *loader){
         loader.delegate = self;
         
+        
         [iminParams setValue:report.uid forParam:@"_id"];
         
         loader.onDidLoadObject = ^(id object) {
-            
+            NSDictionary *dic = [NSDictionary dictionaryWithKeysAndObjects:@"report",report, nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminAddDidFinish object:nil userInfo:dic];
         };
         
         loader.params = iminParams;
@@ -753,6 +759,7 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFail;
     ODMImin *imin = [[ODMImin alloc] init];
     imin.reportID = report.uid;
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminDidLoading object:report];
     RKParams *iminParams = [RKParams params];
     
     [[RKObjectManager sharedManager] deleteObject:imin usingBlock:^(RKObjectLoader *loader){
@@ -761,7 +768,8 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFail;
         [iminParams setValue:report.uid forParam:@"_id"];
         
         loader.onDidLoadObject = ^(id object) {
-            
+            NSDictionary *dic = [NSDictionary dictionaryWithKeysAndObjects:@"report",report, nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminDeleteDidFinish object:nil userInfo:dic];
         };
         
         loader.params = iminParams;
@@ -810,9 +818,9 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFail;
                 // unsubscribe ok
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceUnsubscribeDidFinish object:nil];
             } else if ([headerText isEqualToString:HEADER_TEXT_IMIN_ADD_COMPLETE]) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminAddDidFinish object:nil];
+//                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminAddDidFinish object:nil];
             } else if ([headerText isEqualToString:HEADER_TEXT_IMIN_DELETE_COMPLETE]) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
+//                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
             }
         }
             break;

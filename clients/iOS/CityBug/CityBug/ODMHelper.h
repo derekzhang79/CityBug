@@ -170,4 +170,5 @@ extern NSString *ODMDataManagerNotificationIminDeleteDidFinish;
 extern NSString *ODMDataManagerNotificationIminDidFail;
 extern NSString *ODMDataManagerNotificationIminUsersLoadingFinish;
 extern NSString *ODMDataManagerNotificationIminUsersLoadingFail;
+extern NSString *ODMDataManagerNotificationIminDidLoading;
 

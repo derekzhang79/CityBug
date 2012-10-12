@@ -39,9 +39,9 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incommingComments:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCommentView:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateImin:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateImin:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideIminButton:) name:ODMDataManagerNotificationIminDidLoading object:nil];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.backView addGestureRecognizer:tapGesture];
     
@@ -90,11 +90,15 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 - (void)updateCommentView:(NSNotificationCenter *)noti
 {
+    [self authenticatedConfig];
+}
+
+- (void)authenticatedConfig
+{
     BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
     
     if (isAuthen) {
         self.commentFormView.hidden = NO;
-        [self.iminButton setEnabled:YES];
         self.iminImage.userInteractionEnabled = YES;
         [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
         
@@ -130,6 +134,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     
     [self calculateContentSizeForScrollView];
     [self iminButtonConfig];
+
     [self.tableView reloadData];
 }
 
@@ -219,12 +224,16 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
             }
             [self reloadData];
             
+            
             CGRect scrollRect = CGRectMake(0, self.scrollView.contentSize.height + self.commentFormView.frame.size.height, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
             [self.scrollView scrollRectToVisible:scrollRect animated:YES];
             
             ODMLog(@"Scroll to last %@", NSStringFromCGRect(scrollRect));
+            
         }
     }
+    [self iminButtonConfig];
+    [self.iminButton setEnabled:YES];
 }
 
 - (void)updateComment:(NSString *)comment
@@ -233,6 +242,14 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     // We enforce user to reload all contents from server
     // Thus, we have to reload comments after
     // reports has completely parsed
+    [[ODMDataManager sharedInstance] reports];
+    
+}
+
+- (void)updateImin:(NSNotification *)notification
+{
+    ODMReport *report = [[notification userInfo] objectForKey:@"report"];
+    [self setReport:report];
     [[ODMDataManager sharedInstance] reports];
 }
 
@@ -250,23 +267,6 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     else if ([segue.identifier isEqualToString:goToUserListSegue]) {
         ODMUserListTableViewController *detailViewController = (ODMUserListTableViewController *)segue.destinationViewController;
         detailViewController.report = self.report;
-    }
-}
-
-- (void)cooldownSendAction:(NSTimer *)timer;
-{
-    if (--cooldownSendButton == 0) {
-        [timer invalidate];
-        [self.sendButton setEnabled:YES];
-    }
-}
-
-- (void)cooldownSendImin:(NSTimer *)timer
-{
-    if (--cooldownSendImin == 0) {
-        [timer invalidate];
-        [self.iminButton setEnabled:YES];
-        [self.iminImage setUserInteractionEnabled:YES];
     }
 }
 
@@ -298,6 +298,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     }
 }
 
+#pragma mark - imin button
 
 - (IBAction)imin:(id)sender
 {
@@ -309,13 +310,15 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     
     [self.iminButton setEnabled:NO];
     [self.iminImage setUserInteractionEnabled:NO];
-    cooldownSendImin = 3;
-    [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(cooldownSendImin:) userInfo:nil repeats:YES];
-    [self updateComment:nil];
 }
 
 - (void)iminButtonConfig
 {
+    if (![[ODMDataManager sharedInstance] isAuthenticated]) {
+        [self.iminButton setEnabled:NO];
+        return;
+    }
+    [self.iminButton setEnabled:YES];
     if(![self isImin]) {
         [self.iminButton setTitle:@"Imin" forState:UIControlStateNormal];
     } else {
@@ -323,6 +326,14 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         if ([self isCommentExisted]) {
             [self.iminButton setEnabled:NO];
         }
+    }
+}
+
+- (void)hideIminButton:(NSNotification *)notification
+{
+    ODMReport *report = [notification object];
+    if ([self.report.uid isEqualToString:[report uid]]) {
+        [self.iminButton setEnabled:NO];
     }
 }
 
@@ -344,6 +355,17 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         }
     }
     return NO;
+}
+
+#pragma mark - cooldown
+
+
+- (void)cooldownSendAction:(NSTimer *)timer;
+{
+    if (--cooldownSendButton == 0) {
+        [timer invalidate];
+        [self.sendButton setEnabled:YES];
+    }
 }
 
 #pragma mark - UIScrollView
