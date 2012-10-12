@@ -205,9 +205,6 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         [serviceObjectManager.router routeClass:[ODMImin class] toResourcePath:@"/api/imin/report/:reportID" forMethod:RKRequestMethodDELETE];
         
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
-        // check user when open application
-        NSError *error = nil;
-        [self signInCityBugUserWithError:&error];
 
         
     }
