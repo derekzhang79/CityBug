@@ -18,6 +18,9 @@
 #import "ODMReport.h"
 #import "ODMComment.h"
 
+#define kSceenSize self.parentViewController.view.frame.size
+#define CAMERA_SCALAR 1.0
+
 static NSString *goToUserListSegue = @"goToUserListSegue";
 static NSString *gotoViewSegue = @"gotoViewSegue";
 static NSString *presentSignInModal = @"presentSignInModal";
@@ -30,6 +33,8 @@ static NSString *presentSignInModal = @"presentSignInModal";
     BOOL isAuthenOld;
     __weak ODMDescriptionFormViewController *_formViewController;
     NSInteger cooldownReloadButton;
+    UIImage *imageToSave;
+    UIImagePickerController *picker;
 }
 @end
 
@@ -68,6 +73,9 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadReport:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
     signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOutButtonTapped)];
     
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(thumbnailImageAction)];
+    [self.thumbnailImageView addGestureRecognizer:tapGesture];
+    
     [self updatePage:nil];
 
 }
@@ -78,6 +86,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [self setEmailLabel:nil];
     [self setMySubcribeButton:nil];
     [self setMyReportTableView:nil];
+    [self setThumbnailImageView:nil];
     [super viewDidUnload];
 }
 
@@ -184,6 +193,17 @@ static NSString *presentSignInModal = @"presentSignInModal";
 }
 
 #pragma mark - action
+
+- (void)thumbnailImageAction
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Image"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Camera", @"Existing Photo", nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    [actionSheet showInView:self.tabBarController.view];
+}
 
 - (IBAction)refreshButtonTapped:(id)sender
 {
@@ -311,5 +331,40 @@ static NSString *presentSignInModal = @"presentSignInModal";
     iminUserListReport = report;
     [self performSegueWithIdentifier:goToUserListSegue sender:self];
 }
+
+#pragma mark - Image Picker
+
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (!picker) {
+        picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+    }
+    
+    if (buttonIndex == 0 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        picker.wantsFullScreenLayout = YES;
+        picker.cameraViewTransform = CGAffineTransformScale(picker.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);
+        
+    } else if (buttonIndex == 1 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        
+    } else {
+        return;
+    }
+    
+    [self presentModalViewController:picker animated:YES];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerEditedImage];
+    self.thumbnailImageView.image = imageToSave;
+    [[ODMDataManager sharedInstance] editUserThumbnailWithImage:imageToSave];
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 
 @end

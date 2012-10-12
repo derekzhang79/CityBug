@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "ODMActivityFeedViewCell.h"
 
-@interface ODMMyViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, ODMActivityFeedViewCellDelegate>
+@interface ODMMyViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, ODMActivityFeedViewCellDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *emailLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *thumbnailImageView;
 @property (weak, nonatomic) IBOutlet UIButton *mySubcribeButton;
 @property (weak, nonatomic) IBOutlet UITableView *myReportTableView;
 @property (nonatomic, weak) IBOutlet UIView *noResultView, *actView, *notLoginView;

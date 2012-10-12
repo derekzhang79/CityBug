@@ -44,6 +44,7 @@ module.exports = function(app, express){
 	//user
 	app.get('/api/users', user.users_all);
 	app.get('/api/user/*', user.user);
+	app.post('/api/user/thumbnailImage',auth.basic_auth, user.editThumbnailImage);
 
 	//imin
 	app.get('/api/imin/report/*', imin.imin_user_list);

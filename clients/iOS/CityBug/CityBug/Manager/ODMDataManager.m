@@ -265,6 +265,31 @@ NSString *ODMDataManagerNotificationIminDidLoading;
 
 #pragma mark - USER
 
+- (void)editUserThumbnailWithImage:(UIImage *)image
+{
+    RKParams *userParams = [RKParams params];
+    
+    [[RKObjectManager sharedManager] postObject:[self currentUser] usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        
+        [loader setMethod:RKRequestMethodPOST];
+        loader.resourcePath = @"/api/user/thumbnailImage";
+
+        
+        NSData *thumbnailImageData = UIImageJPEGRepresentation(image, 0);
+         
+         [userParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
+        
+        loader.defaultHTTPEncoding = NSUTF8StringEncoding;
+        
+        loader.onDidLoadObject = ^(id object){
+           [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"thumbnailImage"] forKey:kSecThumbnailImage];
+        };
+        loader.params = userParams;
+    }];
+    
+}
+
 /*
  * GET CURRENTUSER, who is sign in now
  */

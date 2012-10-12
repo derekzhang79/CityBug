@@ -84,6 +84,7 @@
 - (void)signInCityBugUserWithError:(NSError **)error;
 - (void)signOut;
 - (void)setCurrentUsername:(NSString *)username andPassword:(NSString *)password;
+- (void)editUserThumbnailWithImage:(UIImage *)image;
 /*
  * Imin
  */
