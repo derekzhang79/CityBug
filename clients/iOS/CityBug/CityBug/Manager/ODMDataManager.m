@@ -206,8 +206,7 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFail;
         // check user when open application
         NSError *error = nil;
         [self signInCityBugUserWithError:&error];
-        
-        self.passwordKeyChainItem =  [[KeychainItemWrapper alloc] initWithIdentifier:@"CityBugKeyChain" accessGroup:nil];
+
         
     }
     return self;
@@ -275,8 +274,6 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFail;
     NSString *currentUsername = [passwordKeyChainItem objectForKey:(__bridge id)kSecAttrAccount];
     NSString *currentPassword = [passwordKeyChainItem objectForKey:(__bridge id)kSecValueData];
     
-//    NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:kSecUserName];
-//    NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:kSecPassword];
     NSString *currentEmail = [[NSUserDefaults standardUserDefaults] stringForKey:kSecEmail];
     NSString *currentThumbnail = [[NSUserDefaults standardUserDefaults] stringForKey:kSecThumbnailImage];
     
@@ -305,8 +302,6 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFail;
 
 - (void)signOut
 {
-//    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"username"];
-//    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"password"];
     [passwordKeyChainItem setObject:@"" forKey:(__bridge id)kSecAttrAccount];
     [passwordKeyChainItem setObject:@"" forKey:(__bridge id)kSecValueData];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"email"];
@@ -340,8 +335,7 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFail;
         loader.objectMapping = [[RKObjectManager sharedManager].mappingProvider objectMappingForKeyPath:@"/api/user/sign_in"];
         loader.onDidLoadObject = ^(id object){
             if (object != NULL) {
-//                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"username"] forKey:@"username"];
-//                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"password"] forKey:@"password"];
+                
                 [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"email"] forKey:@"email"];
                 [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"thumbnailImage"] forKey:@"thumbnailImage"];
                 
