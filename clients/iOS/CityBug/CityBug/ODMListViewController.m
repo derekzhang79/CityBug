@@ -113,8 +113,9 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReport:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReportAndAlertFail:) name:ODMDataManagerNotificationIminDidFail object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReportAndAlertIminFail:) name:ODMDataManagerNotificationIminDidFail object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
 }
 
 - (void)viewDidUnload
@@ -194,10 +195,13 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [self.tableView reloadData];
 }
 
-- (void)updateReportAndAlertFail:(NSNotification *)noti
+- (void)updateReportAndAlertIminFail:(NSNotification *)notification
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:IMIN_USERNAME_EXISTED delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
-    [alert show];
+    [[ODMDataManager sharedInstance] reports];
+}
+
+- (void)updateComment:(NSNotification *)notification
+{
     [[ODMDataManager sharedInstance] reports];
 }
 

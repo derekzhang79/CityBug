@@ -88,10 +88,13 @@ static NSString *presentSignInModal = @"presentSignInModal";
                                                  name:ODMDataManagerNotificationIminDeleteDidFinish
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateReportAndAlertFail:)
+                                             selector:@selector(updateReportAndAlertIminFail:)
                                                  name:ODMDataManagerNotificationIminDidFail
                                                object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateComment:)
+                                                 name:ODMDataManagerNotificationCommentLoadingFinish
+                                               object:nil];
     CLLocationCoordinate2D location;
 	location.latitude = [self.place.latitude doubleValue];
 	location.longitude = [self.place.longitude doubleValue];
@@ -250,11 +253,9 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
 }
 
-- (void)updateReportAndAlertFail:(NSNotification *)noti
+- (void)updateReportAndAlertIminFail:(NSNotification *)noti
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:IMIN_USERNAME_EXISTED delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
-    [alert show];
-    [[ODMDataManager sharedInstance] reports];
+    [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
 }
 
 - (void)subscribeComplete:(NSNotification *)notification
@@ -271,6 +272,11 @@ static NSString *presentSignInModal = @"presentSignInModal";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsubscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
     [self updateSubscribeStatus];
+}
+
+- (void)updateComment:(NSNotification *)notification
+{
+    [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
 }
 
 #pragma mark - cooldown

@@ -42,7 +42,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateImin:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateImin:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideIminButton:) name:ODMDataManagerNotificationIminDidLoading object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReportAndAlertFail:) name:ODMDataManagerNotificationIminDidFail object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReportAndAlertIminFail:) name:ODMDataManagerNotificationIminDidFail object:nil];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.backView addGestureRecognizer:tapGesture];
     
@@ -249,10 +249,8 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [[ODMDataManager sharedInstance] reports];
 }
 
-- (void)updateReportAndAlertFail:(NSNotification *)noti
+- (void)updateReportAndAlertIminFail:(NSNotification *)noti
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:IMIN_USERNAME_EXISTED delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
-    [alert show];
     [[ODMDataManager sharedInstance] reports];
 }
 
