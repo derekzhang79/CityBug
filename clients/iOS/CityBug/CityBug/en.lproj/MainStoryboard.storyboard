@@ -242,6 +242,7 @@
                         <outlet property="notLoginView" destination="BWd-fU-AHA" id="rQE-Rb-H5l"/>
                         <outlet property="userNameLabel" destination="kxW-fb-tk6" id="tVi-4G-u0x"/>
                         <segue destination="JeU-ep-nt1" kind="modal" identifier="presentSignInModal" id="GJm-fq-V3p"/>
+                        <segue destination="RgS-hP-TBz" kind="push" identifier="goToUserListSegue" id="BnR-gl-A3d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yFN-gy-UUV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1861,6 +1862,7 @@
                         <outlet property="tableView" destination="GdM-fN-Yk3" id="ecT-ps-w0D"/>
                         <outlet property="titleLabel" destination="sX4-JG-c6k" id="Orq-JS-lyh"/>
                         <segue destination="JeU-ep-nt1" kind="modal" identifier="presentSignInModal" id="6EH-Uq-ojF"/>
+                        <segue destination="RgS-hP-TBz" kind="push" identifier="goToUserListSegue" id="fRd-6m-KVV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FGw-mE-vcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2016,9 +2018,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="GJm-fq-V3p"/>
+        <segue reference="BnR-gl-A3d"/>
+        <segue reference="Q6Q-aX-Jb0"/>
         <segue reference="HFl-6d-OTT"/>
-        <segue reference="V3J-2o-4zz"/>
-        <segue reference="dfb-0w-5uT"/>
-        <segue reference="Te4-z6-zTY"/>
     </inferredMetricsTieBreakers>
 </document>

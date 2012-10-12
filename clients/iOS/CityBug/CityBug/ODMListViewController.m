@@ -18,7 +18,6 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 #import "UIImageView+WebCache.h"
-#import "ODMActivityFeedViewCell.h"
 #import "ODMDataManager.h"
 #import "ODMReport.h"
 #import "ODMComment.h"
@@ -48,6 +47,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     NSInteger updatingCount;
     NSInteger selectIminLabelTag;
     __weak ODMDescriptionFormViewController *_formViewController;
+    ODMReport *iminUserListReport;
 }
 
 @synthesize location;
@@ -205,17 +205,11 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 {
     static NSString *CellIdentifier = @"ReportCellIdentifier";
     ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];    
-    
+    cell.delegate = self;
     if (cell && datasource.count > indexPath.row) {
         
         ODMReport *report = [datasource objectAtIndex:indexPath.row];
         cell.report = report;
-        
-//        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToListImin:)];
-        
-//        UIImageView *iminListImageView = (UIImageView *)[cell viewWithTag:4405];
-//        [iminListImageView setTag:4405 + 32 + indexPath.row];
-//        [iminListImageView addGestureRecognizer:gesture];
         
         // Image Cache
         NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cell.report.thumbnailImage]];
@@ -360,9 +354,16 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     } else if ([segue.identifier isEqualToString:goToUserListSegue]) {
         
         ODMUserListTableViewController *userListTableViewController = (ODMUserListTableViewController *) segue.destinationViewController;
-            ODMReport *aReport = [datasource objectAtIndex:selectIminLabelTag];
-            userListTableViewController.report = aReport;
+            userListTableViewController.report = iminUserListReport;
     }
+}
+
+#pragma mark - ODMActivityFeedViewCell delegate
+
+- (void)didClickIminLabelWithReport:(ODMReport *)report
+{
+    iminUserListReport = report;
+    [self performSegueWithIdentifier:goToUserListSegue sender:self];
 }
 
 @end

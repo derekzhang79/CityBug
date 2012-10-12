@@ -9,10 +9,11 @@
 
 #import "ODMPlace.h"
 #import "ODMExploreFormViewController.h"
+#import "ODMActivityFeedViewCell.h"
 
 #import <MapKit/MapKit.h>
 
-@interface ODMExplorePlaceDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, ODMExploreFormViewControllerDelegate>
+@interface ODMExplorePlaceDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, ODMExploreFormViewControllerDelegate, ODMActivityFeedViewCellDelegate>
 {
     BOOL _isActive;
     NSArray *_datasource;

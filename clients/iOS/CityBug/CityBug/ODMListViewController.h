@@ -8,8 +8,9 @@
 
 #import "FDStatusBarNotifierView.h"
 #import <CoreLocation/CoreLocation.h>
+#import "ODMActivityFeedViewCell.h"
 
-@interface ODMListViewController : UITableViewController<UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate>
+@interface ODMListViewController : UITableViewController<UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate, ODMActivityFeedViewCellDelegate>
 
 @property (strong, nonatomic) CLLocation *location;
 
