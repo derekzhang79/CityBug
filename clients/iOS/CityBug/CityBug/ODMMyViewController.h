@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ODMActivityFeedViewCell.h"
 
-@interface ODMMyViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ODMMyViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, ODMActivityFeedViewCellDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *emailLabel;
 @property (weak, nonatomic) IBOutlet UIButton *mySubcribeButton;

@@ -46,6 +46,10 @@
         
         [self.iminButton addTarget:self action:@selector(imin:) forControlEvents:UIControlEventTouchUpInside];
         
+        self.iminCountLabel = (UILabel *)[self viewWithTag:IMIN_VIEW_TAG];
+        UITapGestureRecognizer *iminCountTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+        [self.iminCountLabel addGestureRecognizer:iminCountTap];
+        
     }
     return self;
 }
@@ -84,7 +88,6 @@
 
 - (void)updateIminLoadingStatus
 {
-    isIminLoading = 0;
     [self iminButtonConfig];
 }
 
@@ -148,6 +151,13 @@
     if ([self.report.uid isEqualToString:[report uid]]) {
         isIminLoading = 1;
         [self.iminButton setEnabled:NO];
+    }
+}
+
+- (void)handleTapGesture:(UITapGestureRecognizer *)gesture
+{
+    if ([self.delegate respondsToSelector:@selector(didClickIminLabelWithReport:)]) {
+        [self.delegate didClickIminLabelWithReport:self.report];
     }
 }
 

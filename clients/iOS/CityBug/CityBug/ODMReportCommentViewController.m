@@ -57,7 +57,6 @@
     if ([self.delegate respondsToSelector:@selector(updateComment:)]) {
         [self.delegate updateComment:self.CommentTextField.text];
     }
-    
 }
 
 @end

@@ -6,15 +6,16 @@
 #import "ODMReportDetailViewController.h"
 #import "ODMDescriptionViewController.h"
 #import "ODMExploreFormViewController.h"
+#import "ODMUserListTableViewController.h"
 
 #import "UIImageView+WebCache.h"
-#import "ODMActivityFeedViewCell.h"
 #import "ODMDataManager.h"
 #import "ODMReport.h"
 #import "ODMComment.h"
 
 #import "MapViewAnnotation.h"
 
+static NSString *goToUserListSegue = @"goToUserListSegue";
 static NSString *gotoViewSegue = @"gotoViewSegue";
 static NSString *presentSignInModal = @"presentSignInModal";
 
@@ -24,7 +25,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     
     BOOL isAuthenOld;
     __weak ODMDescriptionFormViewController *_formViewController;
-    
+    ODMReport *iminUserListReport;
     UIBarButtonItem *subscribeButton, *unsubscribeButton, *signinButton;
 }
 @end
@@ -263,7 +264,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
 {
     static NSString *CellIdentifier = @"ReportCellIdentifier";
     ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
+    cell.delegate = self;
     if (cell && datasource.count > indexPath.row) {
         
         ODMReport *report = [datasource objectAtIndex:indexPath.row];
@@ -299,8 +300,19 @@ static NSString *presentSignInModal = @"presentSignInModal";
             ODMReport *aReport = [datasource objectAtIndex:selectedIndexPath.row];
             detailViewController.report = aReport;
         }
+    } else if ([segue.identifier isEqualToString:goToUserListSegue]) {
+        
+        ODMUserListTableViewController *userListTableViewController = (ODMUserListTableViewController *) segue.destinationViewController;
+        userListTableViewController.report = iminUserListReport;
     }
-    
+}
+
+#pragma mark - ODMActivityFeedViewCell delegate
+
+- (void)didClickIminLabelWithReport:(ODMReport *)report
+{
+    iminUserListReport = report;
+    [self performSegueWithIdentifier:goToUserListSegue sender:self];
 }
 
 #pragma mark - explore form view controller delegate
