@@ -430,6 +430,7 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         loader.onDidLoadObject = ^(id object){
             // force to reload all data
             [[ODMDataManager sharedInstance] reports];
+            [[ODMDataManager sharedInstance] myReports];
         };
         loader.params = reportParams;
     }];
