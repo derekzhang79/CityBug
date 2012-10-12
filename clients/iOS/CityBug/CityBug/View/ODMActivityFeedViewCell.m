@@ -40,7 +40,7 @@
         _iminButton = (UIButton *)[self viewWithTag:IMIN_BUTTON_TAG];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(iminButtonConfig) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideIminButton:) name:ODMDataManagerNotificationIminDidLoading object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showIminButton:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(iminButtonConfig) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
         
         [self.iminButton addTarget:self action:@selector(imin:) forControlEvents:UIControlEventTouchUpInside];
         

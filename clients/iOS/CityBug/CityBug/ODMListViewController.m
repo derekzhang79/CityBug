@@ -115,7 +115,11 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReportAndAlertIminFail:) name:ODMDataManagerNotificationIminDidFail object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadReport:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadReport:) name:ODMDataManagerNotificationPlaceSubscribeDidFinish object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadReport:) name:ODMDataManagerNotificationPlaceUnsubscribeDidFinish object:nil];
 }
 
 - (void)viewDidUnload
@@ -200,7 +204,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [[ODMDataManager sharedInstance] reports];
 }
 
-- (void)updateComment:(NSNotification *)notification
+- (void)loadReport:(NSNotification *)notification
 {
     [[ODMDataManager sharedInstance] reports];
 }

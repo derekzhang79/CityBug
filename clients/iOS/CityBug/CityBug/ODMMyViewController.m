@@ -65,7 +65,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMyReport:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMyReport:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReportAndAlertIminFail:) name:ODMDataManagerNotificationIminDidFail object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadReport:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
     signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOutButtonTapped)];
     
     [self updatePage:nil];
@@ -84,7 +84,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self.myReportTableView reloadData];
     [self isSignIn];
 }
 
@@ -97,10 +97,10 @@ static NSString *presentSignInModal = @"presentSignInModal";
 
 - (void)updatePage:(NSNotification *)notification
 {
-        
+    
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     userNameLabel.text = [[dataManager currentUser] username];
-    emailLabel.text = [[dataManager currentUser] email];
+    emailLabel.text = [[dataManager currentUser] email];    
     [dataManager myReports];
     
 //    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
@@ -113,9 +113,9 @@ static NSString *presentSignInModal = @"presentSignInModal";
 //    } else {
 //        [[self navigationItem] setRightBarButtonItem:signOutButton animated:NO];
 //    }
-    [self.myReportTableView reloadData];
+//    [self.myReportTableView reloadData];
 //    isAuthenOld = isAuthen;
-    
+//    [self updateMyReport:nil];
     [self.actView setHidden:NO];
     
     [self isSignIn];
@@ -163,7 +163,6 @@ static NSString *presentSignInModal = @"presentSignInModal";
         ODMLog(@"%@ [%i]",message ,[datasource count]);
     }
     
-    [self.myReportTableView reloadData];
     if ([datasource count] == 0) {
         [self.noResultView setHidden:NO];
         [self.myReportTableView setBounces:NO];
@@ -171,6 +170,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
         [self.noResultView setHidden:YES];
         [self.myReportTableView setBounces:YES];
     }
+    [self.myReportTableView reloadData];
 }
 
 - (void)updateReportAndAlertIminFail:(NSNotification *)notification
@@ -178,7 +178,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [[ODMDataManager sharedInstance] myReports];
 }
 
-- (void)updateComment:(NSNotification *)notification
+- (void)loadReport:(NSNotification *)notification
 {
     [[ODMDataManager sharedInstance] myReports];
 }

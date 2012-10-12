@@ -81,6 +81,7 @@ exports.comment_post = function(req, res) {
                                         } else {
                                             console.log('save imin');
                                             res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'imin add'});
+                                            res.write('{"reports" :' + JSON.stringify(report) + '}');
                                             res.end();
                                         }
                                     });
@@ -98,7 +99,7 @@ exports.comment_post = function(req, res) {
                                     res.end();
                                 } else {
                                     res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'commented'});
-                                    res.write(JSON.stringify(report));
+                                    res.write('{"reports" :' + JSON.stringify(report) + '}');
                                     res.end();    
                                     
                                 }

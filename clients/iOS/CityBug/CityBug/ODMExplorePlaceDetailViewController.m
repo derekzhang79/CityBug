@@ -92,7 +92,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
                                                  name:ODMDataManagerNotificationIminDidFail
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateComment:)
+                                             selector:@selector(loadReport:)
                                                  name:ODMDataManagerNotificationCommentLoadingFinish
                                                object:nil];
     CLLocationCoordinate2D location;
@@ -270,7 +270,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [self updateSubscribeStatus];
 }
 
-- (void)updateComment:(NSNotification *)notification
+- (void)loadReport:(NSNotification *)notification
 {
     [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
 }

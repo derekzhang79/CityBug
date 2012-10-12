@@ -342,12 +342,13 @@ NSString *ODMDataManagerNotificationIminDidLoading;
                 [passwordKeyChainItem setObject:[object valueForKey:@"username"] forKey:(__bridge id)kSecAttrAccount];
                 
                 [passwordKeyChainItem setObject:[object valueForKey:@"password"] forKey:(__bridge id)kSecValueData];
-
-                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
                 
                 self.isAuthenticated = YES;
                 [[NSUserDefaults standardUserDefaults] setBool:self.isAuthenticated forKey:@"isAuthenticated"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
+                
             }
         };
     }];
