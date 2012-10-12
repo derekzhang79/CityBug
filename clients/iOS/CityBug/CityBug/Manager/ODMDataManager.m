@@ -824,9 +824,13 @@ NSString *ODMDataManagerNotificationIminDidLoading;
             } else if ([headerText isEqualToString:HEADER_TEXT_SUBSCRIBE_COMPLETE]) {
                 // subscribe ok
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceSubscribeDidFinish object:nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Subscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
             } else if ([headerText isEqualToString:HEADER_TEXT_UNSUBSCRIBE_COMPLETE]) {
                 // unsubscribe ok
                 [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationPlaceUnsubscribeDidFinish object:nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsubscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
             } else if ([headerText isEqualToString:HEADER_TEXT_IMIN_ADD_COMPLETE]) {
 //                [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminAddDidFinish object:nil];
             } else if ([headerText isEqualToString:HEADER_TEXT_IMIN_DELETE_COMPLETE]) {

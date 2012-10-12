@@ -293,11 +293,11 @@
                                                  name:ODMDataManagerNotificationAuthenDidFinish
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reloadTableView)
+                                             selector:@selector(reloadData)
                                                  name:ODMDataManagerNotificationPlaceSubscribeDidFinish
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reloadTableView)
+                                             selector:@selector(reloadData)
                                                  name:ODMDataManagerNotificationPlaceUnsubscribeDidFinish
                                                object:nil];
     
