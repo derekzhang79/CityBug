@@ -49,7 +49,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"Profile"];
+    [self setTitle:TAB_PROFILE_TITLE];
     
     // Load data
     datasource = [[ODMDataManager sharedInstance] myReports];
@@ -109,6 +109,8 @@ static NSString *presentSignInModal = @"presentSignInModal";
 //    isAuthenOld = isAuthen;
     
     [self.actView setHidden:NO];
+    
+    [self isSignIn];
     
 }
 
@@ -186,7 +188,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [[ODMDataManager sharedInstance] signOut];
     [self updatePage:nil];
     
-    [self changeTabBarToFirstTabBar];
+//    [self changeTabBarToFirstTabBar];
 }
 
 - (IBAction)goToPost:(id)sender

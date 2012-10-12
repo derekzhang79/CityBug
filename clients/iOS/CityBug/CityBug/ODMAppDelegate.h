@@ -6,7 +6,7 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-@interface ODMAppDelegate : UIResponder <UIApplicationDelegate>
+@interface ODMAppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

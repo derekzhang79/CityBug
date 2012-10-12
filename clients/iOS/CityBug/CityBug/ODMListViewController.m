@@ -79,7 +79,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"City Bug"];
+    [self setTitle:TAB_FEED_TITLE];
     
     // Load data
     datasource = [[ODMDataManager sharedInstance] reports];
@@ -239,11 +239,6 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         self.navigationItem.leftBarButtonItem.enabled = YES;
         [timer invalidate];
     }
-}
-
-- (void)signOutButtonTapped
-{
-    [[ODMDataManager sharedInstance] signOut];
 }
 
 - (IBAction)signInButtonTapped:(id)sender
