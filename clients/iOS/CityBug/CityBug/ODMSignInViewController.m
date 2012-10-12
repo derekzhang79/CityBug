@@ -60,10 +60,11 @@
         [alert show];
     } else {
         
+        [[ODMDataManager sharedInstance] setCurrentUsername:usernameTextField.text andPassword:passwordTextField.text];
         // Set username password to authen with server
-        [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:@"username"];
-        [[NSUserDefaults standardUserDefaults] setObject:passwordTextField.text forKey:@"password"];        
-        [[NSUserDefaults standardUserDefaults] synchronize];
+//        [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:@"username"];
+//        [[NSUserDefaults standardUserDefaults] setObject:passwordTextField.text forKey:@"password"];        
+//        [[NSUserDefaults standardUserDefaults] synchronize];
         
         NSError *error = nil;
         // use http basic send, nothing

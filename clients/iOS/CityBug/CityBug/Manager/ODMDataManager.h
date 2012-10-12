@@ -6,7 +6,7 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 #import <CoreLocation/CoreLocation.h>
-
+#import "KeychainItemWrapper.h"
 #import "ODMComment.h"
 
 @class ODMReport, ODMUser, ODMPlace;
@@ -19,10 +19,12 @@
     
     NSMutableDictionary *queryParams;
     CLLocationManager *_locationManager;
+    
+    KeychainItemWrapper *passwordKeyChainItem;
 }
 
 @property (nonatomic, readonly ,strong) CLLocationManager *locationManager;
-
+@property (nonatomic, retain) KeychainItemWrapper *passwordKeyChainItem;
 
 @property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places, *mySubscription, *myReports, *placeReports, *users;
 @property (nonatomic, assign) BOOL isAuthenticated;
@@ -81,6 +83,7 @@
 - (ODMUser *)currentUser;
 - (void)signInCityBugUserWithError:(NSError **)error;
 - (void)signOut;
+- (void)setCurrentUsername:(NSString *)username andPassword:(NSString *)password;
 /*
  * Imin
  */

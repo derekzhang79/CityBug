@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		208AB70B1623B8D000AC8674 /* GCPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 208AB70A1623B8D000AC8674 /* GCPlaceholderTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		208AB72D1623DB1000AC8674 /* ODMImin.m in Sources */ = {isa = PBXBuildFile; fileRef = 208AB72C1623DB1000AC8674 /* ODMImin.m */; };
+		7F97B9D01626BF7800A6839E /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F97B9CF1626BF7800A6839E /* KeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7F99E3BC162561040095610B /* ODMUserListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F99E3BB162561040095610B /* ODMUserListTableViewController.m */; };
 		7F9C7B461613144000B7FC95 /* ODMSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C7B451613144000B7FC95 /* ODMSignInViewController.m */; };
 		7FBB56E2161D72D900E6E7FE /* ODMExploreFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FBB56E1161D72D900E6E7FE /* ODMExploreFormViewController.m */; };
@@ -140,6 +141,8 @@
 		208AB70A1623B8D000AC8674 /* GCPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCPlaceholderTextView.m; sourceTree = "<group>"; };
 		208AB72B1623DB1000AC8674 /* ODMImin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMImin.h; sourceTree = "<group>"; };
 		208AB72C1623DB1000AC8674 /* ODMImin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMImin.m; sourceTree = "<group>"; };
+		7F97B9CE1626BF7800A6839E /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
+		7F97B9CF1626BF7800A6839E /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
 		7F99E3BA162561040095610B /* ODMUserListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMUserListTableViewController.h; path = CityBug/ODMUserListTableViewController.h; sourceTree = SOURCE_ROOT; };
 		7F99E3BB162561040095610B /* ODMUserListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMUserListTableViewController.m; path = CityBug/ODMUserListTableViewController.m; sourceTree = SOURCE_ROOT; };
 		7F9C7B441613144000B7FC95 /* ODMSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMSignInViewController.h; path = CityBug/ODMSignInViewController.h; sourceTree = SOURCE_ROOT; };
@@ -413,6 +416,8 @@
 		CEB10E2A160374B90041B3B8 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				7F97B9CE1626BF7800A6839E /* KeychainItemWrapper.h */,
+				7F97B9CF1626BF7800A6839E /* KeychainItemWrapper.m */,
 				CEB10E2B160374B90041B3B8 /* ODMDataManager.h */,
 				CEB10E2C160374B90041B3B8 /* ODMDataManager.m */,
 			);
@@ -820,6 +825,7 @@
 				208AB70B1623B8D000AC8674 /* GCPlaceholderTextView.m in Sources */,
 				208AB72D1623DB1000AC8674 /* ODMImin.m in Sources */,
 				7F99E3BC162561040095610B /* ODMUserListTableViewController.m in Sources */,
+				7F97B9D01626BF7800A6839E /* KeychainItemWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
