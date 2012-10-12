@@ -18,4 +18,6 @@
 
 - (IBAction)goToPost:(id)sender;
 
+- (IBAction)refreshButtonTapped:(id)sender;
+
 @end

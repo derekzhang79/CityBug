@@ -232,7 +232,13 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="pJA-tN-gAg"/>
+                    <navigationItem key="navigationItem" id="pJA-tN-gAg">
+                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="GEJ-TA-Nwx">
+                            <connections>
+                                <action selector="refreshButtonTapped:" destination="ckb-AK-glI" id="m1T-Vf-Oko"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="actView" destination="eoQ-GF-Kkl" id="wbU-VO-PjV"/>
                         <outlet property="emailLabel" destination="vvv-mU-Wmp" id="fN2-V4-f9j"/>
@@ -1851,6 +1857,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Place" id="ZOZ-vJ-2Bo">
+                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="rRe-9B-gG5">
+                            <connections>
+                                <action selector="refreshButtonTapped:" destination="jjS-M5-IgI" id="3Lg-e8-qin"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Subscribe" id="dOd-31-T1J"/>
                     </navigationItem>
                     <connections>
@@ -1917,6 +1928,7 @@
         <class className="ODMExplorePlaceDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMExplorePlaceDetailViewController.h"/>
             <relationships>
+                <relationship kind="action" name="refreshButtonTapped:"/>
                 <relationship kind="outlet" name="actView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="map" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="mapView" candidateClass="UIView"/>
@@ -1942,6 +1954,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMMyViewController.h"/>
             <relationships>
                 <relationship kind="action" name="goToPost:"/>
+                <relationship kind="action" name="refreshButtonTapped:"/>
                 <relationship kind="outlet" name="actView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="emailLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="myReportTableView" candidateClass="UITableView"/>
@@ -2018,9 +2031,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="GJm-fq-V3p"/>
-        <segue reference="Q6Q-aX-Jb0"/>
-        <segue reference="BnR-gl-A3d"/>
         <segue reference="HFl-6d-OTT"/>
+        <segue reference="fRd-6m-KVV"/>
+        <segue reference="SDA-I0-JZm"/>
+        <segue reference="6EH-Uq-ojF"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -29,6 +29,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     ODMReport *iminUserListReport;
     BOOL isAuthenOld;
     __weak ODMDescriptionFormViewController *_formViewController;
+    NSInteger cooldownReloadButton;
 }
 @end
 
@@ -180,6 +181,17 @@ static NSString *presentSignInModal = @"presentSignInModal";
 
 #pragma mark - action
 
+- (IBAction)refreshButtonTapped:(id)sender
+{
+    [[ODMDataManager sharedInstance] myReports];
+    
+    ODMLog(@"%@",NSLocalizedString(@"Fetching new reports", @"Fetching new reports"));
+    
+    cooldownReloadButton = 3;
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cooldownButtonAction:) userInfo:nil repeats:YES];
+}
+
 - (void)signOutButtonTapped
 {
     [[ODMDataManager sharedInstance] signOut];
@@ -215,6 +227,18 @@ static NSString *presentSignInModal = @"presentSignInModal";
         [[self navigationItem] setRightBarButtonItem:signOutButton];
     }
     return YES;
+}
+
+#pragma mark - cooldown
+
+- (void)cooldownButtonAction:(NSTimer *)timer
+{
+    cooldownReloadButton -= 1;
+    
+    if (cooldownReloadButton == 0) {
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+        [timer invalidate];
+    }
 }
 
 #pragma mark - Table view data source

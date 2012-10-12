@@ -223,8 +223,8 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
             
         }
     }
-    [self iminButtonConfig];
     [self.iminButton setEnabled:YES];
+    [self iminButtonConfig];
 }
 
 - (void)updateComment:(NSString *)comment

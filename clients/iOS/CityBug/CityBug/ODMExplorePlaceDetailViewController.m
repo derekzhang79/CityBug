@@ -22,7 +22,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
 @interface ODMExplorePlaceDetailViewController ()
 {
     NSArray *datasource;
-    
+    NSInteger cooldownReloadButton;
     BOOL isAuthenOld;
     __weak ODMDescriptionFormViewController *_formViewController;
     ODMReport *iminUserListReport;
@@ -124,6 +124,17 @@ static NSString *presentSignInModal = @"presentSignInModal";
 }
 
 # pragma mark - action
+
+- (IBAction)refreshButtonTapped:(id)sender
+{
+    [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
+    
+    ODMLog(@"%@",NSLocalizedString(@"Fetching new reports", @"Fetching new reports"));
+    
+    cooldownReloadButton = 3;
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cooldownButtonAction:) userInfo:nil repeats:YES];
+}
 
 // When a map annotation point is added, zoom to it (1500 range)
 - (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
@@ -260,6 +271,18 @@ static NSString *presentSignInModal = @"presentSignInModal";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsubscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
     [self updateSubscribeStatus];
+}
+
+#pragma mark - cooldown
+
+- (void)cooldownButtonAction:(NSTimer *)timer
+{
+    cooldownReloadButton -= 1;
+    
+    if (cooldownReloadButton == 0) {
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+        [timer invalidate];
+    }
 }
 
 #pragma mark - Table view data source

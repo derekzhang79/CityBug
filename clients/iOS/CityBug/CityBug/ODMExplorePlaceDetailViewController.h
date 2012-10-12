@@ -36,4 +36,6 @@
 
 @property (nonatomic, assign, setter = setActive:) BOOL isActive;
 
+- (IBAction)refreshButtonTapped:(id)sender;
+
 @end
