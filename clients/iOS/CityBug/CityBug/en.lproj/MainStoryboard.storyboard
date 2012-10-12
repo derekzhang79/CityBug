@@ -105,7 +105,7 @@
                                                     <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4405" contentMode="left" text="122're in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XvI-3i-uSO">
+                                                <label opaque="NO" clipsSubviews="YES" tag="4405" contentMode="left" text="122're in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XvI-3i-uSO">
                                                     <rect key="frame" x="66" y="286" width="110" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -1743,7 +1743,7 @@
                                                     <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4405" contentMode="left" text="122're in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XBS-jI-ugr">
+                                                <label opaque="NO" clipsSubviews="YES" tag="4405" contentMode="left" text="122're in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XBS-jI-ugr">
                                                     <rect key="frame" x="66" y="286" width="102" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -2019,8 +2019,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="GJm-fq-V3p"/>
-        <segue reference="BnR-gl-A3d"/>
         <segue reference="Q6Q-aX-Jb0"/>
+        <segue reference="BnR-gl-A3d"/>
         <segue reference="HFl-6d-OTT"/>
     </inferredMetricsTieBreakers>
 </document>

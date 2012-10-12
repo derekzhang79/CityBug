@@ -42,6 +42,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateImin:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateImin:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideIminButton:) name:ODMDataManagerNotificationIminDidLoading object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReportAndAlertFail:) name:ODMDataManagerNotificationIminDidFail object:nil];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.backView addGestureRecognizer:tapGesture];
     
@@ -253,6 +254,13 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [[ODMDataManager sharedInstance] reports];
 }
 
+- (void)updateReportAndAlertFail:(NSNotification *)noti
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:IMIN_USERNAME_EXISTED delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
+    [alert show];
+    [[ODMDataManager sharedInstance] reports];
+}
+
 #pragma mark - FormField Delegate
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -340,7 +348,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (BOOL)isImin
 {
     for (ODMImin *imin in self.report.imins) {
-        if ([imin.user.username isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"username"]]) {
+        if ([imin.user.username isEqualToString:[[[ODMDataManager sharedInstance] currentUser] username]]) {
             return YES;
         }
     }
@@ -350,7 +358,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (BOOL)isCommentExisted
 {
     for (ODMComment *comment in self.report.comments) {
-        if ([comment.user.username isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"username"]]) {
+        if ([comment.user.username isEqualToString:[[[ODMDataManager sharedInstance] currentUser] username]]) {
             return YES;
         }
     }

@@ -85,6 +85,10 @@ static NSString *presentSignInModal = @"presentSignInModal";
                                              selector:@selector(updatePlaceReport:)
                                                  name:ODMDataManagerNotificationIminDeleteDidFinish
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateReportAndAlertFail:)
+                                                 name:ODMDataManagerNotificationIminDidFail
+                                               object:nil];
     
     CLLocationCoordinate2D location;
 	location.latitude = [self.place.latitude doubleValue];
@@ -199,6 +203,13 @@ static NSString *presentSignInModal = @"presentSignInModal";
         [self.tableView reloadData];
     }
     [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
+}
+
+- (void)updateReportAndAlertFail:(NSNotification *)noti
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:IMIN_USERNAME_EXISTED delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
+    [alert show];
+    [[ODMDataManager sharedInstance] reports];
 }
 
 - (void)signInButtonAction

@@ -28,9 +28,7 @@
 
 @implementation ODMActivityFeedViewCell
 {
-    NSInteger cooldownSendImin;
-    NSInteger isIminLoading;
-}
+    NSInteger cooldownSendImin;}
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -123,7 +121,7 @@
 - (BOOL)isImin
 {
     for (ODMImin *imin in self.report.imins) {
-        if ([imin.user.username isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"username"]]) {
+        if ([imin.user.username isEqualToString:[[[ODMDataManager sharedInstance] currentUser] username]]) {
             return YES;
         }
     }
@@ -133,7 +131,7 @@
 - (BOOL)isCommentExisted
 {
     for (ODMComment *comment in self.report.comments) {
-        if ([comment.user.username isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"username"]]) {
+        if ([comment.user.username isEqualToString:[[[ODMDataManager sharedInstance] currentUser] username]]) {
             return YES;
         }
     }
@@ -149,7 +147,6 @@
 {
     ODMReport *report = [notification object];
     if ([self.report.uid isEqualToString:[report uid]]) {
-        isIminLoading = 1;
         [self.iminButton setEnabled:NO];
     }
 }

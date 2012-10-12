@@ -88,6 +88,10 @@
 #define SIGN_UP_USERNAME_EXISTED @"Username is existed. Please try again"
 #define SIGN_UP_EMAIL_EXISTED @"Email is existed. Please try again"
 
+// imin
+
+#define IMIN_USERNAME_EXISTED @"You already in, please click refresh button"
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define USER_CURRENT_LOCATION @"currentLocation"

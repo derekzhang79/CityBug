@@ -18,6 +18,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 #import "UIImageView+WebCache.h"
+#import "ODMHelper.h"
 #import "ODMDataManager.h"
 #import "ODMReport.h"
 #import "ODMComment.h"
@@ -111,6 +112,8 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReport:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReport:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReportAndAlertFail:) name:ODMDataManagerNotificationIminDidFail object:nil];
 
 }
 
@@ -187,6 +190,13 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     }
     
     [self.tableView reloadData];
+}
+
+- (void)updateReportAndAlertFail:(NSNotification *)noti
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:IMIN_USERNAME_EXISTED delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
+    [alert show];
+    [[ODMDataManager sharedInstance] reports];
 }
 
 #pragma mark - Table view data source
