@@ -5,7 +5,7 @@
 //  Created by InICe on 11/9/2555.
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
-
+#import <Security/Security.h>
 #import "ODMDataManager.h"
 #import "ODMReport.h"
 #import "ODMPlace.h"
@@ -62,6 +62,7 @@ NSString *ODMDataManagerNotificationIminDidLoading;
 @end
 
 @implementation ODMDataManager
+@synthesize passwordKeyChainItem;
 
 #pragma mark - Initialize
 
@@ -207,6 +208,7 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         // check user when open application
         NSError *error = nil;
         [self signInCityBugUserWithError:&error];
+
         
     }
     return self;
@@ -221,6 +223,8 @@ NSString *ODMDataManagerNotificationIminDidLoading;
     }
     return sharedDataManager;
 }
+
+#pragma mark - location
 
 - (BOOL)startGatheringLocation
 {
@@ -269,10 +273,11 @@ NSString *ODMDataManagerNotificationIminDidLoading;
  */
 - (ODMUser *)currentUser
 {
-    NSString *currentUsername = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-    NSString *currentPassword = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-    NSString *currentEmail = [[NSUserDefaults standardUserDefaults] stringForKey:@"email"];
-    NSString *currentThumbnail = [[NSUserDefaults standardUserDefaults] stringArrayForKey:@"thumbnailImage"];
+    NSString *currentUsername = [passwordKeyChainItem objectForKey:(__bridge id)kSecAttrAccount];
+    NSString *currentPassword = [passwordKeyChainItem objectForKey:(__bridge id)kSecValueData];
+    
+    NSString *currentEmail = [[NSUserDefaults standardUserDefaults] stringForKey:kSecEmail];
+    NSString *currentThumbnail = [[NSUserDefaults standardUserDefaults] stringForKey:kSecThumbnailImage];
     
     if (currentUsername ==  nil) {
         currentUsername = @"";
@@ -286,18 +291,27 @@ NSString *ODMDataManagerNotificationIminDidLoading;
     if (currentThumbnail ==  nil) {
         currentThumbnail = @"";
     }
-//    return [ODMUser newUser:@"admin" email:@"admin@citybug.com" password:@"qwer4321"];
+    
     return [ODMUser newUser:currentUsername email:currentEmail password:currentPassword thumbnailImage:currentThumbnail];
+}
+
+- (void)setCurrentUsername:(NSString *)username andPassword:(NSString *)password
+{
+    [passwordKeyChainItem setObject:username forKey:(__bridge id)kSecAttrAccount];
+    
+    [passwordKeyChainItem setObject:password forKey:(__bridge id)kSecValueData];
 }
 
 - (void)signOut
 {
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"username"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"password"];
+    [passwordKeyChainItem setObject:@"" forKey:(__bridge id)kSecAttrAccount];
+    [passwordKeyChainItem setObject:@"" forKey:(__bridge id)kSecValueData];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"email"];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"thumbnailImage"];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [passwordKeyChainItem resetKeychainItem];
     
     NSError *error = nil;
     // use http basic authen
@@ -323,11 +337,14 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         loader.objectMapping = [[RKObjectManager sharedManager].mappingProvider objectMappingForKeyPath:@"/api/user/sign_in"];
         loader.onDidLoadObject = ^(id object){
             if (object != NULL) {
-                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"username"] forKey:@"username"];
-                [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"password"] forKey:@"password"];
+                
                 [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"email"] forKey:@"email"];
                 [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"thumbnailImage"] forKey:@"thumbnailImage"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [passwordKeyChainItem setObject:[object valueForKey:@"username"] forKey:(__bridge id)kSecAttrAccount];
+                
+                [passwordKeyChainItem setObject:[object valueForKey:@"password"] forKey:(__bridge id)kSecValueData];
+
             }
         };
     }];

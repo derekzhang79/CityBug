@@ -39,6 +39,11 @@
 #define TAB_FEED_TITLE @"City Bug"
 #define TAB_PROFILE_TITLE @"Profile"
 
+#define kSecUserName @"username"
+#define kSecPassword @"password"
+#define kSecEmail @"email"
+#define kSecThumbnailImage @"thumbnailImage"
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Title

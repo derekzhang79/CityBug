@@ -24,6 +24,14 @@
     UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
     tabController.delegate = self;
     
+    // KeyChainItem
+    passwordKeyChainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"CityBugAttrUserKey" accessGroup:nil];
+    [passwordKeyChainItem setObject:@"CityBugAttrUserKey" forKey: (__bridge id)kSecAttrService];
+    
+    // Assign to UserManager
+    [[ODMDataManager sharedInstance] setPasswordKeyChainItem:passwordKeyChainItem];
+    
+    
     return YES;
 }
 

@@ -6,8 +6,12 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-@interface ODMAppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
+#import "KeychainItemWrapper.h"
 
+@interface ODMAppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
+{
+    KeychainItemWrapper *passwordKeyChainItem;
+}
 @property (strong, nonatomic) UIWindow *window;
 
 @end

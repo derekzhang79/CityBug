@@ -3,7 +3,7 @@ var environment = require('../environment'),
     model =  service.useModel('model');
 
 
-exports.users = function(req, res){
+exports.users_all = function(req, res){
 
     model.User.find({}) //, {username:1, password:1, email:1, created_at:1, last_modified:1})
         .exec(function (err, docs) {
@@ -79,7 +79,7 @@ exports.sign_up = function(req, res) {
 		} else if (user_existed == false && email_existed == false) {
 			var newUser = model.User();
 			newUser.username = req.body.username;
-			newUser.password = req.body.password;
+			newUser.password = service.encodePassword(req.body.password);
 			newUser.email = req.body.email;
 			newUser.save(function(err) {
 				if (err) {
