@@ -157,11 +157,6 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (void)updatePage:(NSNotification *)notification
 {
     [[ODMDataManager sharedInstance] reports];
-}
-
-- (void)configRightBarButton
-{
-    [[ODMDataManager sharedInstance] reports];
     BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
     
     if (isAuthen) {
