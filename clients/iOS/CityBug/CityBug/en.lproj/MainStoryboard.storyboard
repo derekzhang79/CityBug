@@ -1857,11 +1857,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Place" id="ZOZ-vJ-2Bo">
-                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="rRe-9B-gG5">
-                            <connections>
-                                <action selector="refreshButtonTapped:" destination="jjS-M5-IgI" id="3Lg-e8-qin"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Subscribe" id="dOd-31-T1J"/>
                     </navigationItem>
                     <connections>

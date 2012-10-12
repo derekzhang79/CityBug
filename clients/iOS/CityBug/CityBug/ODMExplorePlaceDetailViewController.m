@@ -101,7 +101,6 @@ static NSString *presentSignInModal = @"presentSignInModal";
 	[self.map addAnnotation:newAnnotation];
     
     [self.actView setHidden:YES];
-
 }
 
 - (void)viewDidUnload
@@ -116,6 +115,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self updatePage:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
