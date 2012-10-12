@@ -77,12 +77,12 @@ static NSString *presentSignInModal = @"presentSignInModal";
                                                  name:ODMDataManagerNotificationPlaceUnsubscribeDidFinish
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updatePage:)
+                                             selector:@selector(updatePlaceReport:)
                                                  name:ODMDataManagerNotificationIminAddDidFinish
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updatePage:)
+                                             selector:@selector(updatePlaceReport:)
                                                  name:ODMDataManagerNotificationIminDeleteDidFinish
                                                object:nil];
     
@@ -103,13 +103,13 @@ static NSString *presentSignInModal = @"presentSignInModal";
     titleLabel = nil;
     [self setMap:nil];
     [self setRightButton:nil];
+    [self updatePage:nil];
     [super viewDidUnload];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self updatePage:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -178,6 +178,27 @@ static NSString *presentSignInModal = @"presentSignInModal";
     } else {
         [self updateSubscribeStatus];
     }
+}
+
+- (void)updatePlaceReport:(NSNotification *)notification
+{
+    ODMReport *report = [[notification userInfo] objectForKey:@"report"];
+    
+    int index = -1;
+    for (int i = 0; i < datasource.count; i++) {
+        ODMReport *datasourceReport = [datasource objectAtIndex:i];
+        if ([datasourceReport.uid isEqualToString:report.uid]) {
+            index = i;
+            break;
+        }
+    }
+    if (index != -1) {
+        NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:datasource];
+        [mutableArray replaceObjectAtIndex:index withObject:report];
+        datasource = [NSArray arrayWithArray:mutableArray];
+        [self.tableView reloadData];
+    }
+    [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
 }
 
 - (void)signInButtonAction

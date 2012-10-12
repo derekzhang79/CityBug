@@ -30,9 +30,9 @@
     if (self.iminCount.intValue <= 0) {
         return [NSString stringWithFormat:@"Nobody is in yet."];
     } else if (self.iminCount.intValue == 1) {
-        return [NSString stringWithFormat:@"%i's in", self.iminCount.intValue];
+        return [NSString stringWithFormat:@"one people is in!"];
     }
-    return [NSString stringWithFormat:@"%i're in", self.iminCount.intValue];
+    return [NSString stringWithFormat:@"%i people are in!", self.iminCount.intValue];
 }
 
 - (void)addComment:(ODMComment *) comment

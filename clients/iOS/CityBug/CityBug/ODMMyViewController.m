@@ -61,6 +61,8 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMyReport:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMyReport:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
     signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOutButtonTapped)];
+    
+    [self updatePage:nil];
 
 }
 
@@ -77,7 +79,6 @@ static NSString *presentSignInModal = @"presentSignInModal";
 {
     [super viewWillAppear:animated];
     
-    [self updatePage:nil];
     [self isSignIn];
 }
 
@@ -113,6 +114,23 @@ static NSString *presentSignInModal = @"presentSignInModal";
 
 - (void)updateMyReport:(NSNotification *)notification
 {
+    ODMReport *report = [[notification userInfo] objectForKey:@"report"];
+    
+    int index = -1;
+    for (int i = 0; i < datasource.count; i++) {
+        ODMReport *datasourceReport = [datasource objectAtIndex:i];
+        if ([datasourceReport.uid isEqualToString:report.uid]) {
+            index = i;
+            break;
+        }
+    }
+    if (index != -1) {
+        NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:datasource];
+        [mutableArray replaceObjectAtIndex:index withObject:report];
+        datasource = [NSArray arrayWithArray:mutableArray];
+        [self.myReportTableView reloadData];
+    }
+    
     [[ODMDataManager sharedInstance] myReports];
 }
 
@@ -125,7 +143,6 @@ static NSString *presentSignInModal = @"presentSignInModal";
     if ([[notification object] isKindOfClass:[NSArray class]]) {
         datasource = [NSArray arrayWithArray:[notification object]];
         
-        [self.myReportTableView reloadData];
         
         int diff = abs([datasource count] - oldItemsCount);
         // [NSString stringWithFormat:NSLocalizedString(@"There has no", @"There has no"), NSLocalizedString(@"new reports", @"new reports")]
@@ -136,6 +153,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
         ODMLog(@"%@ [%i]",message ,[datasource count]);
     }
     
+    [self.myReportTableView reloadData];
     if ([datasource count] == 0) {
         [self.noResultView setHidden:NO];
         [self.myReportTableView setBounces:NO];

@@ -29,6 +29,7 @@
 @implementation ODMActivityFeedViewCell
 {
     NSInteger cooldownSendImin;
+    NSInteger isIminLoading;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -39,8 +40,12 @@
         _reportImageView = (UIImageView *)[self viewWithTag:IMAGE_VIEW_TAG];
         _reportImageView.image = [UIImage imageNamed:@"bugs.jpeg"];
         _iminButton = (UIButton *)[self viewWithTag:IMIN_BUTTON_TAG];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCommentView:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateIminLoadingStatus) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideIminButton:) name:ODMDataManagerNotificationIminDidLoading object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showIminButton:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
+        
         [self.iminButton addTarget:self action:@selector(imin:) forControlEvents:UIControlEventTouchUpInside];
+        
     }
     return self;
 }
@@ -73,11 +78,15 @@
 
     _report = report;
     
-    
-    [self updateCommentView:nil];
 }
 
 #pragma mark - imin
+
+- (void)updateIminLoadingStatus
+{
+    isIminLoading = 0;
+    [self iminButtonConfig];
+}
 
 - (IBAction)imin:(id)sender
 {
@@ -88,14 +97,18 @@
     }
     
     [self.iminButton setEnabled:NO];
-    cooldownSendImin = 3;
-    [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(cooldownSendImin:) userInfo:nil repeats:YES];
 }
 
 - (void)iminButtonConfig
 {
+    if (![[ODMDataManager sharedInstance] isAuthenticated]) {
+        [self.iminButton setEnabled:NO];
+        return;
+    }
+    [self.iminButton setEnabled:YES];
     if(![self isImin]) {
         [self.iminButton setTitle:@"Imin" forState:UIControlStateNormal];
+        
     } else {
         [self.iminButton setTitle:@"Imout" forState:UIControlStateNormal];
         if ([self isCommentExisted]) {
@@ -124,40 +137,22 @@
     return NO;
 }
 
-- (void)updateCommentView:(NSNotificationCenter *)noti
+- (void)showIminButton:(NSNotification *)notification
 {
-    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
-    
-    if (isAuthen) {
-        [self.iminButton setEnabled:YES];
-    } else {
-        [self.iminButton setEnabled:NO];
-    }
+    [self.iminButton setEnabled:YES];
 }
 
-
-#pragma mark - cooldown
-
-- (void)cooldownSendImin:(NSTimer *)timer
+- (void)hideIminButton:(NSNotification *)notification
 {
-    if (--cooldownSendImin == 0) {
-        [timer invalidate];
-        [self.iminButton setEnabled:YES];
+    ODMReport *report = [notification object];
+    if ([self.report.uid isEqualToString:[report uid]]) {
+        isIminLoading = 1;
+        [self.iminButton setEnabled:NO];
     }
 }
 
 - (void)layoutSubviews
 {
-    [self iminButtonConfig];
-}
-
-- (void)updateComment:(NSString *)comment
-{
-    // For beta version
-    // We enforce user to reload all contents from server
-    // Thus, we have to reload comments after
-    // reports has completely parsed
-    
     [self iminButtonConfig];
 }
 

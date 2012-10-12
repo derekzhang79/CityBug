@@ -97,7 +97,7 @@
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4404" contentMode="left" text="สวนดอกจ้า" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GYl-z9-YJl">
-                                                    <rect key="frame" x="66" y="260" width="233" height="21"/>
+                                                    <rect key="frame" x="66" y="260" width="234" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -106,16 +106,16 @@
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4405" contentMode="left" text="122're in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XvI-3i-uSO">
-                                                    <rect key="frame" x="66" y="286" width="110" height="21"/>
+                                                    <rect key="frame" x="66" y="286" width="110" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4407" contentMode="left" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="57P-ui-qfb">
-                                                    <rect key="frame" x="225" y="287" width="44" height="21"/>
+                                                    <rect key="frame" x="225" y="287" width="44" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -136,7 +136,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4406" contentMode="left" text="4h ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZwH-PL-UaN">
-                                                    <rect key="frame" x="178" y="10" width="122" height="20"/>
+                                                    <rect key="frame" x="178" y="9" width="122" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -347,11 +347,11 @@
                                             <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4405" contentMode="left" text="122're in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ayn-qR-XPZ">
+                                        <label opaque="NO" clipsSubviews="YES" tag="4405" contentMode="left" text="122're in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ayn-qR-XPZ">
                                             <rect key="frame" x="66" y="286" width="102" height="21"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
@@ -432,6 +432,7 @@
                     <connections>
                         <segue destination="fLN-el-UYt" kind="push" identifier="presentFormSegue" id="W8R-9m-FS9"/>
                         <segue destination="JeU-ep-nt1" kind="modal" identifier="presentSignInModal" id="dfb-0w-5uT"/>
+                        <segue destination="RgS-hP-TBz" kind="push" identifier="goToUserListSegue" id="V3J-2o-4zz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oXn-Nc-CEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1366,7 +1367,7 @@
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.30000000000000004" id="yAJ-Sf-xS8"/>
                 <tapGestureRecognizer id="T6Y-gP-tje"/>
             </objects>
-            <point key="canvasLocation" x="-469" y="-1386"/>
+            <point key="canvasLocation" x="-933" y="-1074"/>
         </scene>
         <!--User List Table View Controller - Who's in-->
         <scene sceneID="SQM-c0-Eqc">
@@ -1745,7 +1746,7 @@
                                                     <rect key="frame" x="66" y="286" width="102" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
@@ -2016,7 +2017,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="HFl-6d-OTT"/>
-        <segue reference="6EH-Uq-ojF"/>
-        <segue reference="SDA-I0-JZm"/>
+        <segue reference="V3J-2o-4zz"/>
+        <segue reference="dfb-0w-5uT"/>
+        <segue reference="Te4-z6-zTY"/>
     </inferredMetricsTieBreakers>
 </document>

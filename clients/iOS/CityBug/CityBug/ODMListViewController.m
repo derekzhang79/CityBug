@@ -10,6 +10,7 @@
 #import "ODMDescriptionFormViewController.h"
 #import "ODMReportDetailViewController.h"
 #import "ODMDescriptionViewController.h"
+#import "ODMUserListTableViewController.h"
 
 #import <ImageIO/ImageIO.h>
 #import <ImageIO/CGImageSource.h>
@@ -30,6 +31,7 @@
 static NSString *gotoFormSegue = @"presentFormSegue";
 static NSString *gotoViewSegue = @"gotoViewSegue";
 static NSString *presentSignInModal = @"presentSignInModal";
+static NSString *goToUserListSegue = @"goToUserListSegue";
 
 @implementation ODMListViewController {
     CLLocationManager *locationManager;
@@ -44,7 +46,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     
     NSUInteger cooldownReloadButton;
     NSInteger updatingCount;
-    
+    NSInteger selectIminLabelTag;
     __weak ODMDescriptionFormViewController *_formViewController;
 }
 
@@ -57,7 +59,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
 {
     [super viewWillAppear:animated];
     [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:NOW_TABBAR];
-    [self updatePage:nil];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -106,9 +108,9 @@ static NSString *presentSignInModal = @"presentSignInModal";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReport:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReport:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
 
 }
 
@@ -124,10 +126,42 @@ static NSString *presentSignInModal = @"presentSignInModal";
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)updateReport:(NSNotification *)notification
+{
+    ODMReport *report = [[notification userInfo] objectForKey:@"report"];
+    
+    int index = -1;
+    for (int i = 0; i < datasource.count; i++) {
+        ODMReport *datasourceReport = [datasource objectAtIndex:i];
+        if ([datasourceReport.uid isEqualToString:report.uid]) {
+            index = i;
+            break;
+        }
+    }
+    if (index != -1) {
+        //??????
+        if ([notification.name isEqualToString:ODMDataManagerNotificationIminAddDidFinish]) {
+            report.iminCount = [NSNumber numberWithInt:[report.iminCount intValue] + 1];
+        } else if ([notification.name isEqualToString:ODMDataManagerNotificationIminDeleteDidFinish] && report.iminCount > 0) {
+            report.iminCount = [NSNumber numberWithInt:[report.iminCount intValue] - 1];
+        }
+        NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:datasource];
+        [mutableArray replaceObjectAtIndex:index withObject:report];
+        datasource = [NSArray arrayWithArray:mutableArray];
+        [self.tableView reloadData];
+    }
+    
+    [[ODMDataManager sharedInstance] reports];
+}
+
 - (void)updatePage:(NSNotification *)notification
 {
     [[ODMDataManager sharedInstance] reports];
-    
+}
+
+- (void)configRightBarButton
+{
+    [[ODMDataManager sharedInstance] reports];
     BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
     
     if (isAuthen) {
@@ -137,7 +171,6 @@ static NSString *presentSignInModal = @"presentSignInModal";
     } else {
         [[self navigationItem] setRightBarButtonItems:[NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]]];
     }
-    
 }
 
 - (void)updateReports:(NSNotification *)notification
@@ -147,7 +180,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     if ([[notification object] isKindOfClass:[NSArray class]]) {
         datasource = [NSArray arrayWithArray:[notification object]];
         
-        [self.tableView reloadData];
+//        [self.tableView reloadData];
         
         int diff = abs([datasource count] - oldItemsCount);
         // [NSString stringWithFormat:NSLocalizedString(@"There has no", @"There has no"), NSLocalizedString(@"new reports", @"new reports")]
@@ -157,6 +190,8 @@ static NSString *presentSignInModal = @"presentSignInModal";
         
         ODMLog(@"%@ [%i]", message,[datasource count]);
     }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -180,6 +215,12 @@ static NSString *presentSignInModal = @"presentSignInModal";
         
         ODMReport *report = [datasource objectAtIndex:indexPath.row];
         cell.report = report;
+        
+//        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToListImin:)];
+        
+//        UIImageView *iminListImageView = (UIImageView *)[cell viewWithTag:4405];
+//        [iminListImageView setTag:4405 + 32 + indexPath.row];
+//        [iminListImageView addGestureRecognizer:gesture];
         
         // Image Cache
         NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cell.report.thumbnailImage]];
@@ -300,6 +341,15 @@ static NSString *presentSignInModal = @"presentSignInModal";
     return _formViewController;
 }
 
+
+- (void)goToListImin:(UITapGestureRecognizer *)sender
+{
+    UIImageView *selectedIminLabel = (UIImageView *)sender.view;
+    NSInteger tag = selectedIminLabel.tag;
+    selectIminLabelTag = tag - 32 - 4405;
+    [self performSegueWithIdentifier:goToUserListSegue sender:self];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:gotoFormSegue]) {
@@ -311,13 +361,17 @@ static NSString *presentSignInModal = @"presentSignInModal";
     else if ([segue.identifier isEqualToString:gotoViewSegue]) {
         
         ODMReportDetailViewController *detailViewController = (ODMReportDetailViewController *) segue.destinationViewController;
-        
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
 
         if (datasource.count > selectedIndexPath.row) {
             ODMReport *aReport = [datasource objectAtIndex:selectedIndexPath.row];
             detailViewController.report = aReport;
         }
+    } else if ([segue.identifier isEqualToString:goToUserListSegue]) {
+        
+        ODMUserListTableViewController *userListTableViewController = (ODMUserListTableViewController *) segue.destinationViewController;
+            ODMReport *aReport = [datasource objectAtIndex:selectIminLabelTag];
+            userListTableViewController.report = aReport;
     }
 }
 
