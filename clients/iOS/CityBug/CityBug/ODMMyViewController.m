@@ -47,6 +47,8 @@ static NSString *presentSignInModal = @"presentSignInModal";
     return self;
 }
 
+#pragma mark - View LifeCycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -88,6 +90,8 @@ static NSString *presentSignInModal = @"presentSignInModal";
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+#pragma mark - notification
 
 - (void)updatePage:(NSNotification *)notification
 {
@@ -174,23 +178,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [[ODMDataManager sharedInstance] reports];
 }
 
-- (BOOL)isSignIn
-{
-    [self.notLoginView setHidden:YES];
-    if ([[ODMDataManager sharedInstance] isAuthenticated] == NO) {
-        [self.actView setHidden:YES];
-        [self.notLoginView setHidden:NO];
-        
-        NSLog(@"present signin");
-        [self performSegueWithIdentifier:presentSignInModal sender:self];
-        
-        [[self navigationItem] setRightBarButtonItem:nil];
-        return NO;
-    } else {
-        [[self navigationItem] setRightBarButtonItem:signOutButton];
-    }
-    return YES;
-}
+#pragma mark - action
 
 - (void)signOutButtonTapped
 {
@@ -209,6 +197,24 @@ static NSString *presentSignInModal = @"presentSignInModal";
 {
     UITabBarController *tc = (UITabBarController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [tc setSelectedIndex:0];
+}
+
+- (BOOL)isSignIn
+{
+    [self.notLoginView setHidden:YES];
+    if ([[ODMDataManager sharedInstance] isAuthenticated] == NO) {
+        [self.actView setHidden:YES];
+        [self.notLoginView setHidden:NO];
+        
+        NSLog(@"present signin");
+        [self performSegueWithIdentifier:presentSignInModal sender:self];
+        
+        [[self navigationItem] setRightBarButtonItem:nil];
+        return NO;
+    } else {
+        [[self navigationItem] setRightBarButtonItem:signOutButton];
+    }
+    return YES;
 }
 
 #pragma mark - Table view data source

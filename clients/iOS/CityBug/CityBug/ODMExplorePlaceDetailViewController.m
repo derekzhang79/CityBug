@@ -41,6 +41,8 @@ static NSString *presentSignInModal = @"presentSignInModal";
     return self;
 }
 
+#pragma mark - View life cycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -136,22 +138,6 @@ static NSString *presentSignInModal = @"presentSignInModal";
     region.center = [mp coordinate];
 }
 
-- (void)subscribeComplete:(NSNotification *)notification
-{
-    self.place.isSubscribed = YES;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Subscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [alert show];
-    [self updateSubscribeStatus];
-}
-
-- (void)unsubscribeComplete:(NSNotification *)notification
-{
-    self.place.isSubscribed = NO;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsubscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [alert show];
-    [self updateSubscribeStatus];
-}
-
 - (void)updateSubscribeStatus
 {
     if (self.place.isSubscribed == YES) {
@@ -169,15 +155,63 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [unsubscribeButton setEnabled:NO];
 }
 
+- (void)signInButtonAction
+{
+    //must refresh subscribe status from explore place list
+    [self performSegueWithIdentifier:presentSignInModal sender:self];
+}
+
+- (IBAction)subscribeButtonAction:(id)sender
+{
+    [[ODMDataManager sharedInstance] postNewSubscribeToPlace:self.place];
+}
+
+- (IBAction)unsubscribeButtonAction:(id)sender
+{
+//    [[ODMDataManager sharedInstance] unsubscribeToPlace:self.place];
+    [[ODMDataManager sharedInstance] postNewSubscribeToPlace:self.place];
+}
+
+#pragma mark - notification
+
+- (void)updateReports:(NSNotification *)notification
+{
+    //    [self.actView setHidden:YES];
+    
+    NSUInteger oldItemsCount = [datasource count];
+    
+    if ([[notification object] isKindOfClass:[NSArray class]]) {
+        datasource = [NSArray arrayWithArray:[notification object]];
+        
+        [self.tableView reloadData];
+        
+        int diff = abs([datasource count] - oldItemsCount);
+        // [NSString stringWithFormat:NSLocalizedString(@"There has no", @"There has no"), NSLocalizedString(@"new reports", @"new reports")]
+        NSString *message = diff == 1 ?
+        [NSString stringWithFormat:NSLocalizedString(@"There has a new report", @"There has a new report")]
+        : [NSString stringWithFormat:NSLocalizedString(@"There have new %i reports", @"There have %i reports"),diff];
+        
+        ODMLog(@"%@ [%i]",message ,[datasource count]);
+    }
+    
+    if ([datasource count] == 0) {
+        [self.noResultView setHidden:NO];
+        [self.tableView setBounces:NO];
+    } else {
+        [self.noResultView setHidden:YES];
+        [self.tableView setBounces:YES];
+    }
+}
+
 - (void)updatePage:(NSNotification *)notification
-{    
+{
     [[ODMDataManager sharedInstance] reportsWithPlace:self.place];
     [self.tableView reloadData];
     
-//    [self.actView setHidden:NO];
+    //    [self.actView setHidden:NO];
     
     if([[ODMDataManager sharedInstance] isAuthenticated] == NO) {
-//        self.rightButton.enabled = NO;
+        //        self.rightButton.enabled = NO;
         [self.navigationItem setRightBarButtonItem:signinButton];
     } else {
         [self updateSubscribeStatus];
@@ -212,52 +246,21 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [[ODMDataManager sharedInstance] reports];
 }
 
-- (void)signInButtonAction
+- (void)subscribeComplete:(NSNotification *)notification
 {
-    //must refresh subscribe status from explore place list
-    [self performSegueWithIdentifier:presentSignInModal sender:self];
+    self.place.isSubscribed = YES;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Subscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    [self updateSubscribeStatus];
 }
 
-- (void)updateReports:(NSNotification *)notification
+- (void)unsubscribeComplete:(NSNotification *)notification
 {
-//    [self.actView setHidden:YES];
-    
-    NSUInteger oldItemsCount = [datasource count];
-    
-    if ([[notification object] isKindOfClass:[NSArray class]]) {
-        datasource = [NSArray arrayWithArray:[notification object]];
-        
-        [self.tableView reloadData];
-        
-        int diff = abs([datasource count] - oldItemsCount);
-        // [NSString stringWithFormat:NSLocalizedString(@"There has no", @"There has no"), NSLocalizedString(@"new reports", @"new reports")]
-        NSString *message = diff == 1 ?
-        [NSString stringWithFormat:NSLocalizedString(@"There has a new report", @"There has a new report")]
-        : [NSString stringWithFormat:NSLocalizedString(@"There have new %i reports", @"There have %i reports"),diff];
-        
-        ODMLog(@"%@ [%i]",message ,[datasource count]);
-    }
-    
-    if ([datasource count] == 0) {
-        [self.noResultView setHidden:NO];
-        [self.tableView setBounces:NO];
-    } else {
-        [self.noResultView setHidden:YES];
-        [self.tableView setBounces:YES];
-    }
+    self.place.isSubscribed = NO;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsubscribe Complete!" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    [self updateSubscribeStatus];
 }
-
-- (IBAction)subscribeButtonAction:(id)sender
-{
-    [[ODMDataManager sharedInstance] postNewSubscribeToPlace:self.place];
-}
-
-- (IBAction)unsubscribeButtonAction:(id)sender
-{
-//    [[ODMDataManager sharedInstance] unsubscribeToPlace:self.place];
-    [[ODMDataManager sharedInstance] postNewSubscribeToPlace:self.place];
-}
-
 
 #pragma mark - Table view data source
 

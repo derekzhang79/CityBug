@@ -71,6 +71,18 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 #pragma mark - Action
 
+- (IBAction)imin:(id)sender
+{
+    if ([self isImin]) {
+        [[ODMDataManager sharedInstance] deleteIminAtReport:self.report];
+    } else {
+        [[ODMDataManager sharedInstance] postIminAtReport:self.report];
+    }
+    
+    [self.iminButton setEnabled:NO];
+    [self.iminImage setUserInteractionEnabled:NO];
+}
+
 - (void)iminLabelAction
 {
     [self performSegueWithIdentifier:goToUserListSegue sender:self];
@@ -87,28 +99,6 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (void)handleTapGesture:(UIGestureRecognizer *)gesture
 {
     [self resignFirstResponder];
-}
-
-- (void)updateCommentView:(NSNotificationCenter *)noti
-{
-    [self authenticatedConfig];
-}
-
-- (void)authenticatedConfig
-{
-    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
-    
-    if (isAuthen) {
-        self.commentFormView.hidden = NO;
-        self.iminImage.userInteractionEnabled = YES;
-        [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
-        
-    } else {
-        self.commentFormView.hidden = YES;
-        [self.iminButton setEnabled:NO];
-        self.iminImage.userInteractionEnabled = NO;
-        [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
-    }
 }
 
 #pragma mark - Datasource
@@ -247,6 +237,11 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     
 }
 
+- (void)updateCommentView:(NSNotificationCenter *)noti
+{
+    [self authenticatedConfig];
+}
+
 - (void)updateImin:(NSNotification *)notification
 {
     ODMReport *report = [[notification userInfo] objectForKey:@"report"];
@@ -306,19 +301,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     }
 }
 
-#pragma mark - imin button
-
-- (IBAction)imin:(id)sender
-{
-    if ([self isImin]) {
-        [[ODMDataManager sharedInstance] deleteIminAtReport:self.report];
-    } else {
-        [[ODMDataManager sharedInstance] postIminAtReport:self.report];
-    }
-    
-    [self.iminButton setEnabled:NO];
-    [self.iminImage setUserInteractionEnabled:NO];
-}
+#pragma mark - imin config
 
 - (void)iminButtonConfig
 {
@@ -363,6 +346,25 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         }
     }
     return NO;
+}
+
+#pragma mark - authenticatedConfig
+
+- (void)authenticatedConfig
+{
+    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
+    
+    if (isAuthen) {
+        self.commentFormView.hidden = NO;
+        self.iminImage.userInteractionEnabled = YES;
+        [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
+        
+    } else {
+        self.commentFormView.hidden = YES;
+        [self.iminButton setEnabled:NO];
+        self.iminImage.userInteractionEnabled = NO;
+        [self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
+    }
 }
 
 #pragma mark - cooldown

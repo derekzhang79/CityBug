@@ -129,6 +129,8 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - notificaton
+
 - (void)updateReport:(NSNotification *)notification
 {
     ODMReport *report = [[notification userInfo] objectForKey:@"report"];

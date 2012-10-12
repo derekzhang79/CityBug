@@ -38,7 +38,7 @@
         _reportImageView = (UIImageView *)[self viewWithTag:IMAGE_VIEW_TAG];
         _reportImageView.image = [UIImage imageNamed:@"bugs.jpeg"];
         _iminButton = (UIButton *)[self viewWithTag:IMIN_BUTTON_TAG];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateIminLoadingStatus) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(iminButtonConfig) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideIminButton:) name:ODMDataManagerNotificationIminDidLoading object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showIminButton:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
         
@@ -82,12 +82,7 @@
     
 }
 
-#pragma mark - imin
-
-- (void)updateIminLoadingStatus
-{
-    [self iminButtonConfig];
-}
+#pragma mark - imin action
 
 - (IBAction)imin:(id)sender
 {
@@ -99,6 +94,15 @@
     
     [self.iminButton setEnabled:NO];
 }
+
+- (void)handleTapGesture:(UITapGestureRecognizer *)gesture
+{
+    if ([self.delegate respondsToSelector:@selector(didClickIminLabelWithReport:)]) {
+        [self.delegate didClickIminLabelWithReport:self.report];
+    }
+}
+
+#pragma mark - imin config
 
 - (void)iminButtonConfig
 {
@@ -138,6 +142,8 @@
     return NO;
 }
 
+#pragma mark - imin notification
+
 - (void)showIminButton:(NSNotification *)notification
 {
     [self.iminButton setEnabled:YES];
@@ -151,12 +157,8 @@
     }
 }
 
-- (void)handleTapGesture:(UITapGestureRecognizer *)gesture
-{
-    if ([self.delegate respondsToSelector:@selector(didClickIminLabelWithReport:)]) {
-        [self.delegate didClickIminLabelWithReport:self.report];
-    }
-}
+
+#pragma mark - layout subview
 
 - (void)layoutSubviews
 {

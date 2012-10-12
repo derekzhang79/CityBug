@@ -435,97 +435,6 @@ NSString *ODMDataManagerNotificationIminDidLoading;
     }];
 }
 
-/*
- * ADDING A COMMENT
- * HTTP POST
- */
-
-- (void)postComment:(ODMComment *)comment
-{
-    [self postComment:comment withError:NULL];
-}
-
-- (void)postComment:(ODMComment *)comment withError:(NSError **)error
-{
-    RKParams *reportParams = [RKParams params];
-    
-    ODMUser *currentUser = [self currentUser];
-    comment.user = currentUser;
-    
-    *error = nil;
-    NSString *commentText = comment.text;
-    BOOL isValid = [comment validateValue:&commentText forKey:@"text" error:error];
-    if (!isValid) {
-        @throw [NSException exceptionWithName:[*error domain] reason:[[*error userInfo] objectForKey:@"description"] userInfo:nil];
-    }
-    
-    [[RKObjectManager sharedManager] postObject:comment usingBlock:^(RKObjectLoader *loader){
-        loader.delegate = self;
-        
-        [reportParams setValue:[comment text] forParam:@"text"];
-        [reportParams setValue:[comment.user username] forParam:@"username"];
-        
-        loader.onDidLoadObject = ^(id object) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCommentLoadingFinish object:object];
-        };
-        
-        loader.params = reportParams;
-    }];
-}
-
-/**
- * Update Query parameters
- * For getting contents in recent activity view
- */
-- (NSMutableDictionary *)buildingQueryParameters
-{
-    if (!queryParams) {
-        queryParams = [NSMutableDictionary new];
-        [queryParams setObject:@30 forKey:@"limit"];
-    }
-    
-    // Check whether current user has signed in
-    if ([self currentUser] && DEBUG_HAS_SIGNED_IN) {
-        
-        // DEBUG MODE (Helping Mode)
-        // We add username and password as query parameters,
-        // so that server-side can easily parse and debug as well.
-        // However finally, we must use Basic Authentication method
-        // which contains HTTPHeader(Authentication) for autherize to
-        // citybug back-end instead.
-        
-        NSString *currentUsername = [[self currentUser] username];
-        NSString *currentPassword = [[self currentUser] password];
-        
-        [queryParams setObject:currentUsername forKey:@"username"];
-        [queryParams setObject:currentPassword forKey:@"password"];
-
-    }
-    
-    if ([self startGatheringLocation]) {
-        // Location services are enable
-        [self updateQueryParameterFromLocation:self.locationManager.location.coordinate];
-        
-        if (self.locationManager.location.horizontalAccuracy < MINIMUN_ACCURACY_DISTANCE && self.locationManager.location.verticalAccuracy < MINIMUN_ACCURACY_DISTANCE && MIN(self.locationManager.location.horizontalAccuracy, 0) == 0 && MIN(self.locationManager.location.verticalAccuracy, 0) == 0) {
-            [self stopGatheringLocation];
-        }
-    }
-    
-    return queryParams;
-}
-
-- (NSMutableDictionary *)buildingQueryParametersWithLocation:(CLLocationCoordinate2D)coordinate withParams:(NSMutableDictionary *)params
-{
-    [params setObject:@(coordinate.latitude) forKey:@"lat"];
-    [params setObject:@(coordinate.longitude) forKey:@"lng"];
-    return params;
-}
-
-- (void)updateQueryParameterFromLocation:(CLLocationCoordinate2D)loc
-{
-    [self buildingQueryParametersWithLocation:loc withParams:queryParams];
-}
-
 - (NSArray *)reports
 {
     return [self reportsWithParameters:[self buildingQueryParameters] error:NULL];
@@ -594,6 +503,47 @@ NSString *ODMDataManagerNotificationIminDidLoading;
     }];
     
     return _myReports;
+}
+
+#pragma mark - Comment
+
+
+/*
+ * ADDING A COMMENT
+ * HTTP POST
+ */
+
+- (void)postComment:(ODMComment *)comment
+{
+    [self postComment:comment withError:NULL];
+}
+
+- (void)postComment:(ODMComment *)comment withError:(NSError **)error
+{
+    RKParams *reportParams = [RKParams params];
+    
+    ODMUser *currentUser = [self currentUser];
+    comment.user = currentUser;
+    
+    *error = nil;
+    NSString *commentText = comment.text;
+    BOOL isValid = [comment validateValue:&commentText forKey:@"text" error:error];
+    if (!isValid) {
+        @throw [NSException exceptionWithName:[*error domain] reason:[[*error userInfo] objectForKey:@"description"] userInfo:nil];
+    }
+    
+    [[RKObjectManager sharedManager] postObject:comment usingBlock:^(RKObjectLoader *loader){
+        loader.delegate = self;
+        
+        [reportParams setValue:[comment text] forParam:@"text"];
+        [reportParams setValue:[comment.user username] forParam:@"username"];
+        
+        loader.onDidLoadObject = ^(id object) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationCommentLoadingFinish object:object];
+        };
+        
+        loader.params = reportParams;
+    }];
 }
 
 - (NSArray *)comment
@@ -793,6 +743,62 @@ NSString *ODMDataManagerNotificationIminDidLoading;
     
     return _users;
 
+}
+
+#pragma mark - build query
+
+
+/**
+ * Update Query parameters
+ * For getting contents in recent activity view
+ */
+- (NSMutableDictionary *)buildingQueryParameters
+{
+    if (!queryParams) {
+        queryParams = [NSMutableDictionary new];
+        [queryParams setObject:@30 forKey:@"limit"];
+    }
+    
+    // Check whether current user has signed in
+    if ([self currentUser] && DEBUG_HAS_SIGNED_IN) {
+        
+        // DEBUG MODE (Helping Mode)
+        // We add username and password as query parameters,
+        // so that server-side can easily parse and debug as well.
+        // However finally, we must use Basic Authentication method
+        // which contains HTTPHeader(Authentication) for autherize to
+        // citybug back-end instead.
+        
+        NSString *currentUsername = [[self currentUser] username];
+        NSString *currentPassword = [[self currentUser] password];
+        
+        [queryParams setObject:currentUsername forKey:@"username"];
+        [queryParams setObject:currentPassword forKey:@"password"];
+        
+    }
+    
+    if ([self startGatheringLocation]) {
+        // Location services are enable
+        [self updateQueryParameterFromLocation:self.locationManager.location.coordinate];
+        
+        if (self.locationManager.location.horizontalAccuracy < MINIMUN_ACCURACY_DISTANCE && self.locationManager.location.verticalAccuracy < MINIMUN_ACCURACY_DISTANCE && MIN(self.locationManager.location.horizontalAccuracy, 0) == 0 && MIN(self.locationManager.location.verticalAccuracy, 0) == 0) {
+            [self stopGatheringLocation];
+        }
+    }
+    
+    return queryParams;
+}
+
+- (NSMutableDictionary *)buildingQueryParametersWithLocation:(CLLocationCoordinate2D)coordinate withParams:(NSMutableDictionary *)params
+{
+    [params setObject:@(coordinate.latitude) forKey:@"lat"];
+    [params setObject:@(coordinate.longitude) forKey:@"lng"];
+    return params;
+}
+
+- (void)updateQueryParameterFromLocation:(CLLocationCoordinate2D)loc
+{
+    [self buildingQueryParametersWithLocation:loc withParams:queryParams];
 }
 
 #pragma mark - RKObjectLoader Delegate
