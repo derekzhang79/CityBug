@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *mySubcribeButton;
 @property (weak, nonatomic) IBOutlet UITableView *myReportTableView;
 @property (nonatomic, weak) IBOutlet UIView *noResultView, *actView, *notLoginView;
+@property (strong, nonatomic) UINib *nibLoader;
 
 - (IBAction)goToPost:(id)sender;
 

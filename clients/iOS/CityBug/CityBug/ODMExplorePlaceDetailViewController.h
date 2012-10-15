@@ -36,6 +36,8 @@
 
 @property (nonatomic, assign, setter = setActive:) BOOL isActive;
 
+@property (strong, nonatomic) UINib *nibLoader;
+
 - (IBAction)refreshButtonTapped:(id)sender;
 
 @end

@@ -46,6 +46,10 @@ static NSString *presentSignInModal = @"presentSignInModal";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.nibLoader = [UINib nibWithNibName:@"ODMActivityFeedViewCell" bundle:nil];
+    [self.tableView registerNib:self.nibLoader forCellReuseIdentifier:@"ReportCellIdentifier"];
+    
     titleLabel.text = self.place.title;
     self.title = self.place.title;
     
@@ -302,7 +306,12 @@ static NSString *presentSignInModal = @"presentSignInModal";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"ReportCellIdentifier";
+    
     ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[self.nibLoader instantiateWithOwner:self options:nil] objectAtIndex:0];
+    }
+    
     cell.delegate = self;
     if (cell && datasource.count > indexPath.row) {
         
@@ -315,6 +324,12 @@ static NSString *presentSignInModal = @"presentSignInModal";
     }
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:gotoViewSegue sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+}
+
 #pragma mark - segue
 
 - (void)setFormViewController:(ODMDescriptionFormViewController *)vc
