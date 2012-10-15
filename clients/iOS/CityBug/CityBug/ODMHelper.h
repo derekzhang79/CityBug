@@ -119,7 +119,7 @@
 #define HEADER_TEXT_IMIN_ADD_COMPLETE @"imin add"
 #define HEADER_TEXT_IMIN_DELETE_COMPLETE @"imin delete"
 #define HEADER_TEXT_IMIN_EXISTED @"imin existed"
-
+#define HEADER_TEXT_CHANGED_PROFILE_IMAGE @"changed profile image"
 /*
  * ODMLog
  */

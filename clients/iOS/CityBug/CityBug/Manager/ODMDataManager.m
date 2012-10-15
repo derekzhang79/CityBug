@@ -276,7 +276,7 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         loader.resourcePath = @"/api/user/thumbnailImage";
 
         
-        NSData *thumbnailImageData = UIImageJPEGRepresentation(image, 0);
+        NSData *thumbnailImageData = UIImageJPEGRepresentation(image, 1);
          
          [userParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
         
@@ -284,6 +284,8 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         
         loader.onDidLoadObject = ^(id object){
            [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"thumbnailImage"] forKey:kSecThumbnailImage];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
         };
         loader.params = userParams;
     }];

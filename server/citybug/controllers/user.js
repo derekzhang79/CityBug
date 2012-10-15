@@ -52,11 +52,10 @@ exports.editThumbnailImage = function(req, res) {
         currentUser.thumbnail_image = thumbnail_image_short_path;
         currentUser.save(function (err) {
 	        if (!err){
+
+	        	console.log("SAVED " + currentUser);
 	        	//delete temp file
 		        var tmp_path = req.files.thumbnail_image.path;
-		        fs.unlink(tmp_path, function() {
-		            console.log('Delete user thumbnail image temporary file');
-		        });
 
 		        // make directory
 		        fs.mkdirParent("./public/images/user/");
@@ -72,15 +71,15 @@ exports.editThumbnailImage = function(req, res) {
 		            fs.rename(tmp_path, thumbnail_image_path, function(err) {
 		                if (err) throw err;
 		                // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-		                fs.unlink(tmp_path, function(err) {
+		                fs.unlink(tmp_path, function() {
 		                    if (err) throw err;
 	                        console.log('File uploaded to: ' + thumbnail_image_path + ' - ' + req.files.thumbnail_image.size + ' bytes');
-	                        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
-				            res.write('{ "users":' + JSON.stringify(currentUser) + '}');
+	                        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'changed profile image'});
+				            res.write('{ "user":' + JSON.stringify(currentUser) + '}');
 				            res.end();
 				            return;
 		                });
-		            });        
+		            });         
 		        } else {
 		            // delete temporary file : ./upload
 		            var tmp_path = req.files.thumbnail_image.path;

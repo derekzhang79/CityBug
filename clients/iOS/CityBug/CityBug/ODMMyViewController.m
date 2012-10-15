@@ -106,25 +106,18 @@ static NSString *presentSignInModal = @"presentSignInModal";
 
 - (void)updatePage:(NSNotification *)notification
 {
-    
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     userNameLabel.text = [[dataManager currentUser] username];
-    emailLabel.text = [[dataManager currentUser] email];    
+    emailLabel.text = [[dataManager currentUser] email];
+
+    // set profile image
+    NSString *thumbnailImage = [[dataManager currentUser] thumbnailImage];
+    NSURL *thumbnailURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, thumbnailImage]];
+    NSData *imageData = [NSData dataWithContentsOfURL:thumbnailURL];
+    self.thumbnailImageView.image = [UIImage imageWithData:imageData];
+    
     [dataManager myReports];
     
-//    BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
-//
-//    if (isAuthen == NO && isAuthen != isAuthenOld) {
-//        [self performSegueWithIdentifier:@"presentSignInPush" sender:self];
-//        [[self navigationItem] setRightBarButtonItem:nil animated:NO];
-//        [[self navigationItem] setLeftBarButtonItem:nil animated:NO];
-//
-//    } else {
-//        [[self navigationItem] setRightBarButtonItem:signOutButton animated:NO];
-//    }
-//    [self.myReportTableView reloadData];
-//    isAuthenOld = isAuthen;
-//    [self updateMyReport:nil];
     [self.actView setHidden:NO];
     
     [self isSignIn];
