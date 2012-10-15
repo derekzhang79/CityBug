@@ -246,6 +246,11 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:gotoViewSegue sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+}
+
 #pragma mark - REPORT
 
 - (void)cooldownButtonAction:(NSTimer *)timer

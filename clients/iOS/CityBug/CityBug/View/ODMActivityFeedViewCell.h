@@ -25,5 +25,4 @@
 @protocol ODMActivityFeedViewCellDelegate <NSObject>
 
 - (void)didClickIminLabelWithReport:(ODMReport *)report;
-
 @end
