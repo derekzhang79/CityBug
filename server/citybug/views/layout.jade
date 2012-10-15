@@ -5,7 +5,15 @@ html
     link(rel='stylesheet', href='/stylesheets/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/styles.css')
     //if lt IE 9
-    script(src="http://html5shim.googlecode.com/svn/trunk/html5.js", language="text/javascript")
+    // script(src="http://html5shim.googlecode.com/svn/trunk/html5.js", language="text/javascript")
     // script(type='text/javascript', src='./layout.js')
-    
+.navbar.navbar-inverse.navbar-fixed-top
+    .navbar-inner
+        .container
+            a.brand(href="/") City Bug
+            a.brand(href="/add") Post
+            a.brand(href="/add_comment") Comment
+            a.brand(href="/login") Login
+            a.brand(href="/logout") Logout
+            a.brand(href="/test_login") web Login
   body!= body
