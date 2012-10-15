@@ -22,6 +22,79 @@ exports.users_all = function(req, res){
     
 };
 
+exports.editThumbnailImage = function(req, res) {
+	var currentUser = req.user;
+
+	var fs = require('fs');
+    // create directory
+    var path = require('path');
+
+    // functon create directory
+    fs.mkdirParent = function(dirPath, mode, callback) {
+      //Call the standard fs.mkdir
+      fs.mkdir(dirPath, mode, function(error) {
+        //When it fail in this way, do the custom steps
+        if (error && error.errno === 34) {
+          //Create all the parents recursively
+          fs.mkdirParent(path.dirname(dirPath), mode, callback);
+          //And then the directory
+          fs.mkdirParent(dirPath, mode, callback);
+        }
+        //Manually run the callback since we used our own callback to do all these
+        callback && callback(error);
+      });
+    };
+
+	var thumbnail_image_type = req.files.thumbnail_image.type.split("/");
+	if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
+        var thumbnail_image_extension = req.files.thumbnail_image.type.match( /[^\/]+\/?$/ );
+        var thumbnail_image_short_path = "/images/user/" + currentUser._id + "_thumbnail." + thumbnail_image_extension;
+        currentUser.thumbnail_image = thumbnail_image_short_path;
+        currentUser.save(function (err) {
+	        if (!err){
+
+	        	console.log("SAVED " + currentUser);
+	        	//delete temp file
+		        var tmp_path = req.files.thumbnail_image.path;
+
+		        // make directory
+		        fs.mkdirParent("./public/images/user/");
+		        
+		        //save picture to /public/images/report/:id
+		        if (req.files.thumbnail_image != null && thumbnail_image_type[0] == 'image' && thumbnail_image_type[1] != 'gif') {
+		            // get the temporary location of the file : ./uploads
+		            var tmp_path = req.files.thumbnail_image.path;
+		            // set where the file should actually exists - in this case it is in the "images" directory
+		            var thumbnail_image_path = './public' + thumbnail_image_short_path;
+		            console.log('thumbnail_image_path '+ thumbnail_image_path + ' tmp_path ' + tmp_path);
+
+		            fs.rename(tmp_path, thumbnail_image_path, function(err) {
+		                if (err) throw err;
+		                // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+		                fs.unlink(tmp_path, function() {
+		                    if (err) throw err;
+	                        console.log('File uploaded to: ' + thumbnail_image_path + ' - ' + req.files.thumbnail_image.size + ' bytes');
+	                        res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'changed profile image'});
+				            res.write('{ "user":' + JSON.stringify(currentUser) + '}');
+				            res.end();
+				            return;
+		                });
+		            });         
+		        } else {
+		            // delete temporary file : ./upload
+		            var tmp_path = req.files.thumbnail_image.path;
+		            fs.unlink(tmp_path, function() {
+		                console.log('Delete temporary file');
+		            });
+		        }
+		    } else {
+		    	res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+	            res.end();
+	            return;
+		    }
+	    });
+    }
+}
 
 exports.user = function(req, res) {
 	console.log('get user');

@@ -682,6 +682,9 @@ exports.report_post = function(req, res) {
             var tmp_path = req.files.thumbnail_image.path;
             // set where the file should actually exists - in this case it is in the "images" directory
             var thumbnail_image_path = './public' + thumbnail_image_short_path;
+
+            console.log('thumbnail_image_path '+ thumbnail_image_path + ' tmp_path ' + tmp_path);
+
             // move the file from the temporary location to the intended location
             fs.rename(tmp_path, thumbnail_image_path, function(err) {
                 if (err) throw err;
