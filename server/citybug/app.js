@@ -4,22 +4,6 @@ var express = require('express'),
 	passport = require('passport'),
 	flash = require('connect-flash'),
 	util = require('util');
-const crypto = require('crypto'),
-      fs = require("fs");
-// ssl
-var privateKey = fs.readFileSync('privatekey.pem').toString();
-var certificate = fs.readFileSync('certificate.pem').toString();
-
-var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
-
-
-var hskey = fs.readFileSync('privatekey.pem');
-var hscert = fs.readFileSync('certificate.pem')
-
-var options = {
-    key: hskey,
-    cert: hscert
-};
 
 var app = module.exports = express.createServer();
 // Configuration
