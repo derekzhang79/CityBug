@@ -11,7 +11,7 @@
 @interface ODMActivityFeedViewCell : UITableViewCell {
     __unsafe_unretained id <ODMActivityFeedViewCellDelegate> delegate;
     //UIImageView *_avatarImageView, *_reportImageView;
-    
+    IBOutlet UILabel *titleLabel, *userLabel, *placeLabel, *createdAtLabel, *commentLabel;
 }
 
 @property (unsafe_unretained) id <ODMActivityFeedViewCellDelegate> delegate;

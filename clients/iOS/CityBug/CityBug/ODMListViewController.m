@@ -228,7 +228,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 {
     static NSString *CellIdentifier = @"ReportCellIdentifier";
 
-    ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[self.nibLoader instantiateWithOwner:self options:nil] objectAtIndex:0];
     }

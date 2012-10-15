@@ -31,36 +31,6 @@
     NSInteger cooldownSendImin;
 }
 
-/*
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        NSArray *objects = [[NSBundle mainBundle] loadNibNamed:@"ODMActivityFeedViewCell" owner:self options:nil];
-        self = [objects objectAtIndex:0];
-        
-        _avatarImageView = (UIImageView *)[self viewWithTag:AVATAR_VIEW_TAG];
-        _avatarImageView.image = [UIImage imageNamed:@"1.jpeg"];
-        _reportImageView = (UIImageView *)[self viewWithTag:IMAGE_VIEW_TAG];
-        _reportImageView.image = [UIImage imageNamed:@"bugs.jpeg"];
-        _iminButton = (UIButton *)[self viewWithTag:IMIN_BUTTON_TAG];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(iminButtonConfig) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideIminButton:) name:ODMDataManagerNotificationIminDidLoading object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(iminButtonConfig) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
-        
-        [self.iminButton addTarget:self action:@selector(imin:) forControlEvents:UIControlEventTouchUpInside];
-        
-        self.iminCountLabel = (UILabel *)[self viewWithTag:IMIN_VIEW_TAG];
-        UITapGestureRecognizer *iminCountTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
-        [self.iminCountLabel addGestureRecognizer:iminCountTap];
-        
-
-    }
-    return self;
-}
-*/
-
-/*
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super initWithCoder:aDecoder]) {
@@ -92,23 +62,11 @@
 
 - (void)setReport:(ODMReport *)report
 {    
-    UILabel *titleLabel = (UILabel *)[self viewWithTag:TITLE_VIEW_TAG];
     titleLabel.text = [report title];
-    
-    UILabel *userLabel = (UILabel *)[self viewWithTag:USER_VIEW_TAG];
     userLabel.text = [[report user] username];
-
-    UILabel *placeLabel = (UILabel *)[self viewWithTag:PLACE_VIEW_TAG];
-    
     placeLabel.text = [[report place] title];
-    
-    UILabel *iminCountLabel = (UILabel *)[self viewWithTag:IMIN_VIEW_TAG];
-    iminCountLabel.text = [report iminString];
-    
-    UILabel *createdAtLabel = (UILabel *)[self viewWithTag:CREATED_AT_TAG];
+    self.iminCountLabel.text = [report iminString];
     createdAtLabel.text = [report.createdAt stringWithHumanizedTimeDifference];
-    
-    UILabel *commentLabel = (UILabel *)[self viewWithTag:AMOUNT_COMMENT_TAG];
     commentLabel.text = [NSString stringWithFormat:@"%d", report.comments.count];
 
     _report = report;
@@ -198,6 +156,6 @@
     [self iminButtonConfig];
 }
 
-*/
+
  
 @end
