@@ -82,6 +82,9 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [super viewDidLoad];
     [self setTitle:TAB_FEED_TITLE];
     
+    self.nibLoader = [UINib nibWithNibName:@"ODMActivityFeedViewCell" bundle:nil];
+    [self.tableView registerNib:self.nibLoader forCellReuseIdentifier:@"ReportCellIdentifier"];
+    
     // Load data
     datasource = [[ODMDataManager sharedInstance] reports];
     if (!datasource) datasource = [NSArray new];
@@ -224,7 +227,12 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"ReportCellIdentifier";
-    ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];    
+
+    ODMActivityFeedViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    if (cell == nil) {
+        cell = [[self.nibLoader instantiateWithOwner:self options:nil] objectAtIndex:0];
+    }
+    
     cell.delegate = self;
     if (cell && datasource.count > indexPath.row) {
         

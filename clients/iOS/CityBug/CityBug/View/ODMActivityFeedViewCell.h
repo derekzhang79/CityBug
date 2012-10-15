@@ -10,14 +10,15 @@
 @protocol ODMActivityFeedViewCellDelegate;
 @interface ODMActivityFeedViewCell : UITableViewCell {
     __unsafe_unretained id <ODMActivityFeedViewCellDelegate> delegate;
-    UIImageView *_avatarImageView, *_reportImageView;
+    //UIImageView *_avatarImageView, *_reportImageView;
+    
 }
 
 @property (unsafe_unretained) id <ODMActivityFeedViewCellDelegate> delegate;
 @property (nonatomic, weak) ODMReport *report;
-@property (nonatomic, strong) UIImageView *avatarImageView, *reportImageView;
-@property (nonatomic, weak) UIButton *iminButton;
-@property (nonatomic, weak) UILabel *iminCountLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *avatarImageView, *reportImageView;
+@property (nonatomic, weak) IBOutlet UIButton *iminButton;
+@property (nonatomic, weak) IBOutlet UILabel *iminCountLabel;
 
 @end
 

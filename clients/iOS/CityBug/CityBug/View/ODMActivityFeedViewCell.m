@@ -28,11 +28,43 @@
 
 @implementation ODMActivityFeedViewCell
 {
-    NSInteger cooldownSendImin;}
+    NSInteger cooldownSendImin;
+}
 
+/*
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        NSArray *objects = [[NSBundle mainBundle] loadNibNamed:@"ODMActivityFeedViewCell" owner:self options:nil];
+        self = [objects objectAtIndex:0];
+        
+        _avatarImageView = (UIImageView *)[self viewWithTag:AVATAR_VIEW_TAG];
+        _avatarImageView.image = [UIImage imageNamed:@"1.jpeg"];
+        _reportImageView = (UIImageView *)[self viewWithTag:IMAGE_VIEW_TAG];
+        _reportImageView.image = [UIImage imageNamed:@"bugs.jpeg"];
+        _iminButton = (UIButton *)[self viewWithTag:IMIN_BUTTON_TAG];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(iminButtonConfig) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideIminButton:) name:ODMDataManagerNotificationIminDidLoading object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(iminButtonConfig) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
+        
+        [self.iminButton addTarget:self action:@selector(imin:) forControlEvents:UIControlEventTouchUpInside];
+        
+        self.iminCountLabel = (UILabel *)[self viewWithTag:IMIN_VIEW_TAG];
+        UITapGestureRecognizer *iminCountTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+        [self.iminCountLabel addGestureRecognizer:iminCountTap];
+        
+
+    }
+    return self;
+}
+*/
+
+/*
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super initWithCoder:aDecoder]) {
+
         _avatarImageView = (UIImageView *)[self viewWithTag:AVATAR_VIEW_TAG];
         _avatarImageView.image = [UIImage imageNamed:@"1.jpeg"];
         _reportImageView = (UIImageView *)[self viewWithTag:IMAGE_VIEW_TAG];
@@ -51,6 +83,7 @@
     }
     return self;
 }
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
@@ -165,4 +198,6 @@
     [self iminButtonConfig];
 }
 
+*/
+ 
 @end
