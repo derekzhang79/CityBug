@@ -966,7 +966,7 @@
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="created at" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kjV-aY-zkv" userLabel="Label created at">
                                                 <rect key="frame" x="166" y="16" width="134" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                                 <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1688,8 +1688,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="HFl-6d-OTT"/>
-        <segue reference="fRd-6m-KVV"/>
-        <segue reference="3MA-Jb-2NZ"/>
         <segue reference="6EH-Uq-ojF"/>
+        <segue reference="3MA-Jb-2NZ"/>
+        <segue reference="f2K-NO-Fpl"/>
     </inferredMetricsTieBreakers>
 </document>

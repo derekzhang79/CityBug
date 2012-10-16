@@ -206,7 +206,14 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         
         [serviceObjectManager.mappingProvider setObjectMapping:reportMapping forResourcePathPattern:@"/api/report/:reportID/comment"];
 
-        
+        NSData* certData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"server" ofType:@"cer"]];
+        if( [certData length] ) {
+            SecCertificateRef cert = SecCertificateCreateWithData(NULL, (__bridge  CFDataRef) certData);
+            if( cert != NULL ) {
+                [[RKObjectManager sharedManager].client addRootCertificate:cert]; 
+                CFRelease(cert); 
+            } 
+        }
     }
     return self;
 }

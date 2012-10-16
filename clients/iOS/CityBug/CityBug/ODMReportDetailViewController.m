@@ -36,7 +36,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     // Show or hide keyboard notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCommentForm:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCommentForm:) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incommingComments:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incomingComments:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCommentView:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateImin:) name:ODMDataManagerNotificationIminAddDidFinish object:nil];
@@ -191,7 +191,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 #pragma mark - Notifications
 
-- (void)incommingComments:(NSNotification *)notification
+- (void)incomingComments:(NSNotification *)notification
 {
     if ([[notification object] isKindOfClass:[NSArray class]]) {
         NSArray *datasource = (NSArray *)[notification object];
