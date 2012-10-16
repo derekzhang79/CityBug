@@ -158,8 +158,6 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     // Value from Storyboard
     CGFloat defaultNoteLabelHeight = 22;
     CGFloat defaultInfoViewHeight = 350;
-    CGFloat spaceBetweenInfoAndNote = 15;
-    
     
     if (abs(self.noteLabel.frame.size.height - defaultNoteLabelHeight) > 0) {
         infoFrame.size.height = defaultInfoViewHeight + rect.size.height;
@@ -168,12 +166,6 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     }
     
     [self.infoView setFrame:infoFrame];
-    
-    //
-    // Combine
-    //
-    CGRect contentFrame = self.tableView.frame;
-    contentFrame.size.height = infoFrame.size.height + spaceBetweenInfoAndNote;
 
 }
 
@@ -212,11 +204,6 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
             }
             [self reloadData];
             
-            
-            /*CGRect scrollRect = CGRectMake(0, self.scrollView.contentSize.height + self.commentFormView.frame.size.height, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
-            [self.scrollView scrollRectToVisible:scrollRect animated:YES];
-            
-            ODMLog(@"Scroll to last %@", NSStringFromCGRect(scrollRect));*/
             [self tableViewScrollToLast];
         
         }
@@ -462,7 +449,13 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return ROW_HEIGHT;
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    NSString *note = cell.detailTextLabel.text;
+    UIFont *font = [UIFont systemFontOfSize:14.f];
+    CGSize constraintSize = CGSizeMake(280.0f, MAXFLOAT);
+    CGSize bounds = [note sizeWithFont:font constrainedToSize:constraintSize lineBreakMode:UILineBreakModeCharacterWrap];
+    return (CGFloat) cell.bounds.size.height + bounds.height;
 }
+
 
 @end
