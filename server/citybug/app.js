@@ -4,8 +4,8 @@ var express = require('express'),
 	passport = require('passport'),
 	flash = require('connect-flash'),
 	util = require('util');
-var app = module.exports = express.createServer();
 
+var app = module.exports = express.createServer();
 // Configuration
 require('./configuration')(app, express, passport, flash);
 require('./routes')(app, express);

@@ -5,7 +5,9 @@
 */
 var environment = require('../environment');
 var service = require('../service');
-    service.init(environment);
+    service.init(environment),
+    api = require('../controllers/api')
+;
 // loads model file and engine
 var model = service.useModel('model');
 
@@ -238,153 +240,7 @@ exports.index = function(req, res){
     //     }
     // }); 
 
-
-    // Query all report with all attribute
-    // create custom json because relation database that 
-    // report can get comment, but comment can get only _id 
-    // so we query user in comment and make a new json
-    // Query all report with all attribute
-    var new_report = [];
-    var queryCount = 0;
-    var maxQueryCount = 0;
-    model.Report.find({})
-        .populate('user','username email thumbnail_image')
-        .populate('categories','title')
-        .populate('comments')
-        .populate('imins')
-        .populate('place')
-        .exec(function (err, report) {
-            if (err) { 
-                console.log(err);
-                return;
-            }
-
-            // have none of report
-            if (report.length == 0) {
-                res.render('index.jade',{title: 'City bug',report: report});
-            };
-
-
-            // find max comment, imin
-            // find need to do before query
-            for (r in report) {
-                for (i in report[r].comments) {
-                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
-                        if (i == 0) {
-                            maxQueryCount++;
-                        };
-                    }
-                    if (report[r].imins._id != undefined && report[r].imins.length > 0) {
-                        if (i == 0) {
-                            maxQueryCount++;
-                        };
-                    };
-                }
-            }
-
-            for (r in report) {
-                
-                // add query comment where _id:id or _id:id .... 
-                var query_comments = {};
-                query_comments["$or"] = [];
-                for (i in report[r].comments) {
-                    if (report[r].comments[i]._id != undefined && report[r].comments.length > 0) {
-                        query_comments["$or"].push({"_id":report[r].comments[i]._id});
-                    }
-                }
-
-                // add query imin where _id:id or _id:id .... 
-                var query_imins = {};
-                query_imins["$or"] = [];
-                for (i in report[r].imins) {
-                    if (report[r].imins[i]._id != undefined && report[r].imins.length > 0) {
-                        query_imins["$or"].push({"_id":report[r].imins[i]._id});
-                    }
-                }
-
-                // get all comment
-                queryListComment(query_comments, r, function(comments, index, isQueryComment) {
-
-                    // get all imin
-                    queryListImin(query_imins, index, function(imins, index, isQueryImins) {
-                        // add data to report
-                        new_report.push(
-                            {"user":report[index].user,
-                             "_id":report[index]._id,
-                             "comments":comments,
-                             "title":report[index].title,
-                             "lat":report[index].lat,
-                             "lng":report[index].lng,
-                             "note":report[index].note,
-                             "full_image":report[index].full_image,
-                             "thumbnail_image":report[index].thumbnail_image,
-                             "is_resolved":report[index].is_resolved,
-                             "categories":report[index].categories,
-                             "place":report[index].place,
-                             "imins":imins,
-                             "last_modified":report[index].last_modified,
-                             "created_at":report[index].created_at
-                            });
-
-                        if (isQueryComment || isQueryImins) {
-                            queryCount++;
-                        };
-                        if (maxQueryCount == queryCount && maxQueryCount != 0) {
-
-                            new_report = new_report.sort(function(a, b) {
-                                return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
-                            });
-
-                            res.render('index.jade',{title: 'City bug',report: new_report});
-                        }
-                    });
-                });   
-            }
-            if (maxQueryCount == 0) {
-                new_report = new_report.sort(function(a, b) {
-                    return new Date(b.last_modified).getTime() - new Date(a.last_modified).getTime();
-                });
-                res.render('index.jade',{title: 'City bug',report: new_report});
-            };
+    api.getAllReports({}, function(reports) {
+        res.render('index.jade',{title: 'City bug',report: reports});
     });
 };
-
-function queryListComment(query, r, callbackFunction) {
-    if (query['$or'].length <= 0) {
-        var emptyQuery = [];
-        callbackFunction(emptyQuery, r, false);
-        return;
-    };
-    model.Comment.find(query)
-        .populate('user','username email thumbnail_image')
-        .exec(function (err, comments) {
-            if (err) { 
-                console.log('query ' + err);
-                return;
-            }
-            if (comments != undefined && comments.length > 0) {
-                callbackFunction(comments, r, true);                  
-            } 
-            return;
-    });
-}
-
-function queryListImin(query, r, callbackFunction) {
-    if (query['$or'].length <= 0) {
-        var emptyQuery = [];
-        callbackFunction(emptyQuery, r, false);
-        return;
-    };
-    model.Imin.find(query)
-        .populate('user','username email thumbnail_image')
-        .exec(function (err, imins) {
-            if (err) { 
-                console.log('query ' + err);
-                return;
-            }
-            if (imins != undefined && imins.length > 0) {
-                callbackFunction(imins, r, true);                  
-            } 
-            return;
-    });
-}

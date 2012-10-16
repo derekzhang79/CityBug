@@ -101,6 +101,12 @@ exports.all_reports = function(req, res) {
                         
 };
 
+exports.getAllReports = function(queryString, callbackFunction) {
+    getAllReports(queryString, function (report) {
+        return callbackFunction(report);
+    });
+}
+
 function getAllReports(queryString, callbackFunction) {
     // Query all report with all attribute
     // create custom json because relation database that 

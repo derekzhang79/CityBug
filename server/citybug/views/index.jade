@@ -1,58 +1,74 @@
 .container
-    .content
+    .content.span13
         header.page-header
+            link(rel='stylesheet', href='/stylesheets/DT_bootstrap.css')
+            script(text='text/javascript', src='/javascripts/jquery.dataTables.js')
+            script(text='text/javascript', src='/javascripts/DT_bootstrap.js')
             h1 City Bug
                 small.subtitle bug around the world
-        h2
-            <a href="/add">Click here to test POST api</a><br/>
-            <a href="/add_comment">Click here to test POST COMMENT api</a><br/>
-            <a href="/login">Click here to test Login api</a><br/>
-            <a href="/logout">Click here to test Logout api</a><br/>
-            <a href="/test_login">Click here to test web Login</a>
         article.row
-            .span14
+            .span13
                 h2 report list
-                table.zebra-striped
+                table.table.table-striped.table-bordered#example
                     thead
                         tr
-                            th Title
-                            th Thumbnail image
-                            th Full image
-                            th Latitude
-                            th Longitude
-                            th Note
-                            th Categories
-                            th Resolved?
-                            th User
-                            th Place
-                            th Total join (imin)
-                            td Who join
-                            th Comments
-                            th Last modified
-                            th Create at
-                    tbody#reporttable
+                            th#sorting_asc Title
+                            th#sorting Thumbnail image
+                            th#sorting Full image
+                            th#sorting Latitude
+                            th#sorting Longitude
+                            th#sorting Note
+                            th#sorting Categories
+                            th#sorting Resolved?
+                            th#sorting Username
+                            th#sorting email
+                            th#sorting Place name
+                            th#sorting Place lat
+                            th#sorting Place lng
+                            th#sorting Total join (imin)
+                            th#sorting Who join
+                            th#sorting Comments
+                            th#sorting Last modified
+                            th#sorting Create at
+                    tbody
                         - report.forEach(function(report){
                             -   var allCat = "";
-                            -   report['categories'].forEach(function(cat){
-                                -   allCat = allCat + cat.title + ", "
+                            -   report['categories'].forEach(function(cat) {
+                                -   allCat = allCat + cat.title + ",<br>"
                             -   });
+                            -   allCat = allCat.substring(0, allCat.length-5);
+
+                            -   var allIminUserName = "";
+                            -   report['imins'].forEach(function(imins) {
+                                -   allIminUserName = allIminUserName + imins.user.username + ",<br>"
+                            -   });
+                            -   allIminUserName = allIminUserName.substring(0, allIminUserName.length-5);
+
+                            -   var allComment = "";
+                            -   report['comments'].forEach(function(comments) {
+                                -   allComment = allComment + comments.user.username + ": " + comments.text + ",<br>"
+                            -   });
+                            -   allComment = allComment.substring(0, allComment.length-5);
 
                             tr
                                 td= report['title']
                                 td
-                                    img(src="#{report.thumbnail_image}", width = "40", heigth = "40")
+                                    img(src="#{report.thumbnail_image}", width = "40", heigth = "40", class="img-rounded")
                                 td
-                                    img(src="#{report.full_image}", width = "40", heigth = "40")
+                                    img(src="#{report.full_image}", width = "40", heigth = "40", class="img-rounded")
                                 td= report['lat']
                                 td= report['lng']
                                 td= report['note']
-                                td= allCat
+                                td!= allCat
                                 td= report['is_resolved']
-                                td= report['user']
-                                th= report['place']
-                                th= report['imin_count']
-                                th= report['imins']
-                                th= report['comments']
+                                td= report['user'].username
+                                td= report['user'].email
+                                td= report['place'].title
+                                td= report['place'].lat
+                                td= report['place'].lng
+                                td= report['imin_count']
+                                td!= allIminUserName
+                                td!= allComment
                                 td= report['last_modified']
                                 td= report['created_at']
                         - })
