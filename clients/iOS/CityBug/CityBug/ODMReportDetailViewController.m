@@ -449,12 +449,14 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-    NSString *note = cell.detailTextLabel.text;
+    NSString *note = [(ODMComment *)[self.report.comments objectAtIndex:indexPath.row] text];
     UIFont *font = [UIFont systemFontOfSize:14.f];
-    CGSize constraintSize = CGSizeMake(280.0f, MAXFLOAT);
+    CGSize constraintSize = CGSizeMake(300, MAXFLOAT);
     CGSize bounds = [note sizeWithFont:font constrainedToSize:constraintSize lineBreakMode:UILineBreakModeCharacterWrap];
-    return (CGFloat) cell.bounds.size.height + bounds.height;
+    int offset = 30;
+    CGFloat height = bounds.height + offset;
+    
+    return height;
 }
 
 
