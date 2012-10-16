@@ -21,7 +21,7 @@
 #define MINIMUN_REPORT_LENGTH 4
 #define MAXIMUM_REPORT_LENGTH 256
 
-#define MINIMUM_COMMENT_LENGTH 2
+#define MINIMUM_COMMENT_LENGTH 1
 #define MAXIMUM_COMMENT_LENGTH 1024
 
 #define MAXIMUM_NOTE_LENGTH 1024
@@ -57,7 +57,7 @@
 
 // Comment
 #define COMMENT_INVALID_TEXT @"Comment does not valid."
-#define COMMENT_INVALID_SHORT_REQUIRE_DESCRIPTION_TEXT @"Comment text must contain at least 3 characters"
+#define COMMENT_INVALID_SHORT_REQUIRE_DESCRIPTION_TEXT @"Comment text must contain at least 1 characters"
 #define COMMENT_INVALID_LONG_REQUIRE_DESCRIPTION_TEXT @"Comment text must be less than 1024 characters"
 
 // Note
