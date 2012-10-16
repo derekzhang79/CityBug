@@ -11,6 +11,7 @@
 		208AB72D1623DB1000AC8674 /* ODMImin.m in Sources */ = {isa = PBXBuildFile; fileRef = 208AB72C1623DB1000AC8674 /* ODMImin.m */; };
 		7F97B9D01626BF7800A6839E /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F97B9CF1626BF7800A6839E /* KeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7F99E3BC162561040095610B /* ODMUserListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F99E3BB162561040095610B /* ODMUserListTableViewController.m */; };
+		7F9BB6C3162BD1E000A58043 /* ODMActivityFeedViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F9BB6C2162BD1E000A58043 /* ODMActivityFeedViewCell.xib */; };
 		7F9C7B461613144000B7FC95 /* ODMSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C7B451613144000B7FC95 /* ODMSignInViewController.m */; };
 		7FBB56E2161D72D900E6E7FE /* ODMExploreFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FBB56E1161D72D900E6E7FE /* ODMExploreFormViewController.m */; };
 		7FC8291A161D9DEF0027E5BA /* ODMExplorePlaceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FC82919161D9DEF0027E5BA /* ODMExplorePlaceDetailViewController.m */; };
@@ -145,6 +146,7 @@
 		7F97B9CF1626BF7800A6839E /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
 		7F99E3BA162561040095610B /* ODMUserListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMUserListTableViewController.h; path = CityBug/ODMUserListTableViewController.h; sourceTree = SOURCE_ROOT; };
 		7F99E3BB162561040095610B /* ODMUserListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMUserListTableViewController.m; path = CityBug/ODMUserListTableViewController.m; sourceTree = SOURCE_ROOT; };
+		7F9BB6C2162BD1E000A58043 /* ODMActivityFeedViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ODMActivityFeedViewCell.xib; path = CityBug/View/ODMActivityFeedViewCell.xib; sourceTree = SOURCE_ROOT; };
 		7F9C7B441613144000B7FC95 /* ODMSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMSignInViewController.h; path = CityBug/ODMSignInViewController.h; sourceTree = SOURCE_ROOT; };
 		7F9C7B451613144000B7FC95 /* ODMSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMSignInViewController.m; path = CityBug/ODMSignInViewController.m; sourceTree = SOURCE_ROOT; };
 		7FBB56E0161D72D900E6E7FE /* ODMExploreFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMExploreFormViewController.h; path = CityBug/ODMExploreFormViewController.h; sourceTree = SOURCE_ROOT; };
@@ -366,6 +368,7 @@
 				CE314D871610727200CB7820 /* ODMReportCommentViewController.m */,
 				CE314D16161016B600CB7820 /* ODMActivityFeedViewCell.h */,
 				CE314D17161016B600CB7820 /* ODMActivityFeedViewCell.m */,
+				7F9BB6C2162BD1E000A58043 /* ODMActivityFeedViewCell.xib */,
 				9889728C161BEBF400DAF709 /* ODMMyReportCell.h */,
 				9889728D161BEBF400DAF709 /* ODMMyReportCell.m */,
 				7FC82940161EC32D0027E5BA /* ODMPlaceViewCell.h */,
@@ -749,6 +752,7 @@
 				982026AE1615B4CB009F47D7 /* comment.png in Resources */,
 				7FC82945161ECE8D0027E5BA /* star_active.png in Resources */,
 				7FC82946161ECE8D0027E5BA /* star_inactive.png in Resources */,
+				7F9BB6C3162BD1E000A58043 /* ODMActivityFeedViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

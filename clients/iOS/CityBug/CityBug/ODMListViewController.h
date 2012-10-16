@@ -13,6 +13,7 @@
 @interface ODMListViewController : UITableViewController<UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate, ODMActivityFeedViewCellDelegate>
 
 @property (strong, nonatomic) CLLocation *location;
+@property (strong, nonatomic) UINib *nibLoader;
 
 - (IBAction)addButtonTapped:(id)sender;
 

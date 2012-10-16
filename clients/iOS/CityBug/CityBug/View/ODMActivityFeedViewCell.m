@@ -28,11 +28,13 @@
 
 @implementation ODMActivityFeedViewCell
 {
-    NSInteger cooldownSendImin;}
+    NSInteger cooldownSendImin;
+}
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super initWithCoder:aDecoder]) {
+
         _avatarImageView = (UIImageView *)[self viewWithTag:AVATAR_VIEW_TAG];
         _avatarImageView.image = [UIImage imageNamed:@"1.jpeg"];
         _reportImageView = (UIImageView *)[self viewWithTag:IMAGE_VIEW_TAG];
@@ -52,6 +54,7 @@
     return self;
 }
 
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
@@ -59,23 +62,11 @@
 
 - (void)setReport:(ODMReport *)report
 {    
-    UILabel *titleLabel = (UILabel *)[self viewWithTag:TITLE_VIEW_TAG];
     titleLabel.text = [report title];
-    
-    UILabel *userLabel = (UILabel *)[self viewWithTag:USER_VIEW_TAG];
     userLabel.text = [[report user] username];
-
-    UILabel *placeLabel = (UILabel *)[self viewWithTag:PLACE_VIEW_TAG];
-    
     placeLabel.text = [[report place] title];
-    
-    UILabel *iminCountLabel = (UILabel *)[self viewWithTag:IMIN_VIEW_TAG];
-    iminCountLabel.text = [report iminString];
-    
-    UILabel *createdAtLabel = (UILabel *)[self viewWithTag:CREATED_AT_TAG];
+    self.iminCountLabel.text = [report iminString];
     createdAtLabel.text = [report.createdAt stringWithHumanizedTimeDifference];
-    
-    UILabel *commentLabel = (UILabel *)[self viewWithTag:AMOUNT_COMMENT_TAG];
     commentLabel.text = [NSString stringWithFormat:@"%d", report.comments.count];
 
     _report = report;
@@ -165,4 +156,6 @@
     [self iminButtonConfig];
 }
 
+
+ 
 @end
