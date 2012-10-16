@@ -65,7 +65,7 @@ exports.login = function(req, res){
 };
 
 exports.logout = function(req, res){
-	req.logout();
+	req.logOut();
 	res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
 	res.end();
 };

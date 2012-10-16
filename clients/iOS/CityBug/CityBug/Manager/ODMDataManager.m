@@ -121,7 +121,7 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         serviceObjectManager.client.authenticationType = RKRequestAuthenticationTypeHTTPBasic;
         serviceObjectManager.client.defaultHTTPEncoding = NSUTF8StringEncoding;
         serviceObjectManager.client.cachePolicy = RKRequestCachePolicyNone;
-        
+        serviceObjectManager.client addRootCertificate:<#(SecCertificateRef)#>
         //
         // Object Mapping
         //
