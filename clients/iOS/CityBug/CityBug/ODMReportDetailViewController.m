@@ -46,12 +46,9 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReportAndAlertIminFail:) name:ODMDataManagerNotificationIminDidFail object:nil];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.backView addGestureRecognizer:tapGesture];
-    
-    UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
-//    [self.scrollView addGestureRecognizer:tapGesture2];
 
-    UITapGestureRecognizer *tapGesture3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iminLabelAction)];
-    [self.iminLabel addGestureRecognizer:tapGesture3];
+    UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iminLabelAction)];
+    [self.iminLabel addGestureRecognizer:tapGesture2];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -61,6 +58,12 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [self updateCommentView:nil];
 
     [self reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.tableView scrollsToTop];
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidUnload
@@ -115,7 +118,6 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     self.createdAtLabel.text = [self.report.createdAt stringWithHumanizedTimeDifference];
     self.iminLabel.text = [self.report iminString];
     self.locationLabel.text = [self.report.place title];
-    //[self.report note] == @"" use for sizeToFit
     self.noteLabel.text = [NSString stringWithFormat:@"%@", [self.report note] == @"" ? @" " : [self.report note]];
     
     // Report Image
@@ -138,9 +140,8 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     if (!self.report) return;
     
     //
-    // Comments Height
+    // Calculate comment number
     //
-    CGRect tvFrame = [self.tableView frame];
     numberOfComments = self.report.comments.count;
     
     //
@@ -173,17 +174,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     //
     CGRect contentFrame = self.tableView.frame;
     contentFrame.size.height = infoFrame.size.height + spaceBetweenInfoAndNote;
-    
-    //
-    // Set new origin table
-    //
-    //[self.tableView setFrame:contentFrame];
-    
-    
-    //
-    // Scroll to bottom
-    //
-    /*self.scrollView.contentSize = CGSizeMake(contentFrame.size.width, contentFrame.size.height);*/
+
 }
 
 
@@ -226,12 +217,22 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
             [self.scrollView scrollRectToVisible:scrollRect animated:YES];
             
             ODMLog(@"Scroll to last %@", NSStringFromCGRect(scrollRect));*/
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.report.comments count]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-            
+            [self tableViewScrollToLast];
+        
         }
     }
     [self.iminButton setEnabled:YES];
     [self iminButtonConfig];
+}
+
+- (void)tableViewScrollToLast
+{
+    int numberOfDatasource = [self.tableView numberOfRowsInSection:0];
+    if (numberOfDatasource > 0) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:numberOfDatasource - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    } else {
+        [self.tableView scrollRectToVisible:self.noteLabel.frame animated:YES];
+    }
 }
 
 - (void)updateComment:(NSString *)comment
@@ -362,14 +363,12 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     if (isAuthen) {
         self.commentFormView.hidden = NO;
         self.iminImage.userInteractionEnabled = YES;
-        //[self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
         [self.tableView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
         
     } else {
         self.commentFormView.hidden = YES;
         [self.iminButton setEnabled:NO];
         self.iminImage.userInteractionEnabled = NO;
-        //[self.scrollView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
         [self.tableView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
     }
 }
@@ -391,12 +390,12 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     double animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    CGFloat statusBarHeight = 10;
+    CGFloat statusBarHeight = 15;
     
     self.backView.alpha = 0;
     self.backView.hidden = NO;
     [UIView animateWithDuration:animationDuration animations:^{
-        self.backView.alpha = 0.0015;
+        self.backView.alpha = 1;
         
         CGRect newFrame = self.commentFormView.frame;
         NSLog(@"keyboard size : %f", keyboardSize.height);
@@ -407,11 +406,11 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         self.commentFormView.frame = newFrame;
         
         UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0);
-//        [self.scrollView setContentInset:edgeInsets];
         [self.tableView setContentInset:edgeInsets];
     }];
     
-//    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height, 1, 1) animated:YES];
+    [self tableViewScrollToLast];
+    
 }
 
 - (void)hideCommentForm:(NSNotification *)notification
@@ -425,13 +424,12 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         newFrame.origin.y = self.view.frame.size.height - self.commentFormView.frame.size.height;
         self.commentFormView.frame = newFrame;
         UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-//        [self.scrollView setContentInset:edgeInsets];
         [self.tableView setContentInset:edgeInsets];
     } completion:^(BOOL finished){
         self.backView.hidden = YES;
     }];
     
-//    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height, 1, 1) animated:YES];
+//    [self tableViewScrollToLast];
 }
 
 #pragma mark - UITableView

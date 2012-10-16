@@ -1046,11 +1046,6 @@
                                                 <action selector="imin:" destination="7od-Vb-NtW" eventType="touchDown" id="Wcr-RV-2u0"/>
                                             </connections>
                                         </button>
-                                        <view hidden="YES" alpha="0.059999999999999998" contentMode="scaleToFill" id="wnN-W8-PUO" userLabel="BackView">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="351"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <gestureRecognizers/>
@@ -1087,6 +1082,10 @@
                                     <outlet property="delegate" destination="7od-Vb-NtW" id="GQF-2b-MB6"/>
                                 </connections>
                             </tableView>
+                            <view hidden="YES" alpha="0.059999999999999998" contentMode="scaleToFill" id="wnN-W8-PUO" userLabel="BackView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </view>
                             <view contentMode="scaleToFill" id="qJv-1C-FV2" userLabel="commentView">
                                 <rect key="frame" x="0.0" y="388" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -1678,7 +1677,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="HFl-6d-OTT"/>
+        <segue reference="BWE-OZ-5L0"/>
         <segue reference="6EH-Uq-ojF"/>
         <segue reference="3MA-Jb-2NZ"/>
         <segue reference="f2K-NO-Fpl"/>
