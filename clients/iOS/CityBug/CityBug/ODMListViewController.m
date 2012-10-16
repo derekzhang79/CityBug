@@ -241,7 +241,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         
         // Image Cache
         NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cell.report.thumbnailImage]];
-        [cell.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
+        [cell.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly]; //SDWebImageCacheMemoryOnly โหลดรูปเสร็จ จะเก็บไว้เป็น array cache แล้วพอเรียก  url ก็จะเอามา map กับใน cache 
     }
     return cell;
 }
