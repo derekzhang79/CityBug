@@ -10,6 +10,7 @@
 #import "ODMDataManager.h"
 #import "ODMUser.h"
 #import "UIImageView+WebCache.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface ODMUserListTableViewController ()
 @property (nonatomic, readwrite, strong) NSArray *datasource;
@@ -92,7 +93,7 @@
     
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.imageView.image = [UIImage imageNamed:@"1.png"];
+        cell.imageView.image = [UIImage imageNamed:@"1.jpeg"];
         cell.textLabel.text = NSLocalizedString(@"Unknown String", @"Unknown String");
     }
     
@@ -101,9 +102,15 @@
         ODMUser *user = [self.datasource objectAtIndex:indexPath.row];
         
         cell.textLabel.text = [user username];
-        //NSURL *userImageURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, user.thumbnailImage]];
-        //[cell.imageView.image setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"1.png"] options:SDWebImageCacheMemoryOnly] ];
+        if (user.thumbnailImage != nil) {
+            NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, user.thumbnailImage]];
+            [cell.imageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"1.jpeg"] options:SDWebImageCacheMemoryOnly];
+        } else {
+            [cell.imageView setImage:[UIImage imageNamed:@"1.jpeg"]];
+        }
     }
+    [cell.imageView setContentMode:UIViewContentModeScaleAspectFill];
+    [cell.imageView setClipsToBounds:YES];
     
     return cell;
 }

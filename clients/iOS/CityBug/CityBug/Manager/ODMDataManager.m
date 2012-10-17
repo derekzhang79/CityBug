@@ -51,6 +51,8 @@ NSString *ODMDataManagerNotificationIminUsersLoadingFinish;
 NSString *ODMDataManagerNotificationIminUsersLoadingFail;
 NSString *ODMDataManagerNotificationIminDidLoading;
 
+NSString *ODMDataManagerNotificationChangeProfileDidFinish;
+
 @interface ODMDataManager()
 
 /*
@@ -112,6 +114,7 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         ODMDataManagerNotificationIminUsersLoadingFail = @"ODMDataManagerNotificationIminUsersLoadingFail";
         ODMDataManagerNotificationIminDidLoading = @"ODMDataManagerNotificationIminDidLoading";
 
+        ODMDataManagerNotificationChangeProfileDidFinish = @"ODMDataManagerNotificationChangeProfileDidFinish";
         //
         // RestKit setup
         //
@@ -285,7 +288,7 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         loader.onDidLoadObject = ^(id object){
            [[NSUserDefaults standardUserDefaults] setValue:[object valueForKey:@"thumbnailImage"] forKey:kSecThumbnailImage];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationAuthenDidFinish object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationChangeProfileDidFinish object:nil];
         };
         loader.params = userParams;
     }];

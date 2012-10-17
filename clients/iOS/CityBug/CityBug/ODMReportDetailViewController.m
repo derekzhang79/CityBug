@@ -44,6 +44,9 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateImin:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideIminButton:) name:ODMDataManagerNotificationIminDidLoading object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReportAndAlertIminFail:) name:ODMDataManagerNotificationIminDidFail object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:ODMDataManagerNotificationChangeProfileDidFinish object:nil];
+    
+    
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.backView addGestureRecognizer:tapGesture];
 
@@ -125,15 +128,17 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [self.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
     
     // Avatar Image
-    NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, [self.report.user thumbnailImage]]];
-    [self.avatarImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"1.jpeg"] options:SDWebImageCacheMemoryOnly];
-    
+    if (self.report.user.thumbnailImage != nil) {
+        NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, self.report.user.thumbnailImage]];
+        [self.avatarImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"1.jpeg"] options:SDWebImageCacheMemoryOnly];
+    } else {
+        [self.avatarImageView setImage:[UIImage imageNamed:@"1.jpeg"]];
+    }
     [self calculateTableViewSize];
     [self iminButtonConfig];
 
     [self.tableView reloadData];
 }
-
 
 - (void)calculateTableViewSize
 {

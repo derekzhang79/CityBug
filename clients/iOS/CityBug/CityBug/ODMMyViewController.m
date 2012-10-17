@@ -74,6 +74,8 @@ static NSString *presentSignInModal = @"presentSignInModal";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMyReport:) name:ODMDataManagerNotificationIminDeleteDidFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReportAndAlertIminFail:) name:ODMDataManagerNotificationIminDidFail object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadReport:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationChangeProfileDidFinish object:nil];
+    
     signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign out" style:UIBarButtonItemStyleBordered target:self action:@selector(signOutButtonTapped)];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(thumbnailImageAction)];
@@ -291,6 +293,12 @@ static NSString *presentSignInModal = @"presentSignInModal";
         // Image Cache
         NSURL *reportURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cell.report.thumbnailImage]];
         [cell.reportImageView setImageWithURL:reportURL placeholderImage:[UIImage imageNamed:@"bugs.jpeg"] options:SDWebImageCacheMemoryOnly];
+        if (cell.report.user.thumbnailImage != nil) {
+            NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cell.report.user.thumbnailImage]];
+            [cell.avatarImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"1.jpeg"] options:SDWebImageCacheMemoryOnly];
+        } else {
+            [cell.avatarImageView setImage:[UIImage imageNamed:@"1.jpeg"]];
+        }
     }
     return cell;
 }
