@@ -28,6 +28,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [progressView setHidden:YES];
+    [progress setProgress:0];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:ODMDataManagerNotificationReportUploadingWithPercent object:nil];
+    
     self.bugImageView.image = self.bugImage;
     self.noteTextView.placeholder = PLACE_HOLDER_NOTE;
     
@@ -37,6 +43,8 @@
 - (void)viewDidUnload
 {
     [self stopGatheringLocation];
+    progressView = nil;
+    progress = nil;
     [super viewDidUnload];
 }
 
@@ -48,8 +56,11 @@
 
 - (IBAction)doneButtonTapped:(id)sender
 {
-    if ([self createNewReport])
-        [self.navigationController popViewControllerAnimated:YES];
+    
+    if ([self createNewReport]) {
+        [self updateProgress:nil];
+        //[self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (BOOL)resignFirstResponder
@@ -73,6 +84,23 @@
 }
 
 #pragma mark - REPORT
+
+- (void)updateProgress:(NSNotification *)notification
+{
+    float progressNumber = 0;
+    [progressView setHidden:NO];
+    if ([notification.object isKindOfClass:[NSNumber class]]) {
+        progressNumber = [notification.object floatValue];
+        NSLog(@">>>> %f", progressNumber);
+    }
+    [progress setProgress:progressNumber animated:YES];
+    [progress setNeedsDisplay];
+    
+    if (progressNumber == 100.f) {
+        [progressView setHidden:YES];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 
 - (BOOL)createNewReport
 {

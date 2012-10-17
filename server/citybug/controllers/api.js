@@ -3,6 +3,7 @@ var environment = require('../environment'),
     passport = require('passport'),
     model =  service.useModel('model'),
     http = require('http'),
+    im = require('imagemagick'),
     KEYS = require('../key');
 
 exports.add = function(req, res){
@@ -554,10 +555,30 @@ exports.report_post = function(req, res) {
         var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + thumbnail_image_extension;
         report.thumbnail_image = thumbnail_image_short_path;
     };
+
     if (req.files.full_image != null && full_image_type[0] == 'image' && full_image_type[1] != 'gif') {
         var full_image_extension = req.files.full_image.type.match( /[^\/]+\/?$/ );
         var full_image_short_path = "/images/report/" + report._id + "." + full_image_extension;
         report.full_image = full_image_short_path;
+
+        var thumbnail_image_short_path = "/images/report/" + report._id + "_thumbnail." + full_image_extension;
+
+        /*
+        console.log('srcPath' + req.files.full_image.path);
+        im.resize({
+            srcPath: req.files.full_image.path,
+            dstPath: thumbnail_image_short_path,
+            width:   150
+        }, function(err, stdout, stderr){
+            if (err){
+                console.log("resized not completed");
+                console.log(err);
+            } else {
+                console.log("resized completed");
+                report.thumbnail_image = resizedImage;
+            }
+        });
+        */
     };
 /*
     , categories        : [{ type: Schema.Types.ObjectId, ref: 'Category' }]

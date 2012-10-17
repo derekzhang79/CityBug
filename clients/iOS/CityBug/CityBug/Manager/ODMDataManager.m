@@ -15,6 +15,7 @@ static ODMDataManager *sharedDataManager = nil;
 
 NSString *ODMDataManagerNotificationReportsLoadingFinish;
 NSString *ODMDataManagerNotificationReportsLoadingFail;
+NSString *ODMDataManagerNotificationReportUploadingWithPercent;
 
 NSString *ODMDataManagerNotificationCommentLoadingFinish;
 NSString *ODMDataManagerNotificationCommentLoadingFail;
@@ -77,7 +78,7 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
         //
         ODMDataManagerNotificationReportsLoadingFinish = @"ODMDataManagerNotificationReportsLoadingFinish";
         ODMDataManagerNotificationReportsLoadingFail = @"ODMDataManagerNotificationReportsLoadingFail";
-        
+        ODMDataManagerNotificationReportUploadingWithPercent = @"ODMDataManagerNotificationReportUploadingWithPercent";
         
         ODMDataManagerNotificationCommentLoadingFinish = @"ODMDataManagerNotificationCommentLoadingFinish";
         ODMDataManagerNotificationCommentLoadingFail = @"ODMDataManagerNotificationCommentLoadingFail";
@@ -831,6 +832,24 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 - (void)updateQueryParameterFromLocation:(CLLocationCoordinate2D)loc
 {
     [self buildingQueryParametersWithLocation:loc withParams:queryParams];
+}
+
+- (void)request:(RKRequest *)request didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
+{
+    /*
+     if ([request isKindOfClass:[RKObjectLoader class]){
+     RKObjectLoader *loader = (RKObjectLoader *) request;
+     // The equality comparison below is just representative. I have other means of uniquely identifying objects.
+     if (loader.sourceObject == myObject){
+     // Route the progress information back to the correct progress bar.
+     }
+     */
+    float currProgress = (totalBytesWritten * 100.f / totalBytesExpectedToWrite);
+    NSLog(@"Progress: %f", currProgress);
+    NSLog(@"%d ,, %d ,, %d", bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationReportUploadingWithPercent object:[NSNumber numberWithFloat:currProgress]];
+    
 }
 
 #pragma mark - RKObjectLoader Delegate

@@ -17,6 +17,9 @@
 
 @interface ODMDescriptionFormViewController : UITableViewController <UITextViewDelegate, UITextFieldDelegate, ODMCategoryListDelegate, ODMPlaceFormDelegate, UIScrollViewDelegate, CLLocationManagerDelegate> {
     CLLocation *_pictureLocation;
+    
+    IBOutlet UIView *progressView;
+    IBOutlet UIProgressView *progress;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;

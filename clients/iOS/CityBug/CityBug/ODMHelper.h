@@ -128,6 +128,8 @@
 // Report
 extern NSString *ODMDataManagerNotificationReportsLoadingFinish;
 extern NSString *ODMDataManagerNotificationReportsLoadingFail;
+extern NSString *ODMDataManagerNotificationReportUploadingWithPercent;
+
 // Comment
 extern NSString *ODMDataManagerNotificationCommentLoadingFinish;
 extern NSString *ODMDataManagerNotificationCommentLoadingFail;

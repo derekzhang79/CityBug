@@ -446,6 +446,24 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="M92-0L-TKg">
+                            <rect key="frame" x="0.0" y="286" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <progressView opaque="NO" contentMode="scaleToFill" progress="0.5" id="xTn-4w-6YS">
+                                    <rect key="frame" x="99" y="18" width="201" height="9"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </progressView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Uploading" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aiM-k1-dAe">
+                                    <rect key="frame" x="20" y="12" width="71" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
                         <sections>
                             <tableViewSection headerTitle="Form" id="gVM-zC-I7D">
                                 <cells>
@@ -584,6 +602,8 @@
                         <outlet property="noteTextField" destination="jTN-Jr-fRD" id="gAr-zK-YS1"/>
                         <outlet property="noteTextView" destination="b4h-Jk-a5N" id="sOw-6k-Fgp"/>
                         <outlet property="placeLabel" destination="OWM-jQ-g4b" id="bWL-Xi-LbL"/>
+                        <outlet property="progress" destination="xTn-4w-6YS" id="lyH-NZ-aU4"/>
+                        <outlet property="progressView" destination="M92-0L-TKg" id="8JI-wB-0Ov"/>
                         <outlet property="titleTextField" destination="swL-5T-kd7" id="Ehq-Cw-dOK"/>
                     </connections>
                 </tableViewController>
@@ -1537,6 +1557,142 @@
         <image name="geo.png" width="26" height="33"/>
         <image name="in.png" width="30" height="30"/>
     </resources>
+    <classes>
+        <class className="GCPlaceholderTextView" superclassName="UITextView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GCPlaceholderTextView.h"/>
+        </class>
+        <class className="ODMCategoryListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMCategoryListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="save:"/>
+            </relationships>
+        </class>
+        <class className="ODMDescriptionFormViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMDescriptionFormViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButtonTapped:"/>
+                <relationship kind="outlet" name="bugImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="categoryLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="localtionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="noteTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="noteTextView" candidateClass="GCPlaceholderTextView"/>
+                <relationship kind="outlet" name="placeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="progress" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="progressView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="titleTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="ODMExploreFormViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMExploreFormViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="actView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="guideView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="noResultView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="ODMExplorePlaceDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMExplorePlaceDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="refreshButtonTapped:"/>
+                <relationship kind="outlet" name="actView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="map" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="mapView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="noResultView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="rightButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ODMListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addButtonTapped:"/>
+                <relationship kind="action" name="refreshButtonTapped:"/>
+                <relationship kind="action" name="signInButtonTapped:"/>
+            </relationships>
+        </class>
+        <class className="ODMMySubscribeViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMMySubscribeViewController.h"/>
+        </class>
+        <class className="ODMMyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMMyViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="goToPost:"/>
+                <relationship kind="action" name="refreshButtonTapped:"/>
+                <relationship kind="outlet" name="actView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="emailLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="myReportTableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="mySubcribeButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="noResultView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="notLoginView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="thumbnailImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="userNameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ODMPlaceFormViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMPlaceFormViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="actView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="guideView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="noResultView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="ODMPlaceViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMPlaceViewCell.h"/>
+        </class>
+        <class className="ODMReportDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMReportDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addCommentButtonTapped:"/>
+                <relationship kind="action" name="imin:"/>
+                <relationship kind="outlet" name="avatarImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="backView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="commentFormView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="commentLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="commentTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="createdAtLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="iminButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="iminImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="iminLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="infoView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="noteLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="reportImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="sendButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="userLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ODMSignInViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMSignInViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="back:"/>
+                <relationship kind="action" name="magicSignIn:"/>
+                <relationship kind="outlet" name="passwordTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="usernameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="ODMSignUpViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMSignUpViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="signUpButtonTapped:"/>
+                <relationship kind="outlet" name="confirmPasswordTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="passwordTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="userNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="ODMUserListTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMUserListTableViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

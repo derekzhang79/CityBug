@@ -11,7 +11,7 @@
 
 @class ODMReport, ODMUser, ODMPlace;
 
-@interface ODMDataManager : NSObject <RKObjectLoaderDelegate, CLLocationManagerDelegate> {
+@interface ODMDataManager : NSObject <RKObjectLoaderDelegate, CLLocationManagerDelegate, RKRequestDelegate> {
 @private
     RKObjectManager *serviceObjectManager;
 
