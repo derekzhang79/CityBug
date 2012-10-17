@@ -109,7 +109,6 @@
             [cell.imageView setImage:[UIImage imageNamed:@"1.jpeg"]];
         }
     }
-    [cell.imageView setContentMode:UIViewContentModeScaleAspectFill];
     
     return cell;
 }

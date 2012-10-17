@@ -37,6 +37,8 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     // Show or hide keyboard notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCommentForm:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCommentForm:) name:UIKeyboardWillHideNotification object:nil];
+
+    //Datamanager notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incomingComments:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateComment:) name:ODMDataManagerNotificationCommentLoadingFinish object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCommentView:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
@@ -144,15 +146,10 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 {
     if (!self.report) return;
     
-    //
     // Calculate comment number
-    //
     numberOfComments = self.report.comments.count;
     
-    //
-    //
-    // Note height
-    //
+    // Calculate Note label height
     CGSize noteSize = [self.noteLabel.text sizeWithFont:[UIFont systemFontOfSize:14.f] forWidth:self.noteLabel.bounds.size.width lineBreakMode:UILineBreakModeCharacterWrap];
     self.noteLabel.frame = CGRectMake(self.noteLabel.frame.origin.x, self.noteLabel.frame.origin.y, self.noteLabel.frame.size.width, noteSize.height);
     [self.noteLabel sizeToFit];
@@ -164,12 +161,12 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     CGFloat defaultNoteLabelHeight = 22;
     CGFloat defaultInfoViewHeight = 350;
     
+    // Set frame to info view (tableview header)
     if (abs(self.noteLabel.frame.size.height - defaultNoteLabelHeight) > 0) {
         infoFrame.size.height = defaultInfoViewHeight + rect.size.height;
     } else {
         infoFrame.size.height = defaultInfoViewHeight;
     }
-    
     [self.infoView setFrame:infoFrame];
 
 }
@@ -185,6 +182,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 #pragma mark - Notifications
 
+// get new comment
 - (void)incomingComments:(NSNotification *)notification
 {
     if ([[notification object] isKindOfClass:[NSArray class]]) {
@@ -353,11 +351,13 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
     
     if (isAuthen) {
+        // Show comment view
         self.commentFormView.hidden = NO;
         self.iminImage.userInteractionEnabled = YES;
         [self.tableView setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 323)];
         
     } else {
+        // Hide comment view
         self.commentFormView.hidden = YES;
         [self.iminButton setEnabled:NO];
         self.iminImage.userInteractionEnabled = NO;
@@ -378,6 +378,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 #pragma mark - UIScrollView
 
+// When show keyboard
 - (void)showCommentForm:(NSNotification *)notification
 {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
@@ -405,6 +406,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     
 }
 
+// When hide keyboard
 - (void)hideCommentForm:(NSNotification *)notification
 {
     double animationDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
@@ -454,6 +456,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Calculate comment label size
     NSString *note = [(ODMComment *)[self.report.comments objectAtIndex:indexPath.row] text];
     UIFont *font = [UIFont systemFontOfSize:14.f];
     CGSize constraintSize = CGSizeMake(300, MAXFLOAT);
