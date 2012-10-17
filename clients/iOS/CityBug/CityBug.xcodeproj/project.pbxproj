@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		208AB70B1623B8D000AC8674 /* GCPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 208AB70A1623B8D000AC8674 /* GCPlaceholderTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		208AB72D1623DB1000AC8674 /* ODMImin.m in Sources */ = {isa = PBXBuildFile; fileRef = 208AB72C1623DB1000AC8674 /* ODMImin.m */; };
+		20FFF5E5162E98EE0008AD4C /* citybug-cert.der in Resources */ = {isa = PBXBuildFile; fileRef = 20FFF5E4162E98EE0008AD4C /* citybug-cert.der */; };
 		7F97B9D01626BF7800A6839E /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F97B9CF1626BF7800A6839E /* KeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7F99E3BC162561040095610B /* ODMUserListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F99E3BB162561040095610B /* ODMUserListTableViewController.m */; };
 		7F9BB6C3162BD1E000A58043 /* ODMActivityFeedViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F9BB6C2162BD1E000A58043 /* ODMActivityFeedViewCell.xib */; };
@@ -142,6 +143,7 @@
 		208AB70A1623B8D000AC8674 /* GCPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCPlaceholderTextView.m; sourceTree = "<group>"; };
 		208AB72B1623DB1000AC8674 /* ODMImin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODMImin.h; sourceTree = "<group>"; };
 		208AB72C1623DB1000AC8674 /* ODMImin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMImin.m; sourceTree = "<group>"; };
+		20FFF5E4162E98EE0008AD4C /* citybug-cert.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "citybug-cert.der"; sourceTree = SOURCE_ROOT; };
 		7F97B9CE1626BF7800A6839E /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
 		7F97B9CF1626BF7800A6839E /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
 		7F99E3BA162561040095610B /* ODMUserListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMUserListTableViewController.h; path = CityBug/ODMUserListTableViewController.h; sourceTree = SOURCE_ROOT; };
@@ -573,6 +575,7 @@
 		CEEE604815FDEDFB00324883 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				20FFF5E4162E98EE0008AD4C /* citybug-cert.der */,
 				CEB10E6B160375C10041B3B8 /* MainStoryboard.storyboard */,
 				CEB10E1F1603748E0041B3B8 /* CityBug-Info.plist */,
 				CEB10E201603748E0041B3B8 /* CityBug-Prefix.pch */,
@@ -753,6 +756,7 @@
 				7FC82945161ECE8D0027E5BA /* star_active.png in Resources */,
 				7FC82946161ECE8D0027E5BA /* star_inactive.png in Resources */,
 				7F9BB6C3162BD1E000A58043 /* ODMActivityFeedViewCell.xib in Resources */,
+				20FFF5E5162E98EE0008AD4C /* citybug-cert.der in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

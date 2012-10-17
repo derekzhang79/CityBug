@@ -5,7 +5,18 @@ var express = require('express'),
 	flash = require('connect-flash'),
 	util = require('util');
 
-var app = module.exports = express.createServer();
+//https
+var fs = require('fs');
+
+var hskey = fs.readFileSync('citybug-key.pem');
+var hscert = fs.readFileSync('citybug-cert.pem')
+
+var options = {
+    key: hskey,
+    cert: hscert
+};
+
+var app = module.exports = express.createServer(options);
 // Configuration
 require('./configuration')(app, express, passport, flash);
 require('./routes')(app, express);

@@ -122,6 +122,17 @@ NSString *ODMDataManagerNotificationIminDidLoading;
         serviceObjectManager.client.defaultHTTPEncoding = NSUTF8StringEncoding;
         serviceObjectManager.client.cachePolicy = RKRequestCachePolicyNone;
         
+        //ssl
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"citybug-cert" ofType:@"der"];
+        assert(path);
+        NSData *data = [NSData dataWithContentsOfFile:path];
+        assert(data);
+        
+        /* Set up the array of certs we will authenticate against and create cred */
+        SecCertificateRef rootcert = SecCertificateCreateWithData(NULL, CFBridgingRetain(data));
+        
+        [serviceObjectManager.client addRootCertificate:rootcert];
+        
         //
         // Object Mapping
         //

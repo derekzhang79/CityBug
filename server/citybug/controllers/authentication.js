@@ -60,11 +60,11 @@ exports.login_post = function(req, res, next) {
 	res.end();
 }
 
-exports.login = function(req, res){
+exports.login = function(req, res) {
 	res.render('login.jade', {title:'City bug'});
 };
 
-exports.logout = function(req, res){
+exports.logout = function(req, res) {
 	req.logOut();
 	res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
 	res.end();
