@@ -110,7 +110,6 @@
         }
     }
     [cell.imageView setContentMode:UIViewContentModeScaleAspectFill];
-    [cell.imageView setClipsToBounds:YES];
     
     return cell;
 }
