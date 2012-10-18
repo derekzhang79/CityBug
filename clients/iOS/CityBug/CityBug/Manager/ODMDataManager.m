@@ -452,7 +452,7 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
         [reportParams setValue:catItems forParam:@"categories"];
         
         NSData *fullImageData = UIImageJPEGRepresentation(report.fullImageData, 1);
-        NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImageData, 0);
+        NSData *thumbnailImageData = UIImageJPEGRepresentation(report.thumbnailImageData, 1);
         
         [reportParams setData:fullImageData MIMEType:@"image/jpeg" forParam:@"full_image"];
         [reportParams setData:thumbnailImageData MIMEType:@"image/jpeg" forParam:@"thumbnail_image"];
