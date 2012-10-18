@@ -323,7 +323,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 - (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    imageToSave = (UIImage *)[info objectForKey:UIImagePickerControllerEditedImage];
+    imageToSave = [UIImage imageWithCGImage:[(UIImage *)[info objectForKey:UIImagePickerControllerEditedImage] CGImage]];
 
     if (!assetsLib) {
         assetsLib = [[ALAssetsLibrary alloc] init];

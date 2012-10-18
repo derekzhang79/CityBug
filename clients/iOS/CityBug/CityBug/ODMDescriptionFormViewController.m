@@ -85,13 +85,17 @@
 
 - (void)updateProgress:(NSNotification *)notification
 {
-    float progressNumber = 0;
+    float progressNumber = 0.f;
     [self.progressView setHidden:NO];
     if ([notification.object isKindOfClass:[NSNumber class]]) {
-        progressNumber = [notification.object floatValue] / 100.f;
+        progressNumber = (float)[notification.object floatValue] / 100.f;
     
-        self.progress.progress = progressNumber;
+        [self.progress setProgress:progressNumber animated:YES];
         ODMLog(@"progress %f", self.progress.progress);
+        
+        if (progressNumber == 1.f) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }
 }
 
