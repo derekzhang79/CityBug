@@ -19,7 +19,7 @@
 #define LOCATION_SEARCH_THRESHOLD 3
 #define DATA_UPDATING_INTERVAL_IN_SECOND 3
 ////////////////////////////////////////////////////////////////////////////////////////////////
-#define MINIMUN_REPORT_LENGTH 4
+#define MINIMUN_REPORT_LENGTH 3
 #define MAXIMUM_REPORT_LENGTH 256
 
 #define MINIMUM_COMMENT_LENGTH 1
@@ -50,7 +50,7 @@
 // Title
 #define TITLE_INVALID_TEXT @"Title does not valid."
 #define TITLE_INVALID_REQUIRE_TEXT @"Title is required"
-#define TITLE_INVALID_REQUIRE_DESCRIPTION_TEXT @"Please fill in title field for report"
+#define TITLE_INVALID_REQUIRE_DESCRIPTION_TEXT @"Please fill in title field (at least 3 characters) for report."
 
 #define TITLE_INVALID_DESCRIPTION_TEXT @"Please use only letters (a-z, A-Z, ก-ฮ), numbers, periods or whitespace"
 #define TITLE_LENGTH_INVALID_TEXT TITLE_INVALID_TEXT

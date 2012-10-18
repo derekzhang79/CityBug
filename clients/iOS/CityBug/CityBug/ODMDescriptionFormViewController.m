@@ -55,6 +55,7 @@
 
 - (IBAction)doneButtonTapped:(id)sender
 {
+    [self resignFirstResponder];
     if ([self createNewReport]) {
         [self updateProgress:nil];
         //[self.navigationController popViewControllerAnimated:YES];
@@ -94,9 +95,14 @@
         ODMLog(@"progress %f", self.progress.progress);
         
         if (progressNumber == 1.f) {
-            [self.navigationController popViewControllerAnimated:YES];
+            [self performSelector:@selector(popView) withObject:nil afterDelay:1];
         }
     }
+}
+
+- (void)popView
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (BOOL)createNewReport

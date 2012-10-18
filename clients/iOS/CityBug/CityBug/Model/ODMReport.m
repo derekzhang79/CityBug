@@ -95,7 +95,7 @@
     /*
      * Validate Title field
      */
-    /*
+    
     if ([key isEqualToString:@"title"]) {
         
         if ([*value length] < MINIMUN_REPORT_LENGTH) {
@@ -103,14 +103,15 @@
             return NO;
         }
         else if ([*value length] > MAXIMUM_REPORT_LENGTH) {
-            *error = [NSError errorWithDomain:TITLE_INVALID_TEXT code:1002 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(TITLE_INVALID_DESCRIPTION_TEXT, TITLE_INVALID_DESCRIPTION_TEXT), nil]];
-            return NO;
-        } else if (![self validateTitleField:*value]) {
-            *error = [NSError errorWithDomain:TITLE_LENGTH_INVALID_TEXT code:1003 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(TITLE_LENGTH_INVALID_DESCRIPTION_TEXT, TITLE_LENGTH_INVALID_DESCRIPTION_TEXT), nil]];
+            *error = [NSError errorWithDomain:TITLE_INVALID_TEXT code:1002 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(TITLE_LENGTH_INVALID_DESCRIPTION_TEXT, TITLE_INVALID_DESCRIPTION_TEXT), nil]];
             return NO;
         }
+        /*else if (![self validateTitleField:*value]) {
+            *error = [NSError errorWithDomain:TITLE_LENGTH_INVALID_TEXT code:1003 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(TITLE_INVALID_DESCRIPTION_TEXT, TITLE_LENGTH_INVALID_DESCRIPTION_TEXT), nil]];
+            return NO;
+        }*/
         
-    } else */
+    } else 
     if ([key isEqualToString:@"note"]) {
         if ([*value length] > MAXIMUM_REPORT_LENGTH) {
             *error = [NSError errorWithDomain:LONG_LENGTH_STRING_ERROR_DOMAIN code:1004 userInfo:[NSDictionary dictionaryWithKeysAndObjects:NSStringFromClass([self class]), self, @"description", NSLocalizedString(LONG_LENGTH_STRING_ERROR_DESCRIPTION_TEXT, LONG_LENGTH_STRING_ERROR_DESCRIPTION_TEXT), nil]];
