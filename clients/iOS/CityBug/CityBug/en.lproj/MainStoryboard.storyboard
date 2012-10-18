@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="DAN-Mj-WHC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="DAN-Mj-WHC">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
     </dependencies>
     <scenes>
         <!--My View Controller-->
@@ -602,8 +602,8 @@
                         <outlet property="noteTextField" destination="jTN-Jr-fRD" id="gAr-zK-YS1"/>
                         <outlet property="noteTextView" destination="b4h-Jk-a5N" id="sOw-6k-Fgp"/>
                         <outlet property="placeLabel" destination="OWM-jQ-g4b" id="bWL-Xi-LbL"/>
-                        <outlet property="progress" destination="xTn-4w-6YS" id="JDn-Rh-ZeR"/>
-                        <outlet property="progressView" destination="M92-0L-TKg" id="SMA-KR-xH4"/>
+                        <outlet property="progress" destination="xTn-4w-6YS" id="qdf-8k-J6e"/>
+                        <outlet property="progressView" destination="M92-0L-TKg" id="VSz-zK-y13"/>
                         <outlet property="titleTextField" destination="swL-5T-kd7" id="Ehq-Cw-dOK"/>
                     </connections>
                 </tableViewController>
@@ -1180,14 +1180,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uGe-8j-9nm">
-                                            <rect key="frame" x="45" y="0.0" width="265" height="43"/>
+                                            <rect key="frame" x="53" y="0.0" width="257" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="1.jpeg" id="8cs-Ki-LUB">
-                                            <rect key="frame" x="0.0" y="0.0" width="35" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="43" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
@@ -1700,8 +1700,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="BWE-OZ-5L0"/>
-        <segue reference="6EH-Uq-ojF"/>
-        <segue reference="3MA-Jb-2NZ"/>
-        <segue reference="f2K-NO-Fpl"/>
+        <segue reference="dfb-0w-5uT"/>
+        <segue reference="V3J-2o-4zz"/>
+        <segue reference="C4d-nm-eV1"/>
     </inferredMetricsTieBreakers>
 </document>

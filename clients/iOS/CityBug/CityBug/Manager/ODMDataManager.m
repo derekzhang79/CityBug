@@ -845,8 +845,8 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
      }
      */
     float currProgress = (totalBytesWritten * 100.f / totalBytesExpectedToWrite);
-    NSLog(@"Progress: %f", currProgress);
-    NSLog(@"%d ,, %d ,, %d", bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
+//    NSLog(@"Progress: %f", currProgress);
+//    NSLog(@"%d ,, %d ,, %d", bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationReportUploadingWithPercent object:[NSNumber numberWithFloat:currProgress]];
     

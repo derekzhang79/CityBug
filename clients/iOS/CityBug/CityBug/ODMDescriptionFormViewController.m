@@ -89,13 +89,9 @@
     [self.progressView setHidden:NO];
     if ([notification.object isKindOfClass:[NSNumber class]]) {
         progressNumber = [notification.object floatValue] / 100.f;
-    }
-    NSLog(@">>>> %f", progressNumber);
-    [self.progress setProgress:progressNumber animated:YES];
     
-    if (progressNumber == 1.f) {
-        [self.progressView setHidden:YES];
-        [self.navigationController popViewControllerAnimated:YES];
+        self.progress.progress = progressNumber;
+        ODMLog(@"progress %f", self.progress.progress);
     }
 }
 
