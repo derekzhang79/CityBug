@@ -95,7 +95,7 @@
         ODMLog(@"progress %f", self.progress.progress);
         
         if (progressNumber == 1.f) {
-            [self performSelector:@selector(popView) withObject:nil afterDelay:1];
+            [self performSelector:@selector(popView) withObject:nil afterDelay:0.5];
         }
     }
 }
