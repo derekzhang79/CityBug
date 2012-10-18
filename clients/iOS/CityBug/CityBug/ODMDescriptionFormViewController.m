@@ -29,8 +29,7 @@
 {
     [super viewDidLoad];
     
-    [progressView setHidden:YES];
-    [progress setProgress:0];
+    [self.progressView setHidden:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:ODMDataManagerNotificationReportUploadingWithPercent object:nil];
     
@@ -43,8 +42,8 @@
 - (void)viewDidUnload
 {
     [self stopGatheringLocation];
-    progressView = nil;
-    progress = nil;
+    self.progressView = nil;
+    self.progress = nil;
     [super viewDidUnload];
 }
 
@@ -56,7 +55,6 @@
 
 - (IBAction)doneButtonTapped:(id)sender
 {
-    
     if ([self createNewReport]) {
         [self updateProgress:nil];
         //[self.navigationController popViewControllerAnimated:YES];
@@ -88,16 +86,15 @@
 - (void)updateProgress:(NSNotification *)notification
 {
     float progressNumber = 0;
-    [progressView setHidden:NO];
+    [self.progressView setHidden:NO];
     if ([notification.object isKindOfClass:[NSNumber class]]) {
-        progressNumber = [notification.object floatValue];
-        NSLog(@">>>> %f", progressNumber);
+        progressNumber = [notification.object floatValue] / 100.f;
     }
-    [progress setProgress:progressNumber animated:YES];
-    [progress setNeedsDisplay];
+    NSLog(@">>>> %f", progressNumber);
+    [self.progress setProgress:progressNumber animated:YES];
     
-    if (progressNumber == 100.f) {
-        [progressView setHidden:YES];
+    if (progressNumber == 1.f) {
+        [self.progressView setHidden:YES];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

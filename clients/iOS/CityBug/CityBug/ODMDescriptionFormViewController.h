@@ -18,8 +18,6 @@
 @interface ODMDescriptionFormViewController : UITableViewController <UITextViewDelegate, UITextFieldDelegate, ODMCategoryListDelegate, ODMPlaceFormDelegate, UIScrollViewDelegate, CLLocationManagerDelegate> {
     CLLocation *_pictureLocation;
     
-    IBOutlet UIView *progressView;
-    IBOutlet UIProgressView *progress;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *bugImageView;
@@ -29,6 +27,9 @@
 @property (weak, nonatomic) UIImage *bugImage;
 
 @property (strong, nonatomic) CLLocation *pictureLocation;
+
+@property (nonatomic, weak) IBOutlet UIView *progressView;
+@property (nonatomic, weak) IBOutlet UIProgressView *progress;
 
 - (IBAction)doneButtonTapped:(id)sender;
 

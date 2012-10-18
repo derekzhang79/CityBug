@@ -450,7 +450,7 @@
                             <rect key="frame" x="0.0" y="286" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <progressView opaque="NO" contentMode="scaleToFill" progress="0.5" id="xTn-4w-6YS">
+                                <progressView opaque="NO" contentMode="scaleToFill" id="xTn-4w-6YS">
                                     <rect key="frame" x="99" y="18" width="201" height="9"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </progressView>
@@ -602,8 +602,8 @@
                         <outlet property="noteTextField" destination="jTN-Jr-fRD" id="gAr-zK-YS1"/>
                         <outlet property="noteTextView" destination="b4h-Jk-a5N" id="sOw-6k-Fgp"/>
                         <outlet property="placeLabel" destination="OWM-jQ-g4b" id="bWL-Xi-LbL"/>
-                        <outlet property="progress" destination="xTn-4w-6YS" id="lyH-NZ-aU4"/>
-                        <outlet property="progressView" destination="M92-0L-TKg" id="8JI-wB-0Ov"/>
+                        <outlet property="progress" destination="xTn-4w-6YS" id="JDn-Rh-ZeR"/>
+                        <outlet property="progressView" destination="M92-0L-TKg" id="SMA-KR-xH4"/>
                         <outlet property="titleTextField" destination="swL-5T-kd7" id="Ehq-Cw-dOK"/>
                     </connections>
                 </tableViewController>
