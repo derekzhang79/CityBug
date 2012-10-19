@@ -11,6 +11,8 @@
 #import "ODMPlace.h"
 #import "ODMImin.h"
 
+#define INVALID_LAT_LNG 999
+
 static ODMDataManager *sharedDataManager = nil;
 
 NSString *ODMDataManagerNotificationReportsLoadingFinish;
@@ -232,11 +234,12 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
     double lat = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLatitude];
     double lng = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLongitude];
     
-    if ([NSNumber numberWithDouble:lat] == nil || [NSNumber numberWithDouble:lng] == nil) {
+    if (lat == INVALID_LAT_LNG || lng == INVALID_LAT_LNG) {
         [self updateLocation];
         lat = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLatitude];
         lng = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLongitude];
     }
+    
     CLLocation *loc = [[CLLocation alloc] initWithLatitude:lat longitude:lng];
     
     return loc;
@@ -245,13 +248,22 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 - (void)updateLocation
 {
     CLLocation *loc = [[CLLocation alloc] init];
+    
     if ([self startGatheringLocation]) {
+        if (self.locationManager.location.horizontalAccuracy < MINIMUN_ACCURACY_DISTANCE && self.locationManager.location.verticalAccuracy < MINIMUN_ACCURACY_DISTANCE && MIN(self.locationManager.location.horizontalAccuracy, 0) == 0 && MIN(self.locationManager.location.verticalAccuracy, 0) == 0) {
+            [self stopGatheringLocation];
+        }
         loc = [self.locationManager location];
         [[NSUserDefaults standardUserDefaults] setDouble:loc.coordinate.latitude forKey:kSecLatitude];
         [[NSUserDefaults standardUserDefaults] setDouble:loc.coordinate.longitude forKey:kSecLongitude];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    } else {
+        [[NSUserDefaults standardUserDefaults] setDouble:INVALID_LAT_LNG forKey:kSecLatitude];
+        [[NSUserDefaults standardUserDefaults] setDouble:INVALID_LAT_LNG forKey:kSecLongitude];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    [self stopGatheringLocation];
+
 }
 
 - (BOOL)startGatheringLocation
@@ -643,7 +655,8 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 {
     NSMutableDictionary *paramDict = [NSMutableDictionary new];
     
-    paramDict = [self buildingQueryParametersWithLocation:self.locationManager.location.coordinate withParams:paramDict];
+    paramDict = [self buildingQueryParametersWithLocation:[self currentLocation].coordinate withParams:paramDict];
+    //paramDict = [self buildingQueryParametersWithLocation:self.locationManager.location.coordinate withParams:paramDict];
     
     NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:paramDict];
     
@@ -667,7 +680,8 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 {
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
     
-    paramDict = [self buildingQueryParametersWithLocation:self.locationManager.location.coordinate withParams:paramDict];
+    paramDict = [self buildingQueryParametersWithLocation:[self currentLocation].coordinate withParams:paramDict];
+//    paramDict = [self buildingQueryParametersWithLocation:self.locationManager.location.coordinate withParams:paramDict];
     
     NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:paramDict];
     
@@ -842,6 +856,11 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
         
     }
     
+    CLLocation *currentLoc = [self currentLocation];
+    if (currentLoc.coordinate.latitude != INVALID_LAT_LNG && currentLoc.coordinate.longitude != INVALID_LAT_LNG) {
+        [self updateQueryParameterFromLocation:currentLoc.coordinate];
+    }
+    /*
     if ([self startGatheringLocation]) {
         // Location services are enable
         [self updateQueryParameterFromLocation:self.locationManager.location.coordinate];
@@ -850,6 +869,7 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
             [self stopGatheringLocation];
         }
     }
+     */
     
     return queryParams;
 }
