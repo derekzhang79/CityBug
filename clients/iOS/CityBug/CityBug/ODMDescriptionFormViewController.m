@@ -156,7 +156,7 @@
         // Report's location
         // 
         
-        // Retrieve location from NSUserDefault
+        // Retrieve current location
         CLLocation *location = [[ODMDataManager sharedInstance] currentLocation];////[_locationManager location];
         
         if (self.pictureLocation.coordinate.latitude && self.pictureLocation.coordinate.longitude) {

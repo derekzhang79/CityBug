@@ -301,6 +301,11 @@
                                                  name:ODMDataManagerNotificationPlaceUnsubscribeDidFinish
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadData)
+                                                 name:ODMDataManagerNotificationLocationDidUpdate
+                                               object:nil];
+    
     [self reloadData];
 }
 
