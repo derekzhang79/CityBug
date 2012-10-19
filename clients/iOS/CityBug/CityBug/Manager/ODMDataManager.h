@@ -34,6 +34,9 @@
  */
 + (id)sharedInstance;
 
+- (CLLocation *)currentLocation;
+- (void)updateLocation;
+
 /*
  * Post New Report
  */

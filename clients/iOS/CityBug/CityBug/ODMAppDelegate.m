@@ -38,6 +38,7 @@
     return YES;
 }
 
+
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     NSLog(@"TAB!!! %@", viewController.title);
@@ -78,6 +79,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     [self reachabilityStatusChanged:nil];
+    [[ODMDataManager sharedInstance] updateLocation];
 }
 
 @end

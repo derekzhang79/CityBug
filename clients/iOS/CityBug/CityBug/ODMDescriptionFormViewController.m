@@ -19,8 +19,8 @@
 @implementation ODMDescriptionFormViewController {
     NSMutableDictionary *entryDict;
     
-    CLLocationManager *_locationManager;
-    CLLocation *_location;
+//    CLLocationManager *_locationManager;
+//    CLLocation *_location;
 
     ODMPlace *selectedPlace;
 }
@@ -36,12 +36,12 @@
     self.bugImageView.image = self.bugImage;
     self.noteTextView.placeholder = PLACE_HOLDER_NOTE;
     
-    [self startGatheringLocation];
+    ////[self startGatheringLocation];
 }
 
 - (void)viewDidUnload
 {
-    [self stopGatheringLocation];
+    ////[self stopGatheringLocation];
     self.progressView = nil;
     self.progress = nil;
     [super viewDidUnload];
@@ -157,7 +157,7 @@
         // 
         
         // Retrieve location from NSUserDefault
-        CLLocation *location = [_locationManager location];
+        CLLocation *location = [[ODMDataManager sharedInstance] currentLocation];////[_locationManager location];
         
         if (self.pictureLocation.coordinate.latitude && self.pictureLocation.coordinate.longitude) {
             //
@@ -270,6 +270,7 @@
     [self resignFirstResponder];
 }
 
+/*
 #pragma mark - LocationManager
 
 - (BOOL)startGatheringLocation
@@ -300,6 +301,6 @@
     
     return NO;
 }
-
+*/
 
 @end

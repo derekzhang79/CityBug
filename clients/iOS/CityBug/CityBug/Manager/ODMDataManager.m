@@ -227,9 +227,36 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 
 #pragma mark - location
 
+- (CLLocation *)currentLocation
+{
+    double lat = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLatitude];
+    double lng = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLongitude];
+    
+    if ([NSNumber numberWithDouble:lat] == nil || [NSNumber numberWithDouble:lng] == nil) {
+        [self updateLocation];
+        lat = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLatitude];
+        lng = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLongitude];
+    }
+    CLLocation *loc = [[CLLocation alloc] initWithLatitude:lat longitude:lng];
+    
+    return loc;
+}
+
+- (void)updateLocation
+{
+    CLLocation *loc = [[CLLocation alloc] init];
+    if ([self startGatheringLocation]) {
+        loc = [self.locationManager location];
+        [[NSUserDefaults standardUserDefaults] setDouble:loc.coordinate.latitude forKey:kSecLatitude];
+        [[NSUserDefaults standardUserDefaults] setDouble:loc.coordinate.longitude forKey:kSecLongitude];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    [self stopGatheringLocation];
+}
+
 - (BOOL)startGatheringLocation
 {
-    if (![CLLocationManager locationServicesEnabled]) {
+    if ([CLLocationManager locationServicesEnabled] == NO) {
         UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"CityBug" message:NSLocalizedString(REQUIRE_LOCATION_SERVICES_TEXT, REQUIRE_LOCATION_SERVICES_TEXT) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
         [locationAlert show];
         return NO;
@@ -239,6 +266,7 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
         _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+
     }
     
     [_locationManager startUpdatingLocation];
@@ -248,6 +276,9 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 
 // monitor the authorization status for the application changed
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    NSLog(@"UPDATE LOCATION");
+    [self updateLocation];
+    /*
     if (status == 2) {
         UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"CityBug" message:NSLocalizedString(REQUIRE_LOCATION_SERVICES_TEXT, REQUIRE_LOCATION_SERVICES_TEXT) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
         [locationAlert show];
@@ -255,6 +286,7 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
     if (status == 3) {
         [self startGatheringLocation];
     }
+     */
 }
 
 - (BOOL)stopGatheringLocation

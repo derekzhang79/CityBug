@@ -34,7 +34,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
 static NSString *goToUserListSegue = @"goToUserListSegue";
 
 @implementation ODMListViewController {
-    CLLocationManager *locationManager;
+//    CLLocationManager *locationManager;
     UIImage *imageToSave;
     UIImagePickerController *picker;
     NSArray *datasource;
@@ -91,12 +91,13 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [self.tableView reloadData];
     
     
-    locationManager = [[CLLocationManager alloc] init];
+    /*locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     locationManager.distanceFilter = kCLDistanceFilterNone;
     locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
     [locationManager startUpdatingLocation];
-    self.location = locationManager.location;
+    */
+    self.location = [[ODMDataManager sharedInstance] currentLocation]; ///locationManager.location;
 
     resultblock = ^(ALAsset *myasset) {
         CLLocation *locationAsset = [myasset valueForProperty:ALAssetPropertyLocation];
@@ -127,7 +128,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 - (void)viewDidUnload
 {
-    [locationManager stopUpdatingLocation];
+//    [locationManager stopUpdatingLocation];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
 }
@@ -330,7 +331,8 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     }
     
     if (aPicker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-        self.location = locationManager.location;
+        //self.location = locationManager.location;
+        self.location = [[ODMDataManager sharedInstance] currentLocation];
         
         // get Metadata's image for add more attribute (location attribute).
         NSDictionary *metadata = [info objectForKey:UIImagePickerControllerMediaMetadata];
