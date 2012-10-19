@@ -34,7 +34,7 @@
     // check user sign in when open application
     NSError *error = nil;
     [[ODMDataManager sharedInstance] signInCityBugUserWithError:&error];
-
+    
     return YES;
 }
 
@@ -79,7 +79,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     [self reachabilityStatusChanged:nil];
-    [[ODMDataManager sharedInstance] updateLocation];
+    
 }
 
 @end

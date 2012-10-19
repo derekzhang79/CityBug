@@ -85,29 +85,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     self.nibLoader = [UINib nibWithNibName:@"ODMActivityFeedViewCell" bundle:nil];
     [self.tableView registerNib:self.nibLoader forCellReuseIdentifier:@"ReportCellIdentifier"];
     
-    // Load data
-    datasource = [[ODMDataManager sharedInstance] reports];
-    if (!datasource) datasource = [NSArray new];
-    [self.tableView reloadData];
-    
-    
-    /*locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.distanceFilter = kCLDistanceFilterNone;
-    locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
-    [locationManager startUpdatingLocation];
-    */
-    self.location = [[ODMDataManager sharedInstance] currentLocation]; ///locationManager.location;
-
-    resultblock = ^(ALAsset *myasset) {
-        CLLocation *locationAsset = [myasset valueForProperty:ALAssetPropertyLocation];
-        self.location = locationAsset;
-        _formViewController.pictureLocation = locationAsset;
-    };
-    failureblock = ^(NSError *myerror) {
-        NSLog(@"error while get Location from picture : %d - message: %s", errno, strerror(errno));
-        self.location = nil;
-    };
+    [self reloadData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
     
@@ -124,6 +102,11 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadReport:) name:ODMDataManagerNotificationPlaceSubscribeDidFinish object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadReport:) name:ODMDataManagerNotificationPlaceUnsubscribeDidFinish object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadData)
+                                                 name:ODMDataManagerNotificationLocationDidUpdate
+                                               object:nil];
 }
 
 - (void)viewDidUnload
@@ -136,6 +119,33 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)reloadData
+{
+    // Load data
+    datasource = [[ODMDataManager sharedInstance] reports];
+    if (!datasource) datasource = [NSArray new];
+    [self.tableView reloadData];
+    
+    
+    /*locationManager = [[CLLocationManager alloc] init];
+     locationManager.delegate = self;
+     locationManager.distanceFilter = kCLDistanceFilterNone;
+     locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+     [locationManager startUpdatingLocation];
+     */
+    self.location = [[ODMDataManager sharedInstance] currentLocation]; ///locationManager.location;
+    
+    resultblock = ^(ALAsset *myasset) {
+        CLLocation *locationAsset = [myasset valueForProperty:ALAssetPropertyLocation];
+        self.location = locationAsset;
+        _formViewController.pictureLocation = locationAsset;
+    };
+    failureblock = ^(NSError *myerror) {
+        NSLog(@"error while get Location from picture : %d - message: %s", errno, strerror(errno));
+        self.location = nil;
+    };
 }
 
 #pragma mark - notificaton
@@ -168,6 +178,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [[ODMDataManager sharedInstance] reports];
 }
 
+// Update right bar button when authen status change
 - (void)updatePage:(NSNotification *)notification
 {
     [[ODMDataManager sharedInstance] reports];

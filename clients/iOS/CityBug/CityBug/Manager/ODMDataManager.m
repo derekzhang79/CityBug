@@ -56,6 +56,8 @@ NSString *ODMDataManagerNotificationIminDidLoading;
 
 NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 
+NSString *ODMDataManagerNotificationLocationDidUpdate;
+
 @interface ODMDataManager()
 
 /*
@@ -118,6 +120,15 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
         ODMDataManagerNotificationIminDidLoading = @"ODMDataManagerNotificationIminDidLoading";
 
         ODMDataManagerNotificationChangeProfileDidFinish = @"ODMDataManagerNotificationChangeProfileDidFinish";
+        
+        ODMDataManagerNotificationLocationDidUpdate = @"ODMDataManagerNotificationLocationDidUpdate";
+        
+        if (!_locationManager) {
+            _locationManager = [[CLLocationManager alloc] init];
+            _locationManager.delegate = self;
+            _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+        }
+
         //
         // RestKit setup
         //
@@ -229,41 +240,32 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 
 #pragma mark - location
 
+/*
 - (CLLocation *)currentLocation
 {
     double lat = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLatitude];
     double lng = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLongitude];
-    
-    if (lat == INVALID_LAT_LNG || lng == INVALID_LAT_LNG) {
-        [self updateLocation];
-        lat = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLatitude];
-        lng = [[NSUserDefaults standardUserDefaults] doubleForKey:kSecLongitude];
-    }
+
     
     CLLocation *loc = [[CLLocation alloc] initWithLatitude:lat longitude:lng];
     
+    NSLog(@"\n\n\n\nCURRENT LAT %f LNG %f\n\n\n\n", lat, lng);
     return loc;
 }
+ */
 
-- (void)updateLocation
+- (CLLocation *)currentLocation
 {
-    CLLocation *loc = [[CLLocation alloc] init];
     
     if ([self startGatheringLocation]) {
-        if (self.locationManager.location.horizontalAccuracy < MINIMUN_ACCURACY_DISTANCE && self.locationManager.location.verticalAccuracy < MINIMUN_ACCURACY_DISTANCE && MIN(self.locationManager.location.horizontalAccuracy, 0) == 0 && MIN(self.locationManager.location.verticalAccuracy, 0) == 0) {
+        //if (self.locationManager.location.horizontalAccuracy < MINIMUN_ACCURACY_DISTANCE && self.locationManager.location.verticalAccuracy < MINIMUN_ACCURACY_DISTANCE && MIN(self.locationManager.location.horizontalAccuracy, 0) == 0 && MIN(self.locationManager.location.verticalAccuracy, 0) == 0) {
             [self stopGatheringLocation];
-        }
-        loc = [self.locationManager location];
-        [[NSUserDefaults standardUserDefaults] setDouble:loc.coordinate.latitude forKey:kSecLatitude];
-        [[NSUserDefaults standardUserDefaults] setDouble:loc.coordinate.longitude forKey:kSecLongitude];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
+        //}
+        return [self.locationManager location];
     } else {
-        [[NSUserDefaults standardUserDefaults] setDouble:INVALID_LAT_LNG forKey:kSecLatitude];
-        [[NSUserDefaults standardUserDefaults] setDouble:INVALID_LAT_LNG forKey:kSecLongitude];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        return nil;
     }
-
+    
 }
 
 - (BOOL)startGatheringLocation
@@ -278,7 +280,6 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
         _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-
     }
     
     [_locationManager startUpdatingLocation];
@@ -286,10 +287,13 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
     return YES;
 }
 
+
 // monitor the authorization status for the application changed
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    
     NSLog(@"UPDATE LOCATION");
-    [self updateLocation];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationLocationDidUpdate object:nil];
+    
     /*
     if (status == 2) {
         UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"CityBug" message:NSLocalizedString(REQUIRE_LOCATION_SERVICES_TEXT, REQUIRE_LOCATION_SERVICES_TEXT) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
@@ -300,6 +304,7 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
     }
      */
 }
+
 
 - (BOOL)stopGatheringLocation
 {
@@ -655,8 +660,8 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 {
     NSMutableDictionary *paramDict = [NSMutableDictionary new];
     
-    paramDict = [self buildingQueryParametersWithLocation:[self currentLocation].coordinate withParams:paramDict];
-    //paramDict = [self buildingQueryParametersWithLocation:self.locationManager.location.coordinate withParams:paramDict];
+//    paramDict = [self buildingQueryParametersWithLocation:[self currentLocation].coordinate withParams:paramDict];
+    paramDict = [self buildingQueryParametersWithLocation:self.locationManager.location.coordinate withParams:paramDict];
     
     NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:paramDict];
     
@@ -680,8 +685,8 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 {
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionaryWithDictionary:params];
     
-    paramDict = [self buildingQueryParametersWithLocation:[self currentLocation].coordinate withParams:paramDict];
-//    paramDict = [self buildingQueryParametersWithLocation:self.locationManager.location.coordinate withParams:paramDict];
+//    paramDict = [self buildingQueryParametersWithLocation:[self currentLocation].coordinate withParams:paramDict];
+    paramDict = [self buildingQueryParametersWithLocation:self.locationManager.location.coordinate withParams:paramDict];
     
     NSString *resourcePath = [@"/api/place/search" stringByAppendingQueryParameters:paramDict];
     
@@ -856,10 +861,13 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
         
     }
     
-    CLLocation *currentLoc = [self currentLocation];
-    if (currentLoc.coordinate.latitude != INVALID_LAT_LNG && currentLoc.coordinate.longitude != INVALID_LAT_LNG) {
-        [self updateQueryParameterFromLocation:currentLoc.coordinate];
+    [self updateQueryParameterFromLocation:[self currentLocation].coordinate];
+    /*
+    if ([CLLocationManager locationServicesEnabled] == YES) {
+        [self updateQueryParameterFromLocation:self.locationManager.location.coordinate];
     }
+     */
+    
     /*
     if ([self startGatheringLocation]) {
         // Location services are enable
@@ -876,8 +884,14 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 
 - (NSMutableDictionary *)buildingQueryParametersWithLocation:(CLLocationCoordinate2D)coordinate withParams:(NSMutableDictionary *)params
 {
-    [params setObject:@(coordinate.latitude) forKey:@"lat"];
-    [params setObject:@(coordinate.longitude) forKey:@"lng"];
+    if (coordinate.latitude == 0 && coordinate.longitude == 0) {
+        [params removeObjectForKey:@"lat"];
+        [params removeObjectForKey:@"lng"];
+    } else {
+        [params setObject:@(coordinate.latitude) forKey:@"lat"];
+        [params setObject:@(coordinate.longitude) forKey:@"lng"];
+    }
+    
     return params;
 }
 
@@ -1001,15 +1015,5 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
     RKLogError(@"!!!!!!!!!!!!!!!!!!!! Loader Error %@", error);
 }
 
-
-#pragma mark - CLLocationManager
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
-{
-//    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-//    CLLocation *location = [locations lastObject];
-//    [userDefault setObject:location forKey:USER_CURRENT_LOCATION];
-//    [userDefault synchronize];
-}
 
 @end

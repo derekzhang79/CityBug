@@ -184,3 +184,6 @@ extern NSString *ODMDataManagerNotificationIminDidLoading;
 // Profile Image
 extern NSString *ODMDataManagerNotificationChangeProfileDidFinish;
 
+// Location
+extern NSString *ODMDataManagerNotificationLocationDidUpdate;
+
