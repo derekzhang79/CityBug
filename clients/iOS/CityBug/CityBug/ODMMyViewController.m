@@ -117,10 +117,13 @@ static NSString *presentSignInModal = @"presentSignInModal";
 
     // set profile image
     NSString *thumbnailImage = [[dataManager currentUser] thumbnailImage];
-    NSURL *thumbnailURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, thumbnailImage]];
-    NSData *imageData = [NSData dataWithContentsOfURL:thumbnailURL];
-    self.thumbnailImageView.image = [UIImage imageWithData:imageData];
-    
+    if (thumbnailImage != nil && [thumbnailImage isEqualToString:@""] == NO) {
+        NSURL *thumbnailURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, thumbnailImage]];
+        NSData *imageData = [NSData dataWithContentsOfURL:thumbnailURL];
+        self.thumbnailImageView.image = [UIImage imageWithData:imageData];
+    } else {
+        self.thumbnailImageView.image = [UIImage imageNamed:@"1.jpeg"];
+    }
     [dataManager myReports];
     
     [self.actView setHidden:NO];

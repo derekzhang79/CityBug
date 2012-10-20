@@ -15,6 +15,8 @@
 #import "ODMDataManager.h"
 #import "ODMUserListTableViewController.h"
 
+#import "ODMCommentCell.h"
+
 #define ROW_HEIGHT 44
 #define PEOPLE_ARE_IN @" people are in!"
 static NSString *goToUserListSegue = @"goToUserListSegue";
@@ -441,15 +443,21 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"CommentCellIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    ODMCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+        cell = [[ODMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     ODMComment *comment = [self.report.comments objectAtIndex:indexPath.row];
-    cell.textLabel.text = [comment.user username];
-    cell.detailTextLabel.text = [comment text];
+    
+    cell.comment = comment;
+    if ([comment user].thumbnailImage != nil) {
+        NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, comment.user.thumbnailImage]];
+        [cell.commentUserImageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"1.jpeg"] options:SDWebImageCacheMemoryOnly];
+    } else {
+        [cell.commentUserImageView setImage:[UIImage imageNamed:@"1.jpeg"]];
+    }
     
     return cell;
 }
@@ -458,10 +466,17 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 {
     // Calculate comment label size
     NSString *note = [(ODMComment *)[self.report.comments objectAtIndex:indexPath.row] text];
+    
+    return [self heightForCommentText:note];
+}
+
+- (CGFloat)heightForCommentText:(NSString *)note
+{
+    // Calculate comment label size
     UIFont *font = [UIFont systemFontOfSize:14.f];
-    CGSize constraintSize = CGSizeMake(300, MAXFLOAT);
+    CGSize constraintSize = CGSizeMake(250, MAXFLOAT);
     CGSize bounds = [note sizeWithFont:font constrainedToSize:constraintSize lineBreakMode:UILineBreakModeCharacterWrap];
-    int offset = 30;
+    int offset = 40;
     CGFloat height = bounds.height + offset;
     
     return height;
