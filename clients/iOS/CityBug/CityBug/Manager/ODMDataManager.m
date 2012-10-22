@@ -143,6 +143,7 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
         
         RKObjectMapping *categoryMapping = [RKObjectMapping mappingForClass:[ODMCategory class]];
         [categoryMapping mapKeyPath:@"title" toAttribute:@"title"];
+        [categoryMapping mapKeyPath:@"thumbnail_image" toAttribute:@"thumbnailImage"];
         
         RKObjectMapping *placeMapping = [RKObjectMapping mappingForClass:[ODMPlace class]];
         [placeMapping mapKeyPath:@"title" toAttribute:@"title"];

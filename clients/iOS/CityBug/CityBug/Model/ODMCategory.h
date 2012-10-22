@@ -8,9 +8,10 @@
 
 @interface ODMCategory : NSObject {
     NSString *_title;
+    NSString *_thumbnailImage;
 }
 
-@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *title,  *thumbnailImage;
 
 + (ODMCategory *)categoryWithTitle:(NSString *)category;
 

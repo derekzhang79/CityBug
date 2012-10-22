@@ -5,6 +5,7 @@ module.exports = function (mongoose) {
 
 	var CategorySchema = new Schema({
 		title				: String
+		, thumbnail_image	: String
 		, last_modified		: Date
 		, created_at		: Date
 	});

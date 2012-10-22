@@ -9,7 +9,10 @@
 #import "ODMCategoryListViewController.h"
 #import "ODMCategory.h"
 #import "ODMDataManager.h"
-
+#import "UIImageView+WebCache.h"
+#import <ImageIO/ImageIO.h>
+#import <ImageIO/CGImageSource.h>
+#import <ImageIO/CGImageProperties.h>
 @interface ODMCategoryListViewController(Accessor)
 @property (nonatomic, readwrite, strong) NSArray *datasource;
 @end
@@ -51,15 +54,21 @@
     
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.imageView.image = [UIImage imageNamed:@"cat1.png"];
         cell.textLabel.text = NSLocalizedString(@"Unknown String", @"Unknown String");
-    }
-
-    if (self.datasource.count > indexPath.row) {
         
-        ODMCategory *cat = [self.datasource objectAtIndex:indexPath.row];
-        
-        cell.textLabel.text = [cat title];
+        if (self.datasource.count > indexPath.row) {
+            
+            ODMCategory *cat = [self.datasource objectAtIndex:indexPath.row];
+            
+            cell.textLabel.text = [cat title];
+            
+            if (cat.thumbnailImage != nil) {
+                NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cat.thumbnailImage]];
+                [cell.imageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"cat1.jpeg"] options:SDWebImageCacheMemoryOnly];
+            } else {
+                cell.imageView.image = [UIImage imageNamed:@"cat1.png"];
+            }
+        }
     }
     
     return cell;
