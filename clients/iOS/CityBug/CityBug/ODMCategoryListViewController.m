@@ -60,6 +60,7 @@
     
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.imageView.image = [UIImage imageNamed:@"cat1.png"];
         cell.textLabel.text = NSLocalizedString(@"Unknown String", @"Unknown String");
         
         if (self.datasource.count > indexPath.row) {
@@ -70,7 +71,7 @@
             
             if (cat.thumbnailImage != nil) {
                 NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cat.thumbnailImage]];
-                [cell.imageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"cat1.jpeg"] options:SDWebImageCacheMemoryOnly];
+                [cell.imageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"cat1.png"] options:SDWebImageCacheMemoryOnly];
             } else {
                 cell.imageView.image = [UIImage imageNamed:@"cat1.png"];
             }
