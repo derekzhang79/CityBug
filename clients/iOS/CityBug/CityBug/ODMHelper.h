@@ -37,7 +37,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define TAB_EXPLORE_TITLE @"Explore"
-#define TAB_FEED_TITLE @"City Bug"
+#define TAB_FEED_TITLE @"Feed"
 #define TAB_PROFILE_TITLE @"Profile"
 
 #define kSecUserName @"username"
