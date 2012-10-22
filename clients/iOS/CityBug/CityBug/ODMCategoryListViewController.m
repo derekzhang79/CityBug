@@ -10,9 +10,14 @@
 #import "ODMCategory.h"
 #import "ODMDataManager.h"
 #import "UIImageView+WebCache.h"
+#import "ODMCategoryView.h"
+
 #import <ImageIO/ImageIO.h>
 #import <ImageIO/CGImageSource.h>
 #import <ImageIO/CGImageProperties.h>
+
+#define CELL_HEIGHT 106
+
 @interface ODMCategoryListViewController(Accessor)
 @property (nonatomic, readwrite, strong) NSArray *datasource;
 @end
@@ -35,6 +40,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+/*
 #pragma mark - TABLEVIEW
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -86,6 +92,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+*/
 
 #pragma mark - VIEW
 
@@ -93,7 +100,7 @@
 {
     _datasource = [[ODMDataManager sharedInstance] categories];
     
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
 }
 
 - (void)updateCategoriesNotification:(NSNotification *)notification
@@ -101,7 +108,23 @@
     if ([[notification object] isKindOfClass:[NSArray class]]) {
         _datasource = [notification object];
         
-        [self.tableView reloadData];
+        for (int i = 0; i < _datasource.count; i++) {
+            int x=0, y=0;
+            x = i%3;
+            y = i/3;
+            ODMCategoryView *view = [[ODMCategoryView alloc] initWithFrame:CGRectMake(CELL_HEIGHT*x, CELL_HEIGHT*y, CELL_HEIGHT, CELL_HEIGHT)];
+            ODMCategory *cat = [_datasource objectAtIndex:i];
+            view.text = cat.title;
+            
+            if (cat.thumbnailImage != nil) {
+                NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cat.thumbnailImage]];
+                [view.imageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"cat1.png"] options:SDWebImageCacheMemoryOnly];
+            } else {
+                view.imageView.image = [UIImage imageNamed:@"cat1.png"];
+            }
+            [self.view addSubview:view];
+        }
+//        [self.tableView reloadData];
     }
 }
 
@@ -109,6 +132,7 @@
 {
     [super viewWillAppear:animated];
     [self reloadData];
+    
 }
 
 - (void)viewDidLoad

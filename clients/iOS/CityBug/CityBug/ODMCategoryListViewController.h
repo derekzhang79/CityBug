@@ -10,7 +10,7 @@
 
 @protocol ODMCategoryListDelegate;
 
-@interface ODMCategoryListViewController : UITableViewController {
+@interface ODMCategoryListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     __unsafe_unretained id <ODMCategoryListDelegate> _delegate;
     
     NSArray *_datasource;

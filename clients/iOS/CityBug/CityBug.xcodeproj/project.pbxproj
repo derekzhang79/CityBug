@@ -10,6 +10,7 @@
 		208AB70B1623B8D000AC8674 /* GCPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 208AB70A1623B8D000AC8674 /* GCPlaceholderTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		208AB72D1623DB1000AC8674 /* ODMImin.m in Sources */ = {isa = PBXBuildFile; fileRef = 208AB72C1623DB1000AC8674 /* ODMImin.m */; };
 		7F2F13A016316D0B001D807E /* ODMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F2F139F16316D0B001D807E /* ODMCommentCell.m */; };
+		7F35396616354F6B0039858E /* ODMCategoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F35396516354F6B0039858E /* ODMCategoryView.m */; };
 		7F97B9D01626BF7800A6839E /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F97B9CF1626BF7800A6839E /* KeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7F99E3BC162561040095610B /* ODMUserListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F99E3BB162561040095610B /* ODMUserListTableViewController.m */; };
 		7F9BB6C3162BD1E000A58043 /* ODMActivityFeedViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F9BB6C2162BD1E000A58043 /* ODMActivityFeedViewCell.xib */; };
@@ -145,6 +146,8 @@
 		208AB72C1623DB1000AC8674 /* ODMImin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODMImin.m; sourceTree = "<group>"; };
 		7F2F139E16316D0B001D807E /* ODMCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMCommentCell.h; path = CityBug/View/ODMCommentCell.h; sourceTree = SOURCE_ROOT; };
 		7F2F139F16316D0B001D807E /* ODMCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMCommentCell.m; path = CityBug/View/ODMCommentCell.m; sourceTree = SOURCE_ROOT; };
+		7F35396416354F6B0039858E /* ODMCategoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMCategoryView.h; path = CityBug/View/ODMCategoryView.h; sourceTree = SOURCE_ROOT; };
+		7F35396516354F6B0039858E /* ODMCategoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODMCategoryView.m; path = CityBug/View/ODMCategoryView.m; sourceTree = SOURCE_ROOT; };
 		7F97B9CE1626BF7800A6839E /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
 		7F97B9CF1626BF7800A6839E /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
 		7F99E3BA162561040095610B /* ODMUserListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODMUserListTableViewController.h; path = CityBug/ODMUserListTableViewController.h; sourceTree = SOURCE_ROOT; };
@@ -378,6 +381,8 @@
 				7FC82941161EC32D0027E5BA /* ODMPlaceViewCell.m */,
 				7F2F139E16316D0B001D807E /* ODMCommentCell.h */,
 				7F2F139F16316D0B001D807E /* ODMCommentCell.m */,
+				7F35396416354F6B0039858E /* ODMCategoryView.h */,
+				7F35396516354F6B0039858E /* ODMCategoryView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -836,6 +841,7 @@
 				7F99E3BC162561040095610B /* ODMUserListTableViewController.m in Sources */,
 				7F97B9D01626BF7800A6839E /* KeychainItemWrapper.m in Sources */,
 				7F2F13A016316D0B001D807E /* ODMCommentCell.m in Sources */,
+				7F35396616354F6B0039858E /* ODMCategoryView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
