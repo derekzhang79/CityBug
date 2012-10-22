@@ -123,9 +123,26 @@
             } else {
                 view.imageView.image = [UIImage imageNamed:@"cat1.png"];
             }
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self  action:@selector(tapAction:)];
+            [view addGestureRecognizer:tap];
+            
             [self.view addSubview:view];
         }
 //        [self.tableView reloadData];
+    }
+}
+
+- (void)tapAction:(UITapGestureRecognizer *)sender
+{
+    if ([sender.view isKindOfClass:[ODMCategoryView class]]) {
+        ODMCategoryView *view = sender.view;
+        catString = view.text;
+        
+        if ([self.delegate respondsToSelector:@selector(updateCategoryList:withCategory:)]) {
+            [self.delegate updateCategoryList:self withCategory:catString];
+        }
+        
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

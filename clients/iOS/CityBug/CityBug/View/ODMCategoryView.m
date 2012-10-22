@@ -50,11 +50,8 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    NSLog(@"layout subview");
+
     titleLabel.text = self.text;
-    
-    [self.imageView setNeedsDisplay];
-    [self.imageView setNeedsLayout];
     
 }
 
