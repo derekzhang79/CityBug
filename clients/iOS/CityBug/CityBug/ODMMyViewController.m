@@ -114,6 +114,7 @@ static NSString *presentSignInModal = @"presentSignInModal";
     ODMDataManager *dataManager = [ODMDataManager sharedInstance];
     userNameLabel.text = [[dataManager currentUser] username];
     emailLabel.text = [[dataManager currentUser] email];
+    //memberSinceDateLabel.text = [[dataManager currentUser] createdDate];
 
     // set profile image
     NSString *thumbnailImage = [[dataManager currentUser] thumbnailImage];
