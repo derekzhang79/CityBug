@@ -40,61 +40,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-/*
-#pragma mark - TABLEVIEW
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.datasource count];
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"CategoryCellIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.imageView.image = [UIImage imageNamed:@"cat1.png"];
-        cell.textLabel.text = NSLocalizedString(@"Unknown String", @"Unknown String");
-        
-        if (self.datasource.count > indexPath.row) {
-            
-            ODMCategory *cat = [self.datasource objectAtIndex:indexPath.row];
-            
-            cell.textLabel.text = [cat title];
-            
-            if (cat.thumbnailImage != nil) {
-                NSURL *avatarURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, cat.thumbnailImage]];
-                [cell.imageView setImageWithURL:avatarURL placeholderImage:[UIImage imageNamed:@"cat1.png"] options:SDWebImageCacheMemoryOnly];
-            } else {
-                cell.imageView.image = [UIImage imageNamed:@"cat1.png"];
-            }
-        }
-    }
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    catString = cell.textLabel.text;
-    
-    if ([self.delegate respondsToSelector:@selector(updateCategoryList:withCategory:)]) {
-        [self.delegate updateCategoryList:self withCategory:catString];
-    }
-    
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-*/
-
 #pragma mark - VIEW
 
 - (void)reloadData
@@ -135,7 +80,7 @@
 - (void)tapAction:(UITapGestureRecognizer *)sender
 {
     if ([sender.view isKindOfClass:[ODMCategoryView class]]) {
-        ODMCategoryView *view = sender.view;
+        ODMCategoryView *view = (ODMCategoryView *)sender.view;
         catString = view.text;
         
         if ([self.delegate respondsToSelector:@selector(updateCategoryList:withCategory:)]) {
