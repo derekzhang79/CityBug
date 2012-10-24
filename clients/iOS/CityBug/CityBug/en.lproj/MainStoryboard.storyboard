@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="DAN-Mj-WHC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C54" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="DAN-Mj-WHC">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
@@ -259,7 +259,7 @@
         <!--Navigation Controller - Profile-->
         <scene sceneID="8kN-QB-icg">
             <objects>
-                <navigationController definesPresentationContext="YES" id="2Ok-ed-Z05" sceneMemberID="viewController">
+                <navigationController title="Profile" definesPresentationContext="YES" id="2Ok-ed-Z05" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" id="ioX-c2-iSa"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="i2m-LR-BzG">
                         <autoresizingMask key="autoresizingMask"/>
@@ -271,6 +271,30 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h0i-dD-i4h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3868" y="-777"/>
+        </scene>
+        <!--View Controller - Camera-->
+        <scene sceneID="NiP-7w-WbZ">
+            <objects>
+                <viewController id="aLh-XL-UqD" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7hO-oG-c4e">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cameraaaaa" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mnh-NZ-07v">
+                                <rect key="frame" x="139" y="173" width="99" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Camera" id="nIq-mT-kgV"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q2f-59-95i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3387" y="-2813"/>
         </scene>
         <!--List View Controller - CityBug-->
         <scene sceneID="Nj2-C2-joA">
@@ -1148,10 +1172,10 @@
             </objects>
             <point key="canvasLocation" x="-5" y="-1369"/>
         </scene>
-        <!--Navigation Controller - Feed-->
+        <!--Navigation Controller - Camera-->
         <scene sceneID="Pgm-XA-WXl">
             <objects>
-                <navigationController title="Feed" id="Skk-wL-VeC" sceneMemberID="viewController">
+                <navigationController title="Camera" id="Skk-wL-VeC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" enabled="NO" title="" id="8TD-ps-TbY"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3oG-MD-0T2">
@@ -1159,6 +1183,9 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="aLh-XL-UqD" kind="relationship" relationship="rootViewController" id="LQ3-jq-5rM"/>
+                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uya-h8-Wv5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1182,10 +1209,10 @@
             </objects>
             <point key="canvasLocation" x="-1059" y="-2184"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Custom Tab Bar View Controller-->
         <scene sceneID="zzx-Pc-U6b">
             <objects>
-                <tabBarController id="DAN-Mj-WHC" sceneMemberID="viewController">
+                <tabBarController id="DAN-Mj-WHC" customClass="ODMCustomTabBarViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="QTg-U2-Tah">
@@ -1203,10 +1230,10 @@
             </objects>
             <point key="canvasLocation" x="-4654" y="-1831"/>
         </scene>
-        <!--Navigation Controller - Profile-->
+        <!--Navigation Controller - Feed-->
         <scene sceneID="fTD-Zs-6Tx">
             <objects>
-                <navigationController title="Profile" id="Fxa-Ia-Tis" sceneMemberID="viewController">
+                <navigationController title="Feed" id="Fxa-Ia-Tis" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Feed" id="Gff-pj-M58"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mT5-Go-xJd">
@@ -1509,6 +1536,9 @@
         </class>
         <class className="ODMCommentCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMCommentCell.h"/>
+        </class>
+        <class className="ODMCustomTabBarViewController" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMCustomTabBarViewController.h"/>
         </class>
         <class className="ODMDescriptionFormViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ODMDescriptionFormViewController.h"/>

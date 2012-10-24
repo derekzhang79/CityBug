@@ -25,9 +25,7 @@
                                              selector:@selector(reachabilityStatusChanged:)
                                                  name:RKReachabilityDidChangeNotification object:nil];
     
-    UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
-    tabController.delegate = self;
-    
+    UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;    
     // Set tab bar start at tab 1
     [tabController setSelectedIndex:1];
     

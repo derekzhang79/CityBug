@@ -319,6 +319,7 @@
     selectedPlace = nil;
     
     [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:NOW_TABBAR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

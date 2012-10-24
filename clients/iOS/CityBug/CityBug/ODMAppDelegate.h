@@ -8,7 +8,7 @@
 
 #import "KeychainItemWrapper.h"
 
-@interface ODMAppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
+@interface ODMAppDelegate : UIResponder <UIApplicationDelegate>
 {
     KeychainItemWrapper *passwordKeyChainItem;
 }

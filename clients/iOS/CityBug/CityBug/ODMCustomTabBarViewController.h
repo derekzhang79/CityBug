@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ODMCustomTabBarViewController : UITabBarController
+@interface ODMCustomTabBarViewController : UITabBarController <UITabBarControllerDelegate>
 
 @end

@@ -83,6 +83,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         [self setTitle:@"I'm in feed"];
         [[NSUserDefaults standardUserDefaults] setObject:@"3" forKey:NOW_TABBAR];
     }
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     // Load data
 //    datasource = [[ODMDataManager sharedInstance] reports];
