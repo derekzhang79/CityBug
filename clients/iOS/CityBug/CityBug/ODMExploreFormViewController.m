@@ -318,7 +318,7 @@
     
     selectedPlace = nil;
     
-    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:NOW_TABBAR];
+    [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:NOW_TABBAR];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

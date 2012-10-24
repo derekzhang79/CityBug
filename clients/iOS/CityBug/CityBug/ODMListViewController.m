@@ -72,8 +72,23 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:NOW_TABBAR];
     
+    // Set default to feed type
+    if (self.reportsType == nil) {
+        self.reportsType = TYPE_REPORTS_FEED;
+        [self setTitle:TAB_FEED_TITLE];
+        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:NOW_TABBAR];
+        
+    } else if([self.reportsType isEqualToString:TYPE_REPORTS_IMIN]){
+        [self setTitle:@"I'm in feed"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"3" forKey:NOW_TABBAR];
+    }
+    
+    // Load data
+//    datasource = [[ODMDataManager sharedInstance] reports];
+    datasource = [self arrayForDatasource];
+    if (!datasource) datasource = [NSArray new];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -93,22 +108,9 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:TAB_FEED_TITLE];
-    
-    // Set default to feed type
-    if (self.reportsType == nil) {
-        self.reportsType = TYPE_REPORTS_FEED;
-    }
     
     self.nibLoader = [UINib nibWithNibName:@"ODMActivityFeedViewCell" bundle:nil];
     [self.tableView registerNib:self.nibLoader forCellReuseIdentifier:@"ReportCellIdentifier"];
-    
-    // Load data
-//    datasource = [[ODMDataManager sharedInstance] reports];
-    datasource = [self arrayForDatasource];
-    if (!datasource) datasource = [NSArray new];
-    [self.tableView reloadData];
-    
     
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
@@ -198,10 +200,9 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     
     BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
     
-    if ([self.reportsType isEqualToString:TYPE_REPORTS_FEED]) {
+    if ([self.reportsType isEqualToString:TYPE_REPORTS_FEED] || self.reportsType == nil) {
         if (isAuthen) {
             UIBarButtonItem *cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addButtonTapped:)];
-            
             [[self navigationItem] setLeftBarButtonItems:[NSArray arrayWithObjects:cameraButton, nil] animated:NO];
         } else {
             [[self navigationItem] setLeftBarButtonItems:[NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]]];

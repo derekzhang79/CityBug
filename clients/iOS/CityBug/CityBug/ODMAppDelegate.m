@@ -14,6 +14,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // Set Navigation bar image
+    //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"bugs.jpeg"] forBarMetrics:UIBarMetricsDefault];
+    //[[UITabBar appearance] setBackgroundImage:[UIImage imageNamed:@"bugs.jpeg"]];
+    
     RKLogConfigureByName("RestKit/Network*", RKLogLevelWarning);
     RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelWarning);
     
@@ -23,6 +27,9 @@
     
     UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
     tabController.delegate = self;
+    
+    // Set tab bar start at tab 1
+    [tabController setSelectedIndex:1];
     
     // KeyChainItem
     passwordKeyChainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"CityBugAttrUserKey" accessGroup:nil];
