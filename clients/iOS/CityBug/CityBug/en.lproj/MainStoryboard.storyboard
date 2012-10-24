@@ -127,7 +127,7 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="tWb-Y8-6bh" kind="push" identifier="gotoIminFeedList" id="xfa-ZE-Fsq"/>
+                                                <segue destination="7GO-oR-Mu8" kind="push" identifier="gotoIminFeedList" id="dbl-HJ-JmO"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Member since" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="q4e-vN-gqG">
@@ -223,6 +223,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VlD-A7-obr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2157" y="-952"/>
+        </scene>
+        <!--List View Controller - CityBug-->
+        <scene sceneID="qk1-2S-OXz">
+            <objects>
+                <tableViewController id="7GO-oR-Mu8" customClass="ODMListViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="323" sectionHeaderHeight="22" sectionFooterHeight="22" id="2gb-pP-JFV">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="7GO-oR-Mu8" id="GEh-eN-10U"/>
+                            <outlet property="delegate" destination="7GO-oR-Mu8" id="CPI-Ye-2Rt"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="MY" id="LA8-fM-x7t"/>
+                    <navigationItem key="navigationItem" title="CityBug" id="LV4-QU-F6q">
+                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="FXV-Km-7KV">
+                            <connections>
+                                <action selector="addButtonTapped:" destination="tWb-Y8-6bh" id="gDL-94-XN8"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="Q6r-96-J5A">
+                            <connections>
+                                <action selector="refreshButtonTapped:" destination="tWb-Y8-6bh" id="Fb7-WB-zEo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CKn-oB-EKe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2329" y="-295"/>
         </scene>
         <!--List View Controller - CityBug-->
         <scene sceneID="Nj2-C2-joA">
@@ -1769,10 +1801,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="xfa-ZE-Fsq"/>
+        <segue reference="BWE-OZ-5L0"/>
         <segue reference="dfb-0w-5uT"/>
         <segue reference="V3J-2o-4zz"/>
         <segue reference="C4d-nm-eV1"/>
-        <segue reference="BWE-OZ-5L0"/>
     </inferredMetricsTieBreakers>
 </document>

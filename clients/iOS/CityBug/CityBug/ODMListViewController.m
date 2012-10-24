@@ -74,6 +74,19 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [super viewWillAppear:animated];
     [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:NOW_TABBAR];
     
+    // Set default to feed type
+    if (self.reportsType == nil) {
+        self.reportsType = TYPE_REPORTS_FEED;
+        [self setTitle:TAB_FEED_TITLE];
+    } else if([self.reportsType isEqualToString:TYPE_REPORTS_IMIN]){
+        [self setTitle:@"I'm in feed"];
+    }
+    
+    // Load data
+//    datasource = [[ODMDataManager sharedInstance] reports];
+    datasource = [self arrayForDatasource];
+    if (!datasource) datasource = [NSArray new];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -93,22 +106,9 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:TAB_FEED_TITLE];
-    
-    // Set default to feed type
-    if (self.reportsType == nil) {
-        self.reportsType = TYPE_REPORTS_FEED;
-    }
     
     self.nibLoader = [UINib nibWithNibName:@"ODMActivityFeedViewCell" bundle:nil];
     [self.tableView registerNib:self.nibLoader forCellReuseIdentifier:@"ReportCellIdentifier"];
-    
-    // Load data
-//    datasource = [[ODMDataManager sharedInstance] reports];
-    datasource = [self arrayForDatasource];
-    if (!datasource) datasource = [NSArray new];
-    [self.tableView reloadData];
-    
     
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;

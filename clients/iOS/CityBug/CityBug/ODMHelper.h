@@ -6,9 +6,9 @@
 //  Copyright (c) พ.ศ. 2555 opendream. All rights reserved.
 //
 
-//#define BASE_URL @"http://127.0.0.1:3003"
+#define BASE_URL @"http://127.0.0.1:3003"
 //#define BASE_URL @"http://192.168.1.109:3003"
-#define BASE_URL @"http://54.251.32.49:3003"
+//#define BASE_URL @"http://54.251.32.49:3003"
 
 #define DEBUG_HAS_SIGNED_IN YES
 
@@ -126,7 +126,7 @@
 
 // type for feed list
 #define TYPE_REPORTS_FEED @"reports feed"
-#define TYPE_REPORTS_IMIN @"reports imin"
+#define TYPE_REPORTS_IMIN @"reports imin feed"
 
 /*
  * ODMLog
