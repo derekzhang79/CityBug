@@ -79,7 +79,7 @@
 {
     [indicator stopAnimating];
     indicator.hidden = YES;
-    [self changeTabBarToLastTapWithSeletedTap:2];
+    [self changeTabBarToLastTapWithSeletedTap:3]; // 3 is profile tab number
     [self dismissModalViewControllerAnimated:YES];
 }
 

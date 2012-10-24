@@ -77,11 +77,11 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     if (self.reportsType == nil) {
         self.reportsType = TYPE_REPORTS_FEED;
         [self setTitle:TAB_FEED_TITLE];
-        [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:NOW_TABBAR];
+        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:NOW_TABBAR];
         
     } else if([self.reportsType isEqualToString:TYPE_REPORTS_IMIN]){
         [self setTitle:@"I'm in feed"];
-        [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:NOW_TABBAR];
+        [[NSUserDefaults standardUserDefaults] setObject:@"3" forKey:NOW_TABBAR];
     }
     
     // Load data
@@ -200,10 +200,9 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     
     BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
     
-    if ([self.reportsType isEqualToString:TYPE_REPORTS_FEED]) {
+    if ([self.reportsType isEqualToString:TYPE_REPORTS_FEED] || self.reportsType == nil) {
         if (isAuthen) {
             UIBarButtonItem *cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addButtonTapped:)];
-            
             [[self navigationItem] setLeftBarButtonItems:[NSArray arrayWithObjects:cameraButton, nil] animated:NO];
         } else {
             [[self navigationItem] setLeftBarButtonItems:[NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]]];

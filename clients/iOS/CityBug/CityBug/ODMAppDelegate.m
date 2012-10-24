@@ -28,6 +28,9 @@
     UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
     tabController.delegate = self;
     
+    // Set tab bar start at tab 1
+    [tabController setSelectedIndex:1];
+    
     // KeyChainItem
     passwordKeyChainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"CityBugAttrUserKey" accessGroup:nil];
     [passwordKeyChainItem setObject:@"CityBugAttrUserKey" forKey: (__bridge id)kSecAttrService];
@@ -45,14 +48,14 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     NSLog(@"TAB!!! %@", viewController.title);
-    NSString *tabNumber = @"0";
+    NSString *tabNumber = @"1";
     
     if ([viewController.title isEqualToString:TAB_PROFILE_TITLE]) {
         return;
     } else if ([viewController.title isEqualToString:TAB_FEED_TITLE]) {
-        tabNumber = @"0";
-    } else if ([viewController.title isEqualToString:TAB_EXPLORE_TITLE]) {
         tabNumber = @"1";
+    } else if ([viewController.title isEqualToString:TAB_EXPLORE_TITLE]) {
+        tabNumber = @"2";
     }
     [[NSUserDefaults standardUserDefaults] setObject:tabNumber forKey:NOW_TABBAR];
 }
