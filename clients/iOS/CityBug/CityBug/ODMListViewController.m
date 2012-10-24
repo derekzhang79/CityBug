@@ -72,14 +72,16 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:NOW_TABBAR];
     
     // Set default to feed type
     if (self.reportsType == nil) {
         self.reportsType = TYPE_REPORTS_FEED;
         [self setTitle:TAB_FEED_TITLE];
+        [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:NOW_TABBAR];
+        
     } else if([self.reportsType isEqualToString:TYPE_REPORTS_IMIN]){
         [self setTitle:@"I'm in feed"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:NOW_TABBAR];
     }
     
     // Load data

@@ -14,6 +14,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // Set Navigation bar image
+    //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"bugs.jpeg"] forBarMetrics:UIBarMetricsDefault];
+    
     RKLogConfigureByName("RestKit/Network*", RKLogLevelWarning);
     RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelWarning);
     
