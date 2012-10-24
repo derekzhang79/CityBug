@@ -38,21 +38,6 @@
     return YES;
 }
 
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-    NSLog(@"TAB!!! %@", viewController.title);
-    NSString *tabNumber = @"0";
-    
-    if ([viewController.title isEqualToString:TAB_PROFILE_TITLE]) {
-        return;
-    } else if ([viewController.title isEqualToString:TAB_FEED_TITLE]) {
-        tabNumber = @"0";
-    } else if ([viewController.title isEqualToString:TAB_EXPLORE_TITLE]) {
-        tabNumber = @"1";
-    }
-    [[NSUserDefaults standardUserDefaults] setObject:tabNumber forKey:NOW_TABBAR];
-}
-
 - (void)reachabilityStatusChanged:(NSNotification *)notification
 {
 
