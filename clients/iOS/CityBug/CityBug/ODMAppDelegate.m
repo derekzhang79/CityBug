@@ -16,6 +16,7 @@
 {
     // Set Navigation bar image
     //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"bugs.jpeg"] forBarMetrics:UIBarMetricsDefault];
+    //[[UITabBar appearance] setBackgroundImage:[UIImage imageNamed:@"bugs.jpeg"]];
     
     RKLogConfigureByName("RestKit/Network*", RKLogLevelWarning);
     RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelWarning);
