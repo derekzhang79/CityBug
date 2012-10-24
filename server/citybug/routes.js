@@ -17,6 +17,7 @@ module.exports = function(app, express){
 	app.get('/add', api.add);
 	app.get('/api/reports/user/*', api.reports_username);
 	app.get('/api/reports/place/*', api.reports_place);
+	app.get('/api/reports/imin/user/*', api.reports_imin);
 
 	app.get('/api/reports', auth.basic_auth_not_required, api.reports);
 	app.post('/api/reports', auth.basic_auth, api.report_post);

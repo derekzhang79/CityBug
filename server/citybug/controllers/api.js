@@ -28,6 +28,41 @@ exports.categories = function(req, res) {
     });
 }
 
+//GET report imin by username
+
+exports.reports_imin = function(req, res) {
+    console.log('get imin user feed');
+    var url = req.url;
+    var username = url.match( /[^\/]+\/?$/ );
+        model.User.findOne({username: username}, {_id:1}, function(err, user){
+        if (err) {
+            res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.end();
+            return;
+        } else if(!user) {
+            res.writeHead(404, { 'Content-Type' : 'application/json;charset=utf-8'});
+            res.end();
+            return;
+        } else {
+            model.Imin.find({user: user._id}, function(err, imins) {
+                var queryIminReport = {};
+                queryIminReport["$or"] = [];
+
+                for (i in imins) {
+                    queryIminReport["$or"].push({"_id":imins[i].report});
+                }
+
+                getAllReports(queryIminReport, function(reports) {
+                    console.log(reports);
+                    res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8'});
+                    res.write('{"reports":' + JSON.stringify(reports) + '}');
+                    res.end();
+                });
+            });
+        }
+    });
+}
+
 //GET report by username
 exports.reports_username = function(req, res) {
     console.log('get user feed');
