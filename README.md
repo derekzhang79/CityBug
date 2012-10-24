@@ -14,7 +14,7 @@ CityBug Project (Beta v.1.0)
 		
 		/api/reports
 
-	* INPUT : User / Location / Subscription 
+	* INPUT : User (if login) / Location / Subscription 
 	* OUTPUT : sort by last modified / sort by location / show only subscribed post
 
 		* Signed In & Location & Subscription >> user's feed & sort by last modified & show only subscribed post
@@ -30,9 +30,9 @@ CityBug Project (Beta v.1.0)
 	* [endDate] - สิ้นสุดวันที่ ("yyyy-MM-dd HH:mm:ss")
 	* [limit] - number
 	* HTTP Method - GET
-	* Login required - YES
-	* Response <span id="ref-a"></span>
-
+	* Login required - NO
+	* Response
+		* 200 - OK
 				{ 
 					"reports":[
 								{
@@ -106,9 +106,9 @@ CityBug Project (Beta v.1.0)
 	ใช้สำหรับแสดง feed ที่ user นั้นๆได้ report ไว้ 
 		 /api/report/:username
 
-	* Response Status
 	* HTTP Method - GET
 	* Login required - NO
+	* Response Status
 		* 200 - OK
 		* 404 - Not Found
 		* 500 - Server fail
@@ -291,7 +291,11 @@ CityBug Project (Beta v.1.0)
 
 		/api/categories
 
-	* Response
+	* HTTP Method - GET
+	* Login required - NO
+	* Response Status
+		* 200 - OK
+		* 500 - server failed 
 
 				{
 				    "categories": [
@@ -311,10 +315,6 @@ CityBug Project (Beta v.1.0)
 				        }
 				    ]
 				}
-	* Response Status
-		* 200 - OK
-	* HTTP Method - GET
-	* Login required - NO
 
 ## COMMENT
 
@@ -323,26 +323,27 @@ CityBug Project (Beta v.1.0)
 	เรียกใช้เพื่อเพิ่ม comment ไปยัง report ใดๆ
 		
 		/api/report/[id]/comment
-	* [text] - string up to 256 characters
-	* Response (will update later 18/09/2012)
 
-				{
-					"status": 1001,
-					"error": "invalid report identifier(report_id)"
-				}
+	* INPUT : comment text / user (get from user basic authentication)
+	* [text] - string up to 256 characters
+	* HTTP Method - POST
+	* Login required - YES
 	* Response Status
 		* 200 - OK (text = 'commented')
 		* 401 - Unauthorized
 		* 500 - server failed 
-	* HTTP Method - POST
-	* Login required - YES
+
 
 * list
 	
 	เรียกใช้เพื่อแสดง feed ของ report นั้นๆ
 		
 		/api/report/[id]
-	* Response (will update later 18/09/2012)
+
+	* HTTP Method - GET
+	* Login required - NO
+	* Response Status
+		* 200 - OK
 
 				{
 				    "reports": [
@@ -405,10 +406,17 @@ CityBug Project (Beta v.1.0)
 				        }
 				    ]
 				}
-	* HTTP Method - GET
-	* Login required - NO
 
 ## LIKE (a.k.a "I'm in")
+
+* I'm in list
+		/api/imin/report/:reportId
+
+	* HTTP Method - GET
+	* Login required - NO
+	* Response Status
+		* 200 - OK
+		* 500 - Server fail
 
 * I'm in
 
@@ -416,11 +424,18 @@ CityBug Project (Beta v.1.0)
 
 	* HTTP Method - POST
 	* Login required - YES
+	* Response Status
+		* 200 - OK (text = 'imin add')
+		* 500 - Server fail (text = 'imin existed', '')
+
 * I'm out
 		
 		/api/report/[id]/im_out
-	* HTTP Method - POST
+	* HTTP Method - DELETE
 	* Login required - YES
+	* Response Status
+		* 200 - OK (text = 'imin delete'))
+		* 500 - Server fail (text = 'imin existed', '')
 
 ## PLACE
 
@@ -437,7 +452,9 @@ CityBug Project (Beta v.1.0)
 	* [username] - string (หากเป็นการค้นหาสถานที่ใกล้เคียง ให้ระบุ username เพื่อค้นหาจากสถานที่ใน CityBug ก่อน โดยจำเป็นต้องใช้ text ควบคู่ด้วย) 
 	* HTTP Method - GET
 	* Login required - NO
-
+	* Response Status
+		* 200 - OK
+		* 500 - Server fail
 
 				{
 				    "places": [
@@ -559,28 +576,40 @@ CityBug Project (Beta v.1.0)
 
 * view
 	
-		/api/place/[id]
+		/api/place/
 	* HTTP Method - GET
 	* Login required - NO
+	* Response Status
+		* 200 - OK
+		* 500 - Server fail
 
 * subscribe
 		
-		/api/place/[id]/subscribe
+		/api/subscription/place
+	* INPUT : place id / user (get from user basic authentication)
 	* HTTP Method - POST
 	* Login required - YES
+	* Response Status
+		* 200 - OK (text = 'subscribed')
+		* 500 - Server fail (text = 'subscribed not complete')
 
 * unsubscribe
 		
-		/api/place/[id]/unsubscribe
+		/api/subscription/place
+	* INPUT : place id / user (get from user basic authentication)
 	* HTTP Method - POST
 	* Login required - YES
+	* Response Status
+		* 200 - OK (text = 'subscribed')
+		* 500 - Server fail (text = 'subscribed not complete')
 
 ## USER
 * sign up
 	
 		 /api/user/sign_up
-	* [username] - string 
-	* [password] - string at least 8 characters
+	* INPUT : username / password / email
+	* [username] - string at least 3 characters
+	* [password] - string 6 - 16 characters
 	* HTTP Method - POST
 	* Login required - NO
 	* Response Status
@@ -590,9 +619,11 @@ CityBug Project (Beta v.1.0)
 * sign in
 	
 		 /api/user/sign_in
+	* INPUT : username / password / email
+	* OUTPUT : user
 	* HTTP Method - POST
 	* Login required - NO
-	* Response Status
+	* Response Status 
 		* 200 - OK (text = 'authenticated')
 		* 401 - Unauthorized
 
@@ -612,6 +643,3 @@ CityBug Project (Beta v.1.0)
 	* HTTP Method - GET
 	* Response Status
 		* 200 - OK
-* subscribes
-	
-		 /api/user/:username/subscribes

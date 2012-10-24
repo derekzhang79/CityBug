@@ -68,6 +68,7 @@ exports.comment_post = function(req, res) {
                             report.last_modified = new Date();
                             report.comments.push(newComment._id);
                             report.save(function(err){
+                                console.log('save comment');
                                 if (err) {
                                     console.log(err);
                                     res.writeHead(500, { 'Content-Type' : 'application/json;charset=utf-8'});
@@ -80,7 +81,7 @@ exports.comment_post = function(req, res) {
                                             res.end();
                                         } else {
                                             console.log('save imin');
-                                            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'imin add'});
+                                            res.writeHead(200, { 'Content-Type' : 'application/json;charset=utf-8', 'Text' : 'commented'});
                                             res.write('{"reports" :' + JSON.stringify(report) + '}');
                                             res.end();
                                         }
