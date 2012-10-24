@@ -121,6 +121,13 @@
 #define HEADER_TEXT_IMIN_DELETE_COMPLETE @"imin delete"
 #define HEADER_TEXT_IMIN_EXISTED @"imin existed"
 #define HEADER_TEXT_CHANGED_PROFILE_IMAGE @"changed profile image"
+
+/////////////////////////////////////////////////////////////////////////////
+
+// type for feed list
+#define TYPE_REPORTS_FEED @"reports feed"
+#define TYPE_REPORTS_IMIN @"reports imin"
+
 /*
  * ODMLog
  */
@@ -154,9 +161,13 @@ extern NSString *ODMDataManagerNotificationAuthenDidFinish;
 // Sign up
 extern NSString *ODMDataManagerNotificationSignUpDidFinish;
 
-// My Report
+// My Reports
 extern NSString *ODMDataManagerNotificationMyReportsLoadingFinish;
 extern NSString *ODMDataManagerNotificationMyReportsLoadingFail;
+
+// User's in Reports
+extern NSString *ODMDataManagerNotificationIminReportsLoadingFinish;
+extern NSString *ODMDataManagerNotificationIminReportsLoadingFail;
 
 // Place Reports
 extern NSString *ODMDataManagerNotificationPlaceReportsLoadingFinish;

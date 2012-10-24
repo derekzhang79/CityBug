@@ -127,7 +127,7 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="yvL-vP-iNq" kind="push" id="A5E-hw-COk"/>
+                                                <segue destination="tWb-Y8-6bh" kind="push" identifier="gotoIminFeedList" id="xfa-ZE-Fsq"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Member since" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="q4e-vN-gqG">
@@ -239,14 +239,14 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="MY" id="bTe-w1-Pb0"/>
                     <navigationItem key="navigationItem" title="CityBug" id="yRl-mM-wfn">
-                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="Rd2-Yf-Svr">
+                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="qx8-GZ-DhS">
                             <connections>
-                                <action selector="refreshButtonTapped:" destination="tWb-Y8-6bh" id="wlp-Rg-bxL"/>
+                                <action selector="addButtonTapped:" destination="tWb-Y8-6bh" id="NPa-MG-vc4"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="Yxx-9y-5wn">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="Rd2-Yf-Svr">
                             <connections>
-                                <action selector="addButtonTapped:" destination="tWb-Y8-6bh" id="Q8f-mf-gDb"/>
+                                <action selector="refreshButtonTapped:" destination="tWb-Y8-6bh" id="wlp-Rg-bxL"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1519,21 +1519,6 @@
             </objects>
             <point key="canvasLocation" x="-3017" y="-741"/>
         </scene>
-        <!--View Controller - I'm in Feed-->
-        <scene sceneID="YFu-k1-qVL">
-            <objects>
-                <viewController id="yvL-vP-iNq" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Uhl-pJ-5yc">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="I'm in Feed" id="eyf-9j-JEk"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iKg-dW-X6k" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2147" y="-9"/>
-        </scene>
         <!--Explore Place Detail View Controller - Place-->
         <scene sceneID="X07-SV-WZ0">
             <objects>
@@ -1784,9 +1769,10 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="GJm-fq-V3p"/>
-        <segue reference="BnR-gl-A3d"/>
-        <segue reference="ZXI-mk-iF5"/>
+        <segue reference="xfa-ZE-Fsq"/>
+        <segue reference="dfb-0w-5uT"/>
+        <segue reference="V3J-2o-4zz"/>
+        <segue reference="C4d-nm-eV1"/>
         <segue reference="BWE-OZ-5L0"/>
     </inferredMetricsTieBreakers>
 </document>

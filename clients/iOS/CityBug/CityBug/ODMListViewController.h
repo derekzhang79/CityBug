@@ -14,6 +14,7 @@
 
 @property (strong, nonatomic) CLLocation *location;
 @property (strong, nonatomic) UINib *nibLoader;
+@property (strong, nonatomic) NSString *reportsType;
 
 - (IBAction)addButtonTapped:(id)sender;
 

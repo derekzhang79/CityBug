@@ -36,6 +36,9 @@ NSString *ODMDataManagerNotificationMySubscriptionLoadingFail;
 NSString *ODMDataManagerNotificationMyReportsLoadingFinish;
 NSString *ODMDataManagerNotificationMyReportsLoadingFail;
 
+NSString *ODMDataManagerNotificationIminReportsLoadingFinish;
+NSString *ODMDataManagerNotificationIminReportsLoadingFail;
+
 NSString *ODMDataManagerNotificationPlaceReportsLoadingFinish;
 NSString *ODMDataManagerNotificationPlaceReportsLoadingFail;
 
@@ -98,6 +101,9 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
         
         ODMDataManagerNotificationMyReportsLoadingFinish = @"ODMDataManagerNotificationMyReportsLoadingFinish";
         ODMDataManagerNotificationMyReportsLoadingFail = @"ODMDataManagerNotificationMyReportsLoadingFail";
+        
+        ODMDataManagerNotificationIminReportsLoadingFinish = @"ODMDataManagerNotificationIminReportsLoadingFinish";
+        ODMDataManagerNotificationIminReportsLoadingFail = @"ODMDataManagerNotificationIminReportsLoadingFail";
         
         ODMDataManagerNotificationPlaceReportsLoadingFinish = @"ODMDataManagerNotificationPlaceReportsLoadingFinish";
         ODMDataManagerNotificationPlaceReportsLoadingFail = @"ODMDataManagerNotificationPlaceReportsLoadingFail";
@@ -537,6 +543,30 @@ NSString *ODMDataManagerNotificationChangeProfileDidFinish;
     }];
     
     return _myReports;
+}
+
+- (NSArray *)reportsIminWithUsername:(NSString *)username
+{
+    return [self reportsIminWithUsername:username error:NULL];
+}
+
+- (NSArray *)reportsIminWithUsername:(NSString *)username error:(NSError **)error
+{
+    
+    NSString *resourcePath = [@"/api/reports/imin/user" stringByAppendingPathComponent:username];
+    
+    [serviceObjectManager loadObjectsAtResourcePath:resourcePath usingBlock:^(RKObjectLoader *loader){
+        loader.onDidLoadObjects = ^(NSArray *objects){
+            
+            NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"lastModified" ascending:NO];
+            
+            _iminReports = [objects sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sort1, nil]];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:ODMDataManagerNotificationIminReportsLoadingFinish object:_iminReports];
+        };
+    }];
+    
+    return _iminReports;
 }
 
 #pragma mark - Comment

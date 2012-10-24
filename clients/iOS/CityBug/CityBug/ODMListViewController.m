@@ -53,6 +53,19 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 @synthesize location;
 
+- (NSArray *)arrayForDatasource
+{
+    if ([self.reportsType isEqualToString:TYPE_REPORTS_FEED]) {
+        return [[ODMDataManager sharedInstance] reports];
+    } else if ([self.reportsType isEqualToString:TYPE_REPORTS_IMIN]) {
+        ODMUser *currentUser = [[ODMDataManager sharedInstance] currentUser];
+        return [[ODMDataManager sharedInstance] reportsIminWithUsername:currentUser.username];
+    } else {
+        NSLog(@"Reports type ERROR!");
+        return nil;
+    }
+}
+
 
 #pragma mark - View's Life Cycle
 
@@ -82,11 +95,17 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
     [super viewDidLoad];
     [self setTitle:TAB_FEED_TITLE];
     
+    // Set default to feed type
+    if (self.reportsType == nil) {
+        self.reportsType = TYPE_REPORTS_FEED;
+    }
+    
     self.nibLoader = [UINib nibWithNibName:@"ODMActivityFeedViewCell" bundle:nil];
     [self.tableView registerNib:self.nibLoader forCellReuseIdentifier:@"ReportCellIdentifier"];
     
     // Load data
-    datasource = [[ODMDataManager sharedInstance] reports];
+//    datasource = [[ODMDataManager sharedInstance] reports];
+    datasource = [self arrayForDatasource];
     if (!datasource) datasource = [NSArray new];
     [self.tableView reloadData];
     
@@ -108,7 +127,11 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         self.location = nil;
     };
     
+    [self updatePage:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationReportsLoadingFinish object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateReports:) name:ODMDataManagerNotificationIminReportsLoadingFinish object:nil];
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage:) name:ODMDataManagerNotificationAuthenDidFinish object:nil];
     
@@ -164,20 +187,27 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
         [self.tableView reloadData];
     }
     
-    [[ODMDataManager sharedInstance] reports];
+//    [[ODMDataManager sharedInstance] reports];
+    [self arrayForDatasource];
 }
 
 - (void)updatePage:(NSNotification *)notification
 {
-    [[ODMDataManager sharedInstance] reports];
+//    [[ODMDataManager sharedInstance] reports];
+    [self arrayForDatasource];
+    
     BOOL isAuthen = [[ODMDataManager sharedInstance] isAuthenticated];
     
-    if (isAuthen) {
-        UIBarButtonItem *cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addButtonTapped:)];
-        
-        [[self navigationItem] setRightBarButtonItems:[NSArray arrayWithObjects:cameraButton, nil] animated:NO];
+    if ([self.reportsType isEqualToString:TYPE_REPORTS_FEED]) {
+        if (isAuthen) {
+            UIBarButtonItem *cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(addButtonTapped:)];
+            
+            [[self navigationItem] setLeftBarButtonItems:[NSArray arrayWithObjects:cameraButton, nil] animated:NO];
+        } else {
+            [[self navigationItem] setLeftBarButtonItems:[NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]]];
+        }
     } else {
-        [[self navigationItem] setRightBarButtonItems:[NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithTitle:@"Sign in" style:UIBarButtonItemStyleBordered target:self action:@selector(signInButtonTapped:)]]];
+        [[self navigationItem] setLeftBarButtonItem:nil];
     }
 }
 
@@ -191,7 +221,7 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 //        [self.tableView reloadData];
         
         int diff = abs([datasource count] - oldItemsCount);
-        // [NSString stringWithFormat:NSLocalizedString(@"There has no", @"There has no"), NSLocalizedString(@"new reports", @"new reports")]
+//      [NSString stringWithFormat:NSLocalizedString(@"There has no", @"There has no"),         NSLocalizedString(@"new reports", @"new reports")]
         NSString *message = diff == 1 ?
         [NSString stringWithFormat:NSLocalizedString(@"There has a new report", @"There has a new report")]
                                   : [NSString stringWithFormat:NSLocalizedString(@"There have new %i reports", @"There have %i reports"),diff];
@@ -204,12 +234,14 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 - (void)updateReportAndAlertIminFail:(NSNotification *)notification
 {
-    [[ODMDataManager sharedInstance] reports];
+//    [[ODMDataManager sharedInstance] reports];
+    [self arrayForDatasource];
 }
 
 - (void)loadReport:(NSNotification *)notification
 {
-    [[ODMDataManager sharedInstance] reports];
+//    [[ODMDataManager sharedInstance] reports];
+    [self arrayForDatasource];
 }
 
 #pragma mark - Table view data source
@@ -288,7 +320,8 @@ static NSString *goToUserListSegue = @"goToUserListSegue";
 
 - (IBAction)refreshButtonTapped:(id)sender
 {
-    [[ODMDataManager sharedInstance] reports];
+//    [[ODMDataManager sharedInstance] reports];
+    [self arrayForDatasource];
     
     ODMLog(@"%@",NSLocalizedString(@"Fetching new reports", @"Fetching new reports"));
     

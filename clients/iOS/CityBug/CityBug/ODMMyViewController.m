@@ -12,11 +12,13 @@
 #import "ODMReportDetailViewController.h"
 #import "ODMDescriptionViewController.h"
 #import "ODMUserListTableViewController.h"
+#import "ODMListViewController.h"
 
 #import "UIImageView+WebCache.h"
 #import "ODMDataManager.h"
 #import "ODMReport.h"
 #import "ODMComment.h"
+
 
 #define kSceenSize self.parentViewController.view.frame.size
 #define CAMERA_SCALAR 1.0
@@ -24,6 +26,7 @@
 static NSString *goToUserListSegue = @"goToUserListSegue";
 static NSString *gotoViewSegue = @"gotoViewSegue";
 static NSString *presentSignInModal = @"presentSignInModal";
+static NSString *gotoIminFeedList = @"gotoIminFeedList";
 
 @interface ODMMyViewController ()
 {
@@ -340,6 +343,10 @@ static NSString *presentSignInModal = @"presentSignInModal";
         
         ODMUserListTableViewController *userListTableViewController = (ODMUserListTableViewController *) segue.destinationViewController;
         userListTableViewController.report = iminUserListReport;
+        
+    } else if ([segue.identifier isEqualToString:gotoIminFeedList]) {
+        ODMListViewController *listView = (ODMListViewController *)segue.destinationViewController;
+        listView.reportsType = TYPE_REPORTS_IMIN;
     }
 }
 

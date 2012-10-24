@@ -15,7 +15,7 @@
 @private
     RKObjectManager *serviceObjectManager;
 
-    NSArray *_reports, *_categories, *_places, *_filterdPlaces, *_mySubscription, *_myReports, *_placeReports, *_users;
+    NSArray *_reports, *_categories, *_places, *_filterdPlaces, *_mySubscription, *_myReports, *_placeReports, *_users, *_iminReports;
     
     NSMutableDictionary *queryParams;
     CLLocationManager *_locationManager;
@@ -26,7 +26,7 @@
 @property (nonatomic, readonly ,strong) CLLocationManager *locationManager;
 @property (nonatomic, retain) KeychainItemWrapper *passwordKeyChainItem;
 
-@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places, *mySubscription, *myReports, *placeReports, *users;
+@property (nonatomic, readonly ,strong) NSArray *reports, *categories, *places, *mySubscription, *myReports, *placeReports, *users, *iminReports;
 @property (nonatomic, assign) BOOL isAuthenticated;
 
 /*
@@ -55,6 +55,11 @@
  * Get Reports by username
  */
 - (NSArray *)reportsWithUsername:(NSString *)username error:(NSError **)error;
+
+/*
+ * Get Reports that username hit I'm in
+ */
+- (NSArray *)reportsIminWithUsername:(NSString *)username;
 
 /*
  * Get Reports by place
